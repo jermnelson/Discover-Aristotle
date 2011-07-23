@@ -1,0 +1,31 @@
+== Discover Aristotle ==
+Discover Aristotle is an Django-based bibliographic, repository, and
+access platform. Unless explicitly stated, all software code and documentation,
+including any and intellectual property, is licensed under the Apache 2 
+open-source licence and/or Creative Commons copyright.
+
+Dependencies:
+- eulfedora 
+- eulxml
+- pymarc
+- sunburnt
+
+Applications:
+- catalog Default summary and detail views of Solr, FRBR, MARC, and
+       Fedora commons objects with facets.
+- datasets Generic scientific, social science, and humanity dataset
+       management for use by other applications.
+- etd  Electronic Thesis and Dissertation Django application
+- frbr FRBR object-oriented models front-end to Cassandra,
+       Postgres, or sqlite, or Google App Engine (requires 
+       additional modules)
+- grx  Gold Rush XML microservices application
+- marc MARC record manipulation including MARC record imports into 
+       traditional ILS
+- schema_org Schema.org microformat support
+- solr Interface application to Solr full-text index servers running on
+       multiple cores.
+- vendors Contains vendor specific services
+- vendors.ebsco Ebsco web services application
+- vendors.iii Innovative Patron API and item XML extraction applications
+- vendors.oclc OCLC web and ftp services
