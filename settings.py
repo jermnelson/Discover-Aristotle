@@ -119,6 +119,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'haystack',
     'catalog',
     'datasets',
     'eulfedora',
@@ -159,6 +160,22 @@ LOGGING = {
         },
     }
 }
+# Haystack settings
+HAYSTACK_CONNECTIONS = {
+    'default':  {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://172.1.106:8984/solr/marc_catalog',
+        'TIMEOUT': 60 * 5,
+        'INCLUDE_SPELLING': True,
+   },
+    'goldrush': {
+        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+        'URL': 'http://172.1.106:8984/solr/grx',
+        'TIMEOUT': 60 * 5,
+        'INCLUDE_SPELLING': True,
+   }
+}
+   
 # Fedora Repository settings
 FEDORA_ETDCMODEL = 'cocccThesisCModel'
 FEDORA_ROOT = 'http://fedora.coalliance.org:8080/fedora/'
