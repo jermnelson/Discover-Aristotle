@@ -24,7 +24,7 @@ Applications:
        traditional ILS
 - schema_org Schema.org microformat support
 - solr Interface application to Solr full-text index servers running on
-       multiple cores.
+       multiple cores
 - vendors Contains vendor specific services
 - vendors.ebsco Ebsco web services application
 - vendors.iii Innovative Patron API and item XML extraction applications

@@ -69,6 +69,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    "/home/jpnelson/aristotle/static",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -103,6 +104,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'aristotle.urls'
 
 TEMPLATE_DIRS = (
+    "/home/jpnelson/aristotle/catalog/templates/catalog",
     "/home/jpnelson/aristotle/grx/templates/grx",
     "/home/jpnelson/aristotle/etd/templates/etd",
 
@@ -119,7 +121,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'haystack',
     'catalog',
     'datasets',
     'eulfedora',
@@ -180,3 +181,5 @@ HAYSTACK_CONNECTIONS = {
 FEDORA_ETDCMODEL = 'cocccThesisCModel'
 FEDORA_ROOT = 'http://fedora.coalliance.org:8080/fedora/'
 FEDORA_PIDSPACE = 'coccc'
+FEDORA_USER = 'cocccFedoraApp'
+FEDORA_PASSWORD = 'coSpringsCO'

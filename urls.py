@@ -5,6 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r"^catalog",include('catalog.urls')),
     url(r"^etd",include('etd.urls')),
     url(r"^grx",include('grx.urls')),
     # Examples:

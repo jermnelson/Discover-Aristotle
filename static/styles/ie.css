@@ -1,0 +1,90 @@
+/**
+ * Colorado College
+ * by White Whale Web Services
+ * http://whitewhale.net
+ */
+
+/* fallback for an rgba background-color */
+#horizon .feature .program-browser { background-color: #333; }
+
+/* fixes z-index issue for subnavs */
+#content { position: relative; z-index: 25; }
+
+/* fixing negative margins */
+.related-links a { zoom: 1; }
+.tags ul a, .tags ul span { zoom: 1; margin-top: -0.2em;}
+
+/* fixing CSS3 */
+.ie-bring-to-front { z-index: 40 !important; }
+.ie-remove-margin { margin: 0 !important; }
+
+/* fixing flickering images and layout */
+aside.recently li { zoom: 1; }
+aside.recently img { position: relative; z-index: 40; }
+
+/* fixing z-index issues with scrunched scrapbook images */
+.scrapbook { position: relative; z-index: 100; }
+
+/* fixing our campus z-index issues */
+#our-campus #content { z-index: 0; }
+#our-campus #subnavigation { margin-top: 0em; }
+
+/* fixing rgba in featured course area */
+#block .caption { background-color: #222; }
+#block .caption span { zoom: 1; }
+
+/* fixing rgba in alert */
+.alert { color: #fff; }
+
+/* fixing rgba in featured visuals */
+#feature-highlights #visuals .description {
+	background-color: #222;
+}
+
+/* fixing non-rotation for event "sold out" notifications */
+#events header .no-room {
+	width: 180px;
+	padding-left: 0;
+	right: 0;
+	top: -12px;
+}
+
+/* fixing overflow issues */
+#profile .education { padding-left: 1.5em; }
+
+/* fixing department bar */
+#department-bar { background-color: #666; }
+#department-bar p { background-repeat: no-repeat; background-position: 96% 60%; }
+
+/* fixing program browser */
+#program-browser p {
+	background: #3d4f5c url(/images/bg/menus/downward-arrow.png) no-repeat scroll 98% 50%; 
+}
+#department-navigation { position: relative; }
+.feature .programs { border: 1px solid #ccc; height: 260px; overflow: auto; }
+.feature .programs ul { width: 16% !important; }
+
+#placemat .feature .programs,
+#three-column .feature .programs { height: auto; }
+
+/* fixing issue on three-column homepage */
+#three-column #department-navigation { margin-top: 0; }
+#three-column .feature { overflow: visible; position: relative; z-index: 150; }
+
+/* fixing rgba issue in left-column of office pages */
+.offices .sidebar .calendar a:hover { background-color: #5cb7d2; }
+
+/* fixing department section background not appearing */
+#department-section { zoom: 1; }
+
+/* fixing ordering of z-indexes for quick access */
+#header form { z-index: 100; }
+
+/* fixing library z-index */
+#homepage-panel { position: relative; z-index: 200; }
+#library-tabs { position: relative; z-index: 210; }
+#breadcrumb { position: relative; z-index: 220; }
+.library #content { z-index: 300; }
+.library #content #subnavigation { margin-top: 0px; }
+#search-panel { position: relative; z-index: 200; }
+.library #content .main .results-list { position: relative; z-index: 300; }

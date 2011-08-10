@@ -6,7 +6,7 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
-from iii.settings import *
+from vendors.iii.settings import *
 
 class ConfigurationTest(TestCase):
 

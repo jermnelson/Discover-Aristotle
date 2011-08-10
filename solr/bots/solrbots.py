@@ -80,9 +80,8 @@ class SolrBot(object):
         Parameters:
         - `title`: Raw title, required
         """
-        #title = urllib.quote_plus(title)
+        title = urllib.quote_plus(title)
         title_result = self.solr_interface.search(q='%s' % title,
-                                                  fq='location:Online',
                                                   fl='title_display,notes_grx_display,title_grx,url_fulltext_display,url_suppl_display',
                                                   qt='goldrush',
                                                   wt='blacklight',

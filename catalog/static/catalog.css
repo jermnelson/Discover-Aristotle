@@ -1,0 +1,7 @@
+table.closed {
+  display: none;
+}
+
+table.open {
+  display: block;
+}
