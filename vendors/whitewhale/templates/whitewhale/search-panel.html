@@ -1,0 +1,78 @@
+{% load static %}
+{% load catalog_extras %}
+<div id="search-panel">
+   <div class="stage">
+   <div id="searchbox-wrapper">
+	<div id="searchbox">
+	  <form action="/catalog/search" method="post" name="catalog_search" id="catalog_search">
+           {% csrf_token %}
+        {% block simple-searchbox %}
+	    <fieldset id="basic-searchbox">
+		<input type="text" name="search_phrase" value="" alt="search" id="book-search" />
+		<input type="submit" name="btnsubmit" class="submit" value="Search" />
+	    </fieldset>
+        {% endblock %}
+        {% block adv-searchbox %}
+        <fieldset id="adv-searchbox">
+         <select name="field1_type">
+         {{ ""|search_field_options }} 
+         </select>
+         <input type="text" name="field1_phrase" value="" />
+         <select name="field1_operator">
+         {{ ""|search_operator_options }}
+         </select>
+         <br/>
+         <select name="field2_type">
+         {{ ""|search_field_options }} 
+         </select>
+         <input type="text" name="field2_phrase" value="" />
+         <select name="field2_operator">
+         {{ ""|search_operator_options }}
+         </select>
+         <br/>
+         <select name="field3_type">
+         {{ ""|search_field_options }} 
+         </select>
+         <input type="text" name="field2_phrase" value="" />
+         <select name="field3_operator">
+         {{ ""|search_operator_options }}
+         </select>
+         <input type="submit" name="btnsubmit" class="submit" value="Search" />
+        </fieldset>
+        {% endblock %}
+        {% if catalog_results %}
+	    <ul class="search-filters" id="search-filters">
+            {% for param in catalog_results.params %}
+            {{ param|generate_search_filter }}
+            {% endfor %}
+	    </ul>
+        {% endif %}
+         </form>
+	 <ul class="search-help">
+	   <li><a href="#" onclick="DisplayAdvSearch(this)">Advanced Search</a></li>
+	   <li><a href="#">More about TIGER</a></li>
+	   <li><a href="#">Need help?</a></li>
+	  </ul>
+    </div>
+     {% if catalog_results %}
+	<div id="search-pagination">
+	  <span style="float:left;"><a href="#">« Previous</a> &nbsp; 
+	  <strong>{{ catalog_results.result.start }} - 
+          {% if catalog_results.numFound < 20 %}
+             {{ catalog_results.result.numFound }}
+          {% else %}
+             20
+          {% endif %}
+          </strong> 
+           of <strong>{{ catalog_results.result.numFound }}</strong> &nbsp; 
+	  <a href="#">Next »</a></span> &nbsp; View <select> name="display_rows">
+                                                       <option value="10">10</option>
+                                                       <option value="20" selected="SELECTED">20</option>
+                                                            <option value="50">50</option>
+                                                            <option value="100">100</option>
+                                                            </select>
+                                                             per page  	
+		</div>
+     {% endif %}
+				
+</div>

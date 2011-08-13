@@ -105,6 +105,7 @@ ROOT_URLCONF = 'aristotle.urls'
 
 TEMPLATE_DIRS = (
     "/home/jpnelson/aristotle/catalog/templates/catalog",
+    "/home/jpnelson/aristotle/vendors/whitewhale/templates/whitewhale",
     "/home/jpnelson/aristotle/grx/templates/grx",
     "/home/jpnelson/aristotle/etd/templates/etd",
 

@@ -1,0 +1,108 @@
+{% extends 'cc-library-inside-base.html' %}
+{% load static %}
+{% load catalog_extras %}
+
+{% block head-title %}Details for {{ record.title_display }} at Tutt Library{% endblock %}
+{% block more-css %}
+ <link href="{% get_static_prefix %}/catalog.css" rel="stylesheet" />
+{% endblock %}
+
+{% block library-breadcrumb %}
+ <div id="breadcrumb">
+  <div class="stage"><a href="#">Library Home</a>&raquo;<a href="/catalog">Catalog</a>&raquo;<a href="#" class="on">{{ record.title_display }}</a></div>
+ </div>
+{% endblock %}
+
+{% block subnavigation %}
+ <h1><strong><a href="#">You can...</a></strong></h1>
+ <ul>
+  <li><a href="#" onclick="alert('reserve tbd')">Reserve</a> and pick-up <em> {{ record.title_display }}</em> at the Tutt Library Circulation Desk</li>
+  <li><a href="#" onclick="alert('cite tbd')">Cite</a> this work with a MLA, Chicago, APA, or other citation styles with <a href="#">RefWorks</a>.</span>
+  </li>
+  <li><a href="#" onclick="alert('ill tbd')">Request</a> <em>{{ record.title_display }}</em> through
+   Prospector or Interlibrary Loan (ILL)</li>
+  <li><a href="#" onclick="alert('account tbd')">Login</a> to your library account with your
+   TIGER number</li>
+ </ul>
+{% endblock %}
+
+{% block left-aside-two %}
+ <div id="item-info">
+ <h2>At the library</h2>
+ <p>Located at: <strong>{{ record.location }}</strong><br/>
+   <span style="color:green;font-size:1.1em;">Available</span> at this
+  Call Number: {{ record.lc_callnum_display.0 }}
+ </p>
+ <h2>Other Libraries</h2>
+ <p>
+  If this copy is unavailable, search Prospector and WorldCat and request
+  the item.  
+ </p>
+ <ul>
+  <li><a href="#">Prospector</a></li>
+  <li><a href="#">Worldcat</a></li>
+ </ul>
+ </div>
+{% endblock %}
+
+{% block main-column %}
+ <h1>{{ record.title_display }}</h1>
+ <dl class="detail-display">
+  {% if record.author_display %}
+  <dt>Author/Creator:</dt>
+  <dd>
+   <a href="/catalog/author/{{ record.author_display }}">{{ record.author_display }}</a></dd>
+  {% endif %}
+  <dt>Language:</dt>
+  <dd>{{ record.language_facet.0 }}</dd>
+  <dt>Imprint:</dt>
+  <dd>{{ record.published_display.0 }}:&nbsp;c{{ record.pub_date.0 }}</dd>
+  <dt>Format:</td>
+  <dd>{{ record.format }}<br/>
+      {{ record.material_type_display.0 }}
+  </dd>
+  <dt>Note(s):</dt>
+  <dd>{{ record.notes_fulltext_display.0 }}&nbsp;</dd>
+  <dt>Subjects:</dt>
+  <dd>
+   <ul>
+    {% for subject in record.subject_topic_facet %}
+     <li><a href="/catalog/subject/{{subject}}">{{ subject }}</a></li>
+    {% endfor %}
+    {% for subject in record.subject_geo_facet %}
+    <li><a href="/catalog/subject/{{subject}}">{{ subject }}</a></li>
+    {% endfor %}
+   </ul>
+  </dd>
+  <dt>ISBN{% if record.isbn_t|length > 1 %}(s){% endif %}:</dt>
+  <dd>
+  {% for isbn in record.isbn_t %}
+   {{ isbn }}&nbsp;
+  {% endfor %}
+ </dl>
+{% endblock %}
+
+{% block right-aside-one %}
+<aside class="slideshow">
+ <img src="{{ record.isbn_t|get_cover_image }}" alt="{{ record.display_title }}" />
+</aside>
+{% endblock %}
+
+{% block right-aside-two %}
+<aside class="aside">
+<div id="contact-lib-detail">
+ {% include 'contact-library.html' %}
+</div>
+</aside>
+{% endblock %}
+
+{% block right-aside-three %}
+<aside class="social-media">
+<ul>
+ <li class="rss">Get updates via <a href="#">RSS feed</a></li>
+ <li class="twitter">Tweet about <em>{{ record.title_display }}</em></li>
+ <li>Leave a <a href="#">comment</a></li>
+</ul>
+</aside>
+{% endblock %}
+

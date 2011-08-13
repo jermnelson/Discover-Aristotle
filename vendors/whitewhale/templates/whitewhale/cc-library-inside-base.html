@@ -1,0 +1,155 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+   <title>{% block head-title %}Library Inside Page {% endblock %}• Colorado Colllege</title>
+   {% block base-css %}
+        {% comment %} These styles should refer to hosted css on Colorado College main website{% endcomment %}
+        <link href="{% get_static_prefix %}/styles/cc.css" rel="stylesheet" />
+        <link href="{% get_static_prefix %}/styles/fancybox.css" rel="stylesheet" />
+        <link href="{% get_static_prefix %}/styles/departments/library.css" rel="stylesheet" />
+   {% endblock %}
+   {% block more-css %}{% endblock %}
+  </head>
+  <body id="three-column" class="department library">
+{% block accessibility %}
+ {% include "accessibility.html" %}
+{% endblock %}
+{% block collapsed-header %}
+ {% include "cc-collapsed-header.html" %}
+{% endblock %}
+{% block feature %}
+ {% include "lib-features.html" %}
+{% endblock %}
+{% block library-tabs %}
+ {% include "library-tabs.html" %}
+{% endblock %}
+{% block library-breadcrumb %}
+  <div id="breadcrumb">
+   <div class="stage"><a href="#">Library Home</a> » <a href="#">About the Library</a> » <a class="on" href="#">Student Employment</a></div>  </div>
+{% endblock %}
+  <div id="content">
+   <div class="stage">	
+    <div class="two-columns-weighted-reversed">
+      <div class="side">
+       <div id="department-navigation" class="navigation">
+        <div id="subnavigation" class="subnavigation">
+	 <div class="wrapper">
+         {% block subnavigation %}
+          <h1><strong><a href="#">About the Library</a></strong></h1>
+          <ul>
+           <li><a href="#">Staff and Departments</a></li>
+	   <li><a href="#">Memberships &amp; Associations</a></li>
+	   <li><a href="#">Tutt Library History</a></li>
+	   <li><a href="#">Our Building</a></li>
+	   <li><a href="#">Map and Directions</a></li>
+	   <li class="on"><a href="#">• Student Employment</a></li>
+	  </ul>
+         {% endblock %}
+        </div>
+       </div>
+      </div>
+      {% block left-aside-two %}
+      <aside class="aside">
+       <div>
+       <h3><a href="#">Blog Title</a></h3>
+       <a href="#">
+       <img src="/images/temp/fern-corley.jpg" alt="Fern Corley" />
+        <span class="highlight">
+         <strong>Fern Corley</strong> was a chemistry major and athlete in the class of ’22.
+	</span>
+        <span>In this audio interview, she fondly remembers 
+              her time at CC, including a few campus pranks.
+	</span></a>
+       </div>
+      </aside>
+      {% endblock %}
+   </div>
+   <div class="main">
+    <div class="two-columns-weighted">
+     <div class="main">
+     {% block main-column %}
+      <h1>Student Employment</h1>
+      <p class="intro">Aliquam hendrerit blandit turpis lobortis
+		       posuere luctus. Class aptent taciti sociosqu ad litora 
+		       torquent per con ubia nos tra, per inceptos himenaeos.</p>
+      <h3>Suspendisse Augue Felis</h3>
+      <p>Pretium ut placerat vel, laoreet id orci. Donec eget justo non lacus blandit adipiscing ac vel ligula.</p>
+	<ul>
+	<li><a href="#">Quisque suscipit varius ligula</a></li>
+	<li><a href="#">Vitae hendrerit velit</a></li> 
+        <li><a href="#">Sagittis ut</a></li>
+       </ul>
+       <h3>Pures Bullas?</h3>			
+       <p>Nulla feugiat, purus vestibulum fermentum ultricies, 
+	  turpis ipsum commodo nulla, eget trist ique velit nisl 
+	  nec augue. Maecenas laoreet libero nibh, nec viverra 
+	  nisi. Etiam et urna con sectetur arcu euismod ac tortor.
+       </p> 
+       <h4>Purus Vestibulum Etiam</h4>								
+       <p>Quisque suscipit varius ligula, vitae hendrerit velit 
+	  sagittis ut. Nulla feugiat, purus fermentum ultricies, turpis 
+	  ipsum commodo nulla, eget tristique velit nisl nec augue. 
+	  Maecenas laoreet libero nibh, nec viverra nisi. Urna consectetur 
+	  arcu placerat euismod ac id tortor?
+       </p>
+    {% endblock main-column %}
+    </div>
+    <div class="side">
+      {% block right-aside-one %}
+      <aside class="slideshow">
+      <ul>
+	<li><img src="/images/temp/library/library-01.jpg" width="250" height="159" alt="Students" class="photo"/></li>
+	<li><img src="/images/temp/library/library-04.jpg" width="270" height="242" alt="Pinata Time" class="photo"/></li>
+	<li><img src="/images/temp/library/library-03.jpg" width="218" height="130" alt="Happy People" class="photo"/></li>
+      </ul>
+      </aside>
+      {% endblock %}
+      {% block right-aside-two %}								
+      <aside class="calendar save-the-date">
+       <h3>Library Events</h3>
+	<ul>
+         <li>
+          <a href="#"><em>Monday, August 15th</em><span>Poster Sale at the Press</span></a>
+         </li>
+         <li>
+          <a href="#"><em>Monday, August 21st</em><span>Faculty Workshops</span></a>
+	 </li>
+         <li>
+          <a href="#"><em>Thursday, August 14th</em><span>Library Week Begins!</span></a>
+         </li>
+	</ul>
+        <p>
+	  <a href="#">View Calendar</a>
+        </p>
+      </aside>
+     {% endblock %}
+     {% block right-aside-three %}
+     <aside class="social-media">
+      <ul>
+	<li class="rss">Get library news via <a href="#">RSS</a>!</li>
+        <li class="facebook">Find the Tutt Library on <a href="#">Facebook</a>.</li>
+        <li class="youtube">Library tutorials are on <a href="#">YouTube</a>!</li>
+      </ul>
+     </aside>
+     {% endblock %}
+   </div>
+   <span class="clear"></span>
+   </div>
+  </div>
+  <span class="clear"></span>
+ </div>			
+ </div>
+</div>
+{% block footers %}
+ {% include 'cc-footer.html' %}
+{% endblock %}
+{% block scripts %}
+  {% include 'cc-scripts.html' %}
+  {% block more-scripts %}
+  {% endblock %}
+{% endblock %}
+</body>
+</html>

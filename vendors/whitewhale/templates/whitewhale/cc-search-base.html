@@ -1,0 +1,68 @@
+{% load static %}
+{% load catalog_extras %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{% block search-title %}Library Search • Colorado College{% endblock %}</title>
+	{% block base-css %}
+	{% comment %} These styles should refer to hosted css on Colorado College main website{% endcomment %}
+	<link href="{% get_static_prefix %}styles/cc.css" rel="stylesheet" />
+        <link href="{% get_static_prefix %}styles/fancybox.css" rel="stylesheet" />
+	<link href="{% get_static_prefix %}styles/departments/library.css" rel="stylesheet" />
+         <link href="{% get_static_prefix %}catalog.css" rel="stylesheet" />
+	{% endblock %}
+	</head>
+	<body id="three-column" class="department library">
+	{% block accessibility %}
+         {% include "accessibility.html" %}
+        {% endblock %}
+       {% block collapsed-header %}
+        {% include "cc-collapsed-header.html" %}
+       {% endblock %}
+       {% block feature %}
+		<div class="feature" style="background-image: url({% get_static_prefix %}/images/temp/library/busy-library.jpg);">
+			<span class="clear"></span>
+		</div>
+       {% endblock %}
+       {% block library-tabs %}
+        {% include 'library-tabs.html' %}
+       {% endblock %}
+       {% block search-panel %}
+        {% include 'search-panel.html' %}
+       {% endblock %}
+
+       {% block contact-library %}
+        {% include 'contact-library.html' %}
+       {% endblock %}
+   </div>	
+  </div>
+		
+  {% block content %}
+  <div id="content" style="background-color:#f1ece5;">		
+  <div class="stage">			
+   <div class="two-columns-weighted-reversed">
+  {% block search-facets %}
+    {% include 'search-facets.html' %}
+  {% endblock %}
+   <div class="main">
+    {% block results-list %}
+     {% include 'results-list.html' %}
+    {% endblock %}
+    {% block results-detail %}
+     {% include 'results-detail.html' %}
+    {% endblock %}
+   </div>
+  {% endblock content %}
+   <span class="clear"></span>
+  </div>
+   {% block footers %}
+     {% include 'cc-footer.html' %}
+   {% endblock %}
+   {% block scripts %}
+    {% include 'cc-scripts.html' %}
+    {% block more-scripts %}
+    {% endblock more-scripts %}
+   {% endblock %}
+</body>
+</html>

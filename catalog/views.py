@@ -1,4 +1,4 @@
-# 
+#
 # views.py - Aristotle Catalog Views Module
 #
 # Author: Jeremy Nelson
@@ -33,9 +33,21 @@ def default(request):
     catalog_results,facet_listing = None,[]
     if request.method == 'POST':
         search_phrase = request.POST['search_phrase']
-        search_query = solr_bot.solr_interface.query(search_phrase)
-        catalog_results = search_query.execute()
-        facet_listing = __facets(search_phrase)
+        if len(search_phrase) > 0:
+            qterms = [request.POST['search_phrase'],]
+        else:
+            qterms = []
+        if request.POST.has_key('q'):
+            qterms = qterms + request.POST.getlist('q')
+        if request.POST.has_key('fq'):
+            facet_q = request.POST.getlist('fq')
+        else:
+            facet_q = []
+        catalog_results = solr_bot.solr_interface.search(q=qterms,
+                                                         fq=facet_q,
+                                                         facet=True,
+                                                         wt='blacklight')
+        facet_listing = __facet_processing(catalog_results.facet_counts.facet_fields)
     else:
         facet_result = __all_facets()
         if facet_result:
@@ -45,13 +57,16 @@ def default(request):
                               {'catalog_results':catalog_results,
                                'facet_listing':facet_listing})
 
-def detail(request):
+def detail(request,solr_id):
     """
     Detail view of a single search result
     """
+    catalog_results = solr_bot.solr_interface.search(q="id:%s" % solr_id,
+                                                     qt='document')
+    logging.error("IN DETAIL catalog results = %s" % catalog_results)
     return direct_to_template(request,
                               'catalog/detail.html',
-                             {})
+                             {'record':catalog_results[0]})
 
 # View helper functions
 def __all_facets():
@@ -87,16 +102,37 @@ def __all_facets():
         return None
     
 
-def __facets(search_term=None):
+def __facets(search_terms):
     """
     Returns a list of facet results
     """   
     facet_listing,facet_fields = [],[] 
     for field in catalog.settings.FACETS['default']:
         facet_fields.append(field['facet_field'])
-    facets_query = solr_bot.solr_interface.query(search_term).facet_by(facet_fields).paginate(rows=0)
+    facets_query = solr_bot.solr_interface.query(search_terms[0])
+    for term in search_terms[1:]:
+        facets_query.query(term)
+    facets_query.facet_by(facet_fields).paginate(rows=0)
     facet_results = facets_query.execute().facet_counts.facet_fields
     return __facet_processing(facet_results)
+
+
+def alt__facet_processing(facet_results):
+    output = []
+    all_facets = {}
+    for setting,fields in catalog.settings.FACETS.iteritems():
+        for row in fields:
+            all_facets[row['facet_field']] = row['label']
+    for facet,value in facet_results.iteritems():
+        facet_dict = {'field':facet,'facets':value}
+        if all_facets.has_key(facet):
+            facet_dict['label'] = all_facets[facet]
+        else:
+            facet_dict['label'] = facet.title()
+        output.append(facet_dict)
+    output.sort(key=lambda facet: facet['label'])
+    return output
+        
 
 def __facet_processing(facet_results):
     """
@@ -105,9 +141,12 @@ def __facet_processing(facet_results):
     """
     facet_listing = []
     for field in catalog.settings.FACETS['default']:
-        facets = facet_results[field['facet_field']]
-        facets.sort()
-        result = {'label':field['label'],
-                  'facets':facets}
-        facet_listing.append(result)
+        if facet_results.has_key(field['facet_field']):
+            facets = facet_results[field['facet_field']]
+            if field.has_key('sort'):
+                facets.sort()
+            result = {'label':field['label'],
+                      'field':field['facet_field'],
+                      'facets':facets}
+            facet_listing.append(result)
     return facet_listing

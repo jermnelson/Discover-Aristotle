@@ -23,4 +23,5 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('catalog.views',
     (r'^$','default'),
     (r'/search$','default'),
+    (r'/detail/(\w+)$','detail'),
 )

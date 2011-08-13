@@ -1,3 +1,44 @@
+
+#contact-lib-detail {
+  border: 1px solid #e7e4e0;
+  background-color: #530921;
+  margin-top: 15px;
+  padding: 10px 15px;
+}
+
+dl.detail-display {
+  margin: 0 1em 1em 0;
+}
+
+dl.detail-display dt {
+  color: rgb(127,127,127); 
+  float: left;
+  min-width: 9.5em;
+  text-align: right;
+}
+
+dl.detail-display dd {
+ margin-left: 10em;
+}
+
+#item-info {
+ border: 1px solid #530921;
+ font-size: .8em;
+ margin-top: 15px;
+}
+
+#item-info h2 {
+ background-color: #530921;
+ color: rgb(127,127,127);
+ font-size: 1.9em;
+ margin: 0px;
+ text-align: center;
+}
+
+#adv-searchbox {
+ display: none;
+}
+
 table.closed {
   display: none;
 }

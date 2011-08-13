@@ -1,0 +1,12 @@
+{% extends 'cc-search-base.html' %}
+{% load static %}
+
+{% block more-css %}
+ <link href="{% get_static_prefix %}/catalog.css" rel="stylesheet" /> 
+{% endblock %}
+
+{% block results-detail %}{% endblock %}
+
+{% block more-scripts %}
+<script src="{% get_static_prefix %}/catalog.js"></script>
+{% endblock more-scripts %}

@@ -1,0 +1,95 @@
+{% load static %}
+{% load catalog_extras %}
+{% if record %}
+  <div class="results-list">
+  <h2>{{ record.title_display }}</h2>
+          {% if record.isbn_t %}
+	  <a href="#" class="thumbnail"><img src="{{ record.isbn_t|get_cover_image }}" height="130" alt="{{ record.title_display }}" /></a>
+          {% endif %}
+	  <div class="details">
+          <table>
+	    <tbody>
+              {% if record.author_display %}
+	      <tr class="author">
+		<th>Author/Creator:</th>
+		<td><strong>{{ record.author_display }}</strong></td>
+	      </tr>
+              {% endif %}
+              {% if record.pub_date %}
+	      <tr>
+		<th>Published:</th>
+		<td>{{ record.pub_date.0 }}</td>
+	      </tr>
+              {% endif %}
+	      <tr>
+	       <th>Access:</th>
+	       <td>
+               {% if record.location %}
+                {{ record.location }}
+               {% endif %}
+               {% if record.url_fulltext_display %}
+                (<a href="{{ record.url_fulltext_display.0 }}">Online Location</a>)
+               {% endif %}
+                </td>
+	      </tr>
+	      <tr>
+	       <th>Format:</th>
+	       <td>{{ record.format }}</td>
+	      </tr>
+              <tr>
+               <th>Call number:</th>
+               <td>{{ record.lc_callnum_display.0 }}</td>
+              </tr>
+	    </tbody>
+	  </table>
+	 <h6><a onclick="RecordDetail(this)">More details »</a></h6>
+         <table class="closed">
+          <tbody>
+            <tr>
+            {% if record.material_type_display %}
+              <th>Material info:</th>
+              <td>{{ record.material_type_display.0  }}</td>
+            {% endif %}
+            {% if record.notes_fulltext_display %}
+              <th>Notes:</th>
+              <td>{{ record.notes_fulltext_display.0 }}</td>
+            {% endif %}
+            </tr>
+            <tr>
+              <th>Language:</th>
+              <td>{{ record.language_facet.0 }}</td>
+            {% if record.isbn_t %}
+              <th>ISBN(s):</th>
+              <td>
+              {% for row in record.isbn_t %}
+               {{ row }}<br/>
+              {% endfor %}
+              </td>
+            </tr>
+            {% endif %}
+            <tr>
+            {% if record.published_display %}
+             <th>Where published:</th>
+             <td>
+              {% for place in record.published_display %}
+               {{ place }}<br/>
+              {% endfor %}
+             </td>
+            {% endif %}
+            {% if record.subject_topic_facet or record.subject_geo_facet %}
+              <th>Subject(s):</th>
+              <td>
+               {% for subject in record.subject_topic_facet %}
+                {{ subject }}<br/>
+               {% endfor %}
+               {% for subject in record.subject_geo_facet %}
+                {{ subject }}<br/>
+               {% endfor %}
+               </ol>
+              </td>
+            </tr>
+            {% endif %}
+          </tbody>
+         </table>
+	</div>
+{% endif %}

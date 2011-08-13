@@ -1,0 +1,13 @@
+<div class="side">
+ <aside class="search-facets">
+  {% for row in facet_listing %}
+    <a onclick="DisplayFacet(this)"><h5{% if forloop.counter > 2 %} class="closed"{% endif %}>{{ row.label }}</h5></a>
+       <ul class={% if forloop.counter > 2 %}"closed"{% else %}"open"{% endif %}>
+      {% for facet in row.facets %}
+       <li><a href="#" onclick="FilterByFacet('{{ row.field }}','{{ facet.0 }}')">{{ facet.0 }} ({{ facet.1 }})</a></li>
+     {% endfor %}
+       </ul>
+   {% endfor %}
+  </aside>
+</div>
+
