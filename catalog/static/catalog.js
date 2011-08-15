@@ -1,9 +1,25 @@
 function DisplayAdvSearch(search_a) {
-  alert('In adv search');
-  $('#adv-searchbox').attr('display','block');
-  $('#basic-searchbox').attr('display','none');
+  $('#adv-searchbox').attr('style','display:inline');
+  $('#basic-searchbox').attr('style','display:none');
   $(search_a).attr('text','Basic Search');
-  $(search_a).attr('onclick','DisplayBasicSearch(this)');
+}
+
+
+function DisplayBasicSearch(search_a) {
+  alert("IN DISPLAY SEARCH " + $(search_a).attr('text'));
+  $('#adv-searchbox').attr('style','display:none');
+  $('#basic-searchbox').attr('style','display:inline');
+  $(search_a).attr('text','Advanced Search');
+}
+
+function DisplaySearch(search_a) {
+   if($(search_a).attr('text') == 'Basic Search') {
+      DisplayBasicSearch(search_a);
+   }
+   if($(search_a).attr('text') == 'Advanced Search') {
+      DisplayAdvSearch(search_a);
+   }
+
 }
 
 function DisplayFacet(facet_a) {

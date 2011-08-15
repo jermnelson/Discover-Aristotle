@@ -51,7 +51,7 @@
   {% if record.author_display %}
   <dt>Author/Creator:</dt>
   <dd>
-   <a href="/catalog/author/{{ record.author_display }}">{{ record.author_display }}</a></dd>
+   <a href="/catalog/author/{{ record.author_display|escape }}">{{ record.author_display }}</a></dd>
   {% endif %}
   <dt>Language:</dt>
   <dd>{{ record.language_facet.0 }}</dd>

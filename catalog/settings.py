@@ -7,7 +7,7 @@ __author__ = 'Jeremy Nelson'
 
 # Facets for catalog view
 FACETS = {'default': [
-           {'label':'Access','facet_field':'location'},
+           {'label':'Access','facet_field':'access'},
            {'label':'Format','facet_field':'format'},
            {'label':'Topic','facet_field':'subject_topic_facet'},
            {'label':'Language','facet_field':'language_facet'},

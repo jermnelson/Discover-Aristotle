@@ -26,6 +26,23 @@ from solr.bots.solrbots import SolrBot
 # Creates Solr bot
 solr_bot = SolrBot(solr_server=catalog.settings.SOLR_URL)
 
+def author_search(request,author_phrase):
+    """
+    Author phrase search 
+    """
+    author_results = solr_bot.solr_interface.search(q=author_phrase,
+                                                    facet=True,
+                                                    qt='author_search',
+                                                    wt='blacklight')
+    facet_listing =  __facet_processing(author_results.facet_counts.facet_fields)
+    return direct_to_template(request,
+                              'catalog/index.html',
+                              {'catalog_results':author_results,
+                               'facet_listing':facet_listing})
+
+
+                                                    
+
 def default(request):
     """
     Default view of Aristotle Catalog
@@ -67,6 +84,38 @@ def detail(request,solr_id):
     return direct_to_template(request,
                               'catalog/detail.html',
                              {'record':catalog_results[0]})
+
+
+def subject_search(request,subject_phrase):
+    """
+    Subject phrase search 
+    """
+    subject_results = solr_bot.solr_interface.search(q=subject_phrase,
+                                                     facet=True,
+                                                     qt='subject_search',
+                                                     wt='blacklight')
+    facet_listing =  __facet_processing(subject_results.facet_counts.facet_fields)
+    return direct_to_template(request,
+                              'catalog/index.html',
+                              {'catalog_results':subject_results,
+                               'facet_listing':facet_listing})
+
+
+def title_search(request,title_phrase):
+    """
+    Title phrase search 
+    """
+    title_results = solr_bot.solr_interface.search(q=title_phrase,
+                                                   facet=True,
+                                                   qt='title_search',
+                                                   wt='blacklight')
+    facet_listing =  __facet_processing(title_results.facet_counts.facet_fields)
+    return direct_to_template(request,
+                              'catalog/index.html',
+                              {'catalog_results':subject_results,
+                               'facet_listing':facet_listing})
+
+
 
 # View helper functions
 def __all_facets():

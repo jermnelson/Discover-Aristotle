@@ -14,6 +14,7 @@
         {% endblock %}
         {% block adv-searchbox %}
         <fieldset id="adv-searchbox">
+         <h3>Advanced Search</h3>
          <select name="field1_type">
          {{ ""|search_field_options }} 
          </select>
@@ -34,9 +35,6 @@
          {{ ""|search_field_options }} 
          </select>
          <input type="text" name="field2_phrase" value="" />
-         <select name="field3_operator">
-         {{ ""|search_operator_options }}
-         </select>
          <input type="submit" name="btnsubmit" class="submit" value="Search" />
         </fieldset>
         {% endblock %}
@@ -49,7 +47,7 @@
         {% endif %}
          </form>
 	 <ul class="search-help">
-	   <li><a href="#" onclick="DisplayAdvSearch(this)">Advanced Search</a></li>
+	   <li><a href="#" onclick="DisplaySearch(this)">Advanced Search</a></li>
 	   <li><a href="#">More about TIGER</a></li>
 	   <li><a href="#">Need help?</a></li>
 	  </ul>

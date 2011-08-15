@@ -30,10 +30,10 @@ def generate_search_filter(param):
             for facet in raw_facets:
                 logging.error("FACET is %s" % facet)
                 name,value = facet.split(":")
-                term_list.append((value,'fq'))
+                term_list.append((facet,'fq'))
         else:
             name,value = raw_facets.split(":")
-            term_list.append((value,'fq'))
+            term_list.append((raw_facets,'fq'))
 
     for i,term in enumerate(term_list):
         #term = (term[0].replace('\\','').strip(),term[1]) # Strip out trailing forward slash
@@ -48,8 +48,18 @@ def get_cover_thumbnail_url(isbn_list):
     Custom method queries multiple web services for a thumbnail image,
     returns a matched URL using isbn number
     """
+    if isbn_list is None:
+        logging.error("INPUT ISBN_LIST IS NONE")
+        return None
+    logging.error(isbn_list)
+    amazon_image_url = 'http://ec2.images-amazon.com/images/P/%s.01._PE00_SCMZZZZZZZ_.jpg'
     for isbn in isbn_list:
-        amazon_image_url = 'http://ec2.images-amazon.com/images/P/%s.01._PE00_SCMZZZZZZZ_.jpg' % isbn
+        logging.error("TYPE is %s" % type(isbn))
+        try:
+            amazon_image_url = amazon_image_url % isbn.strip()
+        except:
+            pass
+        logging.error(amazon_image_url)
         #google_book_api_url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:%s' % isbn
         #try:
         #    raw_json = urllib2.urlopen(google_book_api_url).read()
@@ -60,7 +70,14 @@ def get_cover_thumbnail_url(isbn_list):
         #    logging.error("Could not retrieve url for %s" % isbn)
         #    return None
     return mark_safe(amazon_image_url)
-    
+
+def get_item_status(item_id):
+    """
+    Method connects to ILS and retrieves the current circulation status
+    of a an item.
+    """
+    status_txt = None
+    return marc_safe(status_txt)    
 
 def search_field_options(output_html):
     """
@@ -86,13 +103,12 @@ def search_operator_options(output_html):
 
 register.filter('generate_search_filter',
                 generate_search_filter)
-
 register.filter('get_cover_image',
                 get_cover_thumbnail_url)
-
+register.filter('get_item_status',
+                get_item_status)
 register.filter('search_field_options',
                 search_field_options)
-
 register.filter('search_operator_options',
                 search_operator_options)
 
