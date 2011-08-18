@@ -26,6 +26,8 @@ $(document).ready(function() {
 	startBlockTextFitting();
 	startBlockFeatureFeature();
 	startProgramBrowser();
+	startLightboxes();
+	startLibrarySearchBoxes();
 });
 
 
@@ -309,6 +311,13 @@ $.fn.extend({ // add plugins
  */
 function startSlideshows() {
 	$('aside.slideshow')
+		.find('a.more-info')
+			.css('display', 'block')
+			.click(function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+			})
+		.end()
 		.each(function(i) {
 			var items = $(this).find('li'),
 			    list = $(this).find('ul'),
@@ -467,11 +476,34 @@ function startHomepage() {
  * Turning on QuickAccess
  */
 function startQuickAccess() {
-	$('aside.quick-search input.quick-search, #gateway .quick-search input, #header form .text-box input')
+	$('aside.quick-search input.quick-search, #gateway .quick-search input')
 		.quickaccess({
 			links: '.quick-links a',
 			maxResults: 5
 		});
+	
+	// position qa_results
+	positionPageQA();
+	$(window).resize(function() {
+		positionPageQA();
+	});
+	
+	$('#header form .text-box input')
+		.quickaccess({
+			links: '.quick-links a',
+			maxResults: 5,
+			results: '#page_qa_results'
+		});
+}
+
+
+/**
+ * Positions the page-level QuickAccess
+ */
+function positionPageQA() {
+	$('#page_qa_results')
+		.css('top', parseInt($('#header form .text-box input').offset().top, 10) + $('#header form .text-box input').height() + 10)
+		.css('right', $(window).width() - parseInt($('#header form .text-box input').offset().left, 10) - $('#header form .text-box input').width() - 8);
 }
 
 
@@ -613,6 +645,77 @@ function startProgramBrowser() {
 			}
 		);
 }
+
+
+/**
+ * Adds fancybox lightbox to all links with the class "lightbox"
+ */
+function startLightboxes() {
+	$('a.lightbox').fancybox({
+		titlePosition: 'over',
+		cyclic: true,
+		transitionIn: 'elastic',
+		transitionOut: 'elastic',
+		centerOnScroll: true,
+		overlayColor: '#292c34',
+		overlayOpacity: 0.6,
+		padding: 6
+	});
+}
+
+
+/**
+ * Starts the library drop downs
+ */
+function startLibrarySearchBoxes() {
+	if (!$('#search-library, #searchbox').length)  { return; }
+	
+	$('input[type="button"]')
+		.click(function() {
+			var searchForm = $(this).parents('form');
+			var searchBox = searchForm.find('.search-types');
+
+			searchBox.css('display', (searchBox.css('display') == 'block') ? 'none' : 'block');
+		})
+		.each(function(i) {
+			positionSearchTypeDropDown($(this));
+		});
+	
+	$('.search-types a')
+		.click(function(e) {
+			e.preventDefault();
+		
+			$(this)
+				.parents('form')  // update search button value
+					.find('input[type="submit"]').val('Search ' + $(this).text())
+				.end()
+					.find('.search-types')  // hide drop down
+					.css('display', 'none')
+				.end()
+					.find('input[name="search-type"]')
+					.val($(this).data('searchtype'));
+			
+			positionSearchTypeDropDown($(this).parents('form').find('input[type="button"]'));
+			
+			return false;
+		});
+}
+
+/**
+ * Positions the search type drop down on library pages
+ */
+function positionSearchTypeDropDown(el) {
+	var formWidth = el.parents('form').width();
+	
+	el
+		.parents('form')
+		.find('.search-types')
+			.css({
+				top: parseInt(el.position().top, 10) + el.height() + 17,
+				right: formWidth - (parseInt(el.position().left, 10) + el.width() + parseInt(el.css('padding-right'), 10) + parseInt(el.css('padding-left'), 10) + 2)
+			});
+}
+
 
 
 /**

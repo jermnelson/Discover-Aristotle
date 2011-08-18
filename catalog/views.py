@@ -60,9 +60,25 @@ def default(request):
             facet_q = request.POST.getlist('fq')
         else:
             facet_q = []
+        if request.POST.has_key('search-type'):
+            query_type = request.POST['search-type']
+        else:
+            query_type = 'search'
+        if request.POST.has_key('start'):
+            start = request.POST['start']
+        else:
+            start = 0
+        if request.POST.has_key('rows'):
+            rows = request.POST['rows']
+        else:
+            rows = 20
         catalog_results = solr_bot.solr_interface.search(q=qterms,
+                                                         fl='*',
                                                          fq=facet_q,
                                                          facet=True,
+                                                         qt=query_type,
+                                                         rows=rows,
+                                                         start=start,
                                                          wt='blacklight')
         facet_listing = __facet_processing(catalog_results.facet_counts.facet_fields)
     else:
@@ -79,8 +95,8 @@ def detail(request,solr_id):
     Detail view of a single search result
     """
     catalog_results = solr_bot.solr_interface.search(q="id:%s" % solr_id,
+                                                     fl='*',
                                                      qt='document')
-    logging.error("IN DETAIL catalog results = %s" % catalog_results)
     return direct_to_template(request,
                               'catalog/detail.html',
                              {'record':catalog_results[0]})

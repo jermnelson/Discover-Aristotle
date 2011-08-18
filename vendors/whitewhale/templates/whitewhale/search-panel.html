@@ -1,15 +1,34 @@
 {% load static %}
 {% load catalog_extras %}
+{% comment %}START SEARCH PANEL DIV{% endcomment %}
 <div id="search-panel">
+{% comment %}START STAGE DIV{% endcomment %}
    <div class="stage">
-   <div id="searchbox-wrapper">
+   {% comment %}START SEARCHBOX-WRAPPER DIV {% endcomment %}
+     <div id="searchbox-wrapper">
+       {% comment %}START SEARCHBOX DIV {% endcomment %}
 	<div id="searchbox">
+	 <ul class="search-help">
+	   <li><a href="#" onclick="DisplaySearch(this)">Advanced Search</a></li>
+	   <li><a href="#">More about TIGER</a></li>
+	   <li><a href="#">Need help?</a></li>
+         </ul>
+
 	  <form action="/catalog/search" method="post" name="catalog_search" id="catalog_search">
            {% csrf_token %}
         {% block simple-searchbox %}
 	    <fieldset id="basic-searchbox">
-		<input type="text" name="search_phrase" value="" alt="search" id="book-search" />
-		<input type="submit" name="btnsubmit" class="submit" value="Search" />
+             <input type="text" name="search_phrase" value="" alt="search" id="book-search" />
+             <input type="hidden" name="search-type" value="search" />
+	     <input type="submit" name="btnsubmit" class="submit" value="Search Keyword" />
+	     <input type="button" name="search-type-selector" class="button" value="" />
+	     <ul class="search-types">
+		  <li><a href="#" data-searchtype="search">Keyword</a></li>
+		  <li><a href="#" data-searchtype="author_search">Author</a></li>
+		  <li><a href="#" data-searchtype="title_search">Title</a></li>
+		  <li><a href="#" data-searchtype="subject_search">Subject</a></li>
+		  <li><a href="#" data-searchtype="title_search">Journal Title</a></li>
+		</ul>
 	    </fieldset>
         {% endblock %}
         {% block adv-searchbox %}
@@ -34,7 +53,7 @@
          <select name="field3_type">
          {{ ""|search_field_options }} 
          </select>
-         <input type="text" name="field2_phrase" value="" />
+         <input type="text" name="field3_phrase" value="" />
          <input type="submit" name="btnsubmit" class="submit" value="Search" />
         </fieldset>
         {% endblock %}
@@ -45,32 +64,33 @@
             {% endfor %}
 	    </ul>
         {% endif %}
+         <input type="hidden" name="rows" id="solr_rows" value={% if catalog_results %}"{{ catalog_results.result.docs|length }}"{% else %}"20"{% endif %} />
+         <input type="hidden" name="start" id="solr_start" value={% if catalog_results %}"{{ catalog_results.result.start }}"{% else %}"0"{% endif %} />
          </form>
-	 <ul class="search-help">
-	   <li><a href="#" onclick="DisplaySearch(this)">Advanced Search</a></li>
-	   <li><a href="#">More about TIGER</a></li>
-	   <li><a href="#">Need help?</a></li>
-	  </ul>
+         <span class="clear"></span>
+    {% comment %}END SEARCHBOX DIV{% endcomment %} 
     </div>
-     {% if catalog_results %}
-	<div id="search-pagination">
-	  <span style="float:left;"><a href="#">« Previous</a> &nbsp; 
-	  <strong>{{ catalog_results.result.start }} - 
-          {% if catalog_results.numFound < 20 %}
-             {{ catalog_results.result.numFound }}
-          {% else %}
-             20
-          {% endif %}
-          </strong> 
-           of <strong>{{ catalog_results.result.numFound }}</strong> &nbsp; 
-	  <a href="#">Next »</a></span> &nbsp; View <select> name="display_rows">
-                                                       <option value="10">10</option>
-                                                       <option value="20" selected="SELECTED">20</option>
-                                                            <option value="50">50</option>
-                                                            <option value="100">100</option>
-                                                            </select>
-                                                             per page  	
-		</div>
-     {% endif %}
-				
+    {% comment %}START SEARCH-PAGINATION DIV{% endcomment %} 
+    <div id="search-pagination">&nbsp;
+    {% if catalog_results %}
+      <span style="float:left;"><a href="#" onclick="PreviousPage()">« Previous</a> &nbsp; 
+      <strong>{{ catalog_results.result.start|add:"1" }} - 
+      {{ catalog_results.result|generate_page_count }}
+      </strong> 
+      of <strong>{{ catalog_results.result.numFound }}</strong> &nbsp; 
+      <a href="#" onclick="NextPage('{{ catalog_results.result.numFound }}')">Next »</a></span> &nbsp; 
+      View <select onclick="DisplayRows(this)" name="display_rows">
+      {{ catalog_results.result.docs|length|display_rows_options }}
+      </select> per page  	
+    {% endif %}
+    {% comment %}END SEARCH-PAGINATION DIV{% endcomment %} 
+    </div>
+    <span class="clear"></span>
+  {% comment %}END SEARCHBOX-WRAPPER DIV {% endcomment %}
+  </div>
+  {% include 'contact-library.html' %}
+  {% comment %}END STAGE DIV{% endcomment %} 
+  </div>
+  <span class="clear"></span>
+{% comment %}END SEARCH-PANEL DIV{% endcomment %} 
 </div>

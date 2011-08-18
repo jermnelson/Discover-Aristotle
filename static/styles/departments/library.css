@@ -168,11 +168,11 @@ h4 {
 /* Library Search results page */
 
 #search-panel {
-	height:205px;
 	background-image:url('/static/images/design/bg/blue.gif');
 	background-repeat:repeat-x;
+	background-color: #1c3054;
 	margin-top:-3px;
-	padding:9px 0;
+	padding:9px 0 48px;
 	}
 		
 	#search-panel #searchbox-wrapper { 
@@ -182,16 +182,20 @@ h4 {
 		}
 		
 		#search-library { 
-			width: 450px; 
+			width: 500px; 
 			float: right; 
 			margin: 0 36px 0 0;
 			padding-bottom: 24px;
 		}
-			#search-library form { border: 4px solid #fff; margin-bottom: 1em; }
+			#search-library form { 
+				border: 4px solid #fff;
+				margin-bottom: 1em;
+				position: relative;
+			}
 			#search-library fieldset {
 				border: 1px solid #e7e4e0;
 				background-color: #f1ece5;
-				padding: 8px 16px;
+				padding: 6px 12px;
 				margin: 0;
 			}
 				#search-library ul { margin: 0.5em 0 0; padding: 0; list-style: none; }
@@ -214,6 +218,7 @@ h4 {
 		#search-library .book-search a {
 			color: #6a2f7d;
 		}
+		#search-library .book-search input { width: 252px; }
 		#search-library .article-search h3 strong,
 		#search-library .article-search li,
 		#search-library .article-search a {
@@ -225,24 +230,27 @@ h4 {
 			border: 1px solid #e5e5e5;
 			background: #fff url(/static/images/bg/library-search.png) no-repeat scroll 10px 50%;
 			padding: 6px 8px 6px 28px;
-			width: 284px;
+			width: 160px;
 			-webkit-box-shadow: 0 0 3px #9d9d9d;
 			-moz-box-shadow: 0 0 3px #9d9d9d;
 			-ms-box-shadow: 0 0 3px #9d9d9d;
 			-o-box-shadow: 0 0 3px #9d9d9d;
 			box-shadow: 0 0 3px #9d9d9d;
 		}
+			#search-library select { margin-left: 6px; width: 190px; }
 			#search-panel #book-search {
 				background-image: none;
 				padding-left: 8px;
 				width: 292px;
 			}
 			#searchbox input.submit,
-			#search-library input.submit { 
+			#search-library input.submit,
+			#searchbox input.button,
+			#search-library input.button { 
 				background-image: none;
 				padding: 6px 8px;
 				width: auto;
-				margin-left: 16px;
+				margin-left: 4px;
 				font-size: 0.9em;
 				-webkit-box-shadow: none;
 				-moz-box-shadow: none;
@@ -256,19 +264,52 @@ h4 {
 				border-radius: 4px;
 				border: 1px solid #d3d3d3;
 				background-color: #ebebeb;
+				color: #222;
 			}
+			
+			#search-library input.submit,
+			#searchbox input.submit {
+				-webkit-border-top-right-radius: 0;
+				-webkit-border-bottom-right-radius: 0;
+				-moz-border-radius-topright: 0;
+				-moz-border-radius-bottomright: 0;
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+			
+			#search-library input.button,
+			#searchbox input.button,
+			#search-panel #searchbox input.button {
+				-webkit-border-top-left-radius: 0;
+				-webkit-border-bottom-left-radius: 0;
+				-moz-border-radius-topleft: 0;
+				-moz-border-radius-bottomleft: 0;
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+				margin-left: 0;
+				width: 24px;
+				background-image: url(/static/images/bg/menus/search-drop-down.png);
+				background-position: 50% 50%;
+				background-repeat: no-repeat;
+				outline: none;
+			}
+				#search-library input.button:active,
+				#searchbox input.button:active {
+					margin: 0;
+					outline: none;
+				}
 		
 	#search-panel #searchbox { 
 		border:5px solid #fff; 
 		padding:10px 15px; 
-		margin-bottom:11px; 
-		height:95px;
+		margin-bottom:16px;
 		background: #f1ece5 url(/static/images/bg/library/mag-glass.png) no-repeat scroll 10px 18px;
 		}
 		
-	#search-panel #searchbox input { width: 256px; }
+	#search-panel #searchbox input { width: 200px; }
 		#search-panel #searchbox input.submit { width: auto; margin-left: 8px; }
-	#search-panel #searchbox form { float: left; margin-left: 36px; padding-top: 8px; }
+	#search-panel #searchbox select { margin-left: 8px; }
+	#search-panel #searchbox form { float: left; width: 65%; margin-left: 36px; padding-top: 8px; position: relative; }
 	
 	#search-panel #searchbox a { 
 		color:#950b24; 
@@ -295,6 +336,7 @@ h4 {
 			display: inline;
 			float: left;
 			margin-right: 0.6em;
+			margin-bottom: 0.5em;
 			background-color: #fbf9f7;
 			padding: 2px 8px;
 			-webkit-border-radius: 3px;
@@ -318,6 +360,37 @@ h4 {
 			background-color: #dfd8cf;
 		}
 	
+		#searchbox .search-types,
+		#search-library .search-types {
+			display: none;
+			position: absolute;
+			right: 0;
+			z-index: 100;
+			border: 1px solid #ccc;
+			background-color: #fff;
+			margin: 0;
+			padding: 0;
+		}
+			#searchbox .search-types li,
+			#search-library .search-types li {
+				display: block;
+				float: none;
+				text-align: right;
+				margin-right: 0;
+			}
+			#searchbox .search-types a,
+			#search-library .search-types a {
+				padding: 0px 8px;
+				color: #222 !important;
+				font-weight: normal !important;
+				display: block !important;
+			}
+				#searchbox .search-types a:hover,
+				#search-library .search-types a:hover {
+					background-color: #ddd;
+					text-decoration: none !important;
+				}
+
 	
 /* Pagination for search results */
 
@@ -343,9 +416,10 @@ h4 {
 #contact-library { 
 	color:#fff;
 	font-family: "Helvetica Neue", Arial, sans-serif;
-	margin-left:20px;
+	margin-left:8px;
 	margin-top:15px;
-	 }
+	padding-bottom: 16px;
+	}
 	
 	#contact-library h5 { color:#fddb55; font-size:1.2em; }
 	#contact-library ul { margin:0; padding:0; } 
@@ -406,20 +480,14 @@ h4 {
 	 }
 	
 	 #content .search-facets ul { 
-                        list-style: none;
 			padding:0; 
 			margin:0; 
 			} 
 		#content .search-facets ul.open { 
 				padding:0; 
 				margin-bottom:15px; 
-				}
-                #content .search-facets ul.closed {
-                                display: none; 
-				}
-
-
-	#content .search-facets li { padding:2px 0 0 10px; margin:0; } 
+				} 
+	#content .search-facets li { padding:2px 0 0 10px; margin:0; list-style-type: none;} 
 		#content .search-facets li a { border-bottom:1px dotted #333; text-decoration:none; color:#333; } 
 		#content .search-facets li a:hover { border-bottom:1px solid #003; text-decoration:none; color:#003; } 
 
@@ -509,7 +577,7 @@ h4 {
 	
 #homepage-panel #searchbox-wrapper #whatsthis {
 	float:right; 
-	width:200px; 
+	width:170px; 
 	color:#fff; 
 	font-family:sans-serif; 
 	border-left:1px solid #ccc; 
@@ -528,13 +596,11 @@ h4 {
 		#homepage-panel #searchbox-wrapper #whatsthis ul {
 			margin:0;
 			padding:0;
-			font-size: 1.1em;
 			}
 		#homepage-panel #searchbox-wrapper #whatsthis li {
 			margin-left:10px;
 			padding:0px;
 			list-style-type: circle;
-			font-size: 1.1em;
 			}
 
 /* Library Homepage, bottom content area */

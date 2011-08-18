@@ -12,16 +12,6 @@ function DisplayBasicSearch(search_a) {
   $(search_a).attr('text','Advanced Search');
 }
 
-function DisplaySearch(search_a) {
-   if($(search_a).attr('text') == 'Basic Search') {
-      DisplayBasicSearch(search_a);
-   }
-   if($(search_a).attr('text') == 'Advanced Search') {
-      DisplayAdvSearch(search_a);
-   }
-
-}
-
 function DisplayFacet(facet_a) {
  // Cycle through and close other facets
  var h5 = $(facet_a).children()[0];
@@ -36,10 +26,46 @@ function DisplayFacet(facet_a) {
  return false;
 }
 
+function DisplayRows(row_count_select) {
+ var new_row_count = $(row_count_select).attr('value');
+ $('#solr_rows').attr('value',new_row_count);
+ document.forms['catalog_search'].submit();
+
+}
+
+function DisplaySearch(search_a) {
+   if($(search_a).attr('text') == 'Basic Search') {
+      DisplayBasicSearch(search_a);
+   }
+   if($(search_a).attr('text') == 'Advanced Search') {
+      DisplayAdvSearch(search_a);
+   }
+
+}
+
 function FilterByFacet(facet,value) {
  $('#catalog_search').append('<input type="hidden" name="fq" value="' + facet + ':' + value + '">');
  document.forms['catalog_search'].submit();
 
+}
+
+function NextPage(num_found) {
+ var next_rows = $('#solr_start').attr('value') + $('#solr_rows').attr('value');
+ if(next_rows < num_found) {
+   $('#solr_start').attr('value',next_rows);
+   document.forms['catalog_search'].submit()
+ }
+}
+
+function PreviousPage() {
+ var previous_rows = $('#solr_start').attr('value') - $('#solr_rows').attr('value');
+ if(previous_rows >= 0) {
+    $('#solr_start').attr('value',previous_rows);
+ } else {
+   $('#solr_start').attr('value',0);
+ }
+ document.forms['catalog_search'].submit();   
+   
 }
 
 function RecordDetail(more_a) {

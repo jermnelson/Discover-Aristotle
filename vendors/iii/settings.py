@@ -1,1 +1,1 @@
-OPAC_URL = 'http://tiger.coloradocollege.edu'
+OPAC_URL = 'http://tiger.coloradocollege.edu/xrecord='

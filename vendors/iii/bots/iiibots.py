@@ -4,9 +4,9 @@
 # author: Jeremy Nelson
 #
 # Copyrighted by Colorado College
-import urllib2
+import urllib2,logging
 from eulxml import xmlmap
-from vendors.iii.models import ItemRecord
+from vendors.iii.models import ItemRecord,IIIStatusCode
 
 class ItemBot(object):
 
@@ -21,8 +21,11 @@ class ItemBot(object):
         if kwargs.has_key('item_id'):
             self.item_id = kwargs.get('item_id')
             raw_xml_url = self.opac_url + self.item_id
-            raw_xml = urllib2.urlopen(raw_xml_url).read()
-            self.item_xml = xmlmap.load_xmlobject_from_string(raw_xml,xmlclass=ItemRecord)  
+            try:
+                raw_xml = urllib2.urlopen(raw_xml_url).read()
+                self.item_xml = xmlmap.load_xmlobject_from_string(raw_xml,xmlclass=ItemRecord) 
+            except:
+                self.item_xml = None 
         else:
             self.item_id = None
 
@@ -30,5 +33,15 @@ class ItemBot(object):
         """
         Method retrieves status code from XML
         """
-        return self.item_xml.status
+        if self.item_xml is not None:
+            try:
+                status = IIIStatusCode.objects.get(code=self.item_xml.status)
+            except:
+                status = None
+        else:
+            return None
+        if status is None:
+            return 'Status unknown for code %s' % self.item_xml.status
+        else:
+            return status.value
  

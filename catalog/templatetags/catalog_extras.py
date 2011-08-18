@@ -7,8 +7,37 @@ import urllib2,logging
 from django import template
 import django.utils.simplejson as json
 from django.utils.safestring import mark_safe
+from vendors.iii.bots.iiibots import ItemBot
+import vendors.iii.settings as ils_settings
 
 register = template.Library()
+
+def display_rows_options(num_result,row_values=[10,20,50,100]):
+    """
+    Generates options for pagination widget's row count
+    select field.
+    """ 
+    output_html = ''
+    for row in row_values:
+        output_html += '<option value="%s"' % row
+        if row == num_result:
+            output_html +=' selected="selected" '
+        output_html += '>%s</option>' % row
+    return mark_safe(output_html)
+        
+
+def generate_page_count(solr_result):
+    """
+    Custom template tag generates page num result for
+    pagination widget
+    """
+    start_location = solr_result.start
+    total_docs = solr_result.numFound
+    num_rows = len(solr_result.docs)
+    if total_docs >= (num_rows + start_location):
+        return mark_safe(num_rows + start_location)
+    else:
+        return mark_safe(total_docs)
 
 def generate_search_filter(param):
     """
@@ -28,7 +57,6 @@ def generate_search_filter(param):
         raw_facets = param[1]
         if type(raw_facets) == list:
             for facet in raw_facets:
-                logging.error("FACET is %s" % facet)
                 name,value = facet.split(":")
                 term_list.append((facet,'fq'))
         else:
@@ -51,15 +79,12 @@ def get_cover_thumbnail_url(isbn_list):
     if isbn_list is None:
         logging.error("INPUT ISBN_LIST IS NONE")
         return None
-    logging.error(isbn_list)
     amazon_image_url = 'http://ec2.images-amazon.com/images/P/%s.01._PE00_SCMZZZZZZZ_.jpg'
     for isbn in isbn_list:
-        logging.error("TYPE is %s" % type(isbn))
         try:
             amazon_image_url = amazon_image_url % isbn.strip()
         except:
             pass
-        logging.error(amazon_image_url)
         #google_book_api_url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:%s' % isbn
         #try:
         #    raw_json = urllib2.urlopen(google_book_api_url).read()
@@ -76,8 +101,9 @@ def get_item_status(item_id):
     Method connects to ILS and retrieves the current circulation status
     of a an item.
     """
-    status_txt = None
-    return marc_safe(status_txt)    
+    item_bot = ItemBot(opac_url=ils_settings.OPAC_URL,item_id=item_id)
+    status_txt = item_bot.status()
+    return mark_safe(status_txt)    
 
 def search_field_options(output_html):
     """
@@ -99,8 +125,10 @@ def search_operator_options(output_html):
         output_html += '<option value="%s">%s</option>' % (row,row.title())
     return mark_safe(output_html)
 
-
-
+register.filter("display_rows_options",
+                display_rows_options)
+register.filter('generate_page_count',
+                generate_page_count)
 register.filter('generate_search_filter',
                 generate_search_filter)
 register.filter('get_cover_image',

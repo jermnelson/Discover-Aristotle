@@ -2,7 +2,7 @@
 {% load catalog_extras %}
 {% if catalog_results %}
   <div class="results-list">
-	<ol start="1">
+	<ol start="{{ catalog_results.result.start|add:'1' }}">
         {% for record in catalog_results.result.docs %}
 	 <li>
 	  <h2><a href="/catalog/detail/{{ record.id }}">{{ record.title_display }}</a></h2>
@@ -27,6 +27,9 @@
 	      <tr>
 	       <th>Access:</th>
 	       <td>
+               {% if record.item_ils_number %}
+               <strong>{{ record.item_ils_number.0|get_item_status }}</strong>
+               {% endif %}
                {% if record.location %}
                 {{ record.location }}
                {% endif %}
@@ -83,10 +86,10 @@
               <th>Subject(s):</th>
               <td>
                {% for subject in record.subject_topic_facet %}
-                {{ subject }}<br/>
+                <a href="/catalog/subject/{{ subject }}">{{ subject }}</a><br/>
                {% endfor %}
                {% for subject in record.subject_geo_facet %}
-                {{ subject }}<br/>
+                <a href="/catalog/subject/{{ subject }}">{{ subject }}</a><br/>
                {% endfor %}
                </ol>
               </td>

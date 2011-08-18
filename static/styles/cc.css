@@ -371,7 +371,8 @@ input.button {
 		left: 0px;
 		top: 42px;
 		margin: 0;
-		width: 500px;
+		width: 640px;
+		white-space: nowrap;
 	}
 		#block.invert h2 {
 			color: #300;
@@ -408,6 +409,7 @@ input.button {
 			float: right;
 			margin-left: 1em;
 			padding-top: 0.2em;
+			white-space: nowrap;
 		}
 		#block .caption a {
 			background-color: transparent;
@@ -593,8 +595,9 @@ input.button {
 		right: 0;
 		top: 8px;
 		text-align: right;
+		padding: 0;
 	}
-		#header form fieldset { padding: 0; border: none; }
+		#header form fieldset { padding: 0; border: none; margin: 0; }
 		#header form input {
 			color: #530921;
 			font-family: Georgia, "Times New Roman", serif;
@@ -633,15 +636,16 @@ input.button {
 					margin: 0;
 					width: 128px;
 					outline: none;
+					padding: 0;
 				}
 			#header form .submit { position: absolute; top: 6px; right: 0; border: none; }
 		
 		/* quick access in header */
-		#header .qa_noquery,
-		#header .qa_toomany .qa_category,
-		#header .qa_nonefound .qa_category { display: none; }
-		#header .qa_results {
-			z-index: 400;
+		#page_qa_results.qa_noquery,
+		#page_qa_results.qa_toomany .qa_category,
+		#page_qa_results.qa_nonefound .qa_category { display: none; }
+		#page_qa_results.qa_results {
+			z-index: 1200;
 			position: absolute;
 			background-color: #fff;
 			top: 36px;
@@ -653,15 +657,22 @@ input.button {
 			-o-box-shadow: 1px 3px 10px rgba(0,0,0,0.39);
 			box-shadow: 1px 3px 10px rgba(0,0,0,0.39);
 		}
-			#header .qa_results li,
-			#header .qa_results div {
+			#page_qa_results ul { padding: 0; margin: 0; list-style: none; }
+			#page_qa_results.qa_results li,
+			#page_qa_results.qa_results div {
 				padding: 4px 8px;
 				display: block;
 				font-family: "Helvetica Neue", Arial, sans-serif;
 			}
-			#header .qa_results li { white-space: nowrap; width: auto; float: none; min-width: 160px; }
-			#header .qa_selected { background-color: #f1ebd5; }
-
+			#page_qa_results.qa_results li { white-space: nowrap; width: auto; float: none; min-width: 160px; }
+			#page_qa_results .qa_selected { background-color: #f1ebd5; }
+	#print-logo {
+		display: none;
+		width: 425px;
+		height: 40px;
+		margin-bottom: 3em;
+		overflow: hidden;
+	}
 
 /* content
 ---------------------------------------------------------------------------- */
@@ -1136,6 +1147,26 @@ input.button {
 		aside.slideshow li {
 			position: absolute;
 		}
+			aside.slideshow li a.more-info {
+				display: none;
+				height: 24px;
+				width: 24px;
+				padding: 3px;
+				position: absolute;
+				bottom: 24px;
+				right: 18px;
+				opacity: .65;
+				-webkit-transition: all 0.25s ease-in-out;
+				-moz-transition: all 0.25s ease-in-out;
+				transition: all 0.25s ease-in-out;
+				border: 2px dotted #999;
+				-webkit-border-radius: 16px;
+				-moz-border-radius: 16px;
+				-ms-border-radius: 16px;
+				-o-border-radius: 16px;
+				border-radius: 16px;
+			}
+			aside.slideshow li a.more-info:hover { opacity: 1; }
 	
 	
 	/* - video -------------------------------------------------------------- */

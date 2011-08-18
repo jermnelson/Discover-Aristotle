@@ -27,22 +27,12 @@
 {% endblock %}
 
 {% block left-aside-two %}
- <div id="item-info">
- <h2>At the library</h2>
- <p>Located at: <strong>{{ record.location }}</strong><br/>
-   <span style="color:green;font-size:1.1em;">Available</span> at this
-  Call Number: {{ record.lc_callnum_display.0 }}
- </p>
- <h2>Other Libraries</h2>
- <p>
-  If this copy is unavailable, search Prospector and WorldCat and request
-  the item.  
- </p>
- <ul>
-  <li><a href="#">Prospector</a></li>
-  <li><a href="#">Worldcat</a></li>
- </ul>
- </div>
+<aside class="aside">
+<div id="contact-lib-detail">
+ {% include 'contact-library.html' %}
+</div>
+</aside>
+
 {% endblock %}
 
 {% block main-column %}
@@ -79,6 +69,8 @@
   {% for isbn in record.isbn_t %}
    {{ isbn }}&nbsp;
   {% endfor %}
+   <dt>MARC Record format:</dt>
+   <dd><a href="#" onclick="alert('{{ record.marc_display }}')">View</a></dd>
  </dl>
 {% endblock %}
 
@@ -89,11 +81,23 @@
 {% endblock %}
 
 {% block right-aside-two %}
-<aside class="aside">
-<div id="contact-lib-detail">
- {% include 'contact-library.html' %}
-</div>
-</aside>
+ <div id="item-info">
+ <h2>At the library</h2>
+ <p>Located at: <strong>{{ record.location }}</strong><br/>
+   at this Call Number: {{ record.lc_callnum_display.0 }}. Availability: 
+  <strong>{{ record.item_ils_number.0|get_item_status }}</strong>
+ </p>
+ <h2>Other Libraries</h2>
+ <p>
+  If this copy is unavailable, search Prospector and WorldCat and request
+  the item.  
+ </p>
+ <ul>
+  <li><a href="#">Prospector</a></li>
+  <li><a href="#">Worldcat</a></li>
+ </ul>
+ </div>
+<br/>
 {% endblock %}
 
 {% block right-aside-three %}
@@ -106,3 +110,22 @@
 </aside>
 {% endblock %}
 
+{% block more-scripts %}
+<script src="http://jqueryui.com/ui/jquery.ui.core.js"></script>
+<script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script> 
+<script src="http://jqueryui.com/ui/jquery.ui.dialog.js"></script>
+<script>
+ $(function() {
+    $("#marc-display").dialog({ autoOpen: false });
+ });
+</script>
+{% endblock %}
+
+{% block dialogs %}
+<div id="marc-display">
+<h2>MARC Record Display</h2>
+<pre>
+{{ record.marc_display }}
+</pre>
+</div>
+{% endblock %}
