@@ -9,33 +9,33 @@
 ---------------------------------------------------------------------------- */
 @font-face {
     font-family: 'NeoDraw';
-    src: url('/static/assets/fonts/NEORD___-webfont.eot');
-    src: url('/static/assets/fonts/NEORD___-webfont.eot?iefix') format('eot'),
-         url('/static/assets/fonts/NEORD___-webfont.woff') format('woff'),
-         url('/static/assets/fonts/NEORD___-webfont.ttf') format('truetype'),
-         url('/static/assets/fonts/NEORD___-webfont.svg#webfont4lRg9jci') format('svg');
+    src: url('/sitestatic/assets/fonts/NEORD___-webfont.eot');
+    src: url('/sitestatic/assets/fonts/NEORD___-webfont.eot?iefix') format('eot'),
+         url('/sitestatic/assets/fonts/NEORD___-webfont.woff') format('woff'),
+         url('/sitestatic/assets/fonts/NEORD___-webfont.ttf') format('truetype'),
+         url('/sitestatic/assets/fonts/NEORD___-webfont.svg#webfont4lRg9jci') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'NeoFill';
-    src: url('/static/assets/fonts/NEORF___-webfont.eot');
-    src: url('/static/assets/fonts/NEORF___-webfont.eot?iefix') format('eot'),
-         url('/static/assets/fonts/NEORF___-webfont.woff') format('woff'),
-         url('/static/assets/fonts/NEORF___-webfont.ttf') format('truetype'),
-         url('/static/assets/fonts/NEORF___-webfont.svg#webfont5wfZb0lq') format('svg');
+    src: url('/sitestatic/assets/fonts/NEORF___-webfont.eot');
+    src: url('/sitestatic/assets/fonts/NEORF___-webfont.eot?iefix') format('eot'),
+         url('/sitestatic/assets/fonts/NEORF___-webfont.woff') format('woff'),
+         url('/sitestatic/assets/fonts/NEORF___-webfont.ttf') format('truetype'),
+         url('/sitestatic/assets/fonts/NEORF___-webfont.svg#webfont5wfZb0lq') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'NeoShadow';
-    src: url('/static/assets/fonts/NEORS___-webfont.eot');
-    src: url('/static/assets/fonts/NEORS___-webfont.eot?iefix') format('eot'),
-         url('/static/assets/fonts/NEORS___-webfont.woff') format('woff'),
-         url('/static/assets/fonts/NEORS___-webfont.ttf') format('truetype'),
-         url('/static/assets/fonts/NEORS___-webfont.svg#webfontGkbJAb3j') format('svg');
+    src: url('/sitestatic/assets/fonts/NEORS___-webfont.eot');
+    src: url('/sitestatic/assets/fonts/NEORS___-webfont.eot?iefix') format('eot'),
+         url('/sitestatic/assets/fonts/NEORS___-webfont.woff') format('woff'),
+         url('/sitestatic/assets/fonts/NEORS___-webfont.ttf') format('truetype'),
+         url('/sitestatic/assets/fonts/NEORS___-webfont.svg#webfontGkbJAb3j') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -356,7 +356,7 @@ input.button {
 ---------------------------------------------------------------------------- */
 #block { 
 	font-family: NeoFill, Verdana, "Helvetica Neue", Arial, sans-serif; 
-	background: #f1ebd5 url(/static/images/temp/mountain-range.jpg) no-repeat scroll 50% 0;
+	background: #f1ebd5 url(/sitestatic/images/temp/mountain-range.jpg) no-repeat scroll 50% 0;
 	position: relative;
 	z-index: 16;
 }
@@ -454,12 +454,12 @@ input.button {
 	
 	/* alert types */
 	.alert-type { padding: 0 108px; margin: 0 -108px; }
-	.alert .default { background: transparent url('/static/images/bg/alerts/alert.png') no-repeat scroll 0 4px; }
-	.alert .snow { background: transparent url('/static/images/bg/alerts/snow.png') no-repeat scroll 0 4px; }
-	.alert .heat { background: transparent url('/static/images/bg/alerts/hot-temperature.png') no-repeat scroll 0 4px; }
-	.alert .fire { background: transparent url('/static/images/bg/alerts/fire.png') no-repeat scroll 0 4px; }
-	.alert .graduation { background: transparent url('/static/images/bg/alerts/graduation.png') no-repeat scroll 0 4px; }
-	.alert .practice { background: transparent url('/static/images/bg/alerts/practice.png') no-repeat scroll 0 4px; }
+	.alert .default { background: transparent url('/sitestatic/images/bg/alerts/alert.png') no-repeat scroll 0 4px; }
+	.alert .snow { background: transparent url('/sitestatic/images/bg/alerts/snow.png') no-repeat scroll 0 4px; }
+	.alert .heat { background: transparent url('/sitestatic/images/bg/alerts/hot-temperature.png') no-repeat scroll 0 4px; }
+	.alert .fire { background: transparent url('/sitestatic/images/bg/alerts/fire.png') no-repeat scroll 0 4px; }
+	.alert .graduation { background: transparent url('/sitestatic/images/bg/alerts/graduation.png') no-repeat scroll 0 4px; }
+	.alert .practice { background: transparent url('/sitestatic/images/bg/alerts/practice.png') no-repeat scroll 0 4px; }
 
 
 /* main navigation
@@ -471,7 +471,7 @@ input.button {
 	margin-bottom: -16px;
 }
 #header {
-	background: #fafaf8 url(/static/images/bg/header.jpg) repeat scroll 50% 0;
+	background: #fafaf8 url(/sitestatic/images/bg/header.jpg) repeat scroll 50% 0;
 	padding: 24px 0 28px;
 	position: relative;
 	overflow: hidden;
@@ -497,7 +497,7 @@ input.button {
 			width: 425px;
 			height: 40px;
 			text-decoration: none;
-			background: transparent url(/static/images/text/logo.png) no-repeat scroll 0 4px;
+			background: transparent url(/sitestatic/images/text/logo.png) no-repeat scroll 0 4px;
 			text-indent: -999em;
 		}
 		#header h1 a:hover { 
@@ -562,25 +562,25 @@ input.button {
 			margin: 0px -11px 3px;
 			zoom: 1;
 		}
-		#header #nav-the-basics.on h5 { background-image: url(/static/images/bg/nav/basics.png); }
-		#header #nav-academics.on h5 { background-image: url(/static/images/bg/nav/academics.png); }
+		#header #nav-the-basics.on h5 { background-image: url(/sitestatic/images/bg/nav/basics.png); }
+		#header #nav-academics.on h5 { background-image: url(/sitestatic/images/bg/nav/academics.png); }
 		#header #nav-admission-and-aid.on h5 { 
-			background-image: url(/static/images/bg/nav/admissions.png); 
+			background-image: url(/sitestatic/images/bg/nav/admissions.png); 
 			padding-left: 13px;
 			margin-left: -13px;
 		}
 		#header #nav-life-at-cc.on h5 { 
-			background-image: url(/static/images/bg/nav/life-at-cc.png); 
+			background-image: url(/sitestatic/images/bg/nav/life-at-cc.png); 
 			padding-left: 19px;
 			margin-left: -19px;
 		}
 		#header #nav-news-and-events.on h5 { 
-			background-image: url(/static/images/bg/nav/news-and-events.png);
+			background-image: url(/sitestatic/images/bg/nav/news-and-events.png);
 			padding-left: 13px;
 			margin-left: -13px;
 		}
 		#header #nav-for-us.on h5 { 
-			background-image: url(/static/images/bg/nav/for-us.png);
+			background-image: url(/sitestatic/images/bg/nav/for-us.png);
 			padding-left: 15px;
 			margin-left: -15px;
 		}
@@ -620,7 +620,7 @@ input.button {
 				font-style: italic;
 			}
 			#header form .text-box {
-				background: transparent url(/static/images/bg/search-input.png) no-repeat scroll 0 0;
+				background: transparent url(/sitestatic/images/bg/search-input.png) no-repeat scroll 0 0;
 				width: 152px;
 				height: 34px;
 				display: block;
@@ -756,7 +756,7 @@ input.button {
 			padding: 0 13px;
 			margin: 3em -13px 3em;
 			clear: none;
-			background: transparent url(/static/images/bg/flourish/divider.png) no-repeat scroll 50% 50%;
+			background: transparent url(/sitestatic/images/bg/flourish/divider.png) no-repeat scroll 50% 50%;
 		}
 	
 	
@@ -838,13 +838,13 @@ input.button {
 		}
 		aside.subnavigation ul { list-style: none; margin: 0; padding: 0; clear: both; }
 			aside.subnavigation li {
-				background: transparent url(/static/images/bg/bullets/dots/dot1.png) no-repeat scroll 9px 3px;
+				background: transparent url(/sitestatic/images/bg/bullets/dots/dot1.png) no-repeat scroll 9px 3px;
 				margin: 0.4em 0 0;
 				padding-left: 36px;
 			}
-				aside.subnavigation li.dot1 { background-image: url(/static/images/bg/bullets/dots/dot1.png); }
-				aside.subnavigation li.dot2 { background-image: url(/static/images/bg/bullets/dots/dot2.png); }
-				aside.subnavigation li.dot3 { background-image: url(/static/images/bg/bullets/dots/dot3.png); }
+				aside.subnavigation li.dot1 { background-image: url(/sitestatic/images/bg/bullets/dots/dot1.png); }
+				aside.subnavigation li.dot2 { background-image: url(/sitestatic/images/bg/bullets/dots/dot2.png); }
+				aside.subnavigation li.dot3 { background-image: url(/sitestatic/images/bg/bullets/dots/dot3.png); }
 				aside.subnavigation li a { 
 					color: #012656;
 					text-decoration: none;
@@ -894,7 +894,7 @@ input.button {
 				text-decoration: none;
 				font-size: 1.143em;
 				display: block;
-				background: transparent url(/static/images/bg/asides/tiger-arrow.png) no-repeat scroll 100% 50%;
+				background: transparent url(/sitestatic/images/bg/asides/tiger-arrow.png) no-repeat scroll 100% 50%;
 			}
 					
 	
@@ -954,7 +954,7 @@ input.button {
 		.calendar .with-icon span.date { 
 			float: left; 
 			width: 31px; 
-			background: transparent url(/static/images/bg/calendar.png) no-repeat scroll 0 0;
+			background: transparent url(/sitestatic/images/bg/calendar.png) no-repeat scroll 0 0;
 			padding: 14px 0 6px;
 			text-align: center;
 			font-family: NeoFill;
@@ -980,7 +980,7 @@ input.button {
 		aside.related-links li {
 			font-size: 1.071em;
 			font-family: "Helvetica Neue", Arial, sans-serif;
-			background: transparent url(/static/images/bg/bullets/arrows/arrow1.png) no-repeat scroll 0 0.4em;
+			background: transparent url(/sitestatic/images/bg/bullets/arrows/arrow1.png) no-repeat scroll 0 0.4em;
 			padding-left: 28px;
 		}
 		aside.related-links a { color: #3f5164; text-decoration: none; }
@@ -990,7 +990,7 @@ input.button {
 			font-family: "Helvetica Neue", Arial, sans-serif;
 			padding-left: 28px;
 			padding-bottom: 4px;
-			background: transparent url(/static/images/bg/flourish/related-links-underline.png) no-repeat scroll 28px 100%;
+			background: transparent url(/sitestatic/images/bg/flourish/related-links-underline.png) no-repeat scroll 28px 100%;
 			margin-bottom: 0.6em;
 		}
 		
@@ -1013,14 +1013,14 @@ input.button {
 			line-height: 1.3;
 			margin: 0 0 0.4em;
 		}
-			aside.social-media li.rss { background-image: url(/static/images/bg/icons/rss.png); }
-			aside.social-media li.facebook { background-image: url(/static/images/bg/icons/facebook.png); }
-			aside.social-media li.youtube { background-image: url(/static/images/bg/icons/youtube.png); }
-			aside.social-media li.twitter { background-image: url(/static/images/bg/icons/twitter.png); }
-			aside.social-media li.linkedin { background-image: url(/static/images/bg/icons/linkedin.png); }
-			aside.social-media li.vimeo { background-image: url(/static/images/bg/icons/vimeo.png); }
-			aside.social-media li.google { background-image: url(/static/images/bg/icons/google.png); }
-			aside.social-media li.flickr { background-image: url(/static/images/bg/icons/flickr.png); }
+			aside.social-media li.rss { background-image: url(/sitestatic/images/bg/icons/rss.png); }
+			aside.social-media li.facebook { background-image: url(/sitestatic/images/bg/icons/facebook.png); }
+			aside.social-media li.youtube { background-image: url(/sitestatic/images/bg/icons/youtube.png); }
+			aside.social-media li.twitter { background-image: url(/sitestatic/images/bg/icons/twitter.png); }
+			aside.social-media li.linkedin { background-image: url(/sitestatic/images/bg/icons/linkedin.png); }
+			aside.social-media li.vimeo { background-image: url(/sitestatic/images/bg/icons/vimeo.png); }
+			aside.social-media li.google { background-image: url(/sitestatic/images/bg/icons/google.png); }
+			aside.social-media li.flickr { background-image: url(/sitestatic/images/bg/icons/flickr.png); }
 		
 		
 	/* - recently ----------------------------------------------------------- */
@@ -1117,14 +1117,14 @@ input.button {
 	aside.important {
 		padding: 42px 0 0 26px;
 		margin: 0 0 0 -26px;
-		background: transparent url(/static/images/bg/asides/important.png) no-repeat scroll 0 0;
+		background: transparent url(/sitestatic/images/bg/asides/important.png) no-repeat scroll 0 0;
 	}
 	
 	
 	/* - slideshow ---------------------------------------------------------- */
 	aside.slideshow { }
 		aside.slideshow .description {
-			background: transparent url(/static/images/bg/asides/slideshow.png) no-repeat scroll 0 0;
+			background: transparent url(/sitestatic/images/bg/asides/slideshow.png) no-repeat scroll 0 0;
 			padding: 43px 0px 10px 20px;
 			color: #fff;
 			line-height: 1.2;
@@ -1228,7 +1228,7 @@ input.button {
 			background: #fff url() no-repeat scroll 6px 50%;
 		}
 			aside.quick-search input.placeholder {
-				background-image: url(/static/images/text/quick-search.png);
+				background-image: url(/sitestatic/images/text/quick-search.png);
 			}
 		aside.quick-search p { 
 			color: #950b24; 
@@ -1267,7 +1267,7 @@ input.button {
 				padding: 6px 10px;
 				font-size: 1.2em;
 				border: 1px solid #bbb;
-				background: #fff url(/static/images/bg/asides/qa-selected.png) no-repeat scroll 96% 50%;
+				background: #fff url(/sitestatic/images/bg/asides/qa-selected.png) no-repeat scroll 96% 50%;
 			}
 				.quick-search .qa_selected a {
 					color: #950b24;
@@ -1312,7 +1312,7 @@ input.button {
 			font-size: 1.714em;
 			font-family: "Helvetica Neue", Arial, sans-serif;
 			font-weight: bold;
-			background: transparent url(/static/images/temp/pizza.jpg) scroll no-repeat 0 0;
+			background: transparent url(/sitestatic/images/temp/pizza.jpg) scroll no-repeat 0 0;
 			height: 115px;
 			width: 140px;
 			margin-left: -15px;
@@ -1384,7 +1384,7 @@ input.button {
 	
 	/* - feature caption ---------------------------------------------------- */
 	aside.feature-caption {
-		background: transparent url(/static/images/bg/asides/caption-arrow.png) no-repeat scroll 6px 7px;
+		background: transparent url(/sitestatic/images/bg/asides/caption-arrow.png) no-repeat scroll 6px 7px;
 		font-size: 0.929em;
 	}
 		aside.feature-caption p { padding-left: 20px; }
@@ -1402,7 +1402,7 @@ input.button {
 	/* - tiger-gear --------------------------------------------------------- */
 	aside.tiger-gear { 
 		height: 111px;
-		background: transparent url(/static/images/bg/asides/sweatshirt.png) no-repeat scroll 0 0;
+		background: transparent url(/sitestatic/images/bg/asides/sweatshirt.png) no-repeat scroll 0 0;
 		margin: 0 -16px 0 -32px;
 		padding: 150px 36px 0 68px;
 		text-align: center;
@@ -1424,7 +1424,7 @@ input.button {
 		width: 212px;
 	}
 		aside.rss-feed div {
-			background: #fff url(/static/images/bg/asides/rss.png) no-repeat scroll 100% 4px;
+			background: #fff url(/sitestatic/images/bg/asides/rss.png) no-repeat scroll 100% 4px;
 		}
 		aside.rss-feed img { display: block; }
 		aside.rss-feed a { 
@@ -1589,7 +1589,7 @@ input.button {
 			float: left;
 			font-family: NeoFill;
 			color: #d1a754;
-			background: transparent url(/static/images/bg/calendar-big.png) no-repeat scroll 0 0;
+			background: transparent url(/sitestatic/images/bg/calendar-big.png) no-repeat scroll 0 0;
 			text-align: center;
 			padding-top: 26px;
 			font-size: 1.7em;
@@ -1739,11 +1739,11 @@ input.button {
 							color: #594738;
 						}
 						.month-selector li.previous a {
-							background: transparent url(/static/images/bg/menus/month-selector-previous.png) no-repeat scroll 0% 45%;
+							background: transparent url(/sitestatic/images/bg/menus/month-selector-previous.png) no-repeat scroll 0% 45%;
 							padding-left: 10px;
 						}
 						.month-selector li.next a {
-							background: transparent url(/static/images/bg/menus/month-selector-next.png) no-repeat scroll 100% 45%;
+							background: transparent url(/sitestatic/images/bg/menus/month-selector-next.png) no-repeat scroll 100% 45%;
 							padding-right: 10px;
 						}
 						.month-selector li.current a {
@@ -2190,7 +2190,7 @@ input.button {
 					line-height: 1.2;
 				}
 				#feature-highlights #featured-courses li.on {
-					background: transparent url(/static/images/bg/block-features/feature-selected.png) no-repeat scroll 0 4px;
+					background: transparent url(/sitestatic/images/bg/block-features/feature-selected.png) no-repeat scroll 0 4px;
 				}
 					#feature-highlights #featured-courses li a {
 						color: #fff;
@@ -2344,7 +2344,7 @@ input.button {
 		#program-browser p { 
 			padding: 3px 7px; 
 			margin: 0;
-			background: rgba(0, 0, 0, 0.4) url(/static/images/bg/menus/downward-arrow.png) no-repeat scroll 97% 55%;
+			background: rgba(0, 0, 0, 0.4) url(/sitestatic/images/bg/menus/downward-arrow.png) no-repeat scroll 97% 55%;
 			cursor: pointer;
 			position: relative;
 			z-index: 20;
@@ -2598,7 +2598,7 @@ input.button {
 		padding-left: 0.4em;
 	}
 	#department-navigation li.on li.on li {
-		background: transparent url(/static/images/bg/menus/dash.png) no-repeat scroll 0 8px;
+		background: transparent url(/sitestatic/images/bg/menus/dash.png) no-repeat scroll 0 8px;
 		padding-left: 8px;
 	}
 		#department-navigation li.on li.on li a { color: #594738; }
@@ -2659,7 +2659,7 @@ input.button {
 			width: 255px;
 		}
 			#department-bar #program-browser p {
-				background-image: url(/static/images/bg/menus/upward-arrow.png);
+				background-image: url(/sitestatic/images/bg/menus/upward-arrow.png);
 				font-size: 1.18182em;
 				background-color: transparent;
 			}
@@ -2775,7 +2775,7 @@ input.button {
 			width: 240px;
 			text-indent: -999em;
 			text-decoration: none;
-			background: transparent url(/static/images/text/footer-logo.gif) no-repeat scroll 0 6px;
+			background: transparent url(/sitestatic/images/text/footer-logo.gif) no-repeat scroll 0 6px;
 		}
 			#footer h3 a:hover { background-position: 0 -24px; }
 	#footer a { color: #d9d9cf; }

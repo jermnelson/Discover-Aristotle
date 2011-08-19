@@ -1,7 +1,7 @@
 {% load static %}
 {% load catalog_extras %}
+ <div class="results-list">
 {% if catalog_results %}
-  <div class="results-list">
 	<ol start="{{ catalog_results.result.start|add:'1' }}">
         {% for record in catalog_results.result.docs %}
 	 <li>
@@ -103,5 +103,7 @@
        {% endfor %}
        </ol>
      </div>
-</div></div>
+</div>
+{% else %}
 {% endif %}
+</div>

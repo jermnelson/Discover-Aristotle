@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'aristotle.sqlite',                      # Or path to database file if using sqlite3.
+        'NAME': '/usr/local/aristotle/aristotle.sqlite',  # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -56,20 +56,24 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = '/usr/local/aristotle/sitestatic/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
+STATIC_URL = 'http://discovery.coloradocollege.edu/sitestatic/'
+#STATIC_URL = '/sitestatic/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+#ADMIN_MEDIA_PREFIX = 'http://discovery.coloradocollege.edu/static/admin/'
+ADMIN_MEDIA_PREFIX = 'http://discovery.coloradocollege.edu/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    "/home/jpnelson/aristotle/static",
+    "/usr/local/aristotle/static",
+    "/usr/local/aristotle/catalog/static",
+    "/usr/local/aristotle/grx/static",
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -84,7 +88,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '(84$9)_b9@w50lu*v(1lesc$ypl2(*%d=4s_ysn5f&225blvvw'
+SECRET_KEY = '(84678)_b9@w50lu*v(1lesc$ypl2(*%d=4s_ysn5f&225blvvw'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -104,10 +108,10 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'aristotle.urls'
 
 TEMPLATE_DIRS = (
-    "/home/jpnelson/aristotle/catalog/templates/catalog",
-    "/home/jpnelson/aristotle/vendors/whitewhale/templates/whitewhale",
-    "/home/jpnelson/aristotle/grx/templates/grx",
-    "/home/jpnelson/aristotle/etd/templates/etd",
+    "/usr/local/aristotle/catalog/templates/catalog",
+    "/usr/local/aristotle/vendors/whitewhale/templates/whitewhale",
+#    "/usr/local/aristotle/grx/templates/grx",
+    "/usr/local/aristotle/etd/templates/etd",
 
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
@@ -127,7 +131,7 @@ INSTALLED_APPS = (
     'eulfedora',
     'etd',
     'frbr',
-    'grx',
+#    'grx',
     'vendors.ebsco',
     'vendors.iii',
     'vendors.oclc',
@@ -161,21 +165,6 @@ LOGGING = {
             'propagate': True,
         },
     }
-}
-# Haystack settings
-HAYSTACK_CONNECTIONS = {
-    'default':  {
-        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://172.1.106:8984/solr/marc_catalog',
-        'TIMEOUT': 60 * 5,
-        'INCLUDE_SPELLING': True,
-   },
-    'goldrush': {
-        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://172.1.106:8984/solr/grx',
-        'TIMEOUT': 60 * 5,
-        'INCLUDE_SPELLING': True,
-   }
 }
    
 # Fedora Repository settings

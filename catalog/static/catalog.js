@@ -6,7 +6,6 @@ function DisplayAdvSearch(search_a) {
 
 
 function DisplayBasicSearch(search_a) {
-  alert("IN DISPLAY SEARCH " + $(search_a).attr('text'));
   $('#adv-searchbox').attr('style','display:none');
   $('#basic-searchbox').attr('style','display:inline');
   $(search_a).attr('text','Advanced Search');
@@ -14,6 +13,7 @@ function DisplayBasicSearch(search_a) {
 
 function DisplayFacet(facet_a) {
  // Cycle through and close other facets
+
  var h5 = $(facet_a).children()[0];
  var ul = $(facet_a).next();
  if($(h5).attr('class') == 'closed') {

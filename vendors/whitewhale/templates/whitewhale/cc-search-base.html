@@ -40,17 +40,18 @@
   {% block search-facets %}
     {% include 'search-facets.html' %}
   {% endblock %}
-   <div class="main">
-    {% block results-list %}
+  {% block results-list %}
+    <div class="main">
      {% include 'results-list.html' %}
     {% endblock %}
     {% block results-detail %}
      {% include 'results-detail.html' %}
     {% endblock %}
-   </div>
+    </div>
   {% endblock content %}
    <span class="clear"></span>
-  </div>
+   </div>
+  </div></div>
    {% block footers %}
      {% include 'cc-footer.html' %}
    {% endblock %}

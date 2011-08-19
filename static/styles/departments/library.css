@@ -168,7 +168,7 @@ h4 {
 /* Library Search results page */
 
 #search-panel {
-	background-image:url('/static/images/design/bg/blue.gif');
+	background-image:url('/sitestatic/images/design/bg/blue.gif');
 	background-repeat:repeat-x;
 	background-color: #1c3054;
 	margin-top:-3px;
@@ -228,7 +228,7 @@ h4 {
 		#search-library input,
 		#searchbox input {
 			border: 1px solid #e5e5e5;
-			background: #fff url(/static/images/bg/library-search.png) no-repeat scroll 10px 50%;
+			background: #fff url(/sitestatic/images/bg/library-search.png) no-repeat scroll 10px 50%;
 			padding: 6px 8px 6px 28px;
 			width: 160px;
 			-webkit-box-shadow: 0 0 3px #9d9d9d;
@@ -288,7 +288,7 @@ h4 {
 				border-bottom-left-radius: 0;
 				margin-left: 0;
 				width: 24px;
-				background-image: url(/static/images/bg/menus/search-drop-down.png);
+				background-image: url(/sitestatic/images/bg/menus/search-drop-down.png);
 				background-position: 50% 50%;
 				background-repeat: no-repeat;
 				outline: none;
@@ -303,7 +303,7 @@ h4 {
 		border:5px solid #fff; 
 		padding:10px 15px; 
 		margin-bottom:16px;
-		background: #f1ece5 url(/static/images/bg/library/mag-glass.png) no-repeat scroll 10px 18px;
+		background: #f1ece5 url(/sitestatic/images/bg/library/mag-glass.png) no-repeat scroll 10px 18px;
 		}
 		
 	#search-panel #searchbox input { width: 200px; }
@@ -349,7 +349,7 @@ h4 {
 			display: block;
 			padding: 2px 24px 2px 8px;
 			margin: -2px -8px;
-			background: transparent url(/static/images/bg/library/filter-tag.png) scroll no-repeat 100% 50%;
+			background: transparent url(/sitestatic/images/bg/library/filter-tag.png) scroll no-repeat 100% 50%;
 			white-space: nowrap;
 			color: #2b486f;
 		}
@@ -426,14 +426,14 @@ h4 {
 	
 	#contact-library li.ask {
 				list-style-type: none;
-				background: transparent url(/static/images/design/bullets/icon-user.png) no-repeat scroll 0px 4px;
+				background: transparent url(/sitestatic/images/design/bullets/icon-user.png) no-repeat scroll 0px 4px;
 				margin: 0 10px 0 -5px;
 				padding:0 20px;
 			}
 	
 	#contact-library li.hours {
 				list-style-type: none;
-				background: transparent url(/static/images/design/bullets/icon-clock.png) no-repeat scroll 0px 4px;
+				background: transparent url(/sitestatic/images/design/bullets/icon-clock.png) no-repeat scroll 0px 4px;
 				margin: 3px 10px 0 -5px;
 				padding:0 20px;
 			}
@@ -441,7 +441,7 @@ h4 {
 	
 	#contact-library li.policies {
 				list-style-type: none;
-				background: transparent url(/static/images/design/bullets/icon-info.png) no-repeat scroll 0px 4px;
+				background: transparent url(/sitestatic/images/design/bullets/icon-info.png) no-repeat scroll 0px 4px;
 				margin: 3px 10px 0 -5px;
 				padding:0 20px;
 			}
@@ -449,7 +449,7 @@ h4 {
 	
 	#contact-library li.guides {
 				list-style-type: none;
-				background: transparent url(/static/images/design/bullets/icon-subjectguides.png) no-repeat scroll 0px 4px;
+				background: transparent url(/sitestatic/images/design/bullets/icon-subjectguides.png) no-repeat scroll 0px 4px;
 				margin: 3px 10px 0 -5px;
 				padding:0 20px;
 			}
@@ -457,7 +457,7 @@ h4 {
 		
 	#contact-library li.logins {
 				list-style-type: none;
-				background: transparent url(/static/images/design/bullets/icon-logins.png) no-repeat scroll 0px 4px;
+				background: transparent url(/sitestatic/images/design/bullets/icon-logins.png) no-repeat scroll 0px 4px;
 				margin: 3px 10px 0 -5px;
 				padding:0 20px;
 			}
@@ -486,6 +486,9 @@ h4 {
 		#content .search-facets ul.open { 
 				padding:0; 
 				margin-bottom:15px; 
+				}
+                #content .search-facets ul.closed {
+                                display: none; 
 				} 
 	#content .search-facets li { padding:2px 0 0 10px; margin:0; list-style-type: none;} 
 		#content .search-facets li a { border-bottom:1px dotted #333; text-decoration:none; color:#333; } 
@@ -567,7 +570,7 @@ h4 {
 		
 #homepage-panel {
 	height:270px;
-	background-image:url('/static/images/design/bg/blue.gif');
+	background-image:url('/sitestatic/images/design/bg/blue.gif');
 	background-repeat:repeat-x;
 	margin-top:-3px;
 	padding:9px 0;
