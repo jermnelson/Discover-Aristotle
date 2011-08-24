@@ -9,16 +9,18 @@
 
 {% block library-breadcrumb %}
  <div id="breadcrumb">
-  <div class="stage"><a href="#">Library Home</a>&raquo;<a href="/catalog">Catalog</a>&raquo;<a href="#" class="on">{{ record.title_display }}</a></div>
+  <div class="stage"><a href="http://www.coloradocollege.edu/library">Library Home</a> &raquo; <a href="/catalog">Catalog</a> &raquo; <a href="#" class="on">{{ record.title_display }}</a></div>
  </div>
 {% endblock %}
 
 {% block subnavigation %}
  <h1><strong><a href="#">You can...</a></strong></h1>
  <ul>
+  {{ record|display_reserve }}
   <li><a href="#" onclick="alert('reserve tbd')">Reserve</a> and pick-up <em> {{ record.title_display }}</em> at the Tutt Library Circulation Desk</li>
   <li><a href="#" onclick="alert('cite tbd')">Cite</a> this work with a MLA, Chicago, APA, or other citation styles with <a href="#">RefWorks</a>.</span>
   </li>
+  {{ record|display_ill }}
   <li><a href="#" onclick="alert('ill tbd')">Request</a> <em>{{ record.title_display }}</em> through
    Prospector or Interlibrary Loan (ILL)</li>
   <li><a href="#" onclick="alert('account tbd')">Login</a> to your library account with your
@@ -37,6 +39,10 @@
 
 {% block main-column %}
  <h1>{{ record.title_display }}</h1>
+ <div class="ils-status">Located at: <strong>{{ record.location }}</strong><br/>
+   at this Call Number: {{ record.lc_callnum_display.0 }}. Availability: 
+  <strong>{{ record.item_ils_number.0|get_item_status }}</strong>
+ </div>
  <dl class="detail-display">
   {% if record.author_display %}
   <dt>Author/Creator:</dt>

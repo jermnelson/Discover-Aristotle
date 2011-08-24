@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:mods="http://www.loc.gov/standards/mods/"
+          xmlns:dc="http://purl.org/dc/elements/1.1/"
+      xml:lang="en" lang="en">
+<head>
+ <title>GoldRush/Solr Microservices DEBUG</title>
+</head>
+<body>
+<h1>GoldRush/Solr Microservices DEBUG</h1>
+<table border="1">
+<tr>
+ <th>GoldRush Value</th>
+ <th>Solr Response</th>
+ <th>In Legacy</th>
+</tr>
+% for row in debug:
+<tr>
+ <td><b>${row[0]}</b></td>
+ <td>
+ % if row[1]:
+  % for sk,sv in row[1].iteritems():
+  <p><i>${sk}</i>: ${sv}</p>
+  % endfor
+ % else:
+  None
+ % endif
+ </td>
+ <td>
+  <input type="checkbox" value="yes" name="legacy-chk">Yes</input>
+  <input type="checkbox" value="no" name="legacy-chk">No</input>
+</tr>
+% endfor
+</body>
+</html>

@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:mods="http://www.loc.gov/standards/mods/"
+          xmlns:dc="http://purl.org/dc/elements/1.1/"
+      xml:lang="en" lang="en">
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>{% block title %}Colorado College Tutt Library Default{% endblock %} </title>
+ <link rel="stylesheet" href="{% get_static_prefix %}reset.css" />
+ <link rel="stylesheet" href="{% get_static_prefix %}960.css" />
+{% block more-css %}{% endblock %}
+ <script type="text/javascript" src="{% get_static_prefix %}jquery.js"></script>
+ <script type="text/javascript" src="{% get_static_prefix %}jquery.ui.core.js"></script>
+ <script type="text/javascript" src="{% get_static_prefix %}jquery.ui.widget.js"></script>
+ <script type="text/javascript" src="{% get_static_prefix %}jquery.ui.tabs.js"></script>
+ <script type="text/javascript" src="{% get_static_prefix %}jquery.jstree.js"></script>
+{% block more-js %}{% endblock %}
+</head>
+<body>
+{% block title_listing %}{% endblock %}
+
+{% block content %}
+ Colorado College Gold Rush Microservices Default
+{% endblock %}
+
+{% block subject_listing %}
+{% endblock %}
+
+</body>

@@ -12,6 +12,23 @@ import vendors.iii.settings as ils_settings
 
 register = template.Library()
 
+
+def display_ill(record):
+    """
+    Displays an ill link if the item's status is Checked out
+    """
+    item_bot = ItemBot(opac_url=ils_settings.OPAC_URL,item_id=item_id)
+
+    pass
+
+def display_reserve(record):
+    """
+    Generates a li if item can be reserved
+    """
+    pass
+
+
+
 def display_rows_options(num_result,row_values=[10,20,50,100]):
     """
     Generates options for pagination widget's row count
@@ -125,6 +142,11 @@ def search_operator_options(output_html):
         output_html += '<option value="%s">%s</option>' % (row,row.title())
     return mark_safe(output_html)
 
+
+register.filter("display_ill",
+                display_ill)
+register.filter("display_reserve",
+                display_reserve)
 register.filter("display_rows_options",
                 display_rows_options)
 register.filter('generate_page_count',

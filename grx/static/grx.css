@@ -1,0 +1,32 @@
+body {
+ font-family: "Helvetic Light", sans-serif;
+ font-size: 1em;
+}
+
+h1 {
+  color: #96172e;
+  font-size: 2.2857em;
+  font-family: NeoFill, Verdana;
+  margin-bottom: 0.2em;
+}
+
+h2 { 
+  color: #530921;
+  font-size: 1.714em; 
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  margin-top: 1.2em;
+  line-height: 1.2;
+  margin-bottom: 0.6em;
+}
+
+h3 {
+  color: #845e28;
+  font-size: 1.485em;
+  font-family: "Georgia", Serif;
+  margin-bottom: 0.4em;
+}
+
+div.fac_bkgrd {
+ background-color: rgb(0,0,255);
+ border: 1px solid black;
+}

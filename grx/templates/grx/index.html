@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Colorado College Tutt Library GoldRush Microservices
+{% endblock %}
+
+{% block more-css %}
+<link rel="stylesheet" type="text/css" media="screen" href="{% get_static_prefix %}/grx.css" />
+{% endblock %}
+
+{% block more-js %}
+<script type="text/javascript" src="{% get_static_prefix %}/grx.js"></script>
+<script type="text/javascript">
+ $(function() {
+    $("#facets").jstree({ 
+      "json_data": {
+         "ajax" : {'url':'/grx/facet.json'} 
+      },
+      "plugins": ["themes","json_data"]});
+
+    $('#main-tabs').tabs();
+  });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="grid_10">
+<h1>Colorado College</h1>
+</div>
+<div class="grid_6">
+<h2>Tutt Library</h2>
+</div>
+<div class="clear"></div>
+<div class="grid_16">
+<h3>Gold Rush Microservices</h3>
+</div>
+<div class="clear"></div>
+<div class="grid_4 facet_bkgrd">
+<div id="facets">
+</div>
+</div>
+<div class="grid_10">
+<div id="main-content">
+<div id="main-tabs">
+  <ul>
+   <li><a href="#default-tab">Public View</a></li>
+   <li><a href="#grx-tab">Gold Rush RPC</a></li>
+   <li><a href="#solr-tab">Solr Query</a></li>
+  </ul>
+  <div id="default-tab">
+   <h2>Welcome to Colorado College GoldRush Microservices</h2>
+  </div>
+  <div id="grx-tab">
+   <h2>Gold Rush RPC</h2>
+   <div id="grx-rpc-result">No Gold Rush XML-RPC calls</div>
+  </div>
+  <div id="solr-tab">
+   <h2>Solr Query and Response</h2>
+   <div id="solr-rpc-result">No Solr activity</div>
+  </div>
+</div>
+</div>
+</div>
+<div class="clear"></div>
+{% endblock %}

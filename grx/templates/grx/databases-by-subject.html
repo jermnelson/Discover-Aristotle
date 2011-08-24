@@ -1,0 +1,18 @@
+{% extends "subjects.html" %}
+
+{% block content %} 
+<div id="content">
+<h2>Databases By Subject</h2>
+<div class="post">
+<h3>{{ title }}</h3>
+<dl>
+ % for entry in feed_entries:
+ <dt><a href="${entry['url']}">${entry['title']}</a></dt>
+ <dd><em>${entry['coverage']}</em></dd>
+ % if entry['note'] is not None:
+ <dd>${entry['note']}</dd>
+ % endif
+ % endfor
+</dl>
+</div>
+{% endblock %}

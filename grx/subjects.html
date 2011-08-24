@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Databases By Subject &laquo; Colorado College Tutt Library{% endblock %}
+{% block content %} 
+<div id="content">
+<h2>Databases By Subject</h2>
+<div class="post">
+<h3>{{ title }}</h3>
+<dl>
+ % for entry in feed_entries:
+ <dt><a href="${entry['url']}">${entry['title']}</a></dt>
+ <dd><em>${entry['coverage']}</em></dd>
+ % if entry['note'] is not None:
+ <dd>${entry['note']}</dd>
+ % endif
+ % endfor
+</dl>
+</div>
+<h3>Select Another Subject</h3>
+<table class="shadebox" style="margin-left: auto; margin-right: auto; margin-top: 1em;">
+<tbody>
+<tr>
+{% for subject in subjects %}
+{% if forloop.counter == 1 %}
+<td style="vertical-align: top;">
+<ul style="list-style-type: none; padding: 1em;">
+<li><a href="/grx/subjects/{{ subject.name|urlencode}}">{{ subject.name }}</a></li>
+{% endif %} 
+{% if forloop.counter|divisibleby:"3" %}
+<li><a href="/grx/subjects/{{ subject.name|urlencode}}">{{subject.name}}</a></li>
+</ul>
+</td>
+<td style="vertical-align: top;">
+<ul style="list-style-type: none; padding: 1em;">
+{% else %}
+{% if forloop.counter > 1 %}
+<li><a href="/grx/subjects/{{ subject.name|urlencode}}">{{ subject.name }}</a></li>
+{% endif %}
+{% endif %}
+{% if forloop.counter == subjects|length %}
+</ul>
+{% endif %}
+{% endfor %}
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+{% endblock %}

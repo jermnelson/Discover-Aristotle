@@ -10,6 +10,7 @@ FACETS = {'default': [
            {'label':'Access','facet_field':'access'},
            {'label':'Format','facet_field':'format'},
            {'label':'Topic','facet_field':'subject_topic_facet'},
+           {'label':'Location','facet_field':'location'},
            {'label':'Language','facet_field':'language_facet'},
            {'label':'Call Number','facet_field':'lc_1letter_facet','sort':'asc'},
            {'label':'Publication Year','facet_field':'pub_date'},

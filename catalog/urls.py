@@ -23,9 +23,9 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('catalog.views',
     (r'^$','default'),
     (r'/search$','default'),
-    (r'/author/(\w+[\s,\w]*)$','author_search'),
+    (r'/author/(.*)$','author_search'),
     (r'/detail/(\w+)$','detail'),
-    (r'/subject/(\w+[\s,\w]*)$','subject_search'),
-    (r'/title/(\w+[\s,\w]*)$','title_search'),
+    (r'/subject/(.*)','subject_search'),
+    (r'/title/(.*)$','title_search'),
 
 )
