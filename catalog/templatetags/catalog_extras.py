@@ -124,7 +124,14 @@ def get_item_status(item_id):
     of a an item.
     """
     item_bot = ItemBot(opac_url=ils_settings.OPAC_URL,item_id=item_id)
-    status_txt = item_bot.status()
+    item_status = item_bot.status()
+    if item_status is None:
+        css_class = ''
+    elif item_status.startswith('Due'):
+        css_class = 'due-back'
+    else:
+        css_class = 'available'
+    status_txt = '''<span class="%s">%s</span>''' % (css_class,item_status)
     return mark_safe(status_txt)    
 
 def search_field_options(output_html):

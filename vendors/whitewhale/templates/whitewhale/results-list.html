@@ -31,7 +31,7 @@
                <strong>{{ record.item_ils_number.0|get_item_status }}</strong>
                {% endif %}
                {% if record.location %}
-                {{ record.location }}
+                {% ifnotequal record.location 'Online'%} {{ record.location }}{% endifnotequal %}
                {% endif %}
                {% if record.url_fulltext_display %}
                 (<a href="{{ record.url_fulltext_display.0 }}">Online Location</a>)

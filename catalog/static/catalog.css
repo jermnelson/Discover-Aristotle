@@ -6,6 +6,13 @@
   padding: 10px 15px;
 }
 
+div.ils-status {
+  border: 1px solid black;
+  font-size: 1.1em;
+  padding: 5px;
+}
+ 
+
 dl.detail-display {
   margin: 0 1em 1em 0;
 }
@@ -29,14 +36,28 @@ dl.detail-display dd {
 
 #item-info h2 {
  background-color: #530921;
- color: rgb(127,127,127);
+ color: rgb(255,255,255) !important;
  font-size: 1.9em;
  margin: 0px;
  text-align: center;
 }
 
+#item-info p {
+ padding-left: 3px;
+}
+
 #adv-searchbox {
  display: none;
+}
+
+span.due-back {
+  color: red;
+  font-weight: bold;
+}
+
+span.available {
+  color: green;
+  font-weight: bold;
 }
 
 table.closed {

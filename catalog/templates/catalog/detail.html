@@ -35,17 +35,23 @@
 
 {% block main-column %}
  <h1>{{ record.title_display }}</h1>
- <div class="ils-status">Located at: <strong>{{ record.location }}</strong>
-   at this Call Number: {{ record.lc_callnum_display.0 }}. Availability:<br/>
+ <div class="ils-status">Library Location <strong>{{ record.location }}</strong>
+   at Call Number <strong>{{ record.lc_callnum_display.0 }}</strong>.
+  <br/> Availability - 
   {% for item_num in record.item_ils_number %}
-  Item {{ forloop.counter }}: <strong>{{ item_num|get_item_status }}</strong> 
+   &nbsp;Item {{ forloop.counter }}: {{ item_num|get_item_status }} <br/>
   {% endfor %}
  </div>
+ <br/>
  <dl class="detail-display">
   {% if record.author_display %}
   <dt>Author/Creator:</dt>
   <dd>
    <a href="/catalog/author/{{ record.author_display|escape }}">{{ record.author_display }}</a></dd>
+  {% endif %}
+  {% if record.url_fulltext_display %}
+  <dt>Online Location:</dt>
+  <dd><a href="{{ record.url_fulltext_display.0 }}">{{ record.url_fulltext_display.0 }}</a>
   {% endif %}
   <dt>Language:</dt>
   <dd>{{ record.language_facet.0 }}</dd>
@@ -55,6 +61,18 @@
   <dd>{{ record.format }}<br/>
       {{ record.material_type_display.0 }}
   </dd>
+  {% if record.summary_note_display %}
+  <dt>Summary:</dt>
+  <dd>{{ record.summary_note_display.0 }}</dd>
+  {% endif %}
+  {% if record.credits_display %}
+  <dt>Credits:</td>
+  <dd>{{ record.credits_display.0 }}</dd>
+  {% endif %}
+  {% if record.cast_display %}
+  <dt>Performers/Cast:</dt>
+  <dd>{{ record.cast_display.0 }}</dd>
+  {% endif %}
   <dt>Note(s):</dt>
   <dd>{{ record.notes_fulltext_display.0 }}&nbsp;</dd>
   <dt>Subjects:</dt>
@@ -86,15 +104,9 @@
 
 {% block right-aside-two %}
  <div id="item-info">
- <h2>At the library</h2>
- <p>Located at: <strong>{{ record.location }}</strong><br/>
-   at this Call Number: {{ record.lc_callnum_display.0 }}. Availability: 
-  <strong>{{ record.item_ils_number.0|get_item_status }}</strong>
- </p>
  <h2>Other Libraries</h2>
  <p>
-  If this copy is unavailable, search Prospector and WorldCat and request
-  the item.  
+  Search Prospector and WorldCat for the item.  
  </p>
  <ul>
   <li><a href="#">Prospector</a></li>

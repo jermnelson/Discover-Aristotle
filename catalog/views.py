@@ -20,10 +20,12 @@
 import logging,urllib2,copy
 from django.views.generic.simple import direct_to_template
 from django.shortcuts import render_to_response
-import catalog.settings,sunburnt
+import catalog.settings,sunburnt,httplib2
 
 # Creates Solr Interface object
-solr_server = sunburnt.SolrInterface(catalog.settings.SOLR_URL)
+h = httplib2.Http(cache=catalog.settings.SOLR_CACHE)
+solr_server = sunburnt.SolrInterface(catalog.settings.SOLR_URL,
+                                     http_connection=h)
 
 def author_search(request,author_phrase):
     """
@@ -68,14 +70,14 @@ def default(request):
             rows = request.POST['rows']
         else:
             rows = 20
-        catalog_results = solr_bot.solr_interface.search(q=qterms,
-                                                         fl='*',
-                                                         fq=facet_q,
-                                                         facet=True,
-                                                         qt=query_type,
-                                                         rows=rows,
-                                                         start=start,
-                                                         wt='blacklight')
+        catalog_results = solr_server.search(q=qterms,
+                                             fl='*',
+                                             fq=facet_q,
+                                             facet=True,
+                                             qt=query_type,
+                                             rows=rows,
+                                             start=start,
+                                             wt='blacklight')
         facet_listing = __facet_processing(catalog_results.facet_counts.facet_fields)
     else:
         facet_result = __all_facets()
