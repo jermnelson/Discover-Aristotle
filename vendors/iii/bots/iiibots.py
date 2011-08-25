@@ -4,7 +4,7 @@
 # author: Jeremy Nelson
 #
 # Copyrighted by Colorado College
-import urllib2,logging
+import urllib2,logging,datetime
 from eulxml import xmlmap
 from vendors.iii.models import ItemRecord,IIIStatusCode
 
@@ -38,6 +38,11 @@ class ItemBot(object):
                 status = IIIStatusCode.objects.get(code=self.item_xml.status)
             except:
                 status = None
+            try:
+                due_date = datetime.datetime.strptime(self.item_xml.due_date,'%m-%d-%Y')
+                return 'Due back on %s' % due_date.strftime('%m-%d-%Y')
+            except ValueError:
+                pass # Failed to parse due-date, assume item is not checked-out
         else:
             return None
         if status is None:

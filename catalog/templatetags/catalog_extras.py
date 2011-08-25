@@ -17,9 +17,14 @@ def display_ill(record):
     """
     Displays an ill link if the item's status is Checked out
     """
-    item_bot = ItemBot(opac_url=ils_settings.OPAC_URL,item_id=item_id)
-
-    pass
+    for item_id in record.get('item_ils_number'):
+        item_bot = ItemBot(opac_url=ils_settings.OPAC_URL,item_id=item_id)
+        status = item_bot.status()
+        if status is not None:
+            if item_bot.status().startswith('Due'):
+                return mark_safe('''<a href="#" onclick="alert('ill tbd')">Request</a> <em>%s</em> through
+   Prospector or Interlibrary Loan (ILL)</li>''' % record.get('title_display'))
+    return ''
 
 def display_reserve(record):
     """

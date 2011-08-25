@@ -20,28 +20,24 @@
 import logging,urllib2,copy
 from django.views.generic.simple import direct_to_template
 from django.shortcuts import render_to_response
-import catalog.settings 
-from solr.bots.solrbots import SolrBot
+import catalog.settings,sunburnt
 
-# Creates Solr bot
-solr_bot = SolrBot(solr_server=catalog.settings.SOLR_URL)
+# Creates Solr Interface object
+solr_server = sunburnt.SolrInterface(catalog.settings.SOLR_URL)
 
 def author_search(request,author_phrase):
     """
     Author phrase search 
     """
-    author_results = solr_bot.solr_interface.search(q=author_phrase,
-                                                    facet=True,
-                                                    qt='author_search',
-                                                    wt='blacklight')
+    author_results = solr_server.search(q=author_phrase,
+                                        facet=True,
+                                        qt='author_search',
+                                        wt='blacklight')
     facet_listing =  __facet_processing(author_results.facet_counts.facet_fields)
     return direct_to_template(request,
                               'catalog/index.html',
                               {'catalog_results':author_results,
                                'facet_listing':facet_listing})
-
-
-                                                    
 
 def default(request):
     """
@@ -94,9 +90,9 @@ def detail(request,solr_id):
     """
     Detail view of a single search result
     """
-    catalog_results = solr_bot.solr_interface.search(q="id:%s" % solr_id,
-                                                     fl='*',
-                                                     qt='document')
+    catalog_results = solr_server.search(q="id:%s" % solr_id,
+                                         fl='*',
+                                         qt='document')
     return direct_to_template(request,
                               'catalog/detail.html',
                              {'record':catalog_results[0]})
@@ -106,10 +102,10 @@ def subject_search(request,subject_phrase):
     """
     Subject phrase search 
     """
-    subject_results = solr_bot.solr_interface.search(q=subject_phrase,
-                                                     facet=True,
-                                                     qt='subject_search',
-                                                     wt='blacklight')
+    subject_results = solr_server.search(q=subject_phrase,
+                                         facet=True,
+                                         qt='subject_search',
+                                         wt='blacklight')
     facet_listing =  __facet_processing(subject_results.facet_counts.facet_fields)
     return direct_to_template(request,
                               'catalog/index.html',
@@ -121,10 +117,10 @@ def title_search(request,title_phrase):
     """
     Title phrase search 
     """
-    title_results = solr_bot.solr_interface.search(q=title_phrase,
-                                                   facet=True,
-                                                   qt='title_search',
-                                                   wt='blacklight')
+    title_results = solr_server.search(q=title_phrase,
+                                       facet=True,
+                                       qt='title_search',
+                                       wt='blacklight')
     facet_listing =  __facet_processing(title_results.facet_counts.facet_fields)
     return direct_to_template(request,
                               'catalog/index.html',
@@ -174,7 +170,7 @@ def __facets(search_terms):
     facet_listing,facet_fields = [],[] 
     for field in catalog.settings.FACETS['default']:
         facet_fields.append(field['facet_field'])
-    facets_query = solr_bot.solr_interface.query(search_terms[0])
+    facets_query = solr_server.query(search_terms[0])
     for term in search_terms[1:]:
         facets_query.query(term)
     facets_query.facet_by(facet_fields).paginate(rows=0)
