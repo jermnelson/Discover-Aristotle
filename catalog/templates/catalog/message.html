@@ -1,0 +1,59 @@
+{% extends 'cc-library-inside-base.html' %}
+{% load static %}
+{% load catalog_extras %}
+
+{% block head-title %}Message from the Tutt Library at Colorado College{% endblock %}
+{% block more-css %}
+ <link href="{% get_static_prefix %}/catalog.css" rel="stylesheet" />
+{% endblock %}
+
+{% block library-breadcrumb %}
+ <div id="breadcrumb">
+  <div class="stage"><a href="http://www.coloradocollege.edu/library">Library Home</a> &raquo; <a href="/catalog">Catalog</a> &raquo; <a href="#" class="on">Message</a></div>
+ </div>
+{% endblock %}
+
+{% block subnavigation %}
+{% endblock %}
+
+{% block left-aside-two %}
+<aside class="aside">
+<div id="contact-lib-detail">
+ {% include 'contact-library.html' %}
+</div>
+</aside>
+
+{% endblock %}
+
+{% block main-column %}
+ {{ message }}
+{% endblock %}
+
+{% block right-aside-one %}
+{% endblock %}
+
+{% block right-aside-two %}
+{% endblock %}
+
+{% block right-aside-three %}
+{% endblock %}
+
+{% block more-scripts %}
+<script src="http://jqueryui.com/ui/jquery.ui.core.js"></script>
+<script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script> 
+<script src="http://jqueryui.com/ui/jquery.ui.dialog.js"></script>
+<script>
+ $(function() {
+    $("#marc-display").dialog({ autoOpen: false });
+ });
+</script>
+{% endblock %}
+
+{% block dialogs %}
+<div id="marc-display">
+<h2>MARC Record Display</h2>
+<pre>
+{{ record.marc_display }}
+</pre>
+</div>
+{% endblock %}

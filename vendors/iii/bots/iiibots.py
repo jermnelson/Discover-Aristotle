@@ -9,6 +9,9 @@ from eulxml import xmlmap
 from vendors.iii.models import ItemRecord,IIIStatusCode
 
 class ItemBot(object):
+    """`ItemBot` uses the eulxml module to capture specific information about an
+    item in a III Millennium ILS from a method call to a web OPAC in XML mode.
+    """
 
     def __init__(self,**kwargs):
         """

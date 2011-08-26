@@ -12,10 +12,10 @@ from django.utils import simplejson as json
 from django.shortcuts import render_to_response
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 from grx.bots.grxbots import GoldRushBot
+from grx.bots.solrbots import SolrBot
 import grx.settings
 from grx.models import *
 #import grx.rpc
-from solr.bots.solrbots import SolrBot
 
 
 # Sets up bots from in grx settings values

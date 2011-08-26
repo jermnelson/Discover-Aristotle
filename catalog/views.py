@@ -1,7 +1,6 @@
-#
-# views.py - Aristotle Catalog Views Module
-#
-# Author: Jeremy Nelson
+"""
+ views.py - Aristotle Catalog Views Module
+"""
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +19,11 @@
 import logging,urllib2,copy
 from django.views.generic.simple import direct_to_template
 from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect
+from django.utils.safestring import mark_safe
 import catalog.settings,sunburnt,httplib2
+from catalog.models import Comment
+
 
 # Creates Solr Interface object
 h = httplib2.Http(cache=catalog.settings.SOLR_CACHE)
@@ -40,6 +43,28 @@ def author_search(request,author_phrase):
                               'catalog/index.html',
                               {'catalog_results':author_results,
                                'facet_listing':facet_listing})
+
+def comment(request):
+    """
+    Stores comments for review
+    """
+    if request.method == 'POST':
+        comment_text = request.POST['comment']
+        if request.POST.has_key('creator'):
+            creator = request.POST['creator']
+        else:
+            creator = 'anonymous'
+        comment = Comment(created_by=creator,
+                          text=comment_text)
+        comment.save()
+        request.session['message']  = '''<h2>Thank-you %s!</h2>
+        Your comment below will be reviewed by Tutt Library Systems<br/><quote>%s</quote> 
+        ''' % (creator,
+               comment.text)
+        return HttpResponseRedirect('/catalog/message')
+    else:
+        return HttpResponseRedirect('/')
+
 
 def default(request):
     """
@@ -99,6 +124,15 @@ def detail(request,solr_id):
                               'catalog/detail.html',
                              {'record':catalog_results[0]})
 
+
+def message(request):
+    """
+    Returns a message page to the user
+    """
+    message = request.session.get('message','No message')
+    return direct_to_template(request,
+                              'catalog/message.html',
+                              {'message':mark_safe(message)})
 
 def subject_search(request,subject_phrase):
     """

@@ -1,3 +1,21 @@
+article.discovery-home {
+ font-size: 1em;
+ float: left;
+ position: relative;
+}
+
+aside.discovery-home {
+ background-color: rgb(127,127,127);
+ float: left;
+ margin-right: 15px;
+ padding: 5px;
+ position: relative;
+ width: 30%;
+}
+
+aside.discovery-home p {
+ color: #FDDB55 !important;
+}
 
 #contact-lib-detail {
   border: 1px solid #e7e4e0;
@@ -5,6 +23,14 @@
   margin-top: 15px;
   padding: 10px 15px;
 }
+
+
+
+div.discovery-service {
+  background-color: #FFFFFF;
+  padding-left: 2em;
+  height: 60%;
+ }
 
 div.ils-status {
   border: 1px solid black;
@@ -27,6 +53,14 @@ dl.detail-display dt {
 dl.detail-display dd {
  margin-left: 10em;
 }
+
+h1.discovery-home {
+ color: #530921 !important;
+ font-size: 1.1em !important;
+ 
+}
+
+
 
 #item-info {
  border: 1px solid #530921;
@@ -66,4 +100,12 @@ table.closed {
 
 table.open {
   display: block;
+}
+
+quote {
+ background-color: #F1ECE5;
+ border: 1px solid black;
+ display: block;
+ font-size: .9em;
+ padding: 3px;
 }

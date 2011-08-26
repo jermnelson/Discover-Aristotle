@@ -28,7 +28,7 @@ def display_ill(record):
 
 def display_reserve(record):
     """
-    Generates a li if item can be reserved
+    Generates a list item if item can be reserved
     """
     pass
 
@@ -50,7 +50,7 @@ def display_rows_options(num_result,row_values=[10,20,50,100]):
 
 def generate_page_count(solr_result):
     """
-    Custom template tag generates page num result for
+    Custom template tag generates page number result for
     pagination widget
     """
     start_location = solr_result.start
@@ -147,8 +147,8 @@ def search_field_options(output_html):
     return mark_safe(output_html)
 
 def search_operator_options(output_html):
-    """
-    Generates a list of boolean search options AND, AND NOT, OR
+    """Generates a list of boolean search HTML options for
+    AND, AND NOT, OR
     """
     for row in ['AND','AND NOT','OR']:
         output_html += '<option value="%s">%s</option>' % (row,row.title())

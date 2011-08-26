@@ -22,6 +22,10 @@ import datetime
 from suds.client import Client
 
 class GoldRushBot(object):
+    """`GoldRushBot` uses the Colorado Alliance of Reserach Libraries Open URL and
+    bibliographic database management XML web services to retrieve information
+    specific to a single institution.
+    """
 
     def __init__(self,**kwargs):
         if kwargs.has_key('grx_wsdl'):

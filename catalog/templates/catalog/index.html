@@ -5,7 +5,45 @@
  <link href="{% get_static_prefix %}/catalog.css" rel="stylesheet" /> 
 {% endblock %}
 
-{% block results-detail %}{% endblock %}
+{% block results-detail %}
+{% endblock %}
+
+{% block results-list %}
+<div class="main">
+{% if catalog_results %}
+{% include 'results-list.html' %}
+{% else %}
+<div class="results-list discovery-service">
+<h1>Welcome to Tutt Library's New TIGER</h1>
+{% comment %}
+{% endcomment %}
+<aside class="discovery-home">
+ <h2>Please comment</h2>
+ <p>We are interested in your experiences with 
+    the new TIGER good and bad.</p>
+ <form method="post" action="/catalog/comment">
+  {% csrf_token %}
+  <textarea name="comment" rows="3" cols="20"></textarea>
+  <br/>
+  <input type="submit" value="Comment" />
+ </form>
+</aside>
+<div class="discovery-home">
+ <h1 class="discovery-home">What is a discovery service?</h1>
+ <p>
+  The Tutt Library's new search interface is an example of a catalog with
+  search facets and a more features to help you find and organize the print and electronic
+  resources available through the library. These new types of online catalogs are collectively called
+  next generation discovery layers. The new TIGER is an open-source project that you can
+  contribute to its design and functionality. 
+ </p>
+ <span class="clear"></span>
+</div>
+</div>
+{% endif %}
+</div>
+<span class="clear"></span>
+{% endblock %}
 
 {% block more-scripts %}
 <script src="{% get_static_prefix %}/catalog.js"></script>
