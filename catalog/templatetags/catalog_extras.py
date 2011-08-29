@@ -17,7 +17,10 @@ def display_ill(record):
     """
     Displays an ill link if the item's status is Checked out
     """
-    for item_id in record.get('item_ils_number'):
+    ils_numbers = record.get('item_ils_number')
+    if not ils_numbers:
+        ils_numbers = []
+    for item_id in ils_numbers:
         item_bot = ItemBot(opac_url=ils_settings.OPAC_URL,item_id=item_id)
         status = item_bot.status()
         if status is not None:
