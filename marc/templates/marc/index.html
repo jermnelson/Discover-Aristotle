@@ -1,0 +1,56 @@
+{% extends 'cc-search-base.html' %}
+{% load static %}
+
+{% block more-css %}
+ <link href="{% get_static_prefix %}/pagination.css" rel="stylesheet" />
+ <link href="{% get_static_prefix %}/catalog.css" rel="stylesheet" /> 
+{% endblock %}
+
+{% block search-facets %}
+<div class="side">
+ <aside class="search-facets">
+  <h5>Subjects</h5>
+  <ul>
+  {% for subject in subjects %}
+  <li><a href="#">{{ subject.name }}</a></li>
+  {% endfor %}
+  </ul>
+ </aside>
+</div>
+{% endblock %}
+
+{% block results-detail %}
+{% endblock %}
+
+{% block results-list %}
+<div class="main">
+{% if catalog_results %}
+{% include 'results-list.html' %}
+{% else %}
+<div class="results-list discovery-service">
+<h1>Welcome to Tutt Library's MARC Utilities</h1>
+<div class="discovery-home">
+ <h1 class="discovery-home">Welcome to Tutt Library's Database Page</h1>
+ </p>
+ <span class="clear"></span>
+</div>
+</div>
+{% endif %}
+</div>
+<span class="clear"></span>
+{% endblock %}
+
+{% block more-scripts %}
+<script src="{% get_static_prefix %}/jquery.pagination.js"></script>
+<script src="{% get_static_prefix %}/catalog.js"></script>
+<script>
+ $(document).ready(function() {
+  $("#result-paginate").pagination({{ catalog_results.result.numFound }}, {
+    items_per_page: $('#solr_rows').val(),
+    num_edge_entries: 1,
+    load_first_page: false,
+    prev_text: "Previous",
+    callback:handleResultPaginateClick});
+  });
+</script>
+{% endblock more-scripts %}

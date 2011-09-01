@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 # Copyright: 2011 Colorado College
-__author__ = 'Jeremy Nelson'
+__author__ = 'Jeremy Nelson, Cindy Tappan'
 
 import logging,re
 from django import forms

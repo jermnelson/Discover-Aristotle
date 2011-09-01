@@ -2,7 +2,8 @@
 # catalog_bots.py
 #
 # Colorado College Cataloging utilities
-#
+# 
+__author__ = 'Jeremy Nelson, Cindy Tappan'
 import sys,datetime,logging
 import urlparse,urllib2,re
 import os
