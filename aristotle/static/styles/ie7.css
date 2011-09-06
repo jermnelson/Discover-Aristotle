@@ -1,0 +1,25 @@
+/**
+ * Colorado College
+ * by White Whale Web Services
+ */
+
+/* ie7-only fixes 
+---------------------------------------------------------------------------- */
+
+/* fixing fieldset padding */
+#gateway .quick-search fieldset { padding: 0 1em; }
+#gateway .quick-search .qa_results { margin-left: 0; width: 90%; }
+
+#block-feature #feature h2 span { line-height: 1; }
+
+/* fixing overlap issue on horizon homepage */
+#department-navigation { zoom: 1; top: 400; }
+#department-navigation #subnavigation { position: relative; z-index: 400; }
+.department #content { z-index: 100; zoom: 1; }
+
+/* library fixes */
+#search-library input { width: 240px; }
+#search-library input.submit { padding: 3px; }
+.helper-links { font-size: 0.95em; }
+
+.library #content { z-index: 300; }

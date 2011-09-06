@@ -1,0 +1,18 @@
+{% extends "titles.html" %}
+
+
+{% block content %}
+<div class="post">
+<h2>{{ title }}</h2>
+<dl>
+ % for entry in feed_entries:
+ <dt><a href="${entry['url']}">${entry['title']}</a></dt>
+ <dd><em>${entry['coverage']}</em></dd>
+ % if entry['note'] is not None:
+ <dd>${entry['note']}</dd>
+ % endif
+ % endfor
+</dl>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Colorado College Gold Rush Microservices</h2>
+<ul id="grx-brwser" class="filetree">
+ <li><span class="folder">All Titles</span>
+    <ul>
+    {% for alpha_list in all_titles %}
+     <li><span class="folder">{{ alpha_list.char }}</span>
+
+
+     </li>
+    {% endfor %}
+    </ul>
+ </li>
+ <li><span class="folder">All Subjects</span> 
+
+<ul>
+<li><a href="/grx/subjects">All Subjects</a></li>
+</ul>
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends 'cc-library-inside-base.html' %}
+{% load static %}
+{% load catalog_extras %}
+
+{% block head-title %}Details for {{ record.title_display }} at Tutt Library{% endblock %}
+{% block more-css %}
+ <link href="{% get_static_prefix %}/catalog.css" rel="stylesheet" />
+{% endblock %}
+
+{% block library-breadcrumb %}
+ <div id="breadcrumb">
+  <div class="stage"><a href="http://www.coloradocollege.edu/library">Library Home</a> &raquo; <a href="/catalog">Catalog</a> &raquo; <a href="#" class="on">{{ record.title_display }}</a></div>
+ </div>
+{% endblock %}
+
+{% block subnavigation %}
+ <h1><strong><a href="#">You can...</a></strong></h1>
+ <ul>
+  {% comment %}Should add Access online action for online material{% endcomment %}
+  {{ record|display_online }}
+  <li><a href="#" onclick="alert('cite tbd')">Cite</a> this work with a MLA, Chicago, APA, or other citation styles with <a href="#">RefWorks</a>.</span>
+  </li>
+  {{ record|display_ill }}
+  <li><a href="#" onclick="alert('account tbd')">Login</a> to your library account with your
+   TIGER number</li>
+ </ul>
+{% endblock %}
+
+{% block left-aside-two %}
+<aside class="aside">
+<div id="contact-lib-detail">
+ {% include 'contact-library.html' %}
+</div>
+</aside>
+
+{% endblock %}
+
+{% block main-column %}
+ <h1>{{ record.title_display }}</h1>
+ <h2>TITLE SERIES: {{ record.title_series_t }}</h2>
+ <div class="ils-status">Library Location <strong>{{ record.location }}</strong>
+   at Call Number <strong>{{ record.lc_callnum_display.0 }}</strong>.
+  <br/> Availability - 
+  {% for item_num in record.item_ils_number %}
+   &nbsp;Item {{ forloop.counter }}: {{ item_num|get_item_status }} <br/>
+  {% endfor %}
+ </div>
+ <br/>
+ <dl class="detail-display">
+  {% if record.author_display %}
+  <dt>Author/Creator:</dt>
+  <dd>
+   <a href="/catalog/author/{{ record.author_display|escape }}">{{ record.author_display }}</a></dd>
+  {% endif %}
+  {% if record.url_fulltext_display %}
+  <dt>Online Location:</dt>
+  <dd><a href="{{ record.url_fulltext_display.0 }}">{{ record.url_fulltext_display.0 }}</a>
+  {% endif %}
+  <dt>Language:</dt>
+  <dd>{{ record.language_facet.0 }}</dd>
+  <dt>Imprint:</dt>
+  <dd>{{ record.published_display.0 }}:&nbsp;c{{ record.pub_date.0 }}</dd>
+  <dt>Format:</td>
+  <dd>{{ record.format }}<br/>
+      {{ record.material_type_display.0 }}
+  </dd>
+  {% if record.summary_note_display %}
+  <dt>Summary:</dt>
+  <dd>{{ record.summary_note_display.0 }}</dd>
+  {% endif %}
+  {% if record.credits_display %}
+  <dt>Credits:</td>
+  <dd>{{ record.credits_display.0 }}</dd>
+  {% endif %}
+  {% if record.cast_display %}
+  <dt>Performers/Cast:</dt>
+  <dd>{{ record.cast_display.0 }}</dd>
+  {% endif %}
+  <dt>Note(s):</dt>
+  <dd>{{ record.notes_fulltext_display.0 }}&nbsp;</dd>
+  <dt>Subjects:</dt>
+  <dd>
+   <ul>
+    {% for subject in record.subject_topic_facet %}
+     <li><a href="/catalog/subject/{{subject}}">{{ subject }}</a></li>
+    {% endfor %}
+    {% for subject in record.subject_geo_facet %}
+    <li><a href="/catalog/subject/{{subject}}">{{ subject }}</a></li>
+    {% endfor %}
+   </ul>
+  </dd>
+  <dt>ISBN{% if record.isbn_t|length > 1 %}(s){% endif %}:</dt>
+  <dd>
+  {% for isbn in record.isbn_t %}
+   {{ isbn }}&nbsp;
+  {% endfor %}
+   <dt>MARC Record format:</dt>
+   <dd><a href="#" onclick="alert('{{ record.marc_display }}')">View</a></dd>
+ </dl>
+{% endblock %}
+
+{% block right-aside-one %}
+<aside class="slideshow">
+ <img src="{{ record.isbn_t|get_cover_image }}" alt="{{ record.display_title }}" />
+</aside>
+{% endblock %}
+
+{% block right-aside-two %}
+ <div id="item-info">
+ <h2>Other Libraries</h2>
+ <p>
+  Search Prospector and WorldCat for the item.  
+ </p>
+ <ul>
+  <li><a href="{{ record.id|generate_prospector_url }}">Prospector</a></li>
+  <li><a href="#">Worldcat</a></li>
+ </ul>
+ </div>
+<br/>
+{% endblock %}
+
+{% block right-aside-three %}
+<aside class="social-media">
+<ul>
+ <li class="rss">Get updates via <a href="#">RSS feed</a></li>
+ <li class="twitter">Tweet about <em>{{ record.title_display }}</em></li>
+ <li>Leave a <a href="#">comment</a></li>
+</ul>
+</aside>
+{% endblock %}
+
+{% block more-scripts %}
+<script src="http://jqueryui.com/ui/jquery.ui.core.js"></script>
+<script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script> 
+<script src="http://jqueryui.com/ui/jquery.ui.dialog.js"></script>
+<script>
+ $(function() {
+    $("#marc-display").dialog({ autoOpen: false });
+ });
+</script>
+{% endblock %}
+
+{% block dialogs %}
+<div id="marc-display">
+<h2>MARC Record Display</h2>
+<pre>
+{{ record.marc_display }}
+</pre>
+</div>
+{% endblock %}

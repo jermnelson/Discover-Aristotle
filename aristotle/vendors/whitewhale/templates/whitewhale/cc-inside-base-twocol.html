@@ -1,0 +1,107 @@
+{% load static %}
+{% load catalog_extras %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>{% block head-title %}Library Search • Colorado College{% endblock %}</title>
+	{% block base-css %}
+	{% comment %} These styles should refer to hosted css on Colorado College main website{% endcomment %}
+	<link href="{% get_static_prefix %}styles/cc.css" rel="stylesheet" />
+        <link href="{% get_static_prefix %}styles/fancybox.css" rel="stylesheet" />
+	<link href="{% get_static_prefix %}styles/departments/library.css" rel="stylesheet" />
+	{% endblock %}
+        {% block more-css %}{% endblock %}
+       	</head>
+	<body id="three-column" class="department library">
+	{% block accessibility %}
+         {% include "accessibility.html" %}
+        {% endblock %}
+       {% block collapsed-header %}
+        {% include "cc-collapsed-header.html" %}
+       {% endblock %}
+       {% block feature %}
+       <div class="feature" style="background-image: url({% get_static_prefix %}/images/temp/library/busy-library.jpg);">
+	 <span class="clear"></span>
+       </div>
+       {% endblock %}
+       {% block library-tabs %}
+        {% include 'library-tabs.html' %}
+       {% endblock %}
+
+{% block library-breadcrumb %}
+  <div id="breadcrumb">
+   <div class="stage"><a href="#">Library Home</a> » <a href="#">About the Library</a> » <a class="on" href="#">Student Employment</a></div>  </div>
+{% endblock %}
+
+{% block content %}
+  {% comment %}START content DIV{% endcomment %}
+  <div id="content">
+   {% comment %}START stage DIV {% endcomment %}		
+   <div class="stage">
+    {% comment %}START two-columns-weighted-reversed{% endcomment %}		
+    <div class="two-columns-weighted-reversed">
+     {% comment %}START side DIV{% endcomment %}
+     <div class="side">
+      {% comment %}START department-navigation DIV{% endcomment %}
+      <div id="department-navigation" class="navigation">
+       {% comment %} START subnavigation DIV{% endcomment %}
+       <div id="subnavigation" class="subnavigation">
+        {% comment %}START wrapper DIV{% endcomment %}
+        <div class="wrapper">
+        {% block subnavigation %}
+         <h1><strong><a href="#">About the Library</a></strong></h1>
+          <ul>
+           <li><a href="#">Staff and Departments</a></li>
+           <li><a href="#">Memberships &amp; Associations</a></li>
+           <li><a href="#">Tutt Library History</a></li>
+           <li><a href="#">Our Building</a></li>
+           <li><a href="#">Map and Directions</a></li>
+           <li class="on"><a href="#">Student Employment</a></li>
+          </ul>
+       {% endblock %}
+       {% comment %}END wrapper DIV{% endcomment%}
+       </div>
+      {% comment %}END subnavigation DIV{% endcomment %}
+      </div>
+      {% comment %}END department-navigation DIV{% endcomment %}
+      </div>
+     {% block left-aside-two %}
+      <aside class="aside">&nbsp;</aside>
+     {% endblock %}
+     {% comment %}END side DIV{% endcomment %}
+     </div>
+    {% comment %}START main DIV{% endcomment %}
+    <div class="main">
+     {% comment %}START two-columns-weighted DIV{% endcomment %}
+     <div class="two-columns-weighted-reverse">
+      {% comment %}START main-content DIV{% endcomment %}
+      <div class="main">
+      {% block main-content %}
+
+      {% endblock %}
+      {% comment %}END main-content DIV{% endcomment %}
+      </div>
+     {% comment %}END two-columns-weighted DIV{% endcomment %}
+     </div>
+    {% comment %}END main DIV{% endcomment %}
+    <span class="clear"></span>
+    </div>
+    {% comment %}END two-columns-weighted-reversed{% endcomment %}
+    </div>
+   {% comment %}END stage DIV{% endcomment %}
+   </div>
+  <span class="clear"></span>
+  {% comment %}END content DIV{% endcomment %}
+  </div>
+{% endblock content %}
+{% block footers %}
+  {% include 'cc-footer.html' %}
+{% endblock %}
+{% block scripts %}
+  {% include 'cc-scripts.html' %}
+  {% block more-scripts %}
+  {% endblock more-scripts %}
+{% endblock %}
+</body>
+</html>

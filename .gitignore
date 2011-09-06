@@ -1,0 +1,7 @@
+etd/*
+*.pyc
+localsettings.py
+catalog/solr_cache
+log
+sitestatic
+_build

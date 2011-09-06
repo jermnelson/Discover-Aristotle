@@ -1,0 +1,679 @@
+/**
+ * Colorado College - Library
+ * by White Whale Web Services
+ * http://whitewhale.net
+ */
+
+	
+/* library sub-navigation */
+
+#department-navigation .subnavigation {
+	  margin-top:145px;
+	}
+	
+#department-navigation h1 strong, #department-navigation h1 a {
+	  color:#2a466d;
+	  font-weight:300;
+	  text-decoration:none;
+	}
+	
+	#department-navigation h1 {
+ 	 border-bottom-color:#acb6c1;
+ 	}
+
+#department-navigation ul a {
+	  color:#001e33;
+	  font-size:1.071em;
+	  font-weight:bold;
+	  text-decoration:none;
+	}
+	
+	#department-navigation li.on a {
+		  color:#a9002f;
+		}
+
+
+/* Reusing RSS elements in the sidebar */
+
+aside.rss-feed {
+  border:1px solid #ccc;
+  margin-top:30px;
+  width:220px;
+}
+	aside.rss-feed .description {
+		height: 270px;
+	}
+
+
+/* Recoloring the headers and type styles */
+
+#three-column #content .main h2 {
+	  color:#29456c;
+	  font-family:'Helvetica Neue', Arial, sans-serif;
+	  font-size:2em;
+	  font-weight:300;
+	  margin-bottom:0.5em;
+	}
+
+#three-column #content .main .main .intro {
+		color: #001e33;
+		line-height: 1.4em;
+		font-size:1.3em;
+	}
+	
+h3 {
+	  color:#3f5164;
+	  font-family:'Helvetica Neue', Arial, sans-serif;
+	  font-size:1.285em;
+	  margin-bottom:0.2em;
+	}
+
+h4 {
+	  color:#5d5751;
+  	}
+
+.two-columns-weighted-reversed .main {
+	font-family:'Helvetica Neue', Arial, sans-serif;
+	}
+
+/* bread crumb styling */
+
+#breadcrumb	{
+	  background-color:#2D4873;
+	  color:#b3b3b3;
+	  padding:5px 0;
+	  font-family:'Helvetica Neue', Arial, sans-serif;
+	  font-size:0.83em;
+	  margin-top:-3px;
+	}
+	#breadcrumb	a {
+		  color:#ccc;
+		  text-decoration: none;
+		}
+	#breadcrumb	a.on {
+		  color:#fff;
+		  text-decoration: none;
+		}
+	#breadcrumb	a.on:hover {
+		  color:#ccc;
+		}
+	#breadcrumb	a:hover {
+		  color:#fff;
+		  text-decoration: underline;
+		}
+
+.stage { width:970px; }
+
+/* Library navigation tabs */ 
+
+#library-tabs {
+		background-color: rgba(255, 255, 255, 0.6);
+		font-family: "Helvetica Neue", Arial, sans-serif;
+		height: 60px;
+		margin: -120px 0 0 0;
+	}
+	#library-tabs ul { margin-left:-42px; padding-top: 21px; line-height: 24px; }					
+	#library-tabs li {
+			-webkit-border-radius-topleft: 7px;
+			-moz-border-radius-topleft: 7px;
+			-ms-border-radius-topleft: 7px;
+			-o-border-radius-topleft: 7px;
+			border-top-left-radius: 7px;
+			-webkit- border-radius-topright: 7px;
+			-moz-border-radius-topright: 7px;
+			-ms-border-radius-topright: 7px;
+			-o-border-radius-topright: 7px;
+			border-top-right-radius: 7px;
+			display: inline;
+			margin: 0px 10px;
+			background-color: #4b6282;
+			float: left;
+		}
+		#library-tabs li a { 
+			color: #fff;
+			text-decoration: none;
+			font-weight: bold;
+			display: block;
+			padding: 6px 18px;
+		}
+		#library-tabs li:hover { color:#fddb55; background-color: #2d4873; }
+		#library-tabs li.on { background-color: #2d4873; }
+			#library-tabs li.on a { color:#fddb55; }
+		
+		#library-tabs li.home {
+				font-family:NeoFill;
+				letter-spacing:0.01em;
+				border-bottom:none;
+				}
+				
+			#library-tabs li.home a {
+					color:#fff;
+					text-decoration:none;
+					font-weight: normal;
+					}
+				
+		#library-tabs li.help {
+				background-color:#fddb55;
+				color:#1f375a;
+				}
+			#library-tabs li.help:hover {
+					background-color:#fff;
+					}
+			#library-tabs li.help a {
+					color:#1f375a;
+					}
+
+
+
+/* Library Search results page */
+
+#search-panel {
+	background-image:url('/sitestatic/images/design/bg/blue.gif');
+	background-repeat:repeat-x;
+	background-color: #1c3054;
+	margin-top:-3px;
+	padding:9px 0 48px;
+	}
+		
+	#search-panel #searchbox-wrapper { 
+		float:right; 
+		width:670px; 
+		margin-top:0px; 
+		}
+		
+		#search-library { 
+			width: 500px; 
+			float: right; 
+			margin: 0 36px 0 0;
+			padding-bottom: 24px;
+		}
+			#search-library form { 
+				border: 4px solid #fff;
+				margin-bottom: 1em;
+				position: relative;
+			}
+			#search-library fieldset {
+				border: 1px solid #e7e4e0;
+				background-color: #f1ece5;
+				padding: 6px 12px;
+				margin: 0;
+			}
+				#search-library ul { margin: 0.5em 0 0; padding: 0; list-style: none; }
+				#search-library li { margin: 0 1em 0 0; padding: 0; float: left; }
+				#search-library a {
+					font-family: "Helvetica Neue", Arial, sans-serif;
+					text-decoration: none;
+					font-weight: bold;
+				}
+					#search-library a:hover span {
+						text-decoration: underline;
+					}
+			
+			#search-library h3 { font-size: 1.143em; }
+			#search-library h3 strong { font-weight: 900; }
+			
+		/* type-specific styling */
+		#search-library .book-search h3 strong,
+		#search-library .book-search li,
+		#search-library .book-search a {
+			color: #6a2f7d;
+		}
+		#search-library .book-search input { width: 252px; }
+		#search-library .article-search h3 strong,
+		#search-library .article-search li,
+		#search-library .article-search a {
+			color: #187902;
+		}
+		
+		#search-library input,
+		#searchbox input {
+			border: 1px solid #e5e5e5;
+			background: #fff url(/sitestatic/images/bg/library-search.png) no-repeat scroll 10px 50%;
+			padding: 6px 8px 6px 28px;
+			width: 160px;
+			-webkit-box-shadow: 0 0 3px #9d9d9d;
+			-moz-box-shadow: 0 0 3px #9d9d9d;
+			-ms-box-shadow: 0 0 3px #9d9d9d;
+			-o-box-shadow: 0 0 3px #9d9d9d;
+			box-shadow: 0 0 3px #9d9d9d;
+		}
+			#search-library select { margin-left: 6px; width: 190px; }
+			#search-panel #book-search {
+				background-image: none;
+				padding-left: 8px;
+				width: 292px;
+			}
+			#searchbox input.submit,
+			#search-library input.submit,
+			#searchbox input.button,
+			#search-library input.button { 
+				background-image: none;
+				padding: 6px 8px;
+				width: auto;
+				margin-left: 4px;
+				font-size: 0.9em;
+				-webkit-box-shadow: none;
+				-moz-box-shadow: none;
+				-ms-box-shadow: none;
+				-o-box-shadow: none;
+				box-shadow: none;
+				-webkit-border-radius: 4px;
+				-moz-border-radius: 4px;
+				-ms-border-radius: 4px;
+				-o-border-radius: 4px;
+				border-radius: 4px;
+				border: 1px solid #d3d3d3;
+				background-color: #ebebeb;
+				color: #222;
+			}
+			
+			#search-library input.submit,
+			#searchbox input.submit {
+				-webkit-border-top-right-radius: 0;
+				-webkit-border-bottom-right-radius: 0;
+				-moz-border-radius-topright: 0;
+				-moz-border-radius-bottomright: 0;
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+			
+			#search-library input.button,
+			#searchbox input.button,
+			#search-panel #searchbox input.button {
+				-webkit-border-top-left-radius: 0;
+				-webkit-border-bottom-left-radius: 0;
+				-moz-border-radius-topleft: 0;
+				-moz-border-radius-bottomleft: 0;
+				border-top-left-radius: 0;
+				border-bottom-left-radius: 0;
+				margin-left: 0;
+				width: 24px;
+				background-image: url(/sitestatic/images/bg/menus/search-drop-down.png);
+				background-position: 50% 50%;
+				background-repeat: no-repeat;
+				outline: none;
+			}
+				#search-library input.button:active,
+				#searchbox input.button:active {
+					margin: 0;
+					outline: none;
+				}
+		
+	#search-panel #searchbox { 
+		border:5px solid #fff; 
+		padding:10px 15px; 
+		margin-bottom:16px;
+		background: #f1ece5 url(/sitestatic/images/bg/library/mag-glass.png) no-repeat scroll 10px 18px;
+		}
+		
+	#search-panel #searchbox input { width: 200px; }
+		#search-panel #searchbox input.submit { width: auto; margin-left: 8px; }
+	#search-panel #searchbox select { margin-left: 8px; }
+	#search-panel #searchbox form { float: left; width: 65%; margin-left: 36px; padding-top: 8px; position: relative; }
+	
+	#search-panel #searchbox a { 
+		color:#950b24; 
+		font-family: "Helvetica Neue", Arial, sans-serif; 
+		font-weight:bold; 
+		text-decoration:none; 
+		}
+	#search-panel #searchbox a:hover {  
+		text-decoration:underline; 
+		}
+	
+	#search-panel #searchbox ul.search-help { 
+		float:right; 
+		width:140px; 
+		padding:0; 
+		}
+	
+	#search-panel #searchbox ul.search-filters {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+		#search-panel #searchbox ul.search-filters li {
+			display: inline;
+			float: left;
+			margin-right: 0.6em;
+			margin-bottom: 0.5em;
+			background-color: #fbf9f7;
+			padding: 2px 8px;
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			-ms-border-radius: 3px;
+			-o-border-radius: 3px;
+			border-radius: 3px;
+		}
+		#search-panel #searchbox ul.search-filters a {
+			display: block;
+			padding: 2px 24px 2px 8px;
+			margin: -2px -8px;
+			background: transparent url(/sitestatic/images/bg/library/filter-tag.png) scroll no-repeat 100% 50%;
+			white-space: nowrap;
+			color: #2b486f;
+		}
+			#search-panel #searchbox ul.search-filters a:hover {
+				text-decoration: none;
+			}
+		#search-panel #searchbox ul.search-filters li:hover {
+			background-color: #dfd8cf;
+		}
+	
+		#searchbox .search-types,
+		#search-library .search-types {
+			display: none;
+			position: absolute;
+			right: 0;
+			z-index: 100;
+			border: 1px solid #ccc;
+			background-color: #fff;
+			margin: 0;
+			padding: 0;
+		}
+			#searchbox .search-types li,
+			#search-library .search-types li {
+				display: block;
+				float: none;
+				text-align: right;
+				margin-right: 0;
+			}
+			#searchbox .search-types a,
+			#search-library .search-types a {
+				padding: 0px 8px;
+				color: #222 !important;
+				font-weight: normal !important;
+				display: block !important;
+			}
+				#searchbox .search-types a:hover,
+				#search-library .search-types a:hover {
+					background-color: #ddd;
+					text-decoration: none !important;
+				}
+
+	
+/* Pagination for search results */
+
+	#search-panel #search-pagination {
+		color:#ccc; 
+		font-family: "Helvetica Neue", Arial, sans-serif;
+		font-size:0.88em;
+		text-align:right;
+		}
+			#search-panel #search-pagination a {
+				color:#fff; 
+				text-decoration:none;
+				font-family: "Helvetica Neue", Arial, sans-serif;
+				padding:3px 5px;
+				background-color: #374c6c;
+				}
+			#search-panel #search-pagination a:hover {
+				color:#fddb55; 
+				}
+
+/* Contact Library Info */
+
+#contact-library { 
+	color:#fff;
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	margin-left:8px;
+	margin-top:15px;
+	padding-bottom: 16px;
+	}
+	
+	#contact-library h5 { color:#fddb55; font-size:1.2em; }
+	#contact-library ul { margin:0; padding:0; } 
+	
+	#contact-library li.ask {
+				list-style-type: none;
+				background: transparent url(/sitestatic/images/design/bullets/icon-user.png) no-repeat scroll 0px 4px;
+				margin: 0 10px 0 -5px;
+				padding:0 20px;
+			}
+	
+	#contact-library li.hours {
+				list-style-type: none;
+				background: transparent url(/sitestatic/images/design/bullets/icon-clock.png) no-repeat scroll 0px 4px;
+				margin: 3px 10px 0 -5px;
+				padding:0 20px;
+			}
+		#contact-library li.hours a { color:#fff; }
+	
+	#contact-library li.policies {
+				list-style-type: none;
+				background: transparent url(/sitestatic/images/design/bullets/icon-info.png) no-repeat scroll 0px 4px;
+				margin: 3px 10px 0 -5px;
+				padding:0 20px;
+			}
+		#contact-library li.policies a { color:#fff; }
+	
+	#contact-library li.guides {
+				list-style-type: none;
+				background: transparent url(/sitestatic/images/design/bullets/icon-subjectguides.png) no-repeat scroll 0px 4px;
+				margin: 3px 10px 0 -5px;
+				padding:0 20px;
+			}
+		#contact-library li.guides a { color:#fff; }
+		
+	#contact-library li.logins {
+				list-style-type: none;
+				background: transparent url(/sitestatic/images/design/bullets/icon-logins.png) no-repeat scroll 0px 4px;
+				margin: 3px 10px 0 -5px;
+				padding:0 20px;
+			}
+		#contact-library li.logins a { color:#fff; }
+
+	#contact-library li a { color:#fddb55; font-weight:bold; text-decoration: none; } 
+	#contact-library li a:hover { text-decoration: underline; } 
+
+/* Search facets in the left sidebar */
+
+#content .search-facets { 
+	width:250px; 
+	background-color: #fff;
+	margin-top:-58px;
+	margin-bottom:20px;
+	margin-left:15px;
+	border:1px solid #fff;
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	color:#827771;
+	 }
+	
+	 #content .search-facets ul { 
+			padding:0; 
+			margin:0; 
+			} 
+		#content .search-facets ul.open { 
+				padding:0; 
+				margin-bottom:15px; 
+				}
+                #content .search-facets ul.closed {
+                                display: none; 
+				} 
+	#content .search-facets li { padding:2px 0 0 10px; margin:0; list-style-type: none;} 
+		#content .search-facets li a { border-bottom:1px dotted #333; text-decoration:none; color:#333; } 
+		#content .search-facets li a:hover { border-bottom:1px solid #003; text-decoration:none; color:#003; } 
+
+	#content .search-facets h5 { 	 
+		color:#3e332c;
+		background-color:#ecebe3;
+		padding:4px 8px;
+		font-weight:300;
+		font-size:1.2em;
+		margin-bottom:0.1em;
+		}
+		
+		#content .search-facets h5.closed { 	 
+			color:#1e3558;
+			background-color:#cdcab4;
+			}
+		#content .search-facets h5.closed a {
+			color:#1e3558;
+			text-decoration: none;
+			font-weight:normal; 
+			}
+		#content .search-facets h5.closed:hover {
+			background-color:#1e3558;
+			color:#fff; 
+			} 
+		#content .search-facets h5.closed:hover a {
+			color:#fff; 
+			}
+
+.main .results-list {
+	background-color: #fff;
+	padding: 18px;
+	margin-top: -58px;
+}
+
+	.results-list li { font-size: 1.4em; color: #264d85 !important; }
+	.results-list h2 { font-size: 1em !important; margin-top: 0 !important; }
+	.results-list h2 a { 
+		font-weight: normal !important;
+		color: #264d85 !important; 
+		 vertical-align: -1px;
+	}
+	.results-list .thumbnail {
+		float: right;
+		margin-right: 1em;
+	}
+	
+	.results-list .details { font-size: 0.714em; }
+	.results-list hr {
+		border: none; 
+		border-bottom: 3px double #ccc;
+		margin: 1em 0 1em -36px;
+	}
+	
+	.results-list table { border-collapse: collapse; line-height: 1.2; }
+	.results-list th, .results-list td { color: #333; padding: 4px 8px; }
+	.results-list th {
+		border: none;
+		background-color: transparent;
+		padding-left: 0;
+		padding-right: 12px;
+		text-align: left;
+	}
+	.results-list td {
+		background-color: transparent;
+		border: none;
+	}
+	
+	.results-list tr.author th, .results-list tr.author td {
+		font-size: 1.1em;
+	}
+	
+	.results-list h6 { font-size: 1em; }
+
+
+/* Library Homepage, top content area */
+		
+#homepage-panel {
+	height:270px;
+	background-image:url('/sitestatic/images/design/bg/blue.gif');
+	background-repeat:repeat-x;
+	margin-top:-3px;
+	padding:9px 0;
+	background-color:#1b3153;
+	}
+	
+	
+#homepage-panel #searchbox-wrapper #whatsthis {
+	float:right; 
+	width:170px; 
+	color:#fff; 
+	font-family:sans-serif; 
+	border-left:1px solid #ccc; 
+	padding:0 20px 0 20px;
+	}	
+
+		#homepage-panel #searchbox-wrapper #whatsthis a {
+			color:#fddb55;
+			text-decoration: none;
+			}
+		
+		#homepage-panel #searchbox-wrapper #whatsthis h4 {
+			color:#fff; 
+			}
+		
+		#homepage-panel #searchbox-wrapper #whatsthis ul {
+			margin:0;
+			padding:0;
+			}
+		#homepage-panel #searchbox-wrapper #whatsthis li {
+			margin-left:10px;
+			padding:0px;
+			list-style-type: circle;
+			}
+
+/* Library Homepage, bottom content area */
+
+#library-homepage-content aside { 
+		display:inline; 
+		float:left; 
+		margin:-23px 1px 10px 0; 
+		width:210px; 
+		border:none; 
+		min-height:280px;
+		line-height: 1.3em;
+		font-size: 0.93em;
+		color:#4c3d38;
+	}
+#library-homepage-content a:hover { 
+		background-color: transparent;
+	}
+
+#library-homepage-content aside span.highlight { 
+		display: block; 
+		line-height: 1.2em; 
+		margin:5px 0; 
+	}
+
+#content #library-homepage-content aside.rss-feed h3 a { 
+		color:#594738;
+		font-weight:normal;
+	}
+
+#library-homepage-content aside.rss-feed div {
+			background-image:none;
+		}
+
+#library-homepage-content aside .more-links {
+		background-color:#e9e3d6;
+		margin:10px -15px -15px -15px;
+		padding:15px;
+		min-height: 80px;
+	}
+#library-homepage-content aside .more-links h6 { 
+		font-size:0.9em;
+		font-weight:bold;
+		line-height: 1em;
+		color:#4c3d38;
+		padding-bottom:0.5em;
+	}
+#library-homepage-content aside .more-links h6 a { 
+		color:red;
+		display:inline;
+	}
+#library-homepage-content aside .more-links h6 a:hover { 
+		margin:0; padding:0; background-color: transparent;
+	}
+#library-homepage-content aside .more-links ul {
+		margin:0; 
+		padding:0; 
+	}
+#library-homepage-content aside .more-links li {
+		list-style-type: none;
+		font-size: 0.85em;
+		line-height: 1.1em;
+		margin:4px 10px 5px 0; 
+	}
+#content #library-homepage-content aside .more-links li a {
+		color:#0073cf;
+		font-weight: normal;
+		padding:6px 0 0 5px;
+	}
+
+#content #library-homepage-content aside .more-links li a:hover {
+		background-color: transparent;
+	}

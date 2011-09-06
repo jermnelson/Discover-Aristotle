@@ -1,0 +1,33 @@
+{% load static %}
+{% load catalog_extras %}
+ <div class="results-list">
+ <h1>{{ title }}</h1>
+{% if grx_results %}
+	<ol start="{{ grx_results|length|add:'1' }}">
+        {% for record in grx_results %}
+	 <li>
+	  <h2><a href="{{ record.url }}">{{ record.title }}</a></h2>
+	  <div class="details">
+          <table>
+	    <tbody>
+	      <tr>
+		<th>Coverage:</th>
+		<td>{% if record.coverage %}{{ record.coverage }}{% else %}Not available{% endif %}</td>
+	      </tr>
+	      <tr>
+	       <th>Description:</th>
+	       <td>
+                <td>{{ record.description }}</td>
+	      </tr>
+            </tbody>
+         </table>
+	</div>
+	<hr />
+       </li>
+       {% endfor %}
+       </ol>
+     </div>
+</div>
+{% else %}
+{% endif %}
+</div>

@@ -1,0 +1,50 @@
+{% load static %}
+{% load catalog_extras %}
+{% comment %}START SEARCH PANEL DIV{% endcomment %}
+<div id="search-panel">
+{% comment %}START STAGE DIV{% endcomment %}
+   <div class="stage">
+   {% comment %}START SEARCHBOX-WRAPPER DIV {% endcomment %}
+     <div id="searchbox-wrapper">
+       {% comment %}START SEARCHBOX DIV {% endcomment %}
+	<div id="searchbox">
+	 <ul class="search-help">
+           <li><a href="/grx">New Search</a></li>
+           <li><a href="http://discovery.coloradocollege.edu">TIGER</a></li>
+	   <li><a href="http://tiger.coloradocollege.edu">Classic TIGER</a></li>
+         </ul>
+
+	  <form action="/grx/search" method="post" name="catalog_search" id="catalog_search">
+           {% csrf_token %}
+        {% block simple-searchbox %}
+	    <fieldset id="basic-searchbox">
+             <input type="text" name="search_phrase" value="" alt="search" id="book-search" />
+	     <input type="submit" name="btnsubmit" class="submit" value="Search GoldRush" />
+	    </fieldset>
+        {% endblock %}
+        {% if grx_results %}
+	    <ul class="search-filters" id="search-filters">
+            {% for param in grx_results.params %}
+            {{ param|generate_search_filter }}
+            {% endfor %}
+	    </ul>
+        {% endif %}
+         <input type="hidden" name="rows" id="solr_rows" value={% if grx_results %}"{{ grx_results.result.docs|length }}"{% else %}"20"{% endif %} />
+         <input type="hidden" name="start" id="solr_start" value={% if grx_results %}"{{ grx_results.result.start }}"{% else %}"0"{% endif %} />
+         </form>
+         <span class="clear"></span>
+    {% comment %}END SEARCHBOX DIV{% endcomment %} 
+    </div>
+    {% comment %}START SEARCH-PAGINATION DIV{% endcomment %} 
+    <div id="search-pagination">&nbsp;
+    {% comment %}END SEARCH-PAGINATION DIV{% endcomment %} 
+    </div>
+    <span class="clear"></span>
+  {% comment %}END SEARCHBOX-WRAPPER DIV {% endcomment %}
+  </div>
+  {% include 'contact-library.html' %}
+  {% comment %}END STAGE DIV{% endcomment %} 
+  </div>
+  <span class="clear"></span>
+{% comment %}END SEARCH-PANEL DIV{% endcomment %} 
+</div>

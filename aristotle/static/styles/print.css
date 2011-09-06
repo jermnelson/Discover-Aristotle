@@ -1,0 +1,14 @@
+/**
+ * Colorado College - Print
+ * by White Whale Web Services
+ * http://whitewhale.net
+ */
+
+#block { display: none; }
+
+#header { display: none; }
+#footer { display: none; }
+#print-logo { display: block; }
+
+#content { background-color: #fff !important; }
+#content #subnavigation { margin-top: 0; }

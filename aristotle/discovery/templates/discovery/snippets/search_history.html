@@ -1,0 +1,6 @@
+{% load i18n %}
+  <ul>
+    {% for url, query, timestamp in search_history %}
+    <li><a href="{{ url }}">{{ query|safe }}</a> ({{ timestamp|timesince }} {% trans "ago" %})</li>
+    {% endfor %}
+  </ul>

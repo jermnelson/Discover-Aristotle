@@ -1,0 +1,32 @@
+<mods xmlns:xlink="http://www.w3.org/1999/xlink" version="3.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns="http://www.loc.gov/mods/v3" 
+  xsi:schemaLocation="http://www.loc.gov/mods/v3 
+    http://www.loc.gov/standards/mods/v3/mods-3-0.xsd">
+  <titleInfo>
+    <title>{{ doc.title }}</title>
+  </titleInfo>
+  {% for name in doc.personal_name %}
+    <name type="personal">
+      <namePart>{{ name }}</namePart>
+    </name>
+  {% endfor %}
+  {% for name in doc.corporate_name %}
+    <name type="corporate">
+      <namePart>{{ name }}</namePart>
+    </name>
+  {% endfor %}
+  {% for genre in doc.genre %}
+    <genre authority="marcgt">{{ genre }}</genre>
+  {% endfor %}
+  {% for description in doc.description %}
+    <physicalDescription>
+      <extent>{{ description }}</extent>
+    </physicalDescription>
+  {% endfor %}
+  {% for subject in doc.subject %}
+    <subject authority="lcsh">
+      <topic>{{ subject }}</topic>
+    </subject>
+  {% endfor %}
+</mods>

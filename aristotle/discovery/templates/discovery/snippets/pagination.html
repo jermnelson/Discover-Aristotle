@@ -1,0 +1,31 @@
+{% load i18n %}
+{% load discovery_extras %}
+{% if pagination.previous_page %}
+  <span class="page-previous">
+    <a href="{% pagination_url pagination.previous_page.number %}" title="results {{ pagination.previous_page.start }} to {{ pagination.previous_page.end }}">&larr;&nbsp;{% trans "Previous" %}</a>
+  </span>
+{% endif %}
+{% if pagination.first_page %}
+  <span class="first_page">
+    <a href="{% pagination_url 1 %}" title="results 1 to {{ pagination.first_page.end }}">{{ pagination.first_page.number }}</a>&nbsp;&hellip;
+  </span>
+{% endif %}
+{% for page in pagination.pages %}
+  {% if page.selected %}
+    <span class="page-num selected">{{ page.number }}</span>
+  {% else %}
+    <span class="page-num">
+      <a href="{% pagination_url page.number %}" title="results {{ page.start }} to {{ page.end }}">{{ page.number }}</a>
+    </span>
+  {% endif %}
+{% endfor %}
+{% if pagination.last_page %}
+  <span class="last_page">
+    &hellip;&nbsp;<a href="{% pagination_url pagination.last_page.number %}" title="results {{ pagination.last_page.start }} to {{ pagination.last_page.end }}">{{ pagination.last_page.number }}</a>
+  </span>
+{% endif %}
+{% if pagination.next_page %}
+  <span class="page-next">
+    <a href="{% pagination_url pagination.next_page.number %}" title="results {{ pagination.next_page.start }} to {{ pagination.next_page.end }}">{% trans "Next" %}&nbsp;&rarr;</a>
+  </span>
+{% endif %}

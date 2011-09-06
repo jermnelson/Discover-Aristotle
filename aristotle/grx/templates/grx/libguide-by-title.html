@@ -1,0 +1,12 @@
+<div class="itemlist">
+<ul>
+ % for i,entry in enumerate(feed_entries):
+ <li id="link${feed_uuid}${i}">
+ <a href="${entry['url']}">${entry['title']}</a>
+ % if entry['note'] is not None:
+ <div class="linkdesc">${entry['note']}</div>
+ % endif
+ </li>
+ % endfor
+</ul>
+</div>
