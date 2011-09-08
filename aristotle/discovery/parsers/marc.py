@@ -46,6 +46,7 @@ NONINT_RE = re.compile(r'\D')
 ISBN_RE = re.compile(r'(\b\d{10}\b|\b\d{13}\b)')
 UPC_RE = re.compile(r'\b\d{12}\b')
 FIELDNAMES = [
+    'access',
     'audience',
     'author',
     'bib_num',
@@ -140,8 +141,8 @@ def get_access(record):
     else:
         return 'In the Library'
 
-# Dragged over from Casey's processors.py.
 def get_format(record):
+    '''Generates format, extends existing Kochief function.'''
     format = ''
     description = ''
     if record['007']:
@@ -371,7 +372,7 @@ def get_lcletter(record):
         return lc_desc
     lc_stub_result = lc_stub_search.search(callnum)
     if lc_stub_result:
-        code = lc_stub_result[0]
+        code = lc_stub_result.groups()[0]
         try:
             lc_desc = marc_maps.LC_CALLNUMBER_MAP[code]
         except:
@@ -379,6 +380,9 @@ def get_lcletter(record):
     return lc_desc 
 
 def get_location(record):
+    """Uses CC's location codes in Millennium to map physical
+    location of the item to human friendly description from 
+    the tutt_maps LOCATION_CODE_MAP dict"""
     if record['994']:
         locations = record['994'].value()
     try:
@@ -479,7 +483,7 @@ def get_record(marc_record, ils=None):
     record['author'] = marc_record.author()
     record['callnum'] = get_callnumber(marc_record)
     record['lc_firstletter'] = get_lcletter(marc_record)
-
+    record['location'] = get_location(marc_record)
     # are there any subfields we don't want for the full_title?
     if marc_record['245']:
         full_title = marc_record['245'].format_field()
@@ -567,8 +571,6 @@ def get_record(marc_record, ils=None):
 
     url_fields = marc_record.get_fields('856')
     record['url'] = multi_field_list(url_fields, 'u')
-    record['location'] = get_location(marc_record)
-
     return record
 
 def get_row(record):

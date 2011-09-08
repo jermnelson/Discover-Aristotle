@@ -73,13 +73,13 @@ class Command(mb.BaseCommand):
             if parser:
                 if parser.endswith('.py'):
                     parser = parser[:-3]
-                module = __import__('kochief.discovery.parsers.' + parser, globals(), 
+                module = __import__('discovery.parsers.' + parser, globals(), 
                         locals(), [parser])
         for file_or_url in file_or_urls:
             if not module:
                 # guess parser based on file extension
                 if file_or_url.endswith('.mrc'):
-                    import kochief.discovery.parsers.marc as module
+                    import discovery.parsers.marc as module
             if not module:
                 raise mb.CommandError("Please specify a parser.")
             print "Converting %s to CSV ..." % file_or_url

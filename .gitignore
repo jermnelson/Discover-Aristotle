@@ -1,7 +1,7 @@
 etd/*
 *.pyc
 localsettings.py
-catalog/solr_cache
+artistotle/catalog/solr_cache
 log
 sitestatic
 _build

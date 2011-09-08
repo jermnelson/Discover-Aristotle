@@ -23,6 +23,7 @@ Current and Future Django Applications
 --------------------------------------
 
 * :doc:`catalog` Default summary and detail views of Solr, FRBR, MARC, and Fedora commons objects with facets.
+* :doc:`discovery` Forked Kochief discovery application, modified for use as the Discovery Interface for Aristotle.
 * :doc:`datasets` Generic scientific, social science, and humanity dataset management for use by other applications.
 * :doc:`etd`  Electronic Thesis and Dissertation Django application
 * frbr FRBR object-oriented models front-end to Cassandra, Postgres, or sqlite, or Google App Engine (requires additional modules)

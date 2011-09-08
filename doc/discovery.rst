@@ -3,11 +3,20 @@
 
 Overview
 ^^^^^^^^
+The :mod:`aristotle.discovery` Django application started from a forked version of the 
+Kochief_ Discovery interface and catalogue manager Django project. 
 
+.. _Kochief: http://code.google.com/p/kochief/
 
 Dependencies
 ^^^^^^^^^^^^
 The **discovery** application doesn't have any external dependancies
+
+Indexing MARC files
+^^^^^^^^^^^^^^^^^^^
+To index MARC records :mod:`aristotle.discovery` into the `marc_catalog`
+Solr core, you will need to run the index management command from 
+:mod:`aristotle` base directory.
 
 `aristotle.discovery.views` Module Contents
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -24,3 +33,12 @@ The **discovery** application doesn't have any external dependancies
 .. automodule:: discovery.parsers.tutt_maps
    :members:
 
+`aristotle.discovery.templatetags.discovery_extras` Template Tags
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: discovery.templatetags.discovery_extras
+   :members:
+
+`aristotle.discovery.management.commands.index` Management Commands
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: discovery.management.commands.index
+   :members:

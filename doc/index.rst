@@ -8,11 +8,13 @@ Welcome to Aristotle Documentation |release|
 
 Aristotle is a bibliographic Django_ project for creating discovery and management of born
 digital and physical artifacts. Aristotle uses a number of other open-source toolset including
-EULFedora_, EULXML_, Sunburnt_, and PyMARC_.
+EULFedora_, EULXML_, Sunburnt_, and PyMARC_. For the Discovery interface, Aristotle uses a forked
+version of the Kochief_ Django application. 
 
 .. _Django: http://djangoproject.org/
 .. _EULFedora: https://github.com/emory-libraries/eulfedodra
 .. _EULXML: https://github.com/emory-libraries/eulxml
+.. _Kochief: http://code.google.com/p/kochief/
 .. _Sunburnt: https://github.com/tow/sunburnt
 .. _PyMARC: https://github.com/edsu/pymarc
 
@@ -42,6 +44,7 @@ Contents:
 
    readme.rst
    install.rst
+   discovery.rst
    catalog.rst
    datasets.rst
    etd.rst
