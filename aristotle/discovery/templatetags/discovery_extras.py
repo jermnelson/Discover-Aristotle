@@ -20,7 +20,7 @@ import urllib
 from django.template import Library
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
-
+import aristotle.settings as settings
 register = Library()
 
 def title_link(context):
@@ -118,5 +118,29 @@ def get_cover_image(num_isbn):
     """
     amazon_image_url = 'http://ec2.images-amazon.com/images/P/%s.01._PE00_SCMZZZZZZZ_.jpg' % num_isbn
     return mark_safe(amazon_image_url)
-register.filter('get_cover_image',get_cover_image) 
 
+def generate_prospector_url(record_id):
+    """
+    Generates link to Prospector's union catalog
+    """
+    prospector_url = settings.PROSPECTOR_URL % (record_id,record_id)
+    return mark_safe(prospector_url)
+
+def reduce_subjects(doc):
+    """
+    Iterates and sort all topic and subject related fields and
+    returns a set.
+    """
+    subjects = []
+    if doc.has_key('subject'):
+        for subject in doc['subject']:
+            subjects.append(subject)
+    if doc.has_key('topic'):
+        for topic in doc.get('topic'):
+            subjects.append(topic)
+    subjects.sort()
+    return set(subjects)
+
+register.filter('get_cover_image',get_cover_image) 
+register.filter('generate_prospector_url',generate_prospector_url)
+register.filter('reduce_subjects',reduce_subjects)

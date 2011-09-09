@@ -20,7 +20,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('grx.views',
     (r'^$','default'),
-    (r'facet.json$','top_facets'),
+    (r'search$','search'),
     (r'subjects$','subjects'),
     (r'subject/(\w+[\s\w]*)$','subjects'),
     (r'titles$','titles'),

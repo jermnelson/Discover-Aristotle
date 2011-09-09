@@ -59,6 +59,12 @@ def rpc(request):
                         mimetype='application/javascript')
 
 
+def search(request):
+    """Searches Goldrush Solr core"""
+    if request.method == 'POST':
+        query = request.POST['search_phrase']
+        pass
+
 def subjects(request,subject=None):
     """Displays legacy HTML of subjects."""
     subjects = Subject.objects.all()

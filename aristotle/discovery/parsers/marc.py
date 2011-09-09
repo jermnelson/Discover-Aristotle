@@ -26,13 +26,26 @@ import csv
 import pymarc
 import re
 import sys
-import time
+import time,datetime
 import unicodedata
 import urllib
+import logging
 
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.utils import simplejson
+
+logging.basicConfig(filename='%slog/%s-marc-solr-indexer.log' % (settings.BASE_DIR,
+                                                                 datetime.datetime.today().strftime('%Y%m%d-%H')),
+                    level=logging.INFO)
+
+#logger = logging.getLogger('marc_solr_import')
+#logger.setLevel(logging.INFO)
+#logger.addHandler(logging.FileHandler('%slog/%s-marc-solr-indexer.out' %\
+#                                     (settings.BASE_DIR,
+#                                      datetime.datetime.today().strftime('%Y%m%d-%H'))))
+#log_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+
 
 try:
     set
@@ -62,6 +75,7 @@ FIELDNAMES = [
     'id',
     'imprint',
     'isbn',
+    'items',
     'language',
     'language_dubbed', 
     'language_subtitles',
@@ -230,8 +244,8 @@ def get_format(record):
                     format = 'Video Reel'
     # now do guesses that are NOT based upon physical description 
     # (physical description is going to be the most reliable indicator, 
-    # when it exists...) 
-    elif leader[6] == 'a':                # language material
+    # when it exists...)
+    if leader[6] == 'a':                # language material
         fixed = record['008'].value()
         if leader[7] == 'm':            # monograph
             if len(fixed) > 22:
@@ -359,6 +373,17 @@ def get_callnumber(record):
         callnumber = record['994'].value()
     return callnumber
 
+def get_items(record):
+    """Extracts item id from bib record for web service call
+    to active ILS."""
+    items = []
+    if record["945"]:
+        all945s = record.get_fields('945'):
+        for f945 in all945s:
+            for y in f945.get_subfields('y'):
+                items.append(y)
+    return items  
+
 lc_stub_search = re.compile(r"([A-Z]+)")
 
 def get_lcletter(record):
@@ -383,13 +408,19 @@ def get_location(record):
     """Uses CC's location codes in Millennium to map physical
     location of the item to human friendly description from 
     the tutt_maps LOCATION_CODE_MAP dict"""
+    output = []
     if record['994']:
-        locations = record['994'].value()
-    try:
-        location = tutt_maps.LOCATION_CODE_MAP[locations]
-    except KeyError:
-        location = 'Unknown'
-    return location
+        #locations = record['994'].value()
+        locations = record.get_fields('994')
+    for row in locations:
+        try:
+            location_raw = row.value()
+            for code in location_raw.split(' '):
+                output.append(tutt_maps.LOCATION_CODE_MAP[code])
+        except KeyError:
+            logging.info("%s Location unknown=%s" % (record.title(),locations[0].value()))
+            output.append('Unknown')
+    return set(output)
 # Roles with names (i.e. "Glover, Crispin (Actor)") looks neat but is
 # kind of useless from a searching point of view.  A search for "Law,
 # Jude (Actor)" won't return plain old "Law, Jude".  I welcome other
@@ -482,6 +513,7 @@ def get_record(marc_record, ils=None):
     record['access'] = get_access(marc_record)
     record['author'] = marc_record.author()
     record['callnum'] = get_callnumber(marc_record)
+    record['items'] = get_items(marc_record)
     record['lc_firstletter'] = get_lcletter(marc_record)
     record['location'] = get_location(marc_record)
     # are there any subfields we don't want for the full_title?
@@ -516,7 +548,9 @@ def get_record(marc_record, ils=None):
     series_fields = marc_record.get_fields('440', '490')
     record['series'] = multi_field_list(series_fields, 'a')
 
-    notes_fields = marc_record.get_fields('500')
+    notes_fields = marc_record.get_fields('500','501','502','503','504','505','506','507',
+                                          '509','510','512','513','514','515','516','517',
+                                          '518','519','521','545','547','590')
     record['notes'] = [field.value() for field in notes_fields]
     
     contents_fields = marc_record.get_fields('505')
@@ -601,6 +635,7 @@ def write_csv(marc_file_handle, csv_file_handle, collections=None,
         fieldname_dict[fieldname] = fieldname
     #for record in reader
     count = 0
+    logging.info("Started MARC record import into Aristotle")
     try:
         writer = csv.DictWriter(csv_file_handle, FIELDNAMES)
         writer.writerow(fieldname_dict)
@@ -628,6 +663,10 @@ def write_csv(marc_file_handle, csv_file_handle, collections=None,
                     title = marc_record.title()
                 else:
                     title = marc_record['245'].format_field()
+                logging.info(u"%s error at count=%s, titles is '%s'" %\
+                            (sys.exc_info()[0],
+                             count,
+                             title))
                 sys.stderr.write("\nError in MARC record #%s (%s):\n" % 
                         (count, title.encode('ascii', 'ignore')))
                 raise
@@ -635,10 +674,12 @@ def write_csv(marc_file_handle, csv_file_handle, collections=None,
                 if count % 1000:
                     sys.stderr.write(".")
                 else:
+                    logging.info("\t%s records processed" % count)
                     sys.stderr.write(str(count))
     finally:
         marc_file_handle.close()
         csv_file_handle.close()
+    logging.info("Processed %s records.\n" % count)
     sys.stderr.write("\nProcessed %s records.\n" % count)
     return count
 
