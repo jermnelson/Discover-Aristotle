@@ -20,7 +20,10 @@ import urllib
 from django.template import Library
 from django.utils.translation import ugettext as _
 from django.utils.safestring import mark_safe
-import aristotle.settings as settings
+import settings
+from vendors.iii.bots.iiibots import ItemBot
+import vendors.iii.settings as ils_settings
+
 register = Library()
 
 def title_link(context):
@@ -112,6 +115,34 @@ def remove_limit(context):
 register.inclusion_tag('discovery/snippets/search_url.html', 
         takes_context=True)(remove_limit)
 
+def display_ill(record):
+    """Displays an ill and Hold links if the item's status is Checked out
+    """
+    ils_numbers = record.get('items')
+    if not ils_numbers:
+        ils_numbers = []
+    for item_id in ils_numbers:
+        item_bot = ItemBot(opac_url=ils_settings.OPAC_URL,item_id=item_id)
+        status = item_bot.status()
+        if status is not None:
+            if item_bot.status().startswith('Due'):
+                return mark_safe('''<li><a href="#" onclick="alert('ill tbd')">Request</a> <em>%s</em> through
+   Prospector or Interlibrary Loan (ILL)</li>
+  <li><a href="#" onclick="alert('hold tbd')">Hold</a> this item so that you can pick it up after the current borrower 
+  is finished</li>''' % record.get('title'))
+    return ''
+
+
+def display_online(record):
+    """Displays online access link if item's is available online
+    """
+    if record.has_key('url'):
+        return mark_safe('''<li>Access <em><a href="%s">%s</a></em> online</li>''' % (record.get('url')[0],
+                                                                                      record.get('title')))
+    else:
+        return ''
+
+
 def get_cover_image(num_isbn):
     """Custom method queries multiple web services for a thumbnail image,
     returns a matched URL using isbn number
@@ -119,17 +150,34 @@ def get_cover_image(num_isbn):
     amazon_image_url = 'http://ec2.images-amazon.com/images/P/%s.01._PE00_SCMZZZZZZZ_.jpg' % num_isbn
     return mark_safe(amazon_image_url)
 
-def generate_prospector_url(record_id):
+def get_item_status(item_id):
+    """Method connects to ILS and retrieves the current circulation status
+    of a an item.
     """
-    Generates link to Prospector's union catalog
+    item_bot = ItemBot(opac_url=ils_settings.OPAC_URL,item_id=item_id)
+    item_status = item_bot.status()
+    if item_status is None:
+        css_class = ''
+    elif item_status.startswith('Due'):
+        css_class = 'due-back'
+    else:
+        css_class = 'available'
+    status_txt = '''<span class="%s">%s''' % (css_class,item_status)
+    volume = item_bot.volume()
+    if volume:
+        status_txt += item_bot.volume()
+    status_txt += '</span>'
+    return mark_safe(status_txt) 
+
+def generate_prospector_url(record_id):
+    """Generates link to Prospector's union catalog
     """
     prospector_url = settings.PROSPECTOR_URL % (record_id,record_id)
     return mark_safe(prospector_url)
 
 def reduce_subjects(doc):
-    """
-    Iterates and sort all topic and subject related fields and
-    returns a set.
+    """Iterates and sort all topic and subject related fields and
+    returns a set of unique subjects.
     """
     subjects = []
     if doc.has_key('subject'):
@@ -141,6 +189,10 @@ def reduce_subjects(doc):
     subjects.sort()
     return set(subjects)
 
+
+register.filter('display_ill',display_ill)
+register.filter('display_online',display_online)
 register.filter('get_cover_image',get_cover_image) 
+register.filter('get_item_status',get_item_status)
 register.filter('generate_prospector_url',generate_prospector_url)
 register.filter('reduce_subjects',reduce_subjects)

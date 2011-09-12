@@ -1,0 +1,47 @@
+{% extends 'cc-search-base.html' %}
+{% load static %}
+
+{% block more-css %}
+ <link href="{% get_static_prefix %}/pagination.css" rel="stylesheet" />
+{% endblock %}
+
+{% block search-panel %}
+{% endblock %}
+
+{% block search-facets %}
+<div class="side">
+ <aside class="search-facets">
+  <h5>Active Workflows</h5>
+  <ul>
+  {% for bot in workflows %}
+   <li><a href="#" onclick="LoadBot('{{ bot.name }}')">{{ bot.name }}</a>
+  {% endfor %}
+  </div>
+ </aside>
+</div>
+{% endblock %}
+
+{% block results-detail %}
+{% endblock %}
+
+{% block results-list %}
+<div class="main">
+<div class="results-list discovery-service">
+<h1>Welcome to Tutt Library Cataloging MARC Utilities</h1>
+<div class="discovery-home">
+ <h2 class="discovery-home">No Workflow loaded</h2>
+ <p></p>
+ <span class="clear"></span>
+</div>
+</div>
+{% endif %}
+</div>
+<span class="clear"></span>
+{% endblock %}
+
+{% block more-scripts %}
+<script src="{% get_static_prefix %}/jquery.pagination.js"></script>
+<script src="{% get_static_prefix %}/marc.js"></script>
+<script>
+</script>
+{% endblock more-scripts %}

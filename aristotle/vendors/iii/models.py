@@ -18,6 +18,7 @@ class ItemRecord(IIIRecord):
     """
     due_date = xmlmap.StringField("/IIIRECORD/TYPEINFO/ITEM/FIXFLD[FIXLABEL[.='DUE DATE']]/FIXVALUE")
     status = xmlmap.StringField("/IIIRECORD/TYPEINFO/ITEM/FIXFLD[FIXLABEL[.='STATUS']]/FIXVALUE")
+    volume = xmlmap.StringField("/IIIRECORD/TYPEINFO/ITEM/VARFLD[HEADER/TAG[.='VOLUME']]/FIELDDATA")
 
 class IIIStatusCode(models.Model):
     """

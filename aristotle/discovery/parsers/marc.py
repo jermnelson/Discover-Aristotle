@@ -58,6 +58,7 @@ import marc_maps,tutt_maps
 NONINT_RE = re.compile(r'\D')
 ISBN_RE = re.compile(r'(\b\d{10}\b|\b\d{13}\b)')
 UPC_RE = re.compile(r'\b\d{12}\b')
+LOCATION_RE = re.compile(r'\(\d+\)')
 FIELDNAMES = [
     'access',
     'audience',
@@ -81,6 +82,7 @@ FIELDNAMES = [
     'language_subtitles',
     'lc_firstletter',
     'location',
+    'marc_record',
     'oclc_num',
     'notes',
     'personal_name',
@@ -232,12 +234,14 @@ def get_format(record):
                             format = 'LP Record'
             elif description[0] == 'v':            # videorecording
                 if description[1] == 'd':        # videodisc
-                    if description[4] == 'v':
+                    if description[4] == 'v' or description[4] == 'g':
                         format = 'DVD Video'
                     elif description[4] == 's':
                         format = 'Blu-ray Video' 
                     elif description[4] == 's':
                         format = 'VHS Video' 
+                    else:
+                        logging.error("UNKNOWN description %s for %s" % (description[4],record.title()))
                 elif description[1] == 'f':        # videocassette
                     format = 'VHS Video'
                 elif description[1] == 'r':
@@ -272,6 +276,13 @@ def get_format(record):
         format = 'Map'
     elif leader[6] == 'c':
         format = 'Musical Score'
+    elif leader[6] == 'm':
+        format = 'Electronic'
+    elif leader[6] == 't':
+        fixed = record['008'].value()
+        if len(fixed) > 22:
+            if fixed[24] == 'm':
+                format = 'Thesis'
     # checks 006 to determine if the format is a manuscript
     if record['006']:
         desc_006 = record['006'].value()
@@ -279,6 +290,7 @@ def get_format(record):
             format = 'Manuscript'
     # Doesn't match any of the rules
     if len(format) < 1:
+        logging.error("UNKNOWN FORMAT Title=%s Leader: %s" % (record.title(),leader))
         format = 'Unknown'
     return format
 
@@ -358,7 +370,7 @@ def get_languages(language_codes):
 
 def get_callnumber(record):
     """Follows CC's practice, you may have different priority order
-    for you call number."""
+    for your call number."""
     callnumber = ''
     # First check to see if there is a sudoc number
     if record['086']:
@@ -373,36 +385,37 @@ def get_callnumber(record):
         callnumber = record['994'].value()
     return callnumber
 
-def get_items(record):
+def get_items(record,ils=None):
     """Extracts item id from bib record for web service call
     to active ILS."""
     items = []
     if record["945"]:
-        all945s = record.get_fields('945'):
+        all945s = record.get_fields('945')
         for f945 in all945s:
             for y in f945.get_subfields('y'):
-                items.append(y)
+                if ils=='III': # Removes starting period and trailing character 
+                    items.append(y[1:-1]) 
     return items  
 
 lc_stub_search = re.compile(r"([A-Z]+)")
 
 def get_lcletter(record):
-    '''Extracts LC letters from call number of Call number facet.'''
-    lc_desc = None
+    '''Extracts LC letters from call number.'''
+    lc_descriptions = []
     if record['050']:
         callnum = record['050'].value()
-    elif record['994']:
-        callnum = record['994'].value()
+    elif record['945']:
+        callnum = record['945'].value()
     else:
-        return lc_desc
+        return None
     lc_stub_result = lc_stub_search.search(callnum)
     if lc_stub_result:
         code = lc_stub_result.groups()[0]
         try:
-            lc_desc = marc_maps.LC_CALLNUMBER_MAP[code]
+            lc_descriptions.append(marc_maps.LC_CALLNUMBER_MAP[code])
         except:
-            lc_desc = None
-    return lc_desc 
+            pass
+    return lc_descriptions
 
 def get_location(record):
     """Uses CC's location codes in Millennium to map physical
@@ -410,12 +423,12 @@ def get_location(record):
     the tutt_maps LOCATION_CODE_MAP dict"""
     output = []
     if record['994']:
-        #locations = record['994'].value()
         locations = record.get_fields('994')
     for row in locations:
         try:
-            location_raw = row.value()
-            for code in location_raw.split(' '):
+            locations_raw = row.get_subfields('a')
+            for code in locations_raw:
+                code = LOCATION_RE.sub("",code)
                 output.append(tutt_maps.LOCATION_CODE_MAP[code])
         except KeyError:
             logging.info("%s Location unknown=%s" % (record.title(),locations[0].value()))
@@ -513,7 +526,7 @@ def get_record(marc_record, ils=None):
     record['access'] = get_access(marc_record)
     record['author'] = marc_record.author()
     record['callnum'] = get_callnumber(marc_record)
-    record['items'] = get_items(marc_record)
+    record['items'] = get_items(marc_record,ils)
     record['lc_firstletter'] = get_lcletter(marc_record)
     record['location'] = get_location(marc_record)
     # are there any subfields we don't want for the full_title?
@@ -546,7 +559,7 @@ def get_record(marc_record, ils=None):
     record['description'] = [field.value() for field in description_fields]
     
     series_fields = marc_record.get_fields('440', '490')
-    record['series'] = multi_field_list(series_fields, 'a')
+    record['series'] = multi_field_list(series_fields, ['a','v'])
 
     notes_fields = marc_record.get_fields('500','501','502','503','504','505','506','507',
                                           '509','510','512','513','514','515','516','517',
@@ -605,6 +618,7 @@ def get_record(marc_record, ils=None):
 
     url_fields = marc_record.get_fields('856')
     record['url'] = multi_field_list(url_fields, 'u')
+    record['marc_record'] = marc_record.__str__() # Should output to MARCMaker format
     return record
 
 def get_row(record):

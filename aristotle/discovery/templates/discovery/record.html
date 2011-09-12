@@ -16,11 +16,10 @@
 {% block subnavigation %}
  <h1><strong><a href="#">You can...</a></strong></h1>
  <ul>
-  {% comment %}Should add Access online action for online material
-  {{ record|display_online }}{% endcomment %}
+  {{ doc|display_online }}
   <li><a href="#" onclick="alert('cite tbd')">Cite</a> this work with a MLA, Chicago, APA, or other citation styles with <a href="#">RefWorks</a>.</span>
   </li>
-  {% comment %}{ record|display_ill }}{% endcomment %}
+  {{ doc|display_ill }}
   <li><a href="#" onclick="alert('account tbd')">Login</a> to your library account with your
    TIGER number</li>
  </ul>
@@ -40,11 +39,9 @@
  <div class="ils-status">Library Location {% for location in doc.location %}<strong>{{ location }}</strong>{% endfor %}
    at Call Number <strong>{{ doc.callnum }}</strong>.
   <br/> Availability - 
-  {% comment %}
-  {% for item_num in record.item_ils_number %}
+  {% for item_num in doc.items %}
    &nbsp;Item {{ forloop.counter }}: {{ item_num|get_item_status }} <br/>
   {% endfor %}
-  {% endcomment %}
  </div>
  <br/>
  <dl class="detail-display">
@@ -112,19 +109,32 @@
   {% endfor %}
  {% endif %}
    <dt>MARC Record format:</dt>
-   <dd><a href="#" onclick="alert('{{ doc }}')">View</a></dd>
+   <dd><a href="#" onclick="$('#marc-display').dialog('open');">View</a></dd>
  </dl>
 {% endblock %}
 
 {% block right-aside-one %}
 <aside class="slideshow">
- {% comment %}
- <img src="{{ record.isbn_t|get_cover_image }}" alt="{{ record.display_title }}" />
- {% endcomment %}
+{% if doc.isbn %}
+ <img src="{{ doc.isbn|get_cover_image }}" height="130" alt="{{ doc.title }}" />
+{% endif %}
 </aside>
 {% endblock %}
 
 {% block right-aside-two %}
+<aside>
+<h2>Search Options</h2>
+<ul>
+ <li>Return to <a href="#">search results</a></li>
+ <li>Start a <a href="/">new search</a></li>
+ <li>Review your <a href="#">search history</a></li>
+</ul>
+</aside>
+{% endblock %}
+
+
+
+{% block right-aside-three %}
  <div id="item-info">
  <h2>Other Libraries</h2>
  <p>
@@ -136,16 +146,6 @@
  </ul>
  </div>
 <br/>
-{% endblock %}
-
-{% block right-aside-three %}
-<aside class="social-media">
-<ul>
- <li class="rss">Get updates via <a href="#">RSS feed</a></li>
- <li class="twitter">Tweet about <em>{{ record.title_display }}</em></li>
- <li>Leave a <a href="#">comment</a></li>
-</ul>
-</aside>
 {% endblock %}
 
 {% block more-scripts %}
@@ -163,7 +163,7 @@
 <div id="marc-display">
 <h2>MARC Record Display</h2>
 <pre>
-{{ record.marc_display }}
+{{ doc.marc_record }}
 </pre>
 </div>
 {% endblock %}

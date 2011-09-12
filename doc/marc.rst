@@ -27,9 +27,15 @@ authority control by such organizations as OCLC.
 .. automodule:: marc.models
    :members:
 
-
-
 `aristotle.marc.bots.marcbots` Contents
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. automodule:: marc.bots.marcbots
+   :members:
+
+Child MARC bots for specific publishers
+---------------------------------------
+
+`aristotle.marc.bots.awbots` American West Bots
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: marc.bots.awbots
    :members:

@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 #    url(r"^catalog",include('catalog.urls')),
     url(r"^etd",include('etd.urls')),
     url(r"^grx",include('grx.urls')),
+    url(r"^marc",include('marc.urls')),
     # Examples:
     # url(r'^$', 'aristotle.views.home', name='home'),
     # url(r'^aristotle/', include('aristotle.foo.urls')),

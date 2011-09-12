@@ -28,6 +28,7 @@ class ItemBot(object):
                 raw_xml = urllib2.urlopen(raw_xml_url).read()
                 self.item_xml = xmlmap.load_xmlobject_from_string(raw_xml,xmlclass=ItemRecord) 
             except:
+                logging.error("ERROR with %s" % raw_xml_url)
                 self.item_xml = None 
         else:
             self.item_id = None
@@ -52,4 +53,14 @@ class ItemBot(object):
             return 'Status unknown for code %s' % self.item_xml.status
         else:
             return status.value
+
+    def volume(self):
+        """
+        Method retrieves Volume from XML or None if not present.
+        """
+        if self.item_xml is not None:
+            if self.item_xml.volume is not None:
+                return 'v. %s' % self.item_xml.volume
+        return None
+            
  
