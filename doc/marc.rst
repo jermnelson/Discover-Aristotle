@@ -33,9 +33,39 @@ authority control by such organizations as OCLC.
    :members:
 
 Child MARC bots for specific publishers
----------------------------------------
+=======================================
 
 `aristotle.marc.bots.awbots` American West Bots
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. automodule:: marc.bots.awbots
+   :members:
+
+`aristotle.marc.bots.eccobots` Eighteenth Century Collections Online (ECCO)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: marc.bots.eccobots
+   :members:
+
+`aristotle.marc.bots.galebots` Gale Publishing files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: marc.bots.galebots
+   :members:
+
+`aristotle.marc.bots.gutenbergbots` Project Gutenberg
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: marc.bots.gutenbergbots
+   :members:
+
+`aristotle.marc.bots.ltibots` LTI Bots
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: marc.bots.ltibots
+   :members:
+
+`aristotle.marc.bots.opbots` Oxford Press Bots
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: marc.bots.opbots
+   :members:
+
+`aristotle.marc.bots.springerbots` Springer EBooks Bots
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: marc.bots.springerbots
    :members:
