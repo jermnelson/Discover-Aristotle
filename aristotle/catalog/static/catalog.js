@@ -113,4 +113,10 @@ function RemoveTerm(li_id) {
   document.forms['catalog_search'].submit();
 }
   
-
+function ShowSearchHistory() {
+ if($('#search-history').attr('display') == 'none') {
+   $('#search-history').attr('display','block');
+ } else {
+   $('#search-history').attr('display','none');
+ }
+}

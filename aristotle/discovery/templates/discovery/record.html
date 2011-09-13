@@ -1,4 +1,5 @@
 {% extends 'cc-library-inside-base.html' %}
+{% load i18n %}
 {% load static %}
 {% load discovery_extras %}
 
@@ -111,6 +112,7 @@
    <dt>MARC Record format:</dt>
    <dd><a href="#" onclick="$('#marc-display').dialog('open');">View</a></dd>
  </dl>
+ <div>{{ doc }}</div>
 {% endblock %}
 
 {% block right-aside-one %}
@@ -122,12 +124,22 @@
 {% endblock %}
 
 {% block right-aside-two %}
-<aside>
+<aside id="search-options">
 <h2>Search Options</h2>
 <ul>
- <li>Return to <a href="#">search results</a></li>
+{% if search_history %}
+ <li>Return to your <a href="{{ last_search }}">{% trans "search results" %}</a></li>
+ <li>Review your <a href="#" onclick="ShowSearchHistory()">search history</a>
+ <div id="search-history">
+  <ul>
+  {% for url, query, timestamp in search_history %}
+   <li><a href="{{ url }}">{{ query|safe }}</a> ({{ timestamp|timesince }} {% trans "ago" %})</li>
+  {% endfor %}
+  </ul>
+ </div>
+ </li>
+{% endif %}
  <li>Start a <a href="/">new search</a></li>
- <li>Review your <a href="#">search history</a></li>
 </ul>
 </aside>
 {% endblock %}
@@ -152,6 +164,7 @@
 <script src="http://jqueryui.com/ui/jquery.ui.core.js"></script>
 <script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script> 
 <script src="http://jqueryui.com/ui/jquery.ui.dialog.js"></script>
+<script src="{% get_static_prefix %}/catalog.js"></script>
 <script>
  $(function() {
     $("#marc-display").dialog({ autoOpen: false });

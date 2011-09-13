@@ -294,6 +294,29 @@ def get_format(record):
         format = 'Unknown'
     return format
 
+def get_subject_names(record):
+    """
+     Iterates through record's 600 fields, returns a list of names
+ 
+     Parameters:
+     * `record` -- MARC record, required
+    """
+    output = []
+    subject_name_fields = marc_record.get_fields('600')
+    for field in subject_name_fields:
+        name = field.get_subfields('a')[0]
+        titles = field.get_subfields('c')
+        for title in titles:
+            name = '%s %s' % (title,name)
+        numeration = field.get_subfields('b')
+        for number in numeration:
+            name = '%s %s' % (name,number)
+        dates = field.get_subfields('d')
+        for date in dates:
+            name = '%s %s' % (name,date)
+        output.append(name)
+    return output
+
 def parse_008(record, marc_record):
     if marc_record['008']:
         field008 = marc_record['008'].value()
@@ -571,10 +594,7 @@ def get_record(marc_record, ils=None):
     
     summary_fields = marc_record.get_fields('520')
     record['summary'] = [field.value() for field in summary_fields]
-    
-    subjname_fields = marc_record.get_fields('600')
-    subjectnames = multi_field_list(subjname_fields, 'a')
-    
+       
     subjentity_fields = marc_record.get_fields('610')
     subjectentities = multi_field_list(subjentity_fields, 'ab')
     
@@ -598,6 +618,8 @@ def get_record(marc_record, ils=None):
         #for subfield_indicator in ('a', 'v', 'x', 'y', 'z'):
         #    more_topics = subfield_list(subfield_indicator)
         #    topics.extend(more_topics)
+    # Process through Subject name fields and add to topics
+    topics.extend(get_subject_names(marc_record))
     record['genre'] = set(genres)
     record['topic'] = set(topics)
     record['place'] = set(places)

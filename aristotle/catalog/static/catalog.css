@@ -17,6 +17,8 @@ aside.discovery-home p {
  color: #FDDB55 !important;
 }
 
+
+
 #contact-lib-detail {
   border: 1px solid #e7e4e0;
   background-color: #530921;
@@ -82,6 +84,34 @@ h1.discovery-home {
 
 #adv-searchbox {
  display: none;
+}
+
+#search-history {
+ border: 1px solid #960;
+ display: none;
+}
+
+
+#search-options {
+ background: #FAFAF8 url('http://www.coloradocollege.edu/global/images/templates/bg/header.jpg');
+ -webkit-box-shadow: 0 0 16px #444;
+ -moz-box-shadow: 0 0 16px #444;
+ -ms-box-shadow: 0 0 16px #444;
+ -o-box-shadow: 0 0 16px #444;
+}
+
+#search-options h2 {
+ color: #960 !important;
+ font-family: NeoFill !important;
+ font-size: 1.3em !important;
+ margin-top: 5px;
+ text-align: center;
+}
+
+#search-options ul {
+ list-style-type: greek !important;
+ margin-bottom: 2px;
+ padding-bottom: 2px;
 }
 
 span.due-back {
