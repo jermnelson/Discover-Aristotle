@@ -5,12 +5,13 @@
 
 {% block head-title %}Details for {{ doc.title }} at Tutt Library{% endblock %}
 {% block more-css %}
- <link href="{% get_static_prefix %}/catalog.css" rel="stylesheet" />
+ <link href="{% get_static_prefix %}/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
+ <link href="{% get_static_prefix %}/discovery.css" rel="stylesheet" />
 {% endblock %}
 
 {% block library-breadcrumb %}
  <div id="breadcrumb">
-  <div class="stage"><a href="http://www.coloradocollege.edu/library">Library Home</a> &raquo; <a href="/">Catalog</a> &raquo; <a href="#" class="on"> {{ doc.full_title }}</a></div>
+  <div class="stage"><a href="http://www.coloradocollege.edu/library">Library Home</a> &raquo; <a href="/">Catalog</a> &raquo; <a href="#" class="on"> {{ doc.full_title|truncatewords:10 }}</a></div>
  </div>
 {% endblock %}
 
@@ -18,7 +19,7 @@
  <h1><strong><a href="#">You can...</a></strong></h1>
  <ul>
   {{ doc|display_online }}
-  <li><a href="#" onclick="alert('cite tbd')">Cite</a> this work with a MLA, Chicago, APA, or other citation styles with <a href="#">RefWorks</a>.</span>
+  <li><a href="#" onclick="$('#citation-dlg').dialog('open');">Cite</a> this work with a MLA, Chicago, APA, or other citation styles with <a href="#">RefWorks</a>.</span>
   </li>
   {{ doc|display_ill }}
   <li><a href="#" onclick="alert('account tbd')">Login</a> to your library account with your
@@ -68,6 +69,14 @@
   <dt>Imprint:</dt>
   <dd>{{ doc.imprint }}</dd>
   {% endif %}
+  {% if doc.publisher %}
+  <dt>Publisher:</dt>
+  <dd>{{ doc.publisher }}</dd>
+  {% endif %}
+  {% if doc.pubyear %}
+  <dt>Year Published:</dt>
+  <dd>{{ doc.pubyear }}</dd>
+  {% endif %}
   {% if doc.format %}
   <dt>Format:</td>
   <dd>{{ doc.format }}</dd>
@@ -112,7 +121,6 @@
    <dt>MARC Record format:</dt>
    <dd><a href="#" onclick="$('#marc-display').dialog('open');">View</a></dd>
  </dl>
- <div>{{ doc }}</div>
 {% endblock %}
 
 {% block right-aside-one %}
@@ -129,14 +137,7 @@
 <ul>
 {% if search_history %}
  <li>Return to your <a href="{{ last_search }}">{% trans "search results" %}</a></li>
- <li>Review your <a href="#" onclick="ShowSearchHistory()">search history</a>
- <div id="search-history">
-  <ul>
-  {% for url, query, timestamp in search_history %}
-   <li><a href="{{ url }}">{{ query|safe }}</a> ({{ timestamp|timesince }} {% trans "ago" %})</li>
-  {% endfor %}
-  </ul>
- </div>
+ <li>Review your <a href="#" onclick="$('#search-history').dialog('open')">search history</a>
  </li>
 {% endif %}
  <li>Start a <a href="/">new search</a></li>
@@ -152,10 +153,11 @@
  <p>
   Search Prospector and WorldCat for the item.  
  </p>
- <ul>
-  <li><a href="{{ doc.id|generate_prospector_url }}">Prospector</a></li>
-  <li><a href="#">Worldcat</a></li>
- </ul>
+  <p><a href="{{ doc.id|generate_prospector_url }}">
+  <img src="http://www.coalliance.org/prospector/_images/prospector_man_smaller.png" style="width:60px;" />
+  Colorado Alliance of Research Libraries Prospector</a>
+  </p>
+  <p><a href="#"><img src="http://www.worldcat.org/wcpa/rel20110913/images/logo_wcmasthead_en.png" alt="Worldcat" /></a></p>
  </div>
 <br/>
 {% endblock %}
@@ -164,19 +166,45 @@
 <script src="http://jqueryui.com/ui/jquery.ui.core.js"></script>
 <script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script> 
 <script src="http://jqueryui.com/ui/jquery.ui.dialog.js"></script>
-<script src="{% get_static_prefix %}/catalog.js"></script>
+<script src="{% get_static_prefix %}/discovery.js"></script>
 <script>
  $(function() {
-    $("#marc-display").dialog({ autoOpen: false });
+    $('#citation-dlg').dialog({ autoOpen: false,
+                                 buttons: {"Ok":function() { $(this).dialog("close"); }},
+                                 width: 550,
+                                 title: "Citations for <em>{{ doc.title|truncatewords:5 }}</em>",});
+    $("#marc-display").dialog({ autoOpen: false,
+                                 buttons: {"Ok":function() { $(this).dialog("close"); }},
+                                   width: 550,
+                                   title: "MARC View for <em>{{ doc.title|truncatewords:5 }}</em>",});
+    $("#search-history").dialog({ autoOpen: false,
+                                 buttons: {"Ok":function() { $(this).dialog("close"); }},
+                                   width: 550,
+                                   title: "Your Search History",});
+
  });
 </script>
 {% endblock %}
 
 {% block dialogs %}
+<div id="citation-dlg">
+<h2>Citations</h2>
+<ul>
+ {% include 'snippets/apa_citation.html' %}
+ {% include 'snippets/chicago_citation.html' %}
+ {% include 'snippets/mla_citation.html' %}
+</ul>
+</div>
 <div id="marc-display">
 <h2>MARC Record Display</h2>
-<pre>
-{{ doc.marc_record }}
-</pre>
+{% include 'snippets/marc_display.html' %}
 </div>
+<div id="search-history">
+ <h2>Search History</h2>
+  <ul>
+  {% for url, query, timestamp in search_history %}
+   <li><a href="{{ url }}">{{ query|safe }}</a> ({{ timestamp|timesince }} {% trans "ago" %})</li>
+  {% endfor %}
+  </ul>
+ </div>
 {% endblock %}

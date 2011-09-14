@@ -1,0 +1,15 @@
+{% load i18n %}
+{% load citation_extras %}
+{% comment %}Basic Book Citation{% endcomment %}
+<div class="bib-citation">
+<h3>APA - American Psychological Association</h3>
+{% for author in doc.author %}
+{% if forloop.last and not forloop.first %}&amp;{% endif %}
+{{ author|apa_name }}
+{% if doc.author|length != 1 %},{% endif %}
+{% endfor %}
+&nbsp;({{ doc.pubyear }}).&nbsp;
+<em>{{ doc.title }}</em>.&nbsp;
+{{ doc.place }}:&nbsp;{{ doc.publisher }}
+</div>
+ 

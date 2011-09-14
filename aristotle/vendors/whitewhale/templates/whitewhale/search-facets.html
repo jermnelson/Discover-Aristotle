@@ -4,8 +4,8 @@
   {% for facet in facets %}
     <a onclick="DisplayFacet(this)"><h5{% if forloop.counter > 2 %} class="closed"{% endif %}>{{ facet.name }}</h5></a>
        <ul class={% if forloop.counter > 2 %}"closed"{% else %}"open"{% endif %}>
-      {% for term,count in facet.terms%}
-       <li><a href="{% new_limit facet.field term %}">{{ term }}</a> ({{ count }})</a></li>
+      {% for term,count in facet.terms %}
+       <li><a href="{% if query %}{% add_limit facet.field term %}{% else %}{% new_limit facet.field term %}{% endif %}">{{ term }}</a> ({{ count }})</a></li>
      {% endfor %}
        </ul>
    {% endfor %}

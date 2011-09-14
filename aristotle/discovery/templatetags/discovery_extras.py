@@ -169,6 +169,17 @@ def get_item_status(item_id):
     status_txt += '</span>'
     return mark_safe(status_txt) 
 
+def get_marc_as_list(raw_marc):
+    """Method takes Solr MARC format and splits into a list of field dictionarys
+    """
+    output = []
+    marc_listing = raw_marc.split("=")
+    for row in marc_listing:
+        output.append({'tag':row[0:3],
+                      'value':row[3:]})
+    return output
+  
+
 def generate_prospector_url(record_id):
     """Generates link to Prospector's union catalog
     """
@@ -194,5 +205,6 @@ register.filter('display_ill',display_ill)
 register.filter('display_online',display_online)
 register.filter('get_cover_image',get_cover_image) 
 register.filter('get_item_status',get_item_status)
+register.filter('get_marc_as_list',get_marc_as_list)
 register.filter('generate_prospector_url',generate_prospector_url)
 register.filter('reduce_subjects',reduce_subjects)

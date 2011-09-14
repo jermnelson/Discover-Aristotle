@@ -3,6 +3,17 @@
 {% load discovery_extras %}
  <div class="results-list">
 {% if response.docs %}
+  <div id="sort_by">
+   {% trans "Sort by:" %}
+   {% for sort in sorts %}
+    {% ifequal sort current_sort %}
+     <span>{{ sort }}</span>
+    {% else %}
+    <span><a href="{% add_sort sort %}">{{ sort }}</a></span>
+    {% endifequal %}
+   {% endfor %}
+  </div>
+
   <ol start="{{ response.start|add:'1' }}">
   {% for doc in response.docs %}
   <li>

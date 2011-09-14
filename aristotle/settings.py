@@ -65,6 +65,7 @@ ADMIN_MEDIA_PREFIX = 'http://discovery.coloradocollege.edu/static/admin/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR,"static"),
     os.path.join(BASE_DIR,"catalog/static"),
+    os.path.join(BASE_DIR,"discovery/static"),
     os.path.join(BASE_DIR,"grx/static"),
     os.path.join(BASE_DIR,"etd/static"),
 )

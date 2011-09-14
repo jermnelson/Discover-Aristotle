@@ -3,7 +3,7 @@
 
 {% block more-css %}
  <link href="{% get_static_prefix %}/pagination.css" rel="stylesheet" />
- <link href="{% get_static_prefix %}/catalog.css" rel="stylesheet" /> 
+ <link href="{% get_static_prefix %}/discovery.css" rel="stylesheet" /> 
 {% endblock %}
 
 {% block results-detail %}
@@ -34,16 +34,7 @@
 {% endblock %}
 
 {% block more-scripts %}
-<script src="{% get_static_prefix %}/jquery.pagination.js"></script>
-<script src="{% get_static_prefix %}/catalog.js"></script>
+<script src="{% get_static_prefix %}/discovery.js"></script>
 <script>
- $(document).ready(function() {
-  $("#result-paginate").pagination({{ catalog_results.result.numFound }}, {
-    items_per_page: $('#solr_rows').val(),
-    load_first_page: false,
-    num_edge_entries: 1,
-    prev_text: "Previous",
-    callback:handleResultPaginateClick});
-  });
 </script>
 {% endblock more-scripts %}

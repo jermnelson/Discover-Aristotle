@@ -88,6 +88,7 @@ FIELDNAMES = [
     'personal_name',
     'place',
     'publisher',
+    'publisher_location',
     'pubyear',
     'series',
     'summary',
@@ -284,10 +285,13 @@ def get_format(record):
             if fixed[24] == 'm':
                 format = 'Thesis'
     # checks 006 to determine if the format is a manuscript
-    if record['006']:
+    if record['006'] and len(format) < 1:
         desc_006 = record['006'].value()
         if desc_006[0] == 't':
             format = 'Manuscript'
+        elif desc_006[0] == 'm' or desc_006[6] == 'o':
+            #! like to use desc_006[9] to further break-down Electronic format
+            format = 'Electronic'
     # Doesn't match any of the rules
     if len(format) < 1:
         logging.error("UNKNOWN FORMAT Title=%s Leader: %s" % (record.title(),leader))
@@ -401,11 +405,11 @@ def get_callnumber(record):
     # Next check to see if there is a local call number
     elif record['099']:
         callnumber = record['099'].value()
-    # Finally checks for value in 050, 994
+    elif record['090']:
+        callnumber = record['090'].value()
+    # Finally checks for value in 050
     elif record['050']:
         callnumber = record['050'].value()
-    elif record['994']:
-        callnumber = record['994'].value()
     return callnumber
 
 def get_items(record,ils=None):
@@ -571,6 +575,7 @@ def get_record(marc_record, ils=None):
     
     if marc_record['260']:
         record['imprint'] = marc_record['260'].format_field()
+        record['publisher_location'] = normalize(marc_record['260']['a'])
         record['publisher'] = normalize(marc_record['260']['b'])
         # grab date from 008
         #if marc_record['260']['c']:
