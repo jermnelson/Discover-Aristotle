@@ -26,6 +26,6 @@ def default(request):
     """Default view for MARC utilities Django application
     """
     return direct_to_template(request,
-                              'marc/default.html',
-                              {'active':sorted(workflows.items())})
+                              'marc/index.html',
+                              {'active':[]})
 

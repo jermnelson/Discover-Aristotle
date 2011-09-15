@@ -38,7 +38,7 @@
 
 {% block main-column %}
  <h1>{{ doc.full_title }}</h1>
- <div class="ils-status">Library Location {% for location in doc.location %}<strong>{{ location }}</strong>{% endfor %}
+ <div class="ils-status">Library Location {% for location in doc.location %}<strong>{{ location }}</strong>{% if not forloop.last %},{% endif %}{% endfor %}
    at Call Number <strong>{{ doc.callnum }}</strong>.
   <br/> Availability - 
   {% for item_num in doc.items %}
@@ -126,7 +126,7 @@
 {% block right-aside-one %}
 <aside class="slideshow">
 {% if doc.isbn %}
- <img src="{{ doc.isbn|get_cover_image }}" height="130" alt="{{ doc.title }}" />
+ <img src="{{ doc.isbn.0|get_cover_image }}" height="130" alt="{{ doc.title }}" />
 {% endif %}
 </aside>
 {% endblock %}
@@ -172,7 +172,7 @@
     $('#citation-dlg').dialog({ autoOpen: false,
                                  buttons: {"Ok":function() { $(this).dialog("close"); }},
                                  width: 550,
-                                 title: "Citations for <em>{{ doc.title|truncatewords:5 }}</em>",});
+                                 title: "Citation Styles for <em>{{ doc.title|truncatewords:5 }}</em>",});
     $("#marc-display").dialog({ autoOpen: false,
                                  buttons: {"Ok":function() { $(this).dialog("close"); }},
                                    width: 550,

@@ -239,7 +239,7 @@ def get_format(record):
                         format = 'DVD Video'
                     elif description[4] == 's':
                         format = 'Blu-ray Video' 
-                    elif description[4] == 's':
+                    elif description[4] == 'b':
                         format = 'VHS Video' 
                     else:
                         logging.error("UNKNOWN description %s for %s" % (description[4],record.title()))
@@ -306,7 +306,7 @@ def get_subject_names(record):
      * `record` -- MARC record, required
     """
     output = []
-    subject_name_fields = marc_record.get_fields('600')
+    subject_name_fields = record.get_fields('600')
     for field in subject_name_fields:
         name = field.get_subfields('a')[0]
         titles = field.get_subfields('c')
