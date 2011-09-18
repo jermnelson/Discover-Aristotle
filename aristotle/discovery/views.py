@@ -106,7 +106,7 @@ def record(request, record_id):
     subject_terms = []
     for subject in doc.get('subject', []):
         params = base_params[:]
-        params.append(('fq', 'subject_facet:"%s"' % subject))
+        params.append(('fq', 'subject_facet:"%s"' % subject.encode('ascii','ignore')))
         solr_url, solr_response = get_solr_response(params)
         subject_terms.append((solr_response['response']['numFound'], subject))
     subject_terms.sort()

@@ -165,8 +165,10 @@ def get_format(record):
     if record['007']:
         description = record['007'].value()
     leader = record.leader
+    #logging.error(u"168:%s\n\tFormat=%s\n\tDescription=%s\n\tLeader=%s\n" %  (record.title(),format,description,leader))
     if len(leader) > 7:
         if len(description) > 5:
+            #logging.error("171\tDescription > 5 pos 0=%s pos 1=%s" % (description[0],description[1]))
             if description[0] == 'a':
                 if description[1] == 'd':
                     format = 'Atlas'
@@ -242,7 +244,7 @@ def get_format(record):
                     elif description[4] == 'b':
                         format = 'VHS Video' 
                     else:
-                        logging.error("UNKNOWN description %s for %s" % (description[4],record.title()))
+                        logging.error("247 UNKNOWN description %s for %s" % (description[4],record.title()))
                 elif description[1] == 'f':        # videocassette
                     format = 'VHS Video'
                 elif description[1] == 'r':
@@ -250,10 +252,15 @@ def get_format(record):
     # now do guesses that are NOT based upon physical description 
     # (physical description is going to be the most reliable indicator, 
     # when it exists...)
+    #logging.error("255\tFormat is now set to %s try testing leader pos 6=%s" % (format,leader[6]))
     if leader[6] == 'a':                # language material
         fixed = record['008'].value()
+        #logging.error("258\tLeader pos 7=%s" % (leader[7]))
+        if leader[7] == 'c':
+            format = 'Collection'
         if leader[7] == 'm':            # monograph
             if len(fixed) > 22:
+                #logging.error("261\t008 fixed pos 23=%s" % fixed[23])
                 if fixed[23] == 'd':    # form of item = large print
                     format = 'Large Print Book'
                 elif fixed[23] == 's':    # electronic resource
@@ -273,17 +280,50 @@ def get_format(record):
                     # and nobody else would consider to be a serial 
                     # from being labeled as a magazine.
                     format = 'Book'
+    elif leader[6] == 'b':
+        format = 'Music CD'
     elif leader[6] == 'e':
         format = 'Map'
     elif leader[6] == 'c':
         format = 'Musical Score'
+    elif leader[6] == 'g':
+        format = 'Video'
+    elif leader[6] == 'd':
+        format = 'Manuscript'
+    elif leader[6] == 'j':
+        format = 'Music Cassette' 
     elif leader[6] == 'm':
         format = 'Electronic'
+    elif leader[6] == 'p':
+        if leader[7] == 'c':
+            format = 'Collection'
+        else:
+            format = 'Mixed Materials'
     elif leader[6] == 't':
-        fixed = record['008'].value()
+        if record['008']:
+            fixed = record['008'].value()
+        else:
+            fixed = ''
+        #logging.error("295 IN LEADER[6] = t, fixed[24] = %s" % (fixed[24]))
         if len(fixed) > 22:
             if fixed[24] == 'm':
                 format = 'Thesis'
+            elif fixed[24] == 'b':
+                format = 'Book'
+            else:
+                thesis_re = re.compile(r"Thesis")
+                #! Quick hack to check for "Thesis" string in 502
+                if record['502']:
+                    desc502 = record['502'].value()
+                else:
+                    desc502 = ''
+                if thesis_re.search(desc502):
+                    format = 'Thesis'
+                else:
+                    format = 'Manuscript'
+        else:
+            format = 'Manuscript'
+        #logging.error("305 FORMAT is %s" % format)
     # checks 006 to determine if the format is a manuscript
     if record['006'] and len(format) < 1:
         desc_006 = record['006'].value()
@@ -294,7 +334,7 @@ def get_format(record):
             format = 'Electronic'
     # Doesn't match any of the rules
     if len(format) < 1:
-        logging.error("UNKNOWN FORMAT Title=%s Leader: %s" % (record.title(),leader))
+        logging.error("309 UNKNOWN FORMAT Title=%s Leader: %s" % (record.title(),leader))
         format = 'Unknown'
     return format
 
@@ -644,7 +684,11 @@ def get_record(marc_record, ils=None):
         record['corporate_name'].append(corporate_name)
 
     url_fields = marc_record.get_fields('856')
-    record['url'] = multi_field_list(url_fields, 'u')
+    record['url'] = []
+    for field in url_fields:
+        url_subfield = field.get_subfields('u')
+        if url_subfield:
+            record['url'].append(url_subfield[0])
     record['marc_record'] = marc_record.__str__() # Should output to MARCMaker format
     return record
 

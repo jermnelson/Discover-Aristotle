@@ -15,7 +15,7 @@ Dependencies
 
 * `django <http://www.djangoproject.com/>`_
 * `eulfedora <https://github.com/emory-libraries/eulfedora>`_ 
-* `eulxml <https://github.com/emory-libraries/eulfedora>`_ 
+* `eulxml <https://github.com/emory-libraries/eulxml>`_ 
 * `pymarc <https://github.com/tow/sunburnt>`_
 * `sunburnt <https://github.com/edsu/pymarc>`_
 

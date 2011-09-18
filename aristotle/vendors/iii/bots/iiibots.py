@@ -7,6 +7,7 @@
 import urllib2,logging,datetime
 from eulxml import xmlmap
 from vendors.iii.models import ItemRecord,IIIStatusCode
+from discovery.parsers.tutt_maps import LOCATION_CODE_MAP
 
 class ItemBot(object):
     """`ItemBot` uses the eulxml module to capture specific information about an
@@ -33,9 +34,23 @@ class ItemBot(object):
         else:
             self.item_id = None
 
+    def location(self):
+        """
+        Retrieves location code from XML and then does a look-up
+        using the discovery.parsers.tutt_map LOCATION_CODE_MAP
+        for the human-friendly facet label
+        """
+        location = None
+        if self.item_xml is not None:
+            try:
+                location = LOCATION_CODE_MAP[self.item_xml.location_code.strip()]
+            except KeyError:
+                location = 'Unknown location code %s' % self.item_xml.location_code
+        return location
+
     def status(self):
         """
-        Method retrieves status code from XML
+        Retrieves status code from XML
         """
         if self.item_xml is not None:
             try:
