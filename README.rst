@@ -26,10 +26,10 @@ Current and Future Django Applications
 * :doc:`discovery` Forked Kochief discovery application, modified for use as the Discovery Interface for Aristotle.
 * :doc:`datasets` Generic scientific, social science, and humanity dataset management for use by other applications.
 * :doc:`etd`  Electronic Thesis and Dissertation Django application
-* frbr FRBR object-oriented models front-end to Cassandra, Postgres, or sqlite, or Google App Engine (requires additional modules)
+* `FUTURE` frbr FRBR object-oriented models front-end to Cassandra, Postgres, or sqlite, or Google App Engine (requires additional modules)
 * :doc:`grx`  Gold Rush XML microservices application
 * :doc:`marc` MARC record manipulation including MARC record imports into traditional ILS
-* schema_org Schema.org microformat support
+* `FUTURE` schema_org Schema.org microformat support
 * :doc:`vendors` Contains vendor specific services
     * vendors.iii Innovative Patron API and item XML extraction applications
     * vendors.whitewhale White Whale design templates for Colorado College

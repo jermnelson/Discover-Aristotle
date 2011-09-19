@@ -1,12 +1,12 @@
 {% load static %}
-{% load catalog_extras %}
+{% load grx_extras %}
  <div class="results-list">
- <h1>{{ title }}</h1>
+ <h1>{{ title }} ({{ grx_results|length }})</h1>
 {% if grx_results %}
-	<ol start="{{ grx_results|length|add:'1' }}">
+	<ol>
         {% for record in grx_results %}
 	 <li>
-	  <h2><a href="{{ record.url }}">{{ record.title }}</a></h2>
+	  <h2><a href="{{ record.url }}">{{ record.title }}</a> {{ record.url|get_favicon }}</h2>
 	  <div class="details">
           <table>
 	    <tbody>
@@ -16,9 +16,12 @@
 	      </tr>
 	      <tr>
 	       <th>Description:</th>
-	       <td>
-                <td>{{ record.description }}</td>
+               <td>{{ record.note}}</td>
 	      </tr>
+              <tr>
+               <th>URL:</th>
+               <td><a href="{{ record.url }}">{{ record.url }}</a></td>
+              </tr>
             </tbody>
          </table>
 	</div>

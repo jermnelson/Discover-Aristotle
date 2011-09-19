@@ -64,6 +64,7 @@ def search(request):
     if request.method == 'POST':
         query = request.POST['search_phrase']
         pass
+    return HttpResponse('IN SEARCH query is %s' % request.POST['search_phrase'])
 
 def subjects(request,subject=None):
     """Displays legacy HTML of subjects."""
@@ -73,12 +74,20 @@ def subjects(request,subject=None):
                                   'grx/subjects.html',
                                   {'subjects':subjects})
     else:
+        grx_results = []
+        raw_results = grx_bot.getDatabasesBySubject(subject)
+        for row in raw_results:
+            solr_result = solr_bot.searchForTitle(row['title'])
+            if solr_result:
+                grx_results.append(solr_result)
+            else:
+                grx_results.append(row)    
         return direct_to_template(request,
                                   'grx/index.html',
                                   {'title':'%s Databases' % subject,
                                    'a_to_m':a_to_m,
                                    'n_to_z':n_to_z,
-                                   'grx_results':[],
+                                   'grx_results':grx_results,
                                    'subjects':subjects})
 
 def titles(request,alpha=None):
@@ -91,8 +100,20 @@ def titles(request,alpha=None):
                                   'grx/titles.html',
                                   {'titles':None})
     else:
+        grx_results = []
+        raw_results = grx_bot.getDatabasesByAlpha(alpha)
+        for row in raw_results:
+            solr_result = solr_bot.searchForTitle(row[1])
+            if solr_result:
+                grx_results.append(solr_result)
+            else:
+                grx_results.append(grx_bot.getDatabaseDetail(grxid=row[0]))    
         return direct_to_template(request,
                                   'grx/index.html',
-                                  {'title':'%s Databases' % alpha.upper()})
+                                  {'title':'%s Databases' % alpha.upper(),
+                                  'a_to_m':a_to_m,
+                                  'n_to_z':n_to_z,
+                                  'grx_results':grx_results,
+                                  'subjects':Subject.objects.all()})
         
         

@@ -10,10 +10,10 @@
        {% comment %}START SEARCHBOX DIV {% endcomment %}
 	<div id="searchbox">
 	 <ul class="search-help">
-	   <li><a href="#" onclick="DisplaySearch(this)">Advanced Search</a></li>
-           <li><a href="/">New Search</a></li>
-	   <li><a href="http://tiger.coloradocollege.edu">Classic TIGER</a></li>
-	   <li><a href="#">Need help?</a></li>
+	   <li><a href="#" onclick="DisplaySearch(this)">{% trans "Advanced Search" %}</a></li>
+           <li><a href="/">{% trans "New Search" %}</a></li>
+	   <li><a href="http://tiger.coloradocollege.edu">{% trans "Classic TIGER" %}</a></li>
+	   <li><a href="#" onclick="alert('Coming soon.')">{% trans "Need help?" %}</a></li>
          </ul>
 
 	  <form action="{% url discovery-search %}" name="catalog_search">
@@ -33,7 +33,6 @@
 	    </fieldset>
         {% endblock %}
         {% block adv-searchbox %}
-        {% comment %}
         <fieldset id="adv-searchbox">
          <h3>Advanced Search</h3>
          <select name="field1_type">
@@ -58,7 +57,6 @@
          <input type="text" name="field3_phrase" value="" />
          <input type="submit" name="btnsubmit" class="submit" value="Search" />
         </fieldset>
-        {% endcomment %}
         {% endblock %}
         {% if limits %}
 	<ul class="search-filters" id="search-filters">

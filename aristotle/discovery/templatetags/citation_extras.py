@@ -7,7 +7,7 @@ from django import template
 from django.utils.safestring import mark_safe
 register = template.Library()
 
-DATE_RE = re.compile(r'\(\d+\s*\d*\)')
+DATE_RE = re.compile(r'\(*(\d+)\s*-*(d*)\)*')
 SUFFIX_LIST = ['JR','SR','I','II','III','IV']
 
 def separate_author(raw_author):
@@ -45,4 +45,40 @@ def apa_name(author):
             output += ' %s.' % name[0].upper()
     return mark_safe(output)
 
+def chicago_first_author(author):
+    """Generates family name, given name first initial, cheats
+    and uses apa_name function."""
+    return apa_name(author)
+
+def chicago_name(author):
+    """Generates given name middle initials family name for
+    additional authors in Chicago citation format."""
+    author = separate_author(author)
+    output = str()
+    if author.has_key('given'):
+        output += "%s " % author['given']
+    if author.has_key('middle'):
+        for name in author['middle']:
+            output += '%s. ' % name[0].upper() 
+    output += author['family']
+    return mark_safe(output)
+    
+def mla_name(author):
+    """Generates family name, given name, first initial for 
+    MLA format."""
+    author = separate_author(author)
+    output = author['family']
+    if author.has_key('given'):
+        output += ', %s' % author['given']
+    if author.has_key('middle'):
+        for name in author['middle']:
+            output += '%s. ' % name
+    if output[-1] != '.':
+        output += '.'
+    return mark_safe(output)
+
+
 register.filter('apa_name',apa_name)
+register.filter('chicago_first_author',chicago_first_author)
+register.filter('chicago_name',chicago_name)
+register.filter('mla_name',mla_name)

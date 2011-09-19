@@ -26,7 +26,10 @@ aside.discovery-home p {
   padding: 10px 15px;
 }
 
-
+div.bib-citation {
+  text-indent: -20px !important; 
+  padding-left: 15px !important;
+}
 
 div.discovery-service {
   background-color: #FFFFFF;

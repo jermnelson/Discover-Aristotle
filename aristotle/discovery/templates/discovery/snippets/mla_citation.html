@@ -2,4 +2,10 @@
 {% load citation_extras %}
 <div class="bib-citation">
 <h3>MLA - Modern Language Association</h3>
+{% for author in doc.author %}
+{% if forloop.first %}{{ author|mla_name }}{% else %}
+{% if forloop.last %} and {% endif %}
+{{ author|chicago_name }}{% endif %}
+{% endfor %} <em>{{ doc.title|title }}</em>. {{ doc.publisher_location }}, {{ doc.publisher }},
+{{ doc.pubyear }}. {% if doc.format != 'Electronic' %}Print{% endif %}.
 </div>

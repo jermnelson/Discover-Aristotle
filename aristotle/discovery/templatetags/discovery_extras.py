@@ -203,6 +203,25 @@ def reduce_subjects(doc):
     subjects.sort()
     return set(subjects)
 
+def search_field_options(output_html):
+    """
+    Generates a list of field search options
+    """
+    field_types = [('keyword','Any Field'),
+                   ('author','Author'),
+                   ('title','Title'),
+                   ('subject','Subject')]
+    for row in field_types:
+        output_html += '<option value="%s">%s</option>' % row
+    return mark_safe(output_html)
+
+def search_operator_options(output_html):
+    """Generates a list of boolean search HTML options for
+    AND, AND NOT, OR
+    """
+    for row in ['AND','AND NOT','OR']:
+        output_html += '<option value="%s">%s</option>' % (row,row.title())
+    return mark_safe(output_html)
 
 register.filter('display_ill',display_ill)
 register.filter('display_online',display_online)
@@ -211,3 +230,5 @@ register.filter('get_item_status',get_item_status)
 register.filter('get_marc_as_list',get_marc_as_list)
 register.filter('generate_prospector_url',generate_prospector_url)
 register.filter('reduce_subjects',reduce_subjects)
+register.filter('search_field_options',search_field_options)
+register.filter('search_operator_options',search_operator_options)

@@ -2,4 +2,13 @@
 {% load citation_extras %}
 <div class="bib-citation">
 <h3>Chicago Manual of Style/Turabian</h3>
+{% for author in doc.author %}
+{% if forloop.first %}{{ author|chicago_first_author }}{% else %}
+{% if forloop.last and not forloop.first %} and {% endif %}
+{{ author|chicago_name }} 
+{% endif %}
+{% if doc.author|length != 1 %},{% endif %}
+{% endfor %}
+<em>{{ doc.title|title }}</em>.
+{{ doc.publisher_location }}: {{ doc.publisher }}, {{ doc.pubyear }}.
 </div>

@@ -202,7 +202,7 @@ def get_format(record):
                 elif description[1] == 'l':
                     format = 'Drawing'
                 elif description[1] == 'o':
-                    format = 'FlashCard'
+                    format = 'Flash Card'
                 elif description[1] == 'n':
                     format = 'Chart'
                 else:
@@ -253,7 +253,7 @@ def get_format(record):
     # (physical description is going to be the most reliable indicator, 
     # when it exists...)
     #logging.error("255\tFormat is now set to %s try testing leader pos 6=%s" % (format,leader[6]))
-    if leader[6] == 'a':                # language material
+    if leader[6] == 'a' and len(format) < 1:                # language material
         fixed = record['008'].value()
         #logging.error("258\tLeader pos 7=%s" % (leader[7]))
         if leader[7] == 'c':
@@ -280,26 +280,26 @@ def get_format(record):
                     # and nobody else would consider to be a serial 
                     # from being labeled as a magazine.
                     format = 'Book'
-    elif leader[6] == 'b':
+    elif leader[6] == 'b' and len(format) < 1:
         format = 'Music CD'
-    elif leader[6] == 'e':
+    elif leader[6] == 'e' and len(format) < 1:
         format = 'Map'
-    elif leader[6] == 'c':
+    elif leader[6] == 'c' and len(format) < 1:
         format = 'Musical Score'
-    elif leader[6] == 'g':
+    elif leader[6] == 'g' and len(format) < 1:
         format = 'Video'
-    elif leader[6] == 'd':
+    elif leader[6] == 'd' and len(format) < 1:
         format = 'Manuscript'
-    elif leader[6] == 'j':
+    elif leader[6] == 'j' and len(format) < 1:
         format = 'Music Cassette' 
-    elif leader[6] == 'm':
+    elif leader[6] == 'm' and len(format) < 1:
         format = 'Electronic'
-    elif leader[6] == 'p':
+    elif leader[6] == 'p' and len(format) < 1:
         if leader[7] == 'c':
             format = 'Collection'
         else:
             format = 'Mixed Materials'
-    elif leader[6] == 't':
+    elif leader[6] == 't' and len(format) < 1:
         if record['008']:
             fixed = record['008'].value()
         else:
@@ -311,6 +311,7 @@ def get_format(record):
             elif fixed[24] == 'b':
                 format = 'Book'
             else:
+                logging.error("314 Trying re on field 502 for %s" % record.title())
                 thesis_re = re.compile(r"Thesis")
                 #! Quick hack to check for "Thesis" string in 502
                 if record['502']:
@@ -323,7 +324,6 @@ def get_format(record):
                     format = 'Manuscript'
         else:
             format = 'Manuscript'
-        #logging.error("305 FORMAT is %s" % format)
     # checks 006 to determine if the format is a manuscript
     if record['006'] and len(format) < 1:
         desc_006 = record['006'].value()

@@ -22,8 +22,8 @@ urlpatterns = patterns('grx.views',
     (r'^$','default'),
     (r'search$','search'),
     (r'subjects$','subjects'),
-    (r'subject/(\w+[\s\w]*)$','subjects'),
+    (r'subject/(.*)$','subjects'),
     (r'titles$','titles'),
-    (r'titles/(\w+[\s\w]*)$','titles'),
+    (r'titles/(.*)$','titles'),
 )
 
