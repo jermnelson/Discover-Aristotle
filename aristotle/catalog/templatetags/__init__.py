@@ -1,1 +1,0 @@
-# (c) Colorado College

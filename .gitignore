@@ -1,8 +1,10 @@
 etd/*
 *.pyc
-localsettings.py
+local_settings.py
 aristotle/catalog/solr_cache
 aristotle/aristotle.sqlite
+aristotle/dev.db
 log
+site_media
 sitestatic
 _build

@@ -1,0 +1,375 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-02-20 00:13+0100\n"
+"PO-Revision-Date: 2010-03-04 09:26+0100\n"
+"Last-Translator: James Pic <http://jamespic.com>\n"
+"Language-Team: Pinax French <http://www.transifex.net/projects/p/pinax/team/fr/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+
+#: templates/homepage.html:6
+msgid "Welcome"
+msgstr "Bienevenue"
+
+#: templates/homepage.html:11
+msgid "Welcome to Pinax"
+msgstr "Bienvenue sur notre site"
+
+#: templates/homepage.html:14
+msgid ""
+"\n"
+"        <b>Pinax</b> is a <a href=\"http://djangoproject.com/\">Django</a>\n"
+"        project intended to provide a starting point for websites. By\n"
+"        integrating numerous reusable Django apps to take care of the\n"
+"        things that many sites have in common, it lets you focus on what\n"
+"        makes your site different.\n"
+"        "
+msgstr ""
+
+#: templates/homepage.html:24
+msgid ""
+"\n"
+"        For more information about Pinax, see\n"
+"        <a href=\"http://pinaxproject.com/\">http://pinaxproject.com/</a>.\n"
+"        "
+msgstr ""
+
+#: templates/homepage.html:30
+msgid "About this project"
+msgstr "A propos de ce projet"
+
+#: templates/homepage.html:33
+msgid ""
+"\n"
+"        This project demonstrates a social networking site. It provides\n"
+"        profiles, friends, photos, blogs, tribes, wikis, tweets, bookmarks,\n"
+"        swaps, locations and user-to-user messaging.\n"
+"        "
+msgstr ""
+
+#: templates/homepage.html:40
+msgid ""
+"\n"
+"        In 0.5 this was called \"complete_project\".\n"
+"        "
+msgstr ""
+
+#: templates/homepage.html:44
+#, python-format
+msgid "Wondering <a href=\"%(what_next_url)s\">What Next</a>?"
+msgstr "Vous demandez-vous <a href=\"%(what_next_url)s\">Que faire maintenant</a>?"
+
+#: templates/homepage.html:49
+#, python-format
+msgid ""
+"You can <a href=\"%(signup_url)s\">Sign up</a> and <a href=\"%(login_url)s"
+"\">Log in</a> to try out the site."
+msgstr ""
+"Vous pouvez <a href=\"%(signup_url)s\">vous inscrire</a> et <a href=\"%(login_url)s"
+"\">vous authentifier</a> pour essayer le site."
+
+#: templates/homepage.html:51
+#, python-format
+msgid "You can <a href=\"%(login_url)s\">Log in</a> to try out the site."
+msgstr "Vous pouvez <a href=\"%(login_url)s\">vous authentifier</a> pour essayer le site."
+
+#: templates/site_base.html:17
+msgid "Account"
+msgstr "Compte"
+
+#: templates/site_base.html:17
+msgid "Admin"
+msgstr "Administration"
+
+#: templates/site_base.html:17
+msgid "Logout"
+msgstr "Déconnection"
+
+#: templates/site_base.html:19
+msgid "Login"
+msgstr "Authentification"
+
+#: templates/site_base.html:19
+msgid "or"
+msgstr "ou"
+
+#: templates/site_base.html:19
+msgid "Sign up"
+msgstr "Inscription"
+
+#: templates/site_base.html:28
+msgid "Profile"
+msgstr "Profil"
+
+#: templates/site_base.html:29
+msgid "Projects"
+msgstr "Projets"
+
+#: templates/site_base.html:30
+msgid "Notices"
+msgstr "Notifications"
+
+#: templates/site_base.html:42
+msgid "&copy; 2010 &lt;your company here&gt;"
+msgstr "&copy; 2010 &lt;votre entreprise ici&gt;"
+
+#: templates/site_base.html:43
+msgid "About"
+msgstr "A propos"
+
+#: templates/site_base.html:44
+msgid "Terms of Service"
+msgstr "Termes du service"
+
+#: templates/site_base.html:45
+msgid "Privacy Policy"
+msgstr "Politique de confidentialité"
+
+#: templates/site_base.html:46
+msgid "DMCA Notice"
+msgstr ""
+
+#: templates/about/what_next.html:6 templates/about/what_next.html.py:9
+msgid "What Next?"
+msgstr "Que faire maintenant?"
+
+#: templates/about/what_next.html:35
+#, python-format
+msgid ""
+"Start by <a href=\"%(signup_url)s\">signing up</a> and <a href=\"%(login_url)"
+"s\">logging in</a>."
+msgstr ""
+"Commencez par <a href=\"%(signup_url)s\">vous inscrire</a> et <a href=\"%(login_url)"
+"s\">vous authentifier</a>."
+
+#: templates/about/what_next.html:37
+#, python-format
+msgid "Start by <a href=\"%(login_url)s\">logging in</a>."
+msgstr "Commencez par <a href=\"%(login_url)s\">vous authentifier</a>."
+
+#: templates/account/base.html:10
+msgid "E-Mail Addresses"
+msgstr "Adresses email"
+
+#: templates/account/base.html:11
+msgid "OpenID Associations"
+msgstr "Associations OpenID"
+
+#: templates/account/base.html:13
+msgid "Change Password"
+msgstr "Changer de mot de passe"
+
+#: templates/account/base.html:15
+msgid "Set Password"
+msgstr "Définir le mot de passe"
+
+#: templates/account/base.html:18
+msgid "Delete Password"
+msgstr "Effacer le mot de passe"
+
+#: templates/account/base.html:20
+msgid "Language"
+msgstr "Langage"
+
+#: templates/account/base.html:21
+msgid "Timezone"
+msgstr "Fuseau horairre"
+
+#: templates/site_base.html:54
+msgid "Photos"
+msgstr "Photos"
+
+#: templates/site_base.html:55
+msgid "Blogs"
+msgstr "Blogs"
+
+#: templates/site_base.html:56
+msgid "Tribes"
+msgstr "Tribus"
+
+#: templates/site_base.html:57
+msgid "Tweets"
+msgstr "Tweets"
+
+#: templates/site_base.html:58
+msgid "Bookmarks"
+msgstr "Favoris"
+
+#: templates/site_base.html:59
+msgid "Swaps"
+msgstr "Echanges"
+
+#: templates/site_base.html:60
+msgid "Locations"
+msgstr "Locations"
+
+#: templates/site_base.html:61
+msgid "Inbox"
+msgstr "Boite de récéption"
+
+#: templates/account/base.html:22
+msgid "Avatar"
+msgstr "Avatar"
+
+#: templates/account/base.html:23 templates/account/other_services.html:5
+#: templates/account/other_services.html:9
+msgid "Other Services"
+msgstr "Autres services"
+
+#: templates/account/other_services.html:10
+msgid "Twitter"
+msgstr "Twitter"
+
+#: templates/account/other_services.html:15
+msgid "You have already authorized a twitter account."
+msgstr "Vous avez déjà autorisé un compte twitter."
+
+#: templates/account/other_services.html:16
+msgid "Change your account with this form."
+msgstr "Changez votre compte avec ce formulaire"
+
+#: templates/account/other_services.html:25
+msgid "save"
+msgstr "sauvegarder"
+
+#: templates/friends_app/contacts.html:7
+#: templates/friends_app/contacts.html:10
+msgid "Contacts"
+msgstr "Contacts"
+
+#: templates/friends_app/contacts.html:24
+#, fuzzy
+msgid "upload"
+msgstr "téléchangerement"
+
+#: templates/friends_app/contacts.html:34
+msgid "Import Google Contacts"
+msgstr "Importer les contacts google"
+
+#: templates/friends_app/contacts.html:51
+msgid "Import Yahoo Address Book"
+msgstr "Importer les contacts Yahoo!"
+
+#: templates/friends_app/contacts.html:86
+msgid "No contacts."
+msgstr "Pas de contacts"
+
+#: templates/friends_app/invitations.html:6
+#: templates/friends_app/invitations.html:9
+msgid "Invitations"
+msgstr "Invitations"
+
+#: templates/friends_app/invitations.html:11
+#: templates/friends_app/invite.html:5 templates/friends_app/invite.html:9
+#: templates/friends_app/invite_facebox.html:3
+#, fuzzy
+msgid "Invite someone new to join"
+msgstr "Invitez quelqu'un de nouveau à nous rejoindre"
+
+#: templates/friends_app/invitations.html:13
+#, fuzzy
+msgid "Friendship Requests Received"
+msgstr "Demande d'ami recu"
+
+#: templates/friends_app/invitations.html:28
+msgid "accept"
+msgstr "accepter"
+
+#: templates/friends_app/invitations.html:34
+msgid "decline"
+msgstr "décliner"
+
+#: templates/friends_app/invitations.html:48
+#, fuzzy
+msgid "No friendship requests received."
+msgstr "Aucune demande d'ami recue."
+
+#: templates/friends_app/invitations.html:52
+msgid "Friendship Requests Sent"
+msgstr "Demande d'ami envoyée"
+
+#: templates/friends_app/invitations.html:65
+msgid "No friendship requests sent."
+msgstr "Pas de demande d'ami envoyé"
+
+#: templates/friends_app/invitations.html:69
+#, fuzzy
+msgid "Join Requests Sent"
+msgstr "Demandes d'inscription envoyées"
+
+#: templates/friends_app/invitations.html:87
+msgid "No join requests sent."
+msgstr "Pas de demande d'inscriptio envoyée."
+
+#: templates/friends_app/invite.html:11
+msgid ""
+"If you'd like to invite someone to join Pinax, you can enter their email "
+"address and a message for them below:"
+msgstr ""
+"Si vous voulez inviter quelqu'un à rejoindre notre site, vous pouvez saisir "
+"leurs adresses email et rédiger un message pour eux ci-dessous:"
+
+#: templates/friends_app/invite_form.html:11
+msgid "Someone with this email address has already joined:"
+msgstr "Quelqu'un avec cette adresse email est déjà membre du site:"
+
+#: templates/notification/single.html:7 templates/notification/single.html:10
+msgid "Notice"
+msgstr "Notifications"
+
+#: templates/photos/base.html:18
+#, fuzzy
+msgid "Latest Photos"
+msgstr "Dernieres photos"
+
+#: templates/photos/base.html:19
+msgid "Your Photos"
+msgstr "Vos photos"
+
+#: templates/photos/base.html:20
+msgid "Friends' Photos"
+msgstr "Photos de vos amis"
+
+#: templates/photos/base.html:21
+msgid "Upload a Photo"
+msgstr "Envoyer une photo"
+
+#: templates/tags/index.html:17
+msgid "Tags"
+msgstr "Tags"
+
+#: templates/tags/index.html:20
+msgid "All Photos Matching "
+msgstr "Toutes les photos correspondantes "
+
+#: templates/tags/index.html:66
+msgid "All Blog Posts Matching "
+msgstr "Tout les articles de blog correspondants "
+
+#: templates/tags/index.html:69
+msgid "These are blog posts from everyone:"
+msgstr "Ce sont les articles de blog de tout les membres:"
+
+#: templates/tags/index.html:77
+#, python-format
+msgid "All Tribes Matching <i>%(tag)s</i>"
+msgstr "Toutes les tribus correspondant à <i>%(tag)s</i>"
+
+#: templates/tags/index.html:86
+#, python-format
+msgid "All Tribe Topics Matching <i>%(tag)s</i>"
+msgstr "Tout les sujets de tribus correspondant à <i>%(tag)s</i>"
+
+#: templates/tags/index.html:93
+#, python-format
+msgid "All Wiki Articles Matching <i>%(tag)s</i>"
+msgstr "Tout les articles wiki correspondant à <i>%(tag)s</i>"

@@ -1,0 +1,107 @@
+{% extends "messages/base.html" %}
+
+{% load i18n %}
+{% load account_tags %}
+
+{% block head_title %}{% trans "Invitations" %}{% endblock %}
+
+{% block body %}
+    <h1>{% trans "Invitations" %}</h1>
+    
+    <p><a href="{% url invite_to_join %}" rel="facebox">{% trans "Invite someone new to join" %}</a></p>
+    
+    <h2>{% trans "Friendship Requests Received" %}</h2>
+    
+    {% if invites_received %}
+        <table class="invitation_list">
+            {% for invitation in invites_received %}
+                {% ifequal invitation.status "2" %}
+                    <tr>
+                        <td colspan="3" class="friendship_request">
+                            <p>From <a href="{% url profile_detail invitation.from_user.username %}">{% user_display invitation.from_user %}</a>
+                                ({{ invitation.sent }}):</p>
+                            <p class="invitation_message">{{ invitation.message }}</p>
+                            <form method="post" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name="invitation" value="{{ invitation.id }}"/>
+                                <input type="hidden" name="action" value="accept"/>
+                                <input type="submit" value="{% trans 'accept' %}" />
+                            </form>
+                            <form method="post" action="">
+                                {% csrf_token %}
+                                <input type="hidden" name="invitation" value="{{ invitation.id }}"/>
+                                <input type="hidden" name="action" value="decline"/>
+                                <input type="submit" value="{% trans 'decline' %}" />
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td><a href="{% url profile_detail invitation.from_user.username %}">{% user_display invitation.from_user %}</a></td>
+                        <td>{{ invitation.sent }}</td>
+                        <td class="invitation_{{ invitation.status }}">{{ invitation.get_status_display }}</td>
+                    </tr>
+                {% endifequal %}
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>{% trans "No friendship requests received." %}</p>
+    {% endif %}
+    
+    
+    <h2>{% trans "Friendship Requests Sent" %}</h2>
+    
+    {% if invites_sent %}
+        <table class="invitation_list">
+            {% for invitation in invites_sent %}
+                <tr>
+                    <td><a href="{% url profile_detail invitation.to_user.username %}">{% user_display invitation.to_user %}</a></td>
+                    <td>{{ invitation.sent }}</td>
+                    <td class="invitation_{{ invitation.status }}">{{ invitation.get_status_display }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>{% trans "No friendship requests sent." %}</p>
+    {% endif %}
+    
+    
+    <h2>{% trans "Join Requests Sent" %}</h2>
+    
+    {% if joins_sent %}
+        <table class="invitation_list">
+            {% for invitation in joins_sent %}
+                <tr>
+                    <td>{{ invitation.contact.email }}</td>
+                    <td>{{ invitation.sent }}</td>
+                    <td class="invitation_{{ invitation.status }}">{{ invitation.get_status_display }}</td>
+                    <td>
+                        {% for other_user in invitation.contact.users.all %}
+                            <a href="{% url profile_detail other_user.username %}">{% user_display other_user %}</a>
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>{% trans "No join requests sent." %}</p>
+    {% endif %}
+    
+{% endblock %}
+
+{% block extra_body %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#join-invite').hide();
+            $('#join-invite-toggle').click(function() {
+                $('#join-invite').slideToggle();
+                $('#join-invite').autoscroll();
+                return false;
+            });
+            if ($('#join-invite ul.errorlist').length) {
+                $('#join-invite').show();
+                $('#join-invite ul.errorlist').autoscroll();
+            }
+        });
+    </script>
+{% endblock %}
