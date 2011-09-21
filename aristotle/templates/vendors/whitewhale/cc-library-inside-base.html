@@ -4,10 +4,7 @@
   <meta charset="utf-8" />
    <title>{% block head-title %}Library Inside Page {% endblock %}• Colorado Colllege</title>
    {% block base-css %}
-        {% comment %} These styles should refer to hosted css on Colorado College main website{% endcomment %}
-        <link href="{{ STATIC_URL }}css/cc.css" rel="stylesheet" />
-        <link href="{{ STATIC_URL }}css/fancybox.css" rel="stylesheet" />
-        <link href="{{ STATIC_URL }}css/departments/library.css" rel="stylesheet" />
+    {% include 'cc-styles.html' %}
    {% endblock %}
    {% block more-css %}{% endblock %}
   </head>

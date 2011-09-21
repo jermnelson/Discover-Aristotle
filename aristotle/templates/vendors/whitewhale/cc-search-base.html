@@ -7,10 +7,7 @@
   <meta charset="utf-8" />
    <title>{% block search-title %}{% trans "Library Search" %} • Colorado College{% endblock %}</title>
 {% block base-css %}
-	{% comment %} These styles should refer to hosted css on Colorado College main website{% endcomment %}
-  <link href="http://www.coloradocollege.edu/global/css/cc.css" rel="stylesheet" />
-  <link href="http://www.coloradocollege.edu/global/css/fancybox.css" rel="stylesheet" />
-  <link href="{{ STATIC_URL }}css/departments/library.css" rel="stylesheet" />
+  {% include 'cc-styles.html' %}
 {% endblock %}
 {% block more-css %}{% endblock %}
  </head>

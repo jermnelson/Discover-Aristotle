@@ -161,93 +161,92 @@ def get_access(record):
 def get_format(record):
     '''Generates format, extends existing Kochief function.'''
     format = ''
-    description = ''
     if record['007']:
-        description = record['007'].value()
+        field007 = record['007'].value()
+    else:
+        field007 = ''
     leader = record.leader
-    #logging.error(u"168:%s\n\tFormat=%s\n\tDescription=%s\n\tLeader=%s\n" %  (record.title(),format,description,leader))
     if len(leader) > 7:
-        if len(description) > 5:
-            #logging.error("171\tDescription > 5 pos 0=%s pos 1=%s" % (description[0],description[1]))
-            if description[0] == 'a':
-                if description[1] == 'd':
+        if len(field007) > 5:
+            if field007[0] == 'a':
+                if field007[1] == 'd':
                     format = 'Atlas'
                 else:
                     format = 'Map'
-            elif description[0] == 'c':            # electronic resource
-                if description[1] == 'j':
+            elif field007[0] == 'c':            # electronic resource
+                if field007[1] == 'j':
                     format = 'Floppy Disk'
-                elif description[1] == 'r':        # remote resource
-                    if description[5] == 'a':    # has sound
+                elif field007[1] == 'r':        # remote resource
+                    if field007[5] == 'a':    # has sound
                         format = 'Electronic'
                     else:
                         format = 'Electronic'
-                elif description[1] == 'o' or description[1] == 'm':      # optical disc
+                elif field007[1] == 'o' or field007[1] == 'm':      # optical disc
                     format = 'CDROM'
-            elif description[0] == 'd':
+            elif field007[0] == 'd':
                 format = 'Globe'
-            elif description[0] == 'h':
+            elif field007[0] == 'h':
                 format = 'Microfilm'
-            elif description[0] == 'k': # nonprojected graphic
-                if description[1] == 'c':
+            elif field007[0] == 'k': # nonprojected graphic
+                if field007[1] == 'c':
                     format = 'Collage'
-                elif description[1] == 'd':
+                elif field007[1] == 'd':
                     format = 'Drawing'
-                elif description[1] == 'e':
+                elif field007[1] == 'e':
                     format = 'Painting'
-                elif description[1] == 'f' or description[1] == 'j':
+                elif field007[1] == 'f' or field007[1] == 'j':
                     format = 'Print'
-                elif description[1] == 'g':
+                elif field007[1] == 'g':
                     format = 'Photonegative'
-                elif description[1] == 'l':
+                elif field007[1] == 'l':
                     format = 'Drawing'
-                elif description[1] == 'o':
+                elif field007[1] == 'o':
                     format = 'Flash Card'
-                elif description[1] == 'n':
+                elif field007[1] == 'n':
                     format = 'Chart'
                 else:
                     format = 'Photo'
-            elif description[0] == 'm': # motion picture
-                if description[1] == 'f':
+            elif field007[0] == 'm': # motion picture
+                if field007[1] == 'f':
                     format = 'Videocassette'
-                elif description[1] == 'r':
+                elif field007[1] == 'r':
                     format = 'Filmstrip'
                 else:
                     format = 'Motion picture'
-            elif description[0] == 'o': # kit
+            elif field007[0] == 'o': # kit
                 format = 'kit'
-            elif description[0] == 'q':
+            elif field007[0] == 'q':
                 format = 'musical score'
-            elif description[0] == 's':          # sound recording
+            elif field007[0] == 's':          # sound recording
                 if leader[6] == 'i':             # nonmusical sound recording
-                    if description[1] == 's':   # sound cassette
+                    if field007[1] == 's':   # sound cassette
                         format = 'Book On Cassette'
-                    elif description[1] == 'd':    # sound disc
-                        if description[6] == 'g' or description[6] == 'z':
+                    elif field007[1] == 'd':    # sound disc
+                        if field007[6] == 'g' or field007[6] == 'z':
                             # 4 3/4 inch or Other size
                             format = 'Book On CD'
                 elif leader[6] == 'j':        # musical sound recording
-                    if description[1] == 's':    # sound cassette
+                    if field007[1] == 's':    # sound cassette
                         format = 'Cassette'
-                    elif description[1] == 'd':    # sound disc
-                        if description[6] == 'g' or description[6] == 'z':
+                    elif field007[1] == 'd':    # sound disc
+                        if field007[6] == 'g' or field007[6] == 'z':
                             # 4 3/4 inch or Other size
                             format = 'Music CD'
-                        elif description[6] == 'e':   # 12 inch
+                        elif field007[6] == 'e':   # 12 inch
                             format = 'LP Record'
-            elif description[0] == 'v':            # videorecording
-                if description[1] == 'd':        # videodisc
-                    if description[4] == 'v' or description[4] == 'g':
+            elif field007[0] == 'v':            # videorecording
+                if field007[1] == 'd':        # videodisc
+                    if field007[4] == 'v' or field007[4] == 'g':
                         format = 'DVD Video'
-                    elif description[4] == 's':
+                    elif field007[4] == 's':
                         format = 'Blu-ray Video' 
-                    elif description[4] == 'b':
+                    elif field007[4] == 'b':
                         format = 'VHS Video' 
                     else:
-                        logging.error("247 UNKNOWN description %s for %s" % (description[4],record.title()))
-                elif description[1] == 'f':        # videocassette
+                        logging.error("247 UNKNOWN field007 %s for %s" % (field007[4],record.title()))
+                elif field007[1] == 'f':        # videocassette
                     format = 'VHS Video'
-                elif description[1] == 'r':
+                elif field007[1] == 'r':
                     format = 'Video Reel'
     # now do guesses that are NOT based upon physical description 
     # (physical description is going to be the most reliable indicator, 
@@ -315,7 +314,6 @@ def get_format(record):
         if field008[33] == 'g':
             format = 'Games'
     elif leader[6] == 't' and len(format) < 1:
-            #logging.error("295 IN LEADER[6] = t, fixed[24] = %s" % (fixed[24]))
         if len(field008) > 22:
             if field008[24] == 'm':
                 format = 'Thesis'

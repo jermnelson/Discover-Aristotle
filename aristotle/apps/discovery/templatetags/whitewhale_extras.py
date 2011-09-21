@@ -15,30 +15,41 @@ from discovery.config import CC_URL
 register = template.Library()
 
 
-def get_header():
+def get_footer(cache_key='cc-footer'):
+    """Function returns cached version of footer element from live CC site
+    """
+    footer = cache.get(cache_key)
+    if footer:
+        return mark_safe(footer)
+    else:
+        harvest_latest()
+        return mark_safe(cache.get(cache_key))
+
+def get_header(cache_key='cc-header'):
     """Function returns cached version of header element from live CC site
     """
-    header = cache.get('cc-header')
+    header = cache.get(cache_key)
     if header:
         return mark_safe(header)
     else:
         harvest_latest()
-        return mark_safe(cache.get('cc-header'))
+        return mark_safe(cache.get(cache_key))
 
 def harvest_latest():
     """Function retrieves latest snapshot from live CC site, uses xpath to 
     save portions of the site to cache."""
     try:
-        cc_home = urllib2.urlopen(CC_URL)
+        cc_home = urllib2.urlopen(CC_URL).read()
     except HTTPError, e:
         logging.error("Unable to open CC_URL of %s" % CC_URL)
-    cc_tree = lxml.html(cc_home)
+    cc_tree = lxml.html.document_fromstring(cc_home)
     cc_tree.make_links_absolute(CC_URL)
     header = cc_tree.xpath('//div/header[@id="header"]')[0]
     cache.set('cc-header',lxml.etree.tostring(header))
-    logging.error("CACHE is %s" % cache.get('cc-header'))
+    footer = cc_tree.xpath('//footer[@id="footer"]')[0]
+    cache.set('cc-footer',lxml.etree.tostring(footer))
     
+register.filter('get_footer',get_footer)    
 register.filter('get_header',get_header)
-    
     
     

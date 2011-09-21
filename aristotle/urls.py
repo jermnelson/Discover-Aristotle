@@ -39,15 +39,14 @@ bookmarks_feed_dict = {"feed_dict": {"": BookmarkFeed }}
 
 
 urlpatterns = patterns("",
-    url(r"^$", direct_to_template, {
-        "template": "homepage.html",
-    }, name="home"),
+    url(r"^$",include("discovery.urls")), 
     url(r"^admin/invite_user/$", "pinax.apps.signup_codes.views.admin_invite_user", name="admin_invite_user"),
     url(r"^admin/", include(admin.site.urls)),
     url(r"^about/", include("about.urls")),
     url(r"^account/", include("pinax.apps.account.urls")),
     url(r"^openid/(.*)", PinaxConsumer()),
-    url(r"^discovery/",include("discovery.urls")),
+    url(r"^catalog/",include("discovery.urls")),
+    url(r"^etd/",include("etd.urls")),
     url(r"^profiles/", include("pinax.apps.profiles.urls")),
     url(r"^bbauth/", include("pinax.apps.bbauth.urls")),
     url(r"^authsub/", include("pinax.apps.authsub.urls")),
@@ -62,6 +61,9 @@ urlpatterns = patterns("",
     url(r"^i18n/", include("django.conf.urls.i18n")),
     url(r"^bookmarks/", include("bookmarks.urls")),
     url(r"^photos/", include("pinax.apps.photos.urls")),
+    url(r"^pinax/",direct_to_template, {
+        "template": "homepage.html",
+    }, name="home"),
     url(r"^avatar/", include("avatar.urls")),
     url(r"^swaps/", include("swaps.urls")),
     url(r"^flag/", include("flag.urls")),

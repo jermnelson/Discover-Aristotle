@@ -116,6 +116,7 @@ TEMPLATE_DIRS = [
     os.path.join(PINAX_ROOT, "templates", PINAX_THEME),
     os.path.join(PROJECT_ROOT,"templates/discovery/snippets"),
     os.path.join(PROJECT_ROOT,"templates/vendors/whitewhale"),
+    os.path.join(PROJECT_ROOT,"apps/etd/templates/etd"),
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [
@@ -204,6 +205,7 @@ INSTALLED_APPS = [
     # Aristotle Project
     "about",
     "discovery",
+    "etd",
     "vendors.iii",
 ]
 
