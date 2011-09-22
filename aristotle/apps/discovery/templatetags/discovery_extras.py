@@ -169,7 +169,8 @@ def get_item_status(item_id):
     status_txt += '</span>'
     location = item_bot.location()
     if location is not None:
-        status_txt += ' located at %s' % location
+        if not location.startswith('Online'):
+            status_txt += ' located at %s' % location
     return mark_safe(status_txt) 
 
 def get_marc_as_list(raw_marc):

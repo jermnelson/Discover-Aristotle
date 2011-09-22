@@ -1,6 +1,7 @@
 {% extends 'cc-search-base.html' %}
 
 {% block more-css %}
+<link href="{{ STATIC_URL }}discovery/css/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
  <link href="{{ STATIC_URL }}discovery/css/discovery.css" rel="stylesheet" /> 
 {% endblock %}
 
@@ -31,8 +32,24 @@
 <span class="clear"></span>
 {% endblock %}
 
+
 {% block more-scripts %}
+<script src="http://jqueryui.com/ui/jquery.ui.core.js"></script>
+<script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script>
+<script src="http://jqueryui.com/ui/jquery.ui.dialog.js"></script>
 <script src="{{ STATIC_URL }}discovery/js/discovery.js"></script>
 <script>
+ $(function() {
+    $("#search-history").dialog({ autoOpen: false,
+                                 buttons: {"Ok":function() { $(this).dialog("close"); }},
+                                   width: 550,
+                                position: 'center',
+                                   title: "Your Search History",});
+});
 </script>
 {% endblock more-scripts %}
+
+{% block dialogs %}
+{% include 'search_history_dialog.html' %}
+{% endblock %}
+

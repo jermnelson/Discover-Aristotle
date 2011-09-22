@@ -38,11 +38,18 @@
 {% block main-column %}
  <h1>{{ doc.full_title }}</h1>
  <div class="ils-status">Library Location {% for location in doc.location %}<strong>{{ location }}</strong>{% if not forloop.last %},{% endif %}{% endfor %}
-   at Call Number <strong>{{ doc.callnum }}</strong>.
+   {% if doc.callnum %}at Call Number <strong>{{ doc.callnum }}</strong>{% endif %}.
   <dl> 
    <dt>Availability -</td>
   {% for item_num in doc.items %}
+   {% if forloop.counter == 5 %}
+   <dd><a href="#" onclick="DisplayItems(this)">More</a></dd>
+   {% endif %}
+   {% if forloop.counter > 4 %}
+   <dd style="display:none">Item {{ forloop.counter }}: {{ item_num|get_item_status }}</dd>
+   {% else %}
    <dd>Item {{ forloop.counter }}: {{ item_num|get_item_status }}</dd>
+   {% endif %}
   {% endfor %}
   </dl>
  </div>
@@ -171,7 +178,7 @@
 <script src="http://jqueryui.com/ui/jquery.ui.core.js"></script>
 <script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script> 
 <script src="http://jqueryui.com/ui/jquery.ui.dialog.js"></script>
-<script src="{{ STATIC_DIR }}discovery/js/discovery.js"></script>
+<script src="{{ STATIC_URL }}discovery/js/discovery.js"></script>
 <script>
  $(function() {
     $('#citation-dlg').dialog({ autoOpen: false,
@@ -208,12 +215,5 @@
 <h2>MARC Record Display</h2>
 {% include 'marc_display.html' %}
 </div>
-<div id="search-history">
- <h2>Search History</h2>
-  <ul>
-  {% for url, query, timestamp in search_history %}
-   <li><a href="{{ url }}">{{ query|safe }}</a> ({{ timestamp|timesince }} {% trans "ago" %})</li>
-  {% endfor %}
-  </ul>
- </div>
+{% include 'search_history_dialog.html' %}
 {% endblock %}

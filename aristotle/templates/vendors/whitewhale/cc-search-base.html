@@ -19,9 +19,7 @@
 {% include "cc-collapsed-header.html" %}
 {% endblock %}
 {% block feature %}
- <div class="feature" style="background-image: url({{ STATIC_URL }}/images/temp/library/busy-library.jpg);">
-  <span class="clear"></span>
- </div>
+ {% include 'lib-features.html' %}
 {% endblock %}
 {% block library-tabs %}
   {% include 'library-tabs.html' %}
@@ -56,6 +54,9 @@
     {% include 'cc-scripts.html' %}
     {% block more-scripts %}
     {% endblock more-scripts %}
+    {% block dialogs %}
+
+    {% endblock %}
 {% endblock %}
 </body>
 </html>

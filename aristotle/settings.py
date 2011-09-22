@@ -138,7 +138,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "messages.context_processors.inbox",
     "friends_app.context_processors.invitations",
     "aristotle.context_processors.combined_inbox_count",
-    "aristotle.apps.discovery.context_processors.search_history",
+    "discovery.context_processors.search_history",
 ]
 
 COMBINED_INBOX_COUNT_SOURCES = [
@@ -206,6 +206,7 @@ INSTALLED_APPS = [
     "about",
     "discovery",
     "etd",
+    "marc",
     "vendors.iii",
 ]
 

@@ -1,11 +1,9 @@
 {% extends 'cc-search-base.html' %}
-{% load static %}
 
 {% block more-css %}
- <link href="{% get_static_prefix %}/pagination.css" rel="stylesheet" />
 {% endblock %}
 
-{% block search-panel %}
+{% block search-panel %}<div style="height:150px">&nbsp;</div>
 {% endblock %}
 
 {% block search-facets %}
@@ -39,8 +37,7 @@
 {% endblock %}
 
 {% block more-scripts %}
-<script src="{% get_static_prefix %}/jquery.pagination.js"></script>
-<script src="{% get_static_prefix %}/marc.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.pagination.js"></script>
 <script>
 </script>
 {% endblock more-scripts %}

@@ -1,14 +1,14 @@
 function DisplayAdvSearch(search_a) {
   $('#adv-searchbox').attr('style','display:inline');
   $('#basic-searchbox').attr('style','display:none');
-  $(search_a).attr('text','Basic Search');
+  $(search_a).text('Basic Search');
 }
 
 
 function DisplayBasicSearch(search_a) {
   $('#adv-searchbox').attr('style','display:none');
   $('#basic-searchbox').attr('style','display:inline');
-  $(search_a).attr('text','Advanced Search');
+  $(search_a).text('Advanced Search');
 }
 
 function DisplayFacet(facet_a) {
@@ -26,6 +26,11 @@ function DisplayFacet(facet_a) {
  return false;
 }
 
+function DisplayItems(more_dd) {
+  $("dd").attr('style','');
+  $(more_dd).remove();
+}
+
 function DisplayRows(row_count_select) {
  var new_row_count = $(row_count_select).attr('value');
  $('#solr_rows').attr('value',new_row_count);
@@ -34,10 +39,11 @@ function DisplayRows(row_count_select) {
 }
 
 function DisplaySearch(search_a) {
-   if($(search_a).attr('text') == 'Basic Search') {
+   var label = $(search_a).text();
+   if(label == 'Basic Search') {
       DisplayBasicSearch(search_a);
    }
-   if($(search_a).attr('text') == 'Advanced Search') {
+   if(label == 'Advanced Search') {
       DisplayAdvSearch(search_a);
    }
 

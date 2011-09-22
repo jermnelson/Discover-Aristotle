@@ -21,11 +21,18 @@ from django.shortcuts import render_to_response
 from django.http import Http404,HttpResponseRedirect
 from django.template import RequestContext
 
+# Imports Bots
+from bots.awbots import AmericanWestBot
+from bots.eccobots import ECCOBot
+from bots.galebots import GVRLBot
+from bots.gutenbergbots import ProjectGutenbergBot
+
 
 def default(request):
     """Default view for MARC utilities Django application
     """
+    active_bots = [AmericanWestBot,ECCOBot,GVRLBot,ProjectGutenbergBot]
     return direct_to_template(request,
                               'marc/index.html',
-                              {'active':[]})
+                              {'workflows':active_bots})
 

@@ -13,6 +13,7 @@ class AmericanWestBot(MARCImportBot):
     American West Database, validates adds/modify fields
     for a new import MARC file for loading into TIGER
     """
+    __name__ = 'American West Bot'
 
     def __init__(self,
                  marc_file):
