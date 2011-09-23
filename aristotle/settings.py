@@ -117,6 +117,7 @@ TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT,"templates/discovery/snippets"),
     os.path.join(PROJECT_ROOT,"templates/vendors/whitewhale"),
     os.path.join(PROJECT_ROOT,"apps/etd/templates/etd"),
+    os.path.join(PROJECT_ROOT,"templates/grx"),
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [
@@ -207,6 +208,7 @@ INSTALLED_APPS = [
     "discovery",
     "etd",
     "marc",
+    "grx",
     "vendors.iii",
 ]
 

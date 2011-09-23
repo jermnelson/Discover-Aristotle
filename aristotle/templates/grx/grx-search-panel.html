@@ -1,5 +1,5 @@
-{% load static %}
-{% load catalog_extras %}
+{% load i18n %}
+{% load discovery_extras %}
 {% comment %}START SEARCH PANEL DIV{% endcomment %}
 <div id="search-panel">
 {% comment %}START STAGE DIV{% endcomment %}
@@ -22,15 +22,13 @@
 	     <input type="submit" name="btnsubmit" class="submit" value="Search GoldRush" />
 	    </fieldset>
         {% endblock %}
-        {% if grx_results %}
+        {% if limits %}
 	    <ul class="search-filters" id="search-filters">
-            {% for param in grx_results.params %}
-            {{ param|generate_search_filter }}
+            {% for limit in limits %}
+             <li><a href="{% remove_limit %}">{{ limit }}</a></li>
             {% endfor %}
 	    </ul>
         {% endif %}
-         <input type="hidden" name="rows" id="solr_rows" value={% if grx_results %}"{{ grx_results.result.docs|length }}"{% else %}"20"{% endif %} />
-         <input type="hidden" name="start" id="solr_start" value={% if grx_results %}"{{ grx_results.result.start }}"{% else %}"0"{% endif %} />
          </form>
          <span class="clear"></span>
     {% comment %}END SEARCHBOX DIV{% endcomment %} 

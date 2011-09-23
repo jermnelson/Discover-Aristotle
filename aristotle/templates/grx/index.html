@@ -1,9 +1,8 @@
 {% extends 'cc-search-base.html' %}
-{% load static %}
 
 {% block more-css %}
- <link href="{% get_static_prefix %}/pagination.css" rel="stylesheet" />
- <link href="{% get_static_prefix %}/grx.css" rel="stylesheet" /> 
+ <link href="{{ STATIC_URL }}/pagination.css" rel="stylesheet" />
+ <link href="{{ STATIC_URL }}/grx.css" rel="stylesheet" /> 
 {% endblock %}
 
 {% block search-panel %}
@@ -55,8 +54,8 @@
 {% endblock %}
 
 {% block more-scripts %}
-<script src="{% get_static_prefix %}/jquery.pagination.js"></script>
-<script src="{% get_static_prefix %}/grx.js"></script>
+<script src="{{ STATIC_URL }}/jquery.pagination.js"></script>
+<script src="{{ STATIC_URL }}/grx.js"></script>
 <script>
  $(document).ready(function() {
   $("#result-paginate").pagination({{ catalog_results.result.numFound }}, {
