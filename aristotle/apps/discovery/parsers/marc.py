@@ -76,7 +76,7 @@ FIELDNAMES = [
     'id',
     'imprint',
     'isbn',
-    'items',
+    'item_ids',
     'language',
     'language_dubbed', 
     'language_subtitles',
@@ -602,7 +602,7 @@ def get_record(marc_record, ils=None):
     record['access'] = get_access(marc_record)
     record['author'] = marc_record.author()
     record['callnum'] = get_callnumber(marc_record)
-    record['items'] = get_items(marc_record,ils)
+    record['item_ids'] = get_items(marc_record,ils)
     record['lc_firstletter'] = get_lcletter(marc_record)
     record['location'] = get_location(marc_record)
     # are there any subfields we don't want for the full_title?

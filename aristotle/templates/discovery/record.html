@@ -39,9 +39,10 @@
  <h1>{{ doc.full_title }}</h1>
  <div class="ils-status">Library Location {% for location in doc.location %}<strong>{{ location }}</strong>{% if not forloop.last %},{% endif %}{% endfor %}
    {% if doc.callnum %}at Call Number <strong>{{ doc.callnum }}</strong>{% endif %}.
+  {% if doc.item_ids %}
   <dl> 
-   <dt>Availability -</td>
-  {% for item_num in doc.items %}
+   <dt>Availability -</dt>
+  {% for item_num in doc.item_ids %}
    {% if forloop.counter == 5 %}
    <dd><a href="#" onclick="DisplayItems(this)">More</a></dd>
    {% endif %}
@@ -52,6 +53,7 @@
    {% endif %}
   {% endfor %}
   </dl>
+  {% endif %}
  </div>
  <br/>
  <dl class="detail-display">
