@@ -39,7 +39,7 @@ a_to_m = ['a','b','c','d','e','f','g','h','i','j','k','l','m']
 n_to_z =['n','o','p','q','r','s','t','u','v','w','x','y','z']
 
 def default(request):
-    subjects = Subject.objects.all()
+    subjects = Subject.objects.order_by('name')
     subjects_dbs = []
     return direct_to_template(request,
                               'grx/index.html',

@@ -118,7 +118,8 @@ register.inclusion_tag('discovery/snippets/search_url.html',
 def display_ill(record):
     """Displays an ill and Hold links if the item's status is Checked out
     """
-    ils_numbers = record.get('items')
+    ils_numbers = record.get('item_ids')
+    ill_link,hold_link = None,None
     if not ils_numbers:
         ils_numbers = []
     for item_id in ils_numbers:
@@ -126,10 +127,11 @@ def display_ill(record):
         status = item_bot.status()
         if status is not None:
             if item_bot.status().startswith('Due'):
-                return mark_safe('''<li><a href="#" onclick="alert('ill tbd')">Request</a> <em>%s</em> through
+                
+                return mark_safe('''<li><a href="%s">Request</a> <em>%s</em> through
    Prospector or Interlibrary Loan (ILL)</li>
-  <li><a href="#" onclick="alert('hold tbd')">Hold</a> this item so that you can pick it up after the current borrower 
-  is finished</li>''' % record.get('title'))
+  <li><a href="%s">Hold</a> this item so that you can pick it up after the current borrower 
+  is finished</li>''' % (ill_link,hold_link,record.get('title'))
     return ''
 
 

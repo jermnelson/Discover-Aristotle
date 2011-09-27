@@ -1,20 +1,33 @@
 {% extends 'cc-search-base.html' %}
+{% load i18n %}
+{% load marc_extras %}
+
+{% block search-title %}Tutt Library MARC Record Utilities • Colorado College{% endblock %}
 
 {% block more-css %}
+ <link href="{{ STATIC_URL }}/pagination.css" rel="stylesheet" />
+ <link href="{{ STATIC_URL }}/grx.css" rel="stylesheet" /> 
 {% endblock %}
 
-{% block search-panel %}<div style="height:150px">&nbsp;</div>
+{% block search-panel %}
+ {% include 'grx-search-panel.html' %}
 {% endblock %}
 
 {% block search-facets %}
 <div class="side">
  <aside class="search-facets">
-  <h5>Active Workflows</h5>
+  <h5>{% trans "Active Workflows" %}</h5>
   <ul>
-  {% for bot in workflows %}
-   <li><a href="#" onclick="LoadBot('{{ bot.name }}')">{{ bot.name }}</a>
+  {% for bot in active_bots %}
+  <li><a href="{{ bot|get_bot_name }}">{{ bot|get_bot_name }}</a></li>
   {% endfor %}
-  </div>
+  </ul>
+  <h5>{% trans "Recent History" %}</h5>
+  <ul>
+  {% for log in history %}
+  <li><a href="detail/{{ log.date }}">{{ log.date }}</a></li>
+  {% endfor %}
+  </ul>
  </aside>
 </div>
 {% endblock %}
@@ -25,10 +38,10 @@
 {% block results-list %}
 <div class="main">
 <div class="results-list discovery-service">
-<h1>Welcome to Tutt Library Cataloging MARC Utilities</h1>
+<h1>{% trans "Tutt Library's MARC Record Utilities" %}</h1>
 <div class="discovery-home">
- <h2 class="discovery-home">No Workflow loaded</h2>
- <p></p>
+ <h2 class="discovery-home">{% trans "Active Workflows" %}</h2>
+ </p>
  <span class="clear"></span>
 </div>
 </div>
@@ -37,7 +50,4 @@
 {% endblock %}
 
 {% block more-scripts %}
-<script src="{{ STATIC_URL }}js/jquery.pagination.js"></script>
-<script>
-</script>
 {% endblock more-scripts %}
