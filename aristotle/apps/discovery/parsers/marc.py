@@ -568,7 +568,14 @@ def get_record(marc_record, ils=None):
         #record['id'] = ''
         # if it has no id let's not include it
         return
-    
+    all999s = marc_record.get_fields('999')
+    if all999s:
+        for field999 in all999s:
+            suppressed_codes = field999.get_subfields('f')
+            for code in suppressed_codes:
+                if code == 'n':
+                    logging.error("NOT INDEXING %s RECORD SUPPRESSED" % record['id'])
+                    return
     record['format'] = get_format(marc_record)
 
     # should ctrl_num default to 001 or 035?
@@ -656,12 +663,15 @@ def get_record(marc_record, ils=None):
     
     subject_fields = marc_record.subjects()  # gets all 65X fields
 
+    eras = []
     genres = []
     topics = []
     places = []
+    full_lc_subjects = []
     for field in subject_fields:
         genres.extend(subfield_list(field, 'v'))
         topics.extend(subfield_list(field, 'x'))
+        eras.extend(subfield_list(field,'y'))
         places.extend(subfield_list(field, 'z'))
         if field.tag == '650':
             if field['a'] != 'Video recordings for the hearing impaired.':
@@ -671,7 +681,14 @@ def get_record(marc_record, ils=None):
         elif field.tag == '655':
             if field['a'] != 'Video recordings for the hearing impaired.':
                 genres.append(normalize(field['a']))
-        #for subfield_indicator in ('a', 'v', 'x', 'y', 'z'):
+        lc_header = ''
+        for subfield_indicator in ('a', 'v', 'x', 'y', 'z'):
+            subfield_value = subfield_list(field,subfield_indicator)
+            for subfield in  subfield_value:
+                lc_header += '%s --' % subfield
+        if lc_header[-2:] == '--':
+            lc_header = lc_header[:-2]
+        full_lc_subjects.append(lc_header)
         #    more_topics = subfield_list(subfield_indicator)
         #    topics.extend(more_topics)
     # Process through Subject name fields and add to topics
@@ -679,7 +696,8 @@ def get_record(marc_record, ils=None):
     record['genre'] = set(genres)
     record['topic'] = set(topics)
     record['place'] = set(places)
-
+    record['era'] = set(eras)
+    record['full_lc_subject'] = set(full_lc_subjects)
     personal_name_fields = marc_record.get_fields('700')
     record['personal_name'] = []
     for field in personal_name_fields:

@@ -17,8 +17,7 @@ TEMPLATE_DEBUG = DEBUG
 # tells Pinax to serve media through the staticfiles app.
 SERVE_MEDIA = DEBUG
 
-INTERNAL_IPS = [
-    "127.0.0.1",
+INTERNAL_IPS = ["127.0.0.1",
 ]
 
 ADMINS = [

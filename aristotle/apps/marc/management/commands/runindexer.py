@@ -9,25 +9,27 @@ __author__ = 'Jeremy Nelson'
 import optparse,os,sys
 import pymarc
 import django.conf as conf
-import django.core.management.base as mb
+from django.core.management.base import BaseCommand
 import settings
 
-from aristotle.apps.marc.marc_threads import marc_records_queue
+from aristotle.apps.marc.marc_threads import marc_records_queue,start_indexing
 from aristotle.apps.discovery.parsers import marc as marc_parser
 
-solr_urls = {'marc_catalog':settings.SOLR_URL}
+#solr_urls = {'marc_catalog':'http://172.25.1.106:8964/solr/marc_catalog'}
+solr_urls = {'marc_catalog':'http://0.0.0.0:8964/solr/marc_catalog/'}
+parsers = {'marc_catalog':marc_parser}
 
-class Command(mb.BaseCommand):
+class Command(BaseCommand):
     """Creates the `runindexer` command for use with Django manage.py
     """
-    option_list = mb.BaseCommand.option_list + (
+    option_list = BaseCommand.option_list + (
         optparse.make_option('-c','--cores',
-            action='cores',
+            action='store',
             dest='cores',
             metavar='CORES',
             help='Specifies Solr cores that are targeted by indexer,  i.e., --cores=marc_catalog --cores=grx. Default is "marc_catalog"',),
         optparse.make_option('-s','--shard_size',
-            action='shard_size',
+            action='store',
             dest='shard_size',
             metavar='SHARD_SIZE',
             help='Specifies size of MARC record shard, default is 100k'),
@@ -35,11 +37,13 @@ class Command(mb.BaseCommand):
     help = 'Runs multi-threaded indexer for bibliographic records into a Solr server'
     args = '[marc_file...]'
 
-    def handle(self,*marc_file,**options):
+    def handle(self,marc_file,**options):
         """
         Method takes an optional list of cores along with a MARC file or URL 
         and optional listing of cores.
         """
+        start_indexing()
+        print("Running multi-threaded runindexer on %s file" % marc_file)
         cores = options.get('cores')
         if not cores:
             cores = ['marc_catalog']
@@ -48,15 +52,24 @@ class Command(mb.BaseCommand):
             shard_size = 100000
         # Creates shards 
         marc_records = []
+        print("Loading")
         marc_reader = QuickMARCReader(open(marc_file,'r'))
-        for row in marc_reader:
+        for row in enumerate(marc_reader):
             marc_records.append(row)
         total_records = len(marc_records)
         total_shards = total_records / shard_size
+        if not total_shards:
+            total_shards = 1
+        print("Shard size=%s, Total records=%s, Total Threads=%s" % (shard_size,
+                                                                     total_records,
+                                                                     total_shards))
         for shard in range(0,total_shards):
             for core in cores:
-                marc_records_queue.add({'records':marc_records[(shard*shard_size):(shard*shard_size + shard_size)],
-                                        'solr_url':solr_urls[core]})
+                print("\tAdding thread for Shard %s core %s" % (shard,core))
+                marc_records_queue.put({'records':marc_records[(shard*shard_size):(shard*shard_size + shard_size)],
+                                        'solr_url':solr_urls[core],
+                                        'parser':parsers[core],
+                                        'name':'Thread %s %s' % (shard,core) })
                     
 
         
@@ -75,7 +88,9 @@ class QuickMARCReader(object):
 
      def next(self):
          first5 = self.file_handle.read(5)
+         if not first5:
+             raise StopIteration
          chunk = self.file_handle.read(int(first5) - 5)
-         yield first5 + chunk
+         return first5 + chunk
          
                   
