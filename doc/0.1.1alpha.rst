@@ -1,0 +1,17 @@
+Aristotle `0.1.1alpha` Release
+==============================
+
+Overview
+^^^^^^^^
+This version is the first public release after forking and extending 
+Kochief_ Django project. Many of the issues in the  `0.1.1alpha` release
+were addressed with Kochief_.
+
+.. _Kochief: http://code.google.com/p/Kochief/
+
+Issues
+^^^^^^
+The following issues are addressed in this release of Aristotle:
+
+* `"Start over with a new search" on detail page <https://github.com/jermnelson/Discover-Aristotle/issues/22>`_
+* `"Return to search results" on item detail <https://github.com/jermnelson/Discover-Aristotle/issues/23>`_ 

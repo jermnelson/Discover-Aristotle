@@ -685,9 +685,9 @@ def get_record(marc_record, ils=None):
         for subfield_indicator in ('a', 'v', 'x', 'y', 'z'):
             subfield_value = subfield_list(field,subfield_indicator)
             for subfield in  subfield_value:
-                lc_header += '%s --' % subfield
-        if lc_header[-2:] == '--':
-            lc_header = lc_header[:-2]
+                lc_header += '%s -- ' % subfield
+        if lc_header[-3:] == '-- ':
+            lc_header = lc_header[:-3]
         full_lc_subjects.append(lc_header)
         #    more_topics = subfield_list(subfield_indicator)
         #    topics.extend(more_topics)

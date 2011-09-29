@@ -16,7 +16,7 @@ from aristotle.apps.marc.marc_threads import marc_records_queue,start_indexing
 from aristotle.apps.discovery.parsers import marc as marc_parser
 
 #solr_urls = {'marc_catalog':'http://172.25.1.106:8964/solr/marc_catalog'}
-solr_urls = {'marc_catalog':'http://0.0.0.0:8964/solr/marc_catalog/'}
+solr_urls = {'marc_catalog':'http://0.0.0.0:8964/solr/marc_catalog'}
 parsers = {'marc_catalog':marc_parser}
 
 class Command(BaseCommand):

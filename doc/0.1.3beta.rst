@@ -1,0 +1,20 @@
+Aristotle `0.1.3beta` Release
+==============================
+
+Overview
+^^^^^^^^
+The  `0.1.3beta` release for the Aristotle framework includes more functionality and
+bug fixes and includes an implementation of the multi-threaded MARC-to-Solr parser, complete
+adoptation of the Pinax_ Django project by merging the `pinax` branch to the main Aristotle
+branch. 
+
+.. _Pinax: http://pinaxproject.com 
+
+Issues
+^^^^^^
+The following issues addressed in this release of Aristotle:
+
+* `Electronic Facet too broad, should be broken down into types <https://github.com/jermnelson/Discover-Aristotle/issues/4>`_
+* `Upgrade facets to use jQuery Pagination for long list of facet values <https://github.com/jermnelson/Discover-Aristotle/issues/12>`_
+* `Leave comment <https://github.com/jermnelson/Discover-Aristotle/issues/18>`_ 
+* `Format facet should have icons <https://github.com/jermnelson/Discover-Aristotle/issues/25>`_

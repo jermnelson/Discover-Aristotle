@@ -1,0 +1,16 @@
+Aristotle `0.1.2alpha` Release
+==============================
+
+Overview
+^^^^^^^^
+The Aristotle `0.1.2alpha` release is the first version to include the Kojack_ 
+Django project. This release version does not implement any of these features but
+primarily focuses on improving the User Interface and basic Discovery layer functionality.
+
+
+Issues
+^^^^^^
+The following issues are addressed in this release of Aristotle:
+
+* `APA, MLA and other Citations in Detail view <https://github.com/jermnelson/Discover-Aristotle/issues/14>`_
+* `Display LC full subject heading <https://github.com/jermnelson/Discover-Aristotle/issues/27>`_
