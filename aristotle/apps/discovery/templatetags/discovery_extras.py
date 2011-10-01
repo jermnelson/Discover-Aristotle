@@ -119,7 +119,7 @@ def display_ill(record):
     """Displays an ill and Hold links if the item's status is Checked out
     """
     ils_numbers = record.get('item_ids')
-    ill_template = loader.get_template('ils_link_li.html')
+    ill_template = loader.get_template('ill_link_li.html')
     if not ils_numbers:
         ils_numbers = []
     for item_id in ils_numbers:
@@ -127,8 +127,8 @@ def display_ill(record):
         status = item_bot.status()
         if status is not None:
             if item_bot.status().startswith('Due'):
-                hold_link = settings.ILS_HOLD_URL % (item_id,)
-                ill_link = ''
+                hold_link = settings.ILS_HOLD_URL % (3*(record.get('id'),))
+                ill_link = generate_prospector_url(record.get('id'))
                 context = Context({'hold_link':hold_link,
                                    'ill_link':ill_link,
                                    'title':record.get('title')})

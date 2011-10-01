@@ -282,7 +282,7 @@ def get_format(record):
                     # from being labeled as a magazine.
                     format = 'Book'
     elif leader[6] == 'b' and len(format) < 1:
-        format = 'Music CD'
+        format = 'Manuscript' 
     elif leader[6] == 'e' and len(format) < 1:
         format = 'Map'
     elif leader[6] == 'c' and len(format) < 1:
@@ -290,9 +290,9 @@ def get_format(record):
     elif leader[6] == 'g' and len(format) < 1:
         format = 'Video'
     elif leader[6] == 'd' and len(format) < 1:
-        format = 'Manuscript'
+        format = 'Manuscript noted music'
     elif leader[6] == 'j' and len(format) < 1:
-        format = 'Music Cassette' 
+        format = 'Music Sound Recordings' 
     elif leader[6] == 'k' and len(format) < 1:
         if len(field008) > 22:
             if field008[33] == 'i':
@@ -718,7 +718,7 @@ def get_record(marc_record, ils=None):
         url_subfield = field.get_subfields('u')
         if url_subfield:
             record['url'].append(url_subfield[0])
-    record['marc_record'] = marc_record.__str__() # Should output to MARCMaker format
+    record['marc_record'] = marc_record.__str__()  # Should output to MARCMaker format
     return record
 
 def get_row(record):

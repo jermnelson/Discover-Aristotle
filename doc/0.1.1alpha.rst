@@ -13,5 +13,13 @@ Issues
 ^^^^^^
 The following issues are addressed in this release of Aristotle:
 
+* `APA, MLA and other Citations in Detail view <https://github.com/jermnelson/Discover-Aristotle/issues/14>`_
+* `Add Hold list item <https://github.com/jermnelson/Discover-Aristotle/issues/21>`_
 * `"Start over with a new search" on detail page <https://github.com/jermnelson/Discover-Aristotle/issues/22>`_
-* `"Return to search results" on item detail <https://github.com/jermnelson/Discover-Aristotle/issues/23>`_ 
+* `"Return to search results" on item detail <https://github.com/jermnelson/Discover-Aristotle/issues/23>`_
+* `Display LC full subject heading <https://github.com/jermnelson/Discover-Aristotle/issues/27>`_
+* `improve temporary functionality of You Can... box <https://github.com/jermnelson/Discover-Aristotle/issues/28>`_
+* `parser format labels for marc leader <https://github.com/jermnelson/Discover-Aristotle/issues/30>`_
+* `Location and call number in results display <https://github.com/jermnelson/Discover-Aristotle/issues/31>`_
+* `Full title should be linkable in result list <https://github.com/jermnelson/Discover-Aristotle/issues/32>`_
+* `Repeat pagination widget to bottom of result list <https://github.com/jermnelson/Discover-Aristotle/issues/33>`_

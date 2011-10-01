@@ -6,9 +6,9 @@
 __author__ = 'Jeremy Nelson'
 import sys,datetime
 import Queue,threading,logging
-import solr,pymarc
-import aristotle.settings as settings
-
+import csv,pymarc,sunburnt
+from aristotle.apps.discovery.parsers import marc
+from aristotle.apps.discovery.management.commands import index
 from django.conf import settings
 
 marc_records_queue = Queue.Queue()
@@ -30,23 +30,68 @@ class MARCIndexThread(threading.Thread):
         server and core.
         """
         message =  marc_records_queue.get()
-        sys.stderr.write("\tIn thread %s\n" % message.get('name'))
         marc_records = message.get('records')
+        start_msg = "\tIn thread %s total records to be processed are %s\n" % (message.get('name'),
+                                                                               len(marc_records))
+        sys.stderr.write(start_msg)
+        logging.error(start_msg)
         parser = message.get('parser')
         solr_url = message.get('solr_url')
-        sys.stderr.write("Before solr instance url=%s" % solr_url)
-        solr_server = solr.Solr(solr_url)
-        sys.stderr.write("After solr instance")
-        for i,raw_record in enumerate(marc_records):
-            record = pymarc.Record(data=raw_record)
-            solr_document = parser.get_record(record,settings.ILS)
-            solr_server.add(solr_document, commit=True)
-        sys.stderr.write("\tThread %s finished adding %s documents to Solr" % (message.get('name'),
-                                                                               len(marc_record)))
-  #      except Exception, e:
-  #          error_msg = "Unable to index MARC record load Exception: %s" % str(e)
-  #          sys.stderr.write(error_msg)
-  #          logging.error(error_msg)
+        #solr_server = sunburnt.SolrInterface(solr_url)
+        active_records = 0
+        start_time = '\tStart processing at %s' %  datetime.datetime.today().ctime()
+        sys.stderr.write(start_time)
+        logging.error(start_time)
+        csv_file_name = '%s.csv' % message.get('name')
+        csv_file_handle = open(csv_file_name,'w')
+        csv_writer = csv.DictWriter(csv_file_handle, marc.FIELDNAMES)
+        field_names = dict()
+        for name in marc.FIELDNAMES:
+            field_names[name] = name
+        csv_writer.writerow(field_names)
+        try:
+            i = 0
+	    for raw_record in marc_records:
+	        if raw_record:
+		    record = pymarc.Record(data=raw_record)
+	            solr_document = parser.get_record(record,settings.ILS)
+                    csv_row = marc.get_row(solr_document)
+                    csv_writer.writerow(csv_row)
+                    #if solr_document:
+		    #    for k,v in solr_document.iteritems():
+		    #        if not v:
+	            #		        k = v
+		    #	    elif type(v) == list or type(v) == set:
+		    #	        k = [row.encode('ascii','replace') for row in v]
+		    #	    elif type(v) == str:
+		    #            k = v.encode('ascii','replace')
+                    #    try:
+		    #        solr_server.add(solr_document)
+                    #        solr_server.commit()
+                    #        active_records += 1
+                    #    except Exception, e:
+                    #        error_msg = "Unable to index MARC record id=%s load Exception: %s" % (solr_document['id'],str(e))
+                    #        sys.stderr.write(error_msg)
+                    #        logging.error(error_msg)
+                if not i%1000:
+                    location_msg = "\t\t%s:%s.\n" % (message.get('name'),i)
+                    sys.stderr.write(location_msg)
+                    logging.error(location_msg)
+                i += 1
+            end_msg = "\tThread %s finished adding %s documents to Solr at %s\n" % (message.get('name'),
+                                                                                    active_records,
+                                                                                    datetime.datetime.today().ctime())
+
+            sys.stderr.write(end_msg)
+            logging.error(end_msg)
+            csv_file_handle.close()
+        except Exception, e:
+            error_msg = "Unable to index MARC record load Exception: %s" % str(e)
+            sys.stderr.write(error_msg)
+            logging.error(error_msg)
+            csv_file_handle.close()
+        # Try to call CSV loader
+        index.load_solr(csv_file_name)
         marc_records_queue.task_done()
 
 def start_indexing():

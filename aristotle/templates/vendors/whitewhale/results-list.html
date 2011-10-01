@@ -37,19 +37,25 @@
 	<td>{{ doc.pubyear }}</td>
        </tr>
       {% endif %}
+      {% if doc.callnum %}
+      <tr>
+        <th>{% trans "Call Number" %}</th>
+        <td>{{ doc.callnum }}</td>
+      </tr>
+      {% endif %}
       <tr>
 	<th>{% trans "Access" %}:</th>
 	<td>
-       {% if doc.location %}
-       {% for location in doc.location %}
-        {% ifnotequal location 'Online'%} {{ location }} {% endifnotequal %}
-       {% endfor %}
+       {% if doc.item_ids %}
+        {% for item_id in doc.item_ids|slice:":3" %} 
+        {{ item_id|get_item_status }}<br/>
+        {% endfor %}
        {% endif %}
-        {% if doc.url %}
+       {% if doc.url %}
          {% for url in doc.url %}
           (<a href="{{ url }}">{% trans "Online Location" %}</a>)
          {% endfor %}
-        {% endif %}
+       {% endif %}
         </td>
        </tr>
        {% if doc.format %}
@@ -73,7 +79,22 @@
    {% endfor %}
   </ol>
  </div>
+{% comment %}START SEARCH-PAGINATION DIV{% endcomment %}
+<div style="padding-left:3px;color:white;background-color:#374C6C">
+{% trans "Results" %}
+<strong>{{ start_number }} - {{ end_number }}</strong>
+{% trans "of" %}
+<strong>{{ number_found }}</strong>
+{% trans "for" %}
+{{ full_query_str|safe }}.
+{% if pagination.previous_page or pagination.next_page %}
+{% include "discovery/snippets/pagination.html" %}
+{% endif %}
+{% comment %}END SEARCH-PAGINATION DIV{% endcomment %}
+</div>
+
 </div>
 {% else %}
 {% endif %}
+
 </div>

@@ -5,9 +5,9 @@
 """
 
 __author__ = 'Jeremy Nelson'
-
+import datetime
 import optparse,os,sys
-import pymarc
+import unicodedata,pymarc
 import django.conf as conf
 from django.core.management.base import BaseCommand
 import settings
@@ -16,7 +16,7 @@ from aristotle.apps.marc.marc_threads import marc_records_queue,start_indexing
 from aristotle.apps.discovery.parsers import marc as marc_parser
 
 #solr_urls = {'marc_catalog':'http://172.25.1.106:8964/solr/marc_catalog'}
-solr_urls = {'marc_catalog':'http://0.0.0.0:8964/solr/marc_catalog'}
+solr_urls = {'marc_catalog':'http://0.0.0.0:8984/solr/marc_catalog'}
 parsers = {'marc_catalog':marc_parser}
 
 class Command(BaseCommand):
@@ -50,28 +50,30 @@ class Command(BaseCommand):
         shard_size = options.get('shard_size')
         if not shard_size:
             shard_size = 100000
-        # Creates shards 
+        else:
+            shard_size = int(shard_size)
         marc_records = []
-        print("Loading")
+        start_time = datetime.datetime.today()
+        print("Loading marc records at %s" % start_time.ctime())
         marc_reader = QuickMARCReader(open(marc_file,'r'))
-        for row in enumerate(marc_reader):
+        total_records = 0
+        for i,row in enumerate(marc_reader):
             marc_records.append(row)
-        total_records = len(marc_records)
-        total_shards = total_records / shard_size
-        if not total_shards:
-            total_shards = 1
-        print("Shard size=%s, Total records=%s, Total Threads=%s" % (shard_size,
-                                                                     total_records,
-                                                                     total_shards))
-        for shard in range(0,total_shards):
-            for core in cores:
-                print("\tAdding thread for Shard %s core %s" % (shard,core))
-                marc_records_queue.put({'records':marc_records[(shard*shard_size):(shard*shard_size + shard_size)],
-                                        'solr_url':solr_urls[core],
-                                        'parser':parsers[core],
-                                        'name':'Thread %s %s' % (shard,core) })
-                    
-
+            if not (i%shard_size):
+                if i != 0:
+                    for core in cores:
+                        name = "%s - Shard Record span end=%s" % (core,i)
+                        print("Creating worker thread for %s" % name)
+                        marc_records_queue.put({'records':marc_records,
+                                                'solr_url':solr_urls[core],
+                                                'parser':parsers[core],
+                                                'name':name })
+                    marc_records = []
+            total_records += 1
+            #if i == shard_size +1:
+            #    print("Running single shard")
+        end_time = datetime.datetime.today()
+        print("Finished loading %s records at %s" % (total_records,end_time.ctime()))
         
 
 class QuickMARCReader(object):
@@ -91,6 +93,9 @@ class QuickMARCReader(object):
          if not first5:
              raise StopIteration
          chunk = self.file_handle.read(int(first5) - 5)
-         return first5 + chunk
-         
-                  
+         raw_record = first5 + chunk
+         #return raw_record
+         #return pymarc.marc8.marc8_to_unicode(raw_record).encode('utf8')
+         #return raw_record.decode('utf8','replace')
+         #return unicodedata.normalize('NFC',raw_record.decode('utf8','xmlcharrefreplace'))
+         return unicode(raw_record,errors='replace')        

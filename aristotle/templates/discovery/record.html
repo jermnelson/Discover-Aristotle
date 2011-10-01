@@ -20,7 +20,7 @@
   {{ doc|display_online }}
   <li><a href="#" onclick="$('#citation-dlg').dialog('open');">Cite</a> this work with a MLA, Chicago, APA, or other citation styles with <a href="{{ ''|get_refworks_url }}">RefWorks</a>.</span>
   </li>
-  {% comment %}{{ doc|display_ill }}{% endcomment %}
+  {{ doc|display_ill }}
   <li><a href="https://tiger.coloradocollege.edu/patroninfo">Login</a> to your library account with your
    TIGER number</li>
  </ul>
@@ -38,7 +38,7 @@
 {% block main-column %}
  <h1>{{ doc.full_title }}</h1>
  <div class="ils-status">Library Location {% for location in doc.location %}<strong>{{ location }}</strong>{% if not forloop.last %},{% endif %}{% endfor %}
-   {% if doc.callnum %}at Call Number <strong>{{ doc.callnum }}</strong>{% endif %}.
+   {% if doc.callnum %}at<br/>Call Number <strong>{{ doc.callnum }}</strong>{% endif %}.
   {% if doc.item_ids %}
   <dl> 
    <dt>{% trans "Availability" %} -</dt>

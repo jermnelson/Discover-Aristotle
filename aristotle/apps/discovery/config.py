@@ -56,6 +56,12 @@ FACETS = [
         'code': 'genre', 
         'search': 'genre', 
         'sort_by': 'count', 
+    },
+    {
+        'name': _('LC Subject Heading'), 
+        'code': 'full_lc_subject', 
+        'search': 'genre', 
+        'sort_by': 'alpha', 
     },                            
     { 
         'name': _('Language'), 
