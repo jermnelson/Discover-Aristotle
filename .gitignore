@@ -8,3 +8,7 @@ log
 site_media
 sitestatic
 _build
+parts/
+bin/
+eggs/
+downloads/

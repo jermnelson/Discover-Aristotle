@@ -219,7 +219,7 @@ def search_field_options(output_html):
     field_types = [('keyword','Any Field'),
                    ('author','Author'),
                    ('title','Title'),
-                   ('subject','Subject')]
+                   ('topic','Subject')]
     for row in field_types:
         output_html += '<option value="%s">%s</option>' % row
     return mark_safe(output_html)

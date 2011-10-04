@@ -2,6 +2,7 @@ function DisplayAdvSearch(search_a) {
   $('#adv-searchbox').attr('style','display:inline');
   $('#basic-searchbox').attr('style','display:none');
   $(search_a).text('Basic Search');
+  
 }
 
 
@@ -80,11 +81,29 @@ function handleResultPaginateClick(new_page_index,pagination_container) {
   return false;
 }
 
-function ShowSearchHistory() {
- if($('#search-history').attr('style') == 'display:none') {
-   $('#search-history').attr('style','display:block');
- } else {
-   $('#search-history').attr('style','display:none');
 
- }
+function ProcessSearchQuery() {
+  var new_q = $('#book-search').value();
+  new_q += set_fieldname("field1");
+  new_q += set_fieldname("field2");
+  new_q += set_fieldname("field3");
+  $('#book-search').attr('value',new_q);
+  //document.forms['catalog_search'].submit();
+}
+
+function set_fieldname(field_stem) {
+  var search_type = "input[name~='" + field_stem + "_type']";
+  var search_phrase = "input[name~='" + field_stem + "_phrase']";
+  var search_operator = "input[name~='" + field_stem + "_operator']";
+
+  var output = ' ';
+  if ($(search_type).value()) {
+    output += $(search_type).value() + ':' + $(search_phrase).value();
+  } else {
+    output += $(search_phrase).value();
+  }
+  if (output.length > 2) {
+    output += ' ' + $(search_operator).value();
+  }
+ return output;
 }

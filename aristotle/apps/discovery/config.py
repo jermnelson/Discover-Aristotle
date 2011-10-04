@@ -62,7 +62,14 @@ FACETS = [
         'code': 'full_lc_subject', 
         'search': 'genre', 
         'sort_by': 'alpha', 
-    },                            
+    },                           
+    {
+        'name': _('Call Number'),
+        'code': 'lc_firstletter',
+        'search': 'lc_firstletter',
+        'sort_by': 'alpha',
+
+    }, 
     { 
         'name': _('Language'), 
         'code': 'language', 
@@ -142,4 +149,4 @@ FORMAT_ICONS = { 'eAudio' : '<img src="http://catalog.spl.org/hipres/images/form
                     'Digital Music' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-digimusic.gif" alt="digital music" />',}
 
 #White-whale template tags
-CC_URL = 'http://www.coloradocollege.edu'
+CC_URL = 'http://www.coloradocollege.edu/test/library/'

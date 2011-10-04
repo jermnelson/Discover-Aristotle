@@ -274,8 +274,33 @@ def get_solr_response(params):
         raise ValueError, 'Solr response was not a JSON object.'
     return url, response
 
+def add_advanced_search(request_get):
+    """
+    Kluge to add advanced search to the query string.
+    """
+    output = ''
+    for r in range(1,4):
+        field_type = request_get['field%s_type' % r]
+        field_phrase = request_get['field%s_phrase' % r]
+        if field_type != 'keyword' and len(field_type) > 0:
+            output += '%s:' % field_type
+        output += field_phrase
+        if r < 3:
+            field_operator = request_get['field%s_operator' % r]
+            output += ' %s ' % field_operator
+    output = output.strip()
+    if output.endswith('AND'):
+        output = output[:-3]
+    elif output.endswith('OR'):
+        output = output[:-2]
+    elif output.endswith('AND NOT'):
+        output = output[:-7] 
+    return output
+
 def get_search_results(request): 
     query = request.GET.get('q', '')
+    if len(request.GET.get('field1_phrase')) > 0:
+        query = add_advanced_search(request.GET)
     page_str = request.GET.get('page')
     try:
         page = int(page_str)
