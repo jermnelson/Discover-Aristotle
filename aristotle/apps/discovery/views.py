@@ -261,7 +261,6 @@ def get_solr_response(params):
     params.extend(default_params)
     urlparams = urllib.urlencode(params)
     url = '%sselect?%s' % (settings.SOLR_URL, urlparams)
-    logging.error("SOLR URL is %s" % url)
     try:
         solr_response = urllib.urlopen(url)
     except IOError:
@@ -299,8 +298,9 @@ def add_advanced_search(request_get):
 
 def get_search_results(request): 
     query = request.GET.get('q', '')
-    if len(request.GET.get('field1_phrase')) > 0:
-        query = add_advanced_search(request.GET)
+    if request.GET.has_key('field1_phrase'):
+        if len(request.GET.get('field1_phrase')) > 0:
+            query = add_advanced_search(request.GET)
     page_str = request.GET.get('page')
     try:
         page = int(page_str)

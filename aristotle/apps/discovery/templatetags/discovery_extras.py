@@ -115,6 +115,16 @@ def remove_limit(context):
 register.inclusion_tag('discovery/snippets/search_url.html', 
         takes_context=True)(remove_limit)
 
+def display_empty_facets(output_html):
+    """Displays an empty list of facets for when query returns no hits
+    """
+    for facet in settings.FACETS:
+        output_html += '<a href="#" onclick="DisplayFacet(this)">'
+        output_html += '<h5 class="closed">%s</h5></a>' % facet['name']
+        output_html += '<ul class="closed"><li>None</li></ul>'
+    return mark_safe(output_html)
+    
+
 def display_ill(record):
     """Displays an ill and Hold links if the item's status is Checked out
     """
@@ -232,6 +242,7 @@ def search_operator_options(output_html):
         output_html += '<option value="%s">%s</option>' % (row,row.title())
     return mark_safe(output_html)
 
+register.filter('display_empty_facets',display_empty_facets)
 register.filter('display_ill',display_ill)
 register.filter('display_online',display_online)
 register.filter('get_cover_image',get_cover_image) 

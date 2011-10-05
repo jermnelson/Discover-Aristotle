@@ -32,6 +32,7 @@ class ThesisDatasetForm(forms.Form):
                 return False
         return True
 
+
     def mods(self,
              mods_xml=None):
         """
@@ -39,16 +40,16 @@ class ThesisDatasetForm(forms.Form):
         creates a new MODS XML datastream if not present.
         """
         if not mods_xml:
-            mods_xml = mods.MetadataObjectDescriptionSchema()
+            mods_xml = mods.MODS()
         if self.cleaned_data.has_key('abstract'):
-            abstract = mods.note(value=self.cleaned_data['abstract'],
-                                 type='source type',
-                                 display_label='Dataset Abstract')
+            abstract = mods.Note(text=self.cleaned_data['abstract'],
+                                # type='source type',
+                                 label='Dataset Abstract')
             mods_xml.notes.append(abstract)
         if self.cleaned_data.has_key('info_note'):
-            info = mods.note(value=self.cleaned_data['info_note'],
-                             type='source note',
-                             display_label='Dataset Information')
+            info = mods.Note(text=self.cleaned_data['info_note'],
+                             #type='source note',
+                             label='Dataset Information')
             mods_xml.notes.append(info)
         return mods_xml
 

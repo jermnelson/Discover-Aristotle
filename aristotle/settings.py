@@ -205,7 +205,7 @@ INSTALLED_APPS = [
     # Aristotle Project
     "about",
     "discovery",
-#    "etd",
+    "etd",
     "marc",
     "grx",
     "vendors.iii",

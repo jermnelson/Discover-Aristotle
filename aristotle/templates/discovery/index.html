@@ -14,8 +14,22 @@
 {% include 'results-list.html' %}
 {% else %}
 <div class="results-list discovery-service">
-<h1>Welcome to Tutt Library's New TIGER</h1>
 <div class="discovery-home">
+{% if spellcheck %}
+ <h1 class="discovery-home">Your search <em>{{ query }}</em> Not Found in TIGER</h1>
+ <p>
+ Did you mean:
+ </p>
+ <ul class="search-help">
+ {% for term in spellcheck.suggestions.0.1.suggestion %}
+  <li><a href="{% url discovery-search %}?q={{ term.word }}">{{ term.word }}</a> ({{ term.freq }})</li>
+ {% endfor %}
+ </ul>
+ <p>
+  No luck? Try searching <a href="http://prospector.coalliance.org">Prospector</a>.
+ </p>
+{% else %}
+<h1>Welcome to Tutt Library's New TIGER</h1>
  <h1 class="discovery-home">What is a discovery service?</h1>
  <p>
   The Tutt Library's new search interface is an example of a catalog with
@@ -24,6 +38,7 @@
   next generation discovery layers. The new TIGER is an open-source project and you can
   contribute to its design and functionality. 
  </p>
+{% endif %}
  <span class="clear"></span>
 </div>
 </div>
