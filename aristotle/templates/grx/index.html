@@ -14,12 +14,6 @@
 {% block search-facets %}
 <div class="side">
  <aside class="search-facets">
-  <h5>Subjects</h5>
-  <ul>
-  {% for subject in subjects %}
-  <li><a href="/grx/subject/{{ subject.name }}">{{ subject.name }}</a></li>
-  {% endfor %}
-  </ul>
   <h5>Titles</h5>
   <div class="grx-title-list">
    {% for letter in a_to_m %}
@@ -30,6 +24,13 @@
     <a href="/grx/titles/{{ letter|upper }}" class="grx-facet-letter">{{ letter|upper }}</a>
    {% endfor %}
   </div>
+
+  <h5>Subjects</h5>
+  <ul>
+  {% for subject in subjects %}
+  <li><a href="/grx/subject/{{ subject.name }}">{{ subject.name }}</a></li>
+  {% endfor %}
+  </ul>
  </aside>
 </div>
 {% endblock %}

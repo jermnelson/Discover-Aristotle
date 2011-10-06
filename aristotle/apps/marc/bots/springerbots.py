@@ -24,7 +24,7 @@ class SpringerEBookBot(MARCImportBot):
             * `public_note` -- Optional public note, default is 'View online'
             * `note_prefix` -- Optional note prefix, default is 'Available via Internet'
         '''
-        MARCImportBot.__init__(self,marc_file,output_file)
+        MARCImportBot.__init__(self,marc_file)
         self.spr_url = 'http://www.springerlink.com/openurl.asp?genre=book&id=doi:'
         if kwargs.has_key('proxy'):
             self.spr_proxy = kwargs.get('proxy')

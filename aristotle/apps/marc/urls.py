@@ -22,6 +22,8 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('marc.views',
     (r'^$','default'),
+    (r'process$','process'),
+    (r'(\w+)','record_load'),
 #    (r'/success$','success'),
 #    (r'(\w+)/upload','upload'),
 )

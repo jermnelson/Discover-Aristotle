@@ -152,7 +152,7 @@
 {% block right-aside-one %}
 <aside class="slideshow">
 {% if doc.isbn %}
- <img src="{{ doc.isbn.0|get_cover_image }}" height="130" alt="{{ doc.title }}" />
+ {{ doc.isbn.0|get_google_book }}
 {% endif %}
 </aside>
 {% endblock %}
@@ -183,7 +183,7 @@
   <img src="http://www.coalliance.org/prospector/_images/prospector_man_smaller.png" style="width:60px;float:left;" />
   Colorado Alliance of Research Libraries Prospector</a>
   </p>
-  <p><a href="#"><img src="http://www.worldcat.org/wcpa/rel20110913/images/logo_wcmasthead_en.png" alt="Worldcat" /></a></p>
+  <p><a href="http://www.worldcata.org/isbn/{{ doc.isbn_numeric }}"><img src="http://www.worldcat.org/wcpa/rel20110913/images/logo_wcmasthead_en.png" alt="Worldcat" /></a></p>
  </div>
 <br/>
 {% endblock %}

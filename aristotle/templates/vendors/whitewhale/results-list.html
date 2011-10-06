@@ -16,13 +16,15 @@
   <ol start="{{ response.start|add:'1' }}">
   {% for doc in response.docs %}
   <li>
-   <h2>{% title_link %}</h2>
-   {% if doc.isbn_numeric %}
-     <a href="#" class="thumbnail"><img src="{{ doc.isbn_numeric|get_cover_image }}" height="130" alt="Image for {{ doc.title }}"/></a>
-   {% endif %}
+    <h2> {% title_link %}</h2>
+    <span class="save_result"><input type="checkbox" value="{{ doc.id }}" onclick="alert(this.value)" /><br/>{% trans 'Save' %}</span>
    <div class="details">
+   {% if doc.isbn_numeric %}
+     {{ doc.isbn_numeric|get_google_book }}
+   {% endif %}
      <table>
       <tbody>
+      </tr>
       {% if doc.author %}
       {% for author in doc.author %}
       <tr class="author">

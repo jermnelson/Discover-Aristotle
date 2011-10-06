@@ -15,10 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with Kochief.  If not, see <http://www.gnu.org/licenses/>.
 
-import urllib
+import urllib,urllib2
 
 from django.template import Context,Library,Template,loader
 from django.utils.translation import ugettext as _
+from django.utils import simplejson
 from django.utils.safestring import mark_safe
 import settings
 from vendors.iii.bots.iiibots import ItemBot
@@ -162,7 +163,32 @@ def get_cover_image(num_isbn):
     """
     amazon_image_url = 'http://ec2.images-amazon.com/images/P/%s.01._PE00_SCMZZZZZZZ_.jpg' % num_isbn
     return mark_safe(amazon_image_url)
+   
+def get_google_book(num_isbn):
+    """Custom method queries Google Books API to retrieve urls and book 
+    cover thumbnails to display to the end user.
+    """
+    google_book_url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:%s' % num_isbn
+    try:
+        book_json = simplejson.load(urllib2.urlopen(google_book_url))
+    except:
+        book_json = {'totalItems':0}
+    if book_json["totalItems"] > 0:
+        top_result = book_json["items"][0]
+        output = '<div class="gbsLinkCover">'
+        output += '''<a href="%s">''' % top_result["volumeInfo"]["infoLink"]
+        if top_result['volumeInfo'].has_key('imageLinks'):
+            output += '''<img src="%s" title="%s" />''' % \
+                      (top_result['volumeInfo']['imageLinks']['smallThumbnail'],
+                       'Summary, etc. at Google Book Search')
+        output += '</a><br/>'
+        output += '<a href="%s"><img src="http://www.google.com/intl/en/googlebooks/images/gbs_preview_button1.gif" /></a>' % top_result["volumeInfo"]["infoLink"]
+        output += '</div>'
+        return mark_safe(output)
+    else:
+        return '' 
 
+ 
 def get_item_status(item_id):
     """Method connects to ILS and retrieves the current circulation status
     of a an item.
@@ -245,7 +271,8 @@ def search_operator_options(output_html):
 register.filter('display_empty_facets',display_empty_facets)
 register.filter('display_ill',display_ill)
 register.filter('display_online',display_online)
-register.filter('get_cover_image',get_cover_image) 
+register.filter('get_cover_image',get_cover_image)
+register.filter('get_google_book',get_google_book) 
 register.filter('get_item_status',get_item_status)
 register.filter('get_marc_as_list',get_marc_as_list)
 register.filter('get_refworks_url',get_refworks_url)

@@ -40,7 +40,21 @@
 <div class="results-list discovery-service">
 <h1>{% trans "Tutt Library's MARC Record Utilities" %}</h1>
 <div class="discovery-home">
- <h2 class="discovery-home">{% trans "Active Workflows" %}</h2>
+ {% if live_bot %}
+ <h2 class="discovery-home">{{ live_bot }}</h2>
+ <form action="/marc/process" method="post">
+ {% csrf_token %}
+ <table>
+ {{marc_form.as_table}}
+ <tr>
+ <td colspan="2" align="center">
+ <input type="hidden" name="bot" value="{{ live_bot }}" />
+ <input type="submit" value="Process {{ live_bot }} Records" />
+ </table>
+ </form>
+ {% else %}
+ <p>Please select a bot from the list of active workflows on the left.</p>
+ {% endif %}
  </p>
  <span class="clear"></span>
 </div>

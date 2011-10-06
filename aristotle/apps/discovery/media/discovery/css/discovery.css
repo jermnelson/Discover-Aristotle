@@ -37,6 +37,11 @@ div.discovery-service {
   height: 60%;
  }
 
+div.gbsLinkCover {
+  text-align: center;
+  float: right;
+ }
+
 div.ils-status {
   border: 1px solid black;
   font-size: 1.1em;
@@ -121,14 +126,21 @@ h1.discovery-home {
  padding-bottom: 2px;
 }
 
+span.available {
+  color: green;
+  font-weight: bold;
+}
+
 span.due-back {
   color: red;
   font-weight: bold;
 }
 
-span.available {
-  color: green;
-  font-weight: bold;
+span.save_result {
+  float: left;
+  font-size: .5em;
+  margin-left: -35px;
+  text-align: center;
 }
 
 table.closed {

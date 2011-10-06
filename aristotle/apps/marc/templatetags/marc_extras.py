@@ -10,9 +10,10 @@ from django.utils.safestring import mark_safe
 register = template.Library()
 
 def get_bot_name(bot):
-   """Method takes a Bot class and returns the name of the class because
-   Django templates cannot call underscore methods or properties.
-   """
-   return marc_safe(bot.__name__)
+    """Method takes a Bot class and returns the name of the class because
+    Django templates cannot call underscore methods or properties.
+    """
+    return mark_safe(bot.__name__)
+
 
 register.filter('get_bot_name',get_bot_name)

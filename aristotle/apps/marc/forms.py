@@ -14,8 +14,21 @@
 # limitations under the License.
 #
 # Copyright: 2011 Colorado College
-__author__ = 'Jeremy Nelson'
+__author__ = 'Jeremy Nelson, Cindy Tappan'
 
 import logging,re
 from django import forms
 
+class MARCRecordUploadForm(forms.Form):
+    """This form contains fields that are necessary for MARC record loads"""
+    raw_marc_record = forms.FileField(required=True,label="Single MARC File")
+    record_type = forms.ChoiceField(required=True,
+                                    label="Record Type",
+                                    choices= [(1,"Bibliographic"),
+                                              (2,"Name Authority"),
+                                              (3,"Subject Authority")])
+    load_table = forms.ChoiceField(required=True,
+                                    label="Load Table",
+                                    choices= [(1,"blackdrama"),
+                                              (2,"LTI bibs")])
+    notes = forms.CharField(required=False,label="Notes")  
