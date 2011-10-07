@@ -1,4 +1,5 @@
 {% extends 'cc-search-base.html' %}
+{% load i18n %}
 
 {% block more-css %}
 <link href="{{ STATIC_URL }}discovery/css/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
@@ -16,9 +17,9 @@
 <div class="results-list discovery-service">
 <div class="discovery-home">
 {% if spellcheck %}
- <h1 class="discovery-home">Your search <em>{{ query }}</em> Not Found in TIGER</h1>
+ <h1 class="discovery-home">{% trans "Your search "%}<em>{{ query }}</em>{% trans " not found in TIGER" %}</h1>
  <p>
- Did you mean:
+  {% trans "Did you mean?" %}
  </p>
  <ul class="search-help">
  {% for term in spellcheck.suggestions.0.1.suggestion %}
@@ -26,11 +27,11 @@
  {% endfor %}
  </ul>
  <p>
-  No luck? Try searching <a href="http://prospector.coalliance.org">Prospector</a>.
+  {% trans "No luck? Try searching " %}<a href="http://prospector.coalliance.org">Prospector</a>.
  </p>
 {% else %}
-<h1>Welcome to Tutt Library's New TIGER</h1>
- <h1 class="discovery-home">What is a discovery service?</h1>
+<h1>{% trans "Welcome to Tutt Library's New TIGER" %}</h1>
+ <h1 class="discovery-home">{% trans "What is a discovery service?" %}</h1>
  <p>
   The Tutt Library's new search interface is an example of a catalog with
   search facets and other features to help you find and organize the print and electronic

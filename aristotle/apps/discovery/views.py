@@ -26,6 +26,7 @@ import urllib
 import logging
 
 from django.conf import settings
+from django.core import serializers
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
@@ -557,3 +558,48 @@ def do_pagination(this_page_num, total, per_page):
         'last_page': last_page,
     }
     return variables
+
+def add_item_cart(request):
+    """Function accepts AJAX request for adding an item from either the 
+    results or record display. The bib-number of the item is used as 
+    an unique key of items."""
+    if request.method == 'POST':
+        # do something
+        record_id = request.POST['record_id']
+    else:
+        # do something
+        record_id = request.GET['record_id']
+    if not hasattr(request.session,'items_cart'):
+        items_cart = [record_id,]
+    else:
+        items_cart = request.session['items_cart']
+        if items_cart.count(record_id) < 1:
+            items_cart.append(record_id)
+    request.session['items_cart'] = items_cart
+    return HttpResponse('%s added to your list' % record_id)
+
+def drop_item_cart(request):
+    """Function accepts AJAX request for dropping an item from either the 
+    results or record display. The bib-number of the item is used as 
+    an unique key of items."""
+    if request.method == 'POST':
+        record_id = request.POST['record_id']
+    else:
+        record_id = request.GET['record_id']
+    if hasattr(request.session,'items_cart'):
+        items_cart = request.session['items_cart']
+        if items_cart.count(record_id) > 1:
+            items_cart.pop(items_cart.index(record_id))
+            request.session['items_cart'] = items_cart
+    return HttpResponse('%s dropped from your list' % record_id)
+
+def get_cart(request):
+    """Function returns all of the items in JSON format that 
+    is the current session."""
+    if request.session.get('items_cart',True):
+        items_cart = request.session['items_cart']
+        data = simplejson.dumps(items_cart)
+    else:
+        data = simplejson.dumps(items_cart)
+    return HttpResponse(data,'application/javascript')
+    

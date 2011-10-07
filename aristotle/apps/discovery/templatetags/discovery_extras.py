@@ -22,6 +22,7 @@ from django.utils.translation import ugettext as _
 from django.utils import simplejson
 from django.utils.safestring import mark_safe
 import settings
+from discovery.config import FORMAT_ICONS
 from vendors.iii.bots.iiibots import ItemBot
 import vendors.iii.settings as ils_settings
 
@@ -163,6 +164,14 @@ def get_cover_image(num_isbn):
     """
     amazon_image_url = 'http://ec2.images-amazon.com/images/P/%s.01._PE00_SCMZZZZZZZ_.jpg' % num_isbn
     return mark_safe(amazon_image_url)
+
+def get_format_icon(term):
+    """Custom method returns an img tag with URL to bundled Pinax Silk icon
+    set."""
+    if FORMAT_ICONS.has_key(term):
+        return mark_safe(FORMAT_ICONS[term])
+    else:
+        return ''
    
 def get_google_book(num_isbn):
     """Custom method queries Google Books API to retrieve urls and book 
@@ -272,6 +281,7 @@ register.filter('display_empty_facets',display_empty_facets)
 register.filter('display_ill',display_ill)
 register.filter('display_online',display_online)
 register.filter('get_cover_image',get_cover_image)
+register.filter('get_format_icon',get_format_icon)
 register.filter('get_google_book',get_google_book) 
 register.filter('get_item_status',get_item_status)
 register.filter('get_marc_as_list',get_marc_as_list)

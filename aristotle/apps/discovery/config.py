@@ -131,22 +131,25 @@ SORTS = [{ 'name' : _('Pub. Date (newest first)'), 'direction' : 'desc', 'field'
          { 'name' : _('Author A-Z'), 'direction' : 'desc', 'field' : 'author_exact' },]
 
 #Icons corresponding to item type
-FORMAT_ICONS = { 'eAudio' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-eaudio.gif" alt="eAudio" />',
-                    'eBook' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-ebook.gif" alt="eBook" />',
-                    'CD-ROM' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-cdrom.gif" alt="cd rom" />',
-                    'Book On Cassette' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-bt.gif" alt="book on cassette" />',
-                    'Book On CD' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-bkcd.gif" alt="book on CD" />',
-                    'Cassette' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-audio.gif" alt="cassette" />',
-                    'Music CD' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-cd.gif" alt="music cd" />',
-                    'Phono Record' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-record.gif" alt="phono record" />',
-                    'DVD' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-dvd.gif" alt="dvd" />',
-                    'Videocassette' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-video.gif" alt="videocassette" />',
-                    'Large Print Book' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-largeprint.gif" alt="large print book" />',
-                    'Book' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-book.gif" alt="book" />',
-                    'Journal' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-magazine.gif" alt="magazine" />',
-                    'Map' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-map.gif" alt="map" />',
-                    'Musical Score' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-score.gif" alt="musical score" />',
-                    'Digital Music' : '<img src="http://catalog.spl.org/hipres/images/formaticons/ipac-icon-digimusic.gif" alt="digital music" />',}
+FORMAT_ICONS = {'Atlas' : '<img src="/site_media/static/pinax/img/silk/icons/map.png" alt="Atlas" />',
+                'Book' : '<img src="/site_media/static/pinax/img/silk/icons/book.png" alt="Book" />',
+                'CDROM' : '<img src="/site_media/static/pinax/img/silk/icons/cd.png" alt="CDROM" />',
+                'Collection' : '<img src="/site_media/static/pinax/img/silk/icons/package.png" alt="Collection" />',
+                'DVD Video' : '<img src="/site_media/static/pinax/img/silk/icons/dvd.png" alt="DVD Video" />',
+                'Electronic' : '<img src="/site_media/static/pinax/img/silk/icons/server_lightning.png" alt="Electronic" />',
+                'Journal' : '<img src="/site_media/static/pinax/img/silk/icons/newspaper.png" alt="Journal" />',
+                'Manuscript' : '<img src="/site_media/static/pinax/img/silk/icons/script.png" alt="Manuscript" />',
+                'Map' : '<img src="/site_media/static/pinax/img/silk/icons/map.png" alt="Map" />',
+                'Microfilm' : '<img src="/site_media/static/pinax/img/silk/icons/film.png" alt="Microfilm" />',
+                'Musical Score' : '<img src="/site_media/static/pinax/img/silk/icons/music.png" alt="Musical Score" />',
+                'Music CD' : '<img src="/site_media/static/pinax/img/silk/icons/cd.png" alt="Music CD" />',
+                'Music Sound Recordings' : '<img src="/site_media/static/pinax/img/silk/icons/sound.png" alt="Music Sound Recordings" />',
+                'Photo' : '<img src="/site_media/static/pinax/img/silk/icons/photo.png" alt="Photo" />',
+                'Poster' : '<img src="/site_media/static/pinax/img/silk/icons/image.png" alt="Poster" />',
+                'Thesis' : '<img src="/site_media/static/pinax/img/silk/icons/report.png" alt="Thesis" />',
+                'Video' : '<img src="/site_media/static/pinax/img/silk/icons/film.png" alt="Video" />',
+                'VHS Video' : '<img src="/site_media/static/pinax/img/silk/icons/film.png" alt="VHS Video" />',
+                }
 
 #White-whale template tags
 CC_URL = 'http://www.coloradocollege.edu/test/library/'

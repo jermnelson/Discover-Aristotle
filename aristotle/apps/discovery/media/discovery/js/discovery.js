@@ -1,3 +1,35 @@
+function AddCartItem(anchor_tag,record_id) {
+  var data = 'record_id=' + record_id;
+  $.ajax({
+      type: 'get',
+       url: '/catalog/cart/add',
+      data: data,
+   success: function(responseText) {
+       // Should change icon and text to Drop
+       var anchor_html = '<a href="#" onclick="';
+       anchor_html += "DropCartItem(this,'" + record_id + "'" + ')">';
+       anchor_html += "<img src='/site_media/static/pinax/img/silk/icons/folder_delete.png' /><br/>Drop</a>";
+       $(anchor_tag).parent().html(anchor_html);
+    }
+   });
+}
+
+function DropCartItem(anchor_tag,record_id) {
+  var data = 'record_id=' + record_id;
+  $.ajax({
+      type: 'get',
+       url: '/catalog/cart/drop',
+      data: data,
+   success: function(responseText) {
+       // Should change icon and text to Drop
+       var anchor_html = '<a href="#" onclick="';
+       anchor_html += "AddCartItem(this,'" + record_id + "'" + ')">';
+       anchor_html += "<img src='/site_media/static/pinax/img/silk/icons/folder_add.png' /><br/>Save</a>";
+       $(anchor_tag).parent().html(anchor_html);
+    }
+   });
+}
+
 function DisplayAdvSearch(search_a) {
   $('#adv-searchbox').attr('style','display:inline');
   $('#basic-searchbox').attr('style','display:none');
@@ -106,4 +138,20 @@ function set_fieldname(field_stem) {
     output += ' ' + $(search_operator).value();
   }
  return output;
+}
+
+function ShowCart() {
+   var data = '';
+   $.ajax({
+      type: 'get',
+       url: '/catalog/cart',
+      data: data,
+   success: function(responseText) {
+        //var results = eval(responseText);
+        $('#cart-dlg-contents').html(responseText);
+        $('#cart-dlg').dialog('open');
+    }
+   });
+  
+
 }
