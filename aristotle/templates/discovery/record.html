@@ -22,7 +22,7 @@
   </li>
   {{ doc|display_ill }}
   <li><a href="javascript:AddCartItem(this,'{{ doc.id }}')">Add</a> this work to your saved resources 
-      <a href="javascript:ShowCart()">folder <img src="{{ STATIC_URL }}pinax/img/silk/icons/folder_page.png" alt="Your saved items" /></a></li>
+      <a href="javascript:ShowCart()">folder <img src="{{ STATIC_URL }}pinax/img/silk/icons/folder_go.png" alt="Your saved items" /></a></li>
   <li><a href="https://tiger.coloradocollege.edu/patroninfo">Login</a> to your library account with your
    TIGER number</li>
  </ul>
@@ -240,12 +240,5 @@
 {% include 'marc_display.html' %}
 </div>
 {% include 'search_history_dialog.html' %}
-<div id="cart-dlg">
-<h2>Your Items</h2>
-<button onclick="PrintCart()">Print</button>
-<button onclick="EmailCart()">Email</button>
-<button onclick="RSSCart()">RSS feed</button>
-<button onclick="RefworksCart()">Export to RefWorks</button>
-<div id="cart-dlg-contents"></div>
-</div>
+{% include 'cart_dialog.html' %}
 {% endblock %}

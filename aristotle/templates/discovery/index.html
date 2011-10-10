@@ -61,11 +61,19 @@
                                    width: 550,
                                 position: 'center',
                                    title: "Your Search History",});
+    $('#cart-dlg').dialog({ autoOpen: false,
+                             buttons: {"Ok":function() { $(this).dialog("close"); }},
+                                 width: 550,
+                                position: 'center',
+                               draggable: true,
+                                 title: "Your selected items",});
+
 });
 </script>
 {% endblock more-scripts %}
 
 {% block dialogs %}
 {% include 'search_history_dialog.html' %}
+{% include 'cart_dialog.html' %}
 {% endblock %}
 

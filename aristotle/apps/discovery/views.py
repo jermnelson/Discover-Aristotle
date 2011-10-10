@@ -23,7 +23,7 @@ import string
 import sys
 import time
 import urllib
-import logging
+import logging,sunburnt
 
 from django.conf import settings
 from django.core import serializers
@@ -569,12 +569,12 @@ def add_item_cart(request):
     else:
         # do something
         record_id = request.GET['record_id']
-    if not hasattr(request.session,'items_cart'):
-        items_cart = [record_id,]
-    else:
-        items_cart = request.session['items_cart']
+    items_cart = request.session.get('items_cart')
+    if items_cart:
         if items_cart.count(record_id) < 1:
-            items_cart.append(record_id)
+            items_cart.insert(0,record_id)
+    else:
+        items_cart = [record_id]
     request.session['items_cart'] = items_cart
     return HttpResponse('%s added to your list' % record_id)
 
@@ -586,20 +586,39 @@ def drop_item_cart(request):
         record_id = request.POST['record_id']
     else:
         record_id = request.GET['record_id']
-    if hasattr(request.session,'items_cart'):
-        items_cart = request.session['items_cart']
-        if items_cart.count(record_id) > 1:
-            items_cart.pop(items_cart.index(record_id))
-            request.session['items_cart'] = items_cart
-    return HttpResponse('%s dropped from your list' % record_id)
+    items_cart = request.session['items_cart']
+    if items_cart:
+        for item in items_cart:
+            if item == record_id:
+                items_cart.remove(item)
+        request.session['items_cart'] = items_cart
+        msg = '%s dropped from your list' % record_id
+    else:
+        msg = 'No items in your list'
+    return HttpResponse(msg)
 
 def get_cart(request):
     """Function returns all of the items in JSON format that 
     is the current session."""
+    records = []
     if request.session.get('items_cart',True):
+        solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
         items_cart = request.session['items_cart']
-        data = simplejson.dumps(items_cart)
-    else:
-        data = simplejson.dumps(items_cart)
+        for item_id in items_cart:
+            solr_response = solr_server.search(q="id:%s" % item_id)
+            if solr_response.result.numFound > 0:
+                doc = solr_response.result.docs[0]
+                rec_info = {'full_title':doc['full_title'],
+                            'id':item_id}
+                if doc.has_key('author'):
+                    rec_info['author'] = doc['author']
+                if doc.has_key('callnum'):
+                    rec_info['callnum'] = doc['callnum']
+                if doc.has_key('location'):
+                    rec_info['location'] = doc['location']
+                if doc.has_key('format'):
+                    rec_info['format'] = doc['format']
+                records.append(rec_info)
+    data = simplejson.dumps(records)
     return HttpResponse(data,'application/javascript')
     

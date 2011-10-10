@@ -2,7 +2,7 @@
 {% load discovery_extras %}
  <div class="results-list">
 {% if response.docs %}
-  <div id="sort_by">
+  <div id="sort_by" class="grid_3">
    {% trans "Sort by:" %}
    {% for sort in sorts %}
     {% ifequal sort current_sort %}
@@ -12,18 +12,23 @@
     {% endifequal %}
    {% endfor %}
   </div>
-
+  <div class="grid_3" style="text-align:right">
+   <a onclick="ShowCart()"><img src="{{ STATIC_URL }}pinax/img/silk/icons/folder_go.png" alt="View saved items"  /></a>
+  </div>
+  <div class="clear"></div>
   <ol start="{{ response.start|add:'1' }}">
   {% for doc in response.docs %}
   <li>
     <h2> {% title_link %}</h2>
     <span class="save_result">
-    <a href="#" onclick="AddCartItem(this,'{{ doc.id }}')">
+    <a onclick="AddCartItem(this,'{{ doc.id }}')">
     <img src="{{ STATIC_URL }}pinax/img/silk/icons/folder_add.png"  />
     <br/>{% trans 'Save' %}</a></span>
    <div class="details">
    {% if doc.isbn_numeric %}
+     <div style="float:right">
      {{ doc.isbn_numeric|get_google_book }}
+     </div>
    {% endif %}
      <table>
       <tbody>

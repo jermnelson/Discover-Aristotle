@@ -7,14 +7,14 @@ function AddCartItem(anchor_tag,record_id) {
    success: function(responseText) {
        // Should change icon and text to Drop
        var anchor_html = '<a href="#" onclick="';
-       anchor_html += "DropCartItem(this,'" + record_id + "'" + ')">';
+       anchor_html += "DropCartItem(this,'" + record_id + "'," + true + ')">';
        anchor_html += "<img src='/site_media/static/pinax/img/silk/icons/folder_delete.png' /><br/>Drop</a>";
        $(anchor_tag).parent().html(anchor_html);
     }
    });
 }
 
-function DropCartItem(anchor_tag,record_id) {
+function DropCartItem(anchor_tag,record_id,keep) {
   var data = 'record_id=' + record_id;
   $.ajax({
       type: 'get',
@@ -22,10 +22,14 @@ function DropCartItem(anchor_tag,record_id) {
       data: data,
    success: function(responseText) {
        // Should change icon and text to Drop
-       var anchor_html = '<a href="#" onclick="';
-       anchor_html += "AddCartItem(this,'" + record_id + "'" + ')">';
-       anchor_html += "<img src='/site_media/static/pinax/img/silk/icons/folder_add.png' /><br/>Save</a>";
-       $(anchor_tag).parent().html(anchor_html);
+       if(keep) {
+         var anchor_html = '<a href="#" onclick="';
+         anchor_html += "AddCartItem(this,'" + record_id + "'" + ')">';
+         anchor_html += "<img src='/site_media/static/pinax/img/silk/icons/folder_add.png' /><br/>Save</a>";
+         $(anchor_tag).parent().html(anchor_html);
+       } else {
+         $(anchor_tag).parent().remove();
+       }
     }
    });
 }
@@ -140,6 +144,12 @@ function set_fieldname(field_stem) {
  return output;
 }
 
+
+function PrintCart() {
+  alert("IN PRINT CART");
+  window.print();
+}
+
 function ShowCart() {
    var data = '';
    $.ajax({
@@ -147,8 +157,37 @@ function ShowCart() {
        url: '/catalog/cart',
       data: data,
    success: function(responseText) {
-        //var results = eval(responseText);
-        $('#cart-dlg-contents').html(responseText);
+        //var output = '<html><head><script src="/site_media/static/discovery/js/discovery.js"></script>';
+        //output += '<style type="text/css">body { font-family: Arial, sans-serif; background-color:#f1ece5; }</style></head>';
+        //output += '<body><h2>Your Saved Records</h2><button onclick="PrintCart()">Print</button><ol>';
+        var output = '<ol>';
+        var results = eval(responseText);
+        for(row in results) {
+           var record = results[row];
+           if(record.id) {
+             output += '<li><a href="/catalog/record/' + record.id + '"><em>';
+             output += record.full_title + '</em></a>.';
+             if(record.format) {
+                output += record.format + ' ';
+             }
+             if(record.callnum) {
+               output += record.callnum + ' at ';
+             }
+
+             if(record.location) {
+                output +=  record.location;
+             }
+             output += '. <a onclick="DropCartItem(this,' + "'" + record.id + "'," + false + ')">';
+             output += "<img src='/site_media/static/pinax/img/silk/icons/folder_delete.png' /></a>";
+           }
+           
+        }
+        //output += '</ol></body></html>';
+        output += '</ol>';
+        //top.wRef = window.open('','Your Saved Records','width=500,height=450,left=20,top=30,menubar=1,toolbar=0,status=1');
+        //top.wRef.document.writeln(output);
+        //top.wRef.document.close();
+        $('#cart-dlg-contents').html(output);
         $('#cart-dlg').dialog('open');
     }
    });

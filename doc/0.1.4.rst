@@ -1,0 +1,20 @@
+Aristotle `0.1.4` Release
+==============================
+
+Overview
+^^^^^^^^
+The  `0.1.4` release for the Aristotle framework is the first public version to
+be ready when the new Tutt Library top-level site is released. The `0.1.4`
+release freezes new functionality in the Discovery application and includes the
+first public release of the `GoldRush Microservices` and `ETD` applications.
+
+.. _Pinax: http://pinaxproject.com 
+
+Issues
+^^^^^^
+The following issues addressed in this release of Aristotle:
+
+* `Electronic Facet too broad, should be broken down into types <https://github.com/jermnelson/Discover-Aristotle/issues/4>`_
+* `Upgrade facets to use jQuery Pagination for long list of facet values <https://github.com/jermnelson/Discover-Aristotle/issues/12>`_
+* `Leave comment <https://github.com/jermnelson/Discover-Aristotle/issues/18>`_ 
+* `Format facet should have icons <https://github.com/jermnelson/Discover-Aristotle/issues/25>`_
