@@ -3,8 +3,7 @@
 {% block search-title %}Tutt Library Goldrush Discovery Services • Colorado College{% endblock %}
 
 {% block more-css %}
- <link href="{{ STATIC_URL }}/pagination.css" rel="stylesheet" />
- <link href="{{ STATIC_URL }}/grx.css" rel="stylesheet" /> 
+ <link href="{{ STATIC_URL }}grx/css/grx.css" rel="stylesheet" /> 
 {% endblock %}
 
 {% block search-panel %}
@@ -14,6 +13,17 @@
 {% block search-facets %}
 <div class="side">
  <aside class="search-facets">
+  {% if grx_search_results %}
+
+
+  {% else %}
+  <h5>Popular</h5>
+  <ul>
+   <li><a href="#">Academic Search Complete</a></li>
+   <li><a href="#">JSTOR</a></li>
+   <li><a href="#">LexisNexis</a></li>
+   <li><a href="#">ScienceDirect</a></li>
+  </ul>
   <h5>Titles</h5>
   <div class="grx-title-list">
    {% for letter in a_to_m %}
@@ -31,6 +41,7 @@
   <li><a href="/grx/subject/{{ subject.name }}">{{ subject.name }}</a></li>
   {% endfor %}
   </ul>
+  {% endif %}
  </aside>
 </div>
 {% endblock %}
@@ -42,7 +53,11 @@
 <div class="main">
 {% if grx_results %}
 {% include 'grx-results-list.html' %}
-{% else %}
+{% endif %}
+{% if grx_search_results %}
+{% include 'grx-jrnl-results-list.html' %}
+{% endif %}
+{% if not grx_results and not grx_search_results %}
 <div class="results-list discovery-service">
 <h1>Tutt Library's Databases Gold Rush Services</h1>
 <div class="discovery-home">

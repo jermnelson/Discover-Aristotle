@@ -16,5 +16,18 @@ The following issues addressed in this release of Aristotle:
 
 * `Electronic Facet too broad, should be broken down into types <https://github.com/jermnelson/Discover-Aristotle/issues/4>`_
 * `Upgrade facets to use jQuery Pagination for long list of facet values <https://github.com/jermnelson/Discover-Aristotle/issues/12>`_
-* `Leave comment <https://github.com/jermnelson/Discover-Aristotle/issues/18>`_ 
+* `Advanced Search implemented <https://github.com/jermnelson/Discover-Aristotle/issues/13>`_
+* `Refworks integration for a list and detail views <https://github.com/jermnelson/Discover-Aristotle/issues/15>`_
+* `III Patron login <https://github.com/jermnelson/Discover-Aristotle/issues/16>`_
+* `Export a list of results <https://github.com/jermnelson/Discover-Aristotle/issues/17>`_
+* `Leave comment <https://github.com/jermnelson/Discover-Aristotle/issues/18>`_
+* `Search for Item in WorldCat <https://github.com/jermnelson/Discover-Aristotle/issues/20>`_
+* `Dates for periodicals not being indexed correctly <https://github.com/jermnelson/Discover-Aristotle/issues/24>`_ 
 * `Format facet should have icons <https://github.com/jermnelson/Discover-Aristotle/issues/25>`_
+* `Result list "title" sort not working <https://github.com/jermnelson/Discover-Aristotle/issues/26>`_
+* `improve temporary functionality of You Can... box <https://github.com/jermnelson/Discover-Aristotle/issues/28>`_
+* `Display Google Books Cover and Link if available <https://github.com/jermnelson/Discover-Aristotle/issues/29>`_
+* `IE display not working...<https://github.com/jermnelson/Discover-Aristotle/issues/34>`_
+* `Migrate framework to Buildout <https://github.com/jermnelson/Discover-Aristotle/issues/35>`_
+* `give error message when search term not found <https://github.com/jermnelson/Discover-Aristotle/issues/38>`_
+

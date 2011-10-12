@@ -12,52 +12,52 @@ This application also allows MARC records to be generated out of
 a Fedora digital repository for importing into an ILS or for external
 authority control by such organizations as OCLC.
 
-`aristotle.marc.views` Contents
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: marc.views
+`aristotle.apps.marc.views` Contents
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: apps.marc.views
    :members:
 
-`aristotle.marc.forms` Contents
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: marc.forms
+`aristotle.apps.marc.forms` Contents
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: apps.marc.forms
    :members:
 
-`aristotle.marc.models` Contents
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: marc.models
+`aristotle.apps.marc.models` Contents
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: apps.marc.models
    :members:
 
-`aristotle.marc.bots.marcbots` Contents
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: marc.bots.marcbots
+`aristotle.apps.marc.bots.marcbots` Contents
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: apps.marc.bots.marcbots
    :members:
 
 Child MARC bots for specific publishers
 =======================================
 
-`aristotle.marc.bots.awbots` American West Bots
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: marc.bots.awbots
+`aristotle.apps.marc.bots.awbots` American West Bots
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: apps.marc.bots.awbots
    :members:
 
-`aristotle.marc.bots.eccobots` Eighteenth Century Collections Online (ECCO)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`aristotle.apps.marc.bots.eccobots` Eighteenth Century Collections Online (ECCO)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. automodule:: marc.bots.eccobots
    :members:
 
-`aristotle.marc.bots.galebots` Gale Publishing files
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`aristotle.apps.marc.bots.galebots` Gale Publishing files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. automodule:: marc.bots.galebots
    :members:
 
-`aristotle.marc.bots.gutenbergbots` Project Gutenberg
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: marc.bots.gutenbergbots
+`aristotle.apps.marc.bots.gutenbergbots` Project Gutenberg
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: apps.marc.bots.gutenbergbots
    :members:
 
 `aristotle.marc.bots.ltibots` LTI Bots
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-.. automodule:: marc.bots.ltibots
+.. automodule:: apps.marc.bots.ltibots
    :members:
 
 `aristotle.marc.bots.opbots` Oxford Press Bots

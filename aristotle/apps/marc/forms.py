@@ -18,6 +18,7 @@ __author__ = 'Jeremy Nelson, Cindy Tappan'
 
 import logging,re
 from django import forms
+from models import Notes,RecordLoadLog
 
 class MARCRecordUploadForm(forms.Form):
     """This form contains fields that are necessary for MARC record loads"""
@@ -32,3 +33,18 @@ class MARCRecordUploadForm(forms.Form):
                                     choices= [(1,"blackdrama"),
                                               (2,"LTI bibs")])
     notes = forms.CharField(required=False,label="Notes")  
+
+class NotesForm(forms.ModelForm):
+    """`NotesForm` is a Django form model for the `Notes` model
+    """
+         
+    class Meta:
+        model = Notes
+            
+class RecordLoadLogForm(forms.ModelForm):
+
+    class Meta:
+        model = RecordLoadLog
+        fields = ('original_file','record_type','source_id')
+        widgets = {
+            'record_type':None }

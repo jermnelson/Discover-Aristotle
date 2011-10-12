@@ -1,0 +1,71 @@
+{% load grx_extras %}
+ <div class="results-list">
+ <h1>Results for <em>{{ grx_search_results.query }}</em></h1>
+ {% if grx_search_results.journals %}
+ <ol>
+ {% for record in grx_search_results.journals %}
+  <li>
+   <h2>{{ record.jtitle }}</h2>
+    <p class="grx">{% if record.issn %}ISSN: {{ record.issn }}{% endif %}
+       {% if record.eissn %}eISSN: {{ record.eissn }}{% endif %}</p>
+    <table class="grx">
+     <tr>
+    {% if record.alt_titles %}
+      <td>Alternate Titles:</td>
+    {% endif %}
+    {% if record.subjects %}
+      <th>Subjects:</th>
+    {% endif %}
+     </tr>
+     <tr>
+    {% if record.alt_titles %}
+     <td valign="top">
+      <ul class="grx">
+      {% for title in record.alt_titles %}
+       <li>{{ title }}</li>
+      {% endfor %}
+      </ul>
+     </td>
+    {% endif %}
+    {% if record.subjects %}
+     <td valign="top">
+      <ul class="grx">
+      {% for subject in record.subjects %}
+       <li>{{ subject }}</li>
+      {% endfor %}
+      </ul>
+     </td>
+    {% endif %}
+     </tr>
+     </table>
+    <div class="details">
+     {% if record.lft %}
+       {{ record.lft.0|generate_detail }} 
+     {% endif %}
+     {% if record.ft %}
+      <h3>Full Text Databases</h3>
+      {% for record in record.ft %}
+       {{ record|generate_detail }}
+      {% endfor %}
+     {% else %}
+      <h3>No Full Text Available for {{ record.jtitle }}</h3>
+     {% endif %}
+     {% if record.cit %}
+      <h3>Citation Databases</h3>
+      {% for record in record.cit %}
+       {{ record|generate_detail }}
+      {% endfor %}
+     {% endif %}
+    </div>
+    <hr />
+  </li>
+ {% endfor %}
+ </ol>
+ {% else %}
+ <p>Your search did not resturn any results. Try searching in our 
+ <a href="/catalog/search?q={{ grx_search_results.query }}">TIGER Discovery Layer</a>.
+ </p>
+ {% endif %}
+ </div>
+</div>
+</div>

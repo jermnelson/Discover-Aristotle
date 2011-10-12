@@ -5,13 +5,14 @@ Current Release |release|
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 The current version of Aristotle, |release| note.
 
-.. include:: 0.1.2alpha.rst
+
+.. include:: 0.1.3beta.rst
 
 Next Release
 ^^^^^^^^^^^^
 The next release of Aristotle includes the following.
 
-.. include:: 0.1.3beta.rst
+.. include:: 0.1.4.rst
 
 Future Releases
 ^^^^^^^^^^^^^^^

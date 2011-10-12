@@ -146,3 +146,20 @@ class GoldRushBot(object):
                             output.append(result)
         return output
 
+    def search(self,query_term,limit=20):
+        """
+        Method takes user search term and queries Gold Rush's
+        browseJrnl and fullJTRec methods to display to the end
+        user.
+        """
+        brief_hits = self.web_client.service.browseJrnl(self.inst_code,
+                                                        query_term)
+        records = []
+        # Iterate through the hits up to the limit
+        for brief_rec in brief_hits.brief_recs[:limit]:
+            result = self.web_client.service.fullJTRec(self.inst_code,
+                                                       brief_rec.id)
+            if not result.grx_error:
+                records.append(result.full_rec)
+        return records
+

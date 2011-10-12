@@ -39,7 +39,7 @@ a_to_m = ['a','b','c','d','e','f','g','h','i','j','k','l','m']
 n_to_z =['n','o','p','q','r','s','t','u','v','w','x','y','z']
 
 def default(request):
-    subjects = Subject.objects.order_by('name')
+    subjects = Subject.objects.all().order_by('name')
     subjects_dbs = []
     return direct_to_template(request,
                               'grx/index.html',
@@ -63,8 +63,20 @@ def search(request):
     """Searches Goldrush Solr core"""
     if request.method == 'POST':
         query = request.POST['search_phrase']
-        pass
-    return HttpResponse('IN SEARCH query is %s' % request.POST['search_phrase'])
+    elif request.method == 'GET':
+        query = request.GET['search_phrase']
+    if not query:
+        query=None
+    grx_search_results = {'query':query,
+                          'journals':grx_bot.search(query,limit=None)}
+    return direct_to_template(request,
+                                  'grx/index.html',
+                                  {'title':'Searching GoldRush for %s' % query,
+                                   'a_to_m':a_to_m,
+                                   'n_to_z':n_to_z,
+                                   'grx_results':None,
+                                   'grx_search_results':grx_search_results,
+                                   'subjects':None})
 
 def subjects(request,subject=None):
     """Displays legacy HTML of subjects."""
