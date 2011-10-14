@@ -19,3 +19,9 @@ function LoadFacet(facet_type,value,csrf_token) {
     }
   });
 }
+
+function SearchHint() {
+  var search_type = $('#search-type').attr('value');
+  alert(search_hints[search_type]);
+
+}

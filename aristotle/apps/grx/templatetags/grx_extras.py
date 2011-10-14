@@ -47,41 +47,31 @@ def _create_row(**kwargs):
     row.append(td)
     return row
 
-def generate_detail(resource_record):
+def generate_detail(resource_record,tr_class=None):
     """Function takes an GoldRush resource_record and generates a 
     and returns a table to the calling template"""
     tbody = lxml.html.Element('tbody')
+    title_row = lxml.html.Element('tr')
+    if tr_class:
+        title_row.attrib['class'] = tr_class
     title = lxml.html.Element('a',href=resource_record.url)
     title.text = resource_record.dbname
-    title_th = lxml.html.Element('th',colspan='2')
+    title_th = lxml.html.Element('th')
     title_th.append(title)
-    title_row = lxml.html.Element('tr')
     title_row.append(title_th)
-    tbody.append(title_row)
-    provider_td = lxml.html.Element('td',colspan='2')
-    provider_td.text = 'Provided by %s' % resource_record.provider
-    provider_row = lxml.html.Element('tr')
-    provider_row.append(provider_td)
-    tbody.append(provider_row)
+    start_td = lxml.html.Element('td')
     if resource_record.start:
-        tbody.append(_create_row(th='Start',td=resource_record.start))
+        start_td.text = resource_record.start
+        title_row.append(start_td)
+        to_td = lxml.html.Element('td')
+        to_td.text = 'to'
+        title_row.append(to_td)
     if resource_record.end:
-        tbody.append(_create_row(th='End',td=resource_record.end))
-    if resource_record.date_embargo:
-        tbody.append(_create_row(th='Date Embargo',td=resource_record.date_embargo))
-    if resource_record.date_notes or resource_record.grit_msg:
-        notes = ''
-        if resource_record.date_notes:
-            notes = resource_record.date_notes
-        if resource_record.grit_msg:
-            if len(notes) > 1:
-                notes += '<br/>'
-            notes += resource_record.grit_msg
-        tbody.append(_create_row(th='Notes',td=notes))
-    table = lxml.html.Element('table')
-    table.attrib['class'] = 'grx'
-    table.append(tbody)
-    return mark_safe(lxml.html.tostring(table))
+        end_td = lxml.html.Element('td')
+        end_td.text = resource_record.end
+        title_row.append(end_td)
+    tbody.append(title_row)
+    return mark_safe(lxml.html.tostring(tbody))
 
     
 

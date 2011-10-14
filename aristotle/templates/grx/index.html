@@ -72,16 +72,11 @@
 {% endblock %}
 
 {% block more-scripts %}
-<script src="{{ STATIC_URL }}/jquery.pagination.js"></script>
-<script src="{{ STATIC_URL }}/grx.js"></script>
+<script src="{{ STATIC_URL }}grx/js/grx.js"></script>
 <script>
- $(document).ready(function() {
-  $("#result-paginate").pagination({{ catalog_results.result.numFound }}, {
-    items_per_page: $('#solr_rows').val(),
-    num_edge_entries: 1,
-    load_first_page: false,
-    prev_text: "Previous",
-    callback:handleResultPaginateClick});
-  });
+ var search_hints = new Array();
+ {% for type_of in search_types %}
+   search_hints['{{ type_of.grx_action }}'] = '{{ type_of.hint }}';
+ {% endfor %}
 </script>
 {% endblock more-scripts %}

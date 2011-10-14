@@ -2,13 +2,42 @@ a.grx-facet-letter {
   font-weight: bold;
   text-decoration: none;}
 
+
+div.grx-jtitle {
+  background-color: #EEEEEE;}
+
+h3.grx-jrnl-search {
+  color: #950B24;
+  font-size: 1.2em !important;
+  font-weight: bold;
+  padding-left: 2em;
+  }
+ 
 p.grx {
   font-size: 1em !important; }
 
+span.grx-title {
+  color: black !important;
+  font-size: 1em !important;
+  font-weight: bold !important;}
+
 table.grx {
-  border-top: 1px solid #4C3D38;
   width: 90%;
 }
 
+tr.grx-alt-title {
+  display:none;
+}
+
+tr.grx-citation {
+  display: none;}
+
+
+tr.grx-subject {
+  display: none;
+}
+
 ul.grx {
-  font-size: .6em !important; }
+  font-size: .9em !important;
+  list-style-type: none;
+  margin-left: -10px; }

@@ -146,14 +146,17 @@ class GoldRushBot(object):
                             output.append(result)
         return output
 
-    def search(self,query_term,limit=20):
+    def search(self,query_term,action,limit=20):
         """
         Method takes user search term and queries Gold Rush's
-        browseJrnl and fullJTRec methods to display to the end
-        user.
+        web-service 'action' method to display the journals matching 
+        user's search query.
         """
-        brief_hits = self.web_client.service.browseJrnl(self.inst_code,
-                                                        query_term)
+        if not hasattr(self.web_client.service,action):
+            raise ValueError("%s not found in Gold Rush" % action)
+        
+        grx_method = getattr(self.web_client.service,action)
+        brief_hits = grx_method(self.inst_code,query_term)
         records = []
         # Iterate through the hits up to the limit
         for brief_rec in brief_hits.brief_recs[:limit]:

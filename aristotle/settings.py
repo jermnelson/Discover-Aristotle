@@ -115,6 +115,7 @@ TEMPLATE_DIRS = [
     os.path.join(PINAX_ROOT, "templates", PINAX_THEME),
     os.path.join(PROJECT_ROOT,"templates/discovery/snippets"),
     os.path.join(PROJECT_ROOT,"templates/vendors/whitewhale"),
+    os.path.join(PROJECT_ROOT,"templates/vendors/bioheritage"),
     os.path.join(PROJECT_ROOT,"apps/etd/templates/etd"),
     os.path.join(PROJECT_ROOT,"templates/grx"),
 ]
@@ -209,6 +210,7 @@ INSTALLED_APPS = [
     "marc",
     "grx",
     "vendors.iii",
+    "vendors.bioheritage",
 ]
 
 FIXTURE_DIRS = [

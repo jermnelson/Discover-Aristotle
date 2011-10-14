@@ -37,6 +37,30 @@ grx_bot = GoldRushBot(institutional_code=grx.settings.INSTITUTIONAL_CODE)
 solr_bot = SolrBot(solr_server=grx.settings.SOLR_URL)
 a_to_m = ['a','b','c','d','e','f','g','h','i','j','k','l','m']
 n_to_z =['n','o','p','q','r','s','t','u','v','w','x','y','z']
+search_browse_types=[{"label":"Search Keyword",
+                      "grx_action":"searchByKeyword",
+                      "hint":"Search for terms appearing anywhere in the journal title, including alternate titles."},
+                     {"label":"Search Journal Title",
+                      "grx_action":"searchByJrnlTitle",
+                      "hint":"Search for a journal title as a phrase."},
+                     {"label":"Search Subject",
+                      "grx_action":"searchBySubject",
+                      "hint":"Search for journals under a particular subject."},
+                     {"label":"Search ISSN",
+                      "grx_action":"searchByISSN",
+                      "hint":"Search journal by ISSN, a unique identifying number consisting of 8 digits. Search with or without hyphen."},
+                     {"label":"Browse Full Text Journal Title",
+                      "grx_action":"browseJrnlFT",
+                      "hint":"Browse journal titles that have full text."},
+                     {"label":"Browse Journal Title",
+                      "grx_action":"browseJrnl",
+                      "hint":"Browse journal titles that have full text and/or indexing."},
+                     {"label":"Browse Subject", 
+                      "grx_action":"browseJrnlSubjects",
+                      "hint":"Browse journals by subject."},
+                     ]
+
+
 
 def default(request):
     subjects = Subject.objects.all().order_by('name')
@@ -46,7 +70,8 @@ def default(request):
                               {'titles':[],
                                'a_to_m':a_to_m,
                                'n_to_z':n_to_z,
-                               'subjects':subjects})
+                               'subjects':subjects,
+                               'search_types':search_browse_types})
 
 
 # JSON Handler
@@ -61,20 +86,25 @@ def rpc(request):
 
 def search(request):
     """Searches Goldrush Solr core"""
+    query,grx_action = None,None
     if request.method == 'POST':
-        query = request.POST['search_phrase']
+        query = request.POST['q']
+        grx_action = request.POST['search-type']
     elif request.method == 'GET':
-        query = request.GET['search_phrase']
-    if not query:
-        query=None
+        query = request.GET['q']
+        grx_action = request.GET['search-type']
     grx_search_results = {'query':query,
-                          'journals':grx_bot.search(query,limit=None)}
+                          'journals':grx_bot.search(query,
+                                                    action=grx_action,
+                                                    limit=None)}
     return direct_to_template(request,
                                   'grx/index.html',
                                   {'title':'Searching GoldRush for %s' % query,
                                    'a_to_m':a_to_m,
                                    'n_to_z':n_to_z,
                                    'grx_results':None,
+                                   'limits':[{'query':query},],
+                                   'search_types':search_browse_types,
                                    'grx_search_results':grx_search_results,
                                    'subjects':None})
 

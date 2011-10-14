@@ -19,11 +19,11 @@ __author__ = 'Jeremy Nelson'
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('grx.views',
-    (r'^$','default'),
-    (r'search$','search'),
-    (r'subjects$','subjects'),
-    (r'subject/(.*)$','subjects'),
-    (r'titles$','titles'),
-    (r'titles/(.*)$','titles'),
+    url(r'^$','default',name='grx-index'),
+    url(r'search$','search',name='grx-search'),
+    url(r'subjects$','subjects',name='grx-subjects'),
+    url(r'subject/(.*)$','subjects',name='grx-subject'),
+    url(r'titles$','titles',name='grx-titles'),
+    url(r'titles/(.*)$','titles',name='grx-title'),
 )
 
