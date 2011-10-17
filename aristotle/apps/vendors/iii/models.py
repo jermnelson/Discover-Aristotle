@@ -1,5 +1,11 @@
+"""
+ models.py - Django models for interacting with III Millennium System
+"""
+__author__ = 'Jeremy Nelson'
+
 from eulxml import xmlmap
 from django.db import models
+
 
 class IIIRecord(xmlmap.XmlObject):
     """
@@ -27,3 +33,19 @@ class IIIStatusCode(models.Model):
     """
     code = models.CharField(max_length=5)
     value = models.CharField(max_length=20)
+
+class Fund(models.Model):
+    """
+    Stores full number and a code for a look-up from a order record value.
+    """
+    code = models.CharField(max_length=10)
+    value = models.CharField(max_length=25)
+
+class FundProcessLog(models.Model):
+    """
+    Keeps track of each time an order record CSV file is processed to expand
+    fund short code to full value.
+    """
+    created_on = models.DateTimeField(auto_now_add=True)
+    subsitutions = models.IntegerField()
+

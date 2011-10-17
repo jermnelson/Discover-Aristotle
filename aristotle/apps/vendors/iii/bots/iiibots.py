@@ -5,9 +5,51 @@
 #
 # Copyrighted by Colorado College
 import urllib2,logging,datetime
+import csv
 from eulxml import xmlmap
-from vendors.iii.models import ItemRecord,IIIStatusCode
+from vendors.iii.models import ItemRecord,IIIStatusCode,Fund,FundProcessLog
 from discovery.parsers.tutt_maps import LOCATION_CODE_MAP
+
+class FundBot(object):
+    """
+    `FundBot` takes a csv file, search and replaces each occurrence of a FUND
+    code with its full account value.
+    """
+
+    def __init__(self,**kwargs):
+        """
+        Initalizes bot with csv file reader
+   
+        :param  fund-csv-file: CSV file object 
+        :param code-location: Field location index 0 where fund codes are located in 
+                              the row, default is 4
+        """
+        if not kwargs.has_key('input-csv-file'):
+            raise ValueError("FundBot requires a input-csv-file")
+        self.input_csv = csv.Reader(kwargs.get('input-csv-file'))
+        if kwargs.has_key('code-location'):
+            self.code_location = int(kwargs.get('code-location'))
+        else:
+            self.code_location = 4
+        
+
+    
+    def process(self):
+        """
+        Iterates through csv file, replacing each occurrence of fund code 
+        with the expanded fund account value.
+     
+        :rtype: file object
+        """
+        subsitutions = 0
+        self.output_csv = csv.Writer()
+        for row in self.input_csv:
+            fund_codes = row[self.code_location]
+            for code in fund_codes:
+                 fund = Fund(code=code)
+                 
+        
+
 
 class ItemBot(object):
     """`ItemBot` uses the eulxml module to capture specific information about an
@@ -39,6 +81,8 @@ class ItemBot(object):
         Retrieves location code from XML and then does a look-up
         using the discovery.parsers.tutt_map LOCATION_CODE_MAP
         for the human-friendly facet label
+
+        :rtype: string
         """
         location = None
         if self.item_xml is not None:
@@ -51,6 +95,8 @@ class ItemBot(object):
     def status(self):
         """
         Retrieves status code from XML
+
+        :rtype: string or None
         """
         if self.item_xml is not None:
             try:
@@ -72,6 +118,8 @@ class ItemBot(object):
     def volume(self):
         """
         Method retrieves Volume from XML or None if not present.
+
+        :rtype: string
         """
         if self.item_xml is not None:
             if self.item_xml.volume is not None:

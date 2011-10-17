@@ -258,6 +258,8 @@ def get_format(record):
     else:
             field008 = ''
     if leader[6] == 'a' and len(format) < 1:                # language material
+        if leader[7] == 'a':
+            format = 'Series' # Ask about?
         if leader[7] == 'c':
             format = 'Collection'
         if leader[7] == 'm':            # monograph
@@ -292,7 +294,10 @@ def get_format(record):
     elif leader[6] == 'd' and len(format) < 1:
         format = 'Manuscript noted music'
     elif leader[6] == 'j' and len(format) < 1:
-        format = 'Music Sound Recordings' 
+        format = 'Music Sound Recordings'
+    elif leader[6] == 'i' and len(format) < 1:
+        if leader[7] != '#':
+            format = 'Spoken Sound Recodings'
     elif leader[6] == 'k' and len(format) < 1:
         if len(field008) > 22:
             if field008[33] == 'i':

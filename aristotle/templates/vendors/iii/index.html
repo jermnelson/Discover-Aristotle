@@ -1,0 +1,63 @@
+{% extends 'cc-inside-base-twocol.html' %}
+{% load etd_extras %}
+
+{% block head-title %}III Utilities for Colorado College {% endblock %}
+{% block more-css %}
+{% endblock %}
+
+{% block library-breadcrumb %}
+ <div id="breadcrumb">
+  <div class="stage"><a href="http://www.coloradocollege.edu/library">Library Home</a>&nbsp;&raquo;&nbsp;<a href="/vendors/iii">III</a>
+   </div>
+ </div>
+{% endblock %}
+
+{% block subnavigation %}
+<h1><strong><a href="#">Utilites</a></strong></h1>
+<ul>
+{% for utility in utilities %}
+<li><a href="{% url utility.name %}">{{ utility.label }}</a></li> 
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
+
+{% block left-aside-two %}
+<aside class="aside">
+<div id="contact-lib-detail" style="background-color: #2D4873">
+ {% include 'contact-library.html' %}
+</div>
+</aside>
+{% endblock %}
+
+{% block main-content %}
+ <h1>Colorado College III Utilities</h1>
+ <p>
+  Here are all of the III utilities.
+ </p>
+ <ul>
+ {% for utility in utilities %}
+  <li><a href="{% url utility.name %}">{{ utility.label }}</a> {{ utility.description }}</li> 
+
+ {% endfor %}
+ </ul>
+ {% endif %}
+{% endblock %}
+
+{% block right-aside-one %}
+{% endblock %}
+
+{% block right-aside-two %}
+{% endblock %}
+
+{% block right-aside-three %}
+{% endblock %}
+
+
+{% block more-scripts %}
+<script>
+</script>
+{% endblock %}
+
+{% block dialogs %}
+{% endblock %}
