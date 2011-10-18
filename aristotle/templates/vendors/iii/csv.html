@@ -32,15 +32,18 @@
 {% endblock %}
 
 {% block main-content %}
- <h1>Colorado College III Utilities</h1>
+ <h1>Colorado College III CSV Fund Code Substitution</h1>
  <p>
-  Here are all of the III utilities.
+  This utility takes a CSV file created from a Order record create list in III's
+  Millenium and substitues the Fund code with its full value along with some other 
+  minor changes so that the modified CSV file can be imported into CC's campus
+  accounting systems.
  </p>
- <ul>
- {% for utility in utilities %}
-  <li><a href="/vendors/iii/{{ utility.name }}">{{ utility.label }}</a> {{ utility.description }}</li> 
- {% endfor %}
- </ul>
+ <form method='POST' action='/vendors/iii/csv' enctype="multipart/form-data">
+ {% csrf_token %}
+ {{ form }}
+ <input type="submit" value="Process file" />
+ </form>
 {% endblock %}
 
 {% block right-aside-one %}

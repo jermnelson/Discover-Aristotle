@@ -210,7 +210,7 @@ def get_item_status(item_id):
         css_class = 'due-back'
     else:
         css_class = 'available'
-    status_txt = '''<span class="%s">%s''' % (css_class,item_status)
+    status_txt = '''<span class="%s">%s ''' % (css_class,item_status)
     volume = item_bot.volume()
     if volume:
         status_txt += item_bot.volume()

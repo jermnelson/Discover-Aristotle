@@ -20,34 +20,40 @@ class FundBot(object):
         """
         Initalizes bot with csv file reader
    
-        :param  fund-csv-file: CSV file object 
-        :param code-location: Field location index 0 where fund codes are located in 
+        :param  csv_file: CSV file object 
+        :param code_location: Field location index 0 where fund codes are located in 
                               the row, default is 4
         """
-        if not kwargs.has_key('input-csv-file'):
-            raise ValueError("FundBot requires a input-csv-file")
-        self.input_csv = csv.Reader(kwargs.get('input-csv-file'))
-        if kwargs.has_key('code-location'):
-            self.code_location = int(kwargs.get('code-location'))
+        if not kwargs.has_key('csv_file'):
+            raise ValueError("FundBot requires a csv_file")
+        self.input_csv = csv.Reader(kwargs.get('csv_file'))
+        if kwargs.has_key('code_location'):
+            self.code_location = int(kwargs.get('code_location'))
         else:
             self.code_location = 4
+        self.substitutions = 0
         
 
     
-    def process(self):
+    def process(self,response):
         """
         Iterates through csv file, replacing each occurrence of fund code 
         with the expanded fund account value.
-     
+        
+        :param response: Django response object 
         :rtype: file object
         """
-        subsitutions = 0
-        self.output_csv = csv.Writer()
+        output_csv = csv.writer(response)
         for row in self.input_csv:
             fund_codes = row[self.code_location]
+            fund_accounts = []
             for code in fund_codes:
                  fund = Fund(code=code)
-                 
+                 self.substitutions += 1
+                 fund_accounts.append(fund.value)
+	    row[self.code_location] = fund_accounts
+            output_csv.writerow(row)
+        return response 
         
 
 
@@ -123,7 +129,7 @@ class ItemBot(object):
         """
         if self.item_xml is not None:
             if self.item_xml.volume is not None:
-                return 'v. %s' % self.item_xml.volume
+                return self.item_xml.volume
         return None
             
  

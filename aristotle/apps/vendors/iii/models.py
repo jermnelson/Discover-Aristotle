@@ -25,7 +25,7 @@ class ItemRecord(IIIRecord):
     due_date = xmlmap.StringField("/IIIRECORD/TYPEINFO/ITEM/FIXFLD[FIXLABEL[.='DUE DATE']]/FIXVALUE")
     location_code = xmlmap.StringField("/IIIRECORD/TYPEINFO/ITEM/FIXFLD[FIXLABEL[.='LOCATION']]/FIXVALUE")
     status = xmlmap.StringField("/IIIRECORD/TYPEINFO/ITEM/FIXFLD[FIXLABEL[.='STATUS']]/FIXVALUE")
-    volume = xmlmap.StringField("/IIIRECORD/TYPEINFO/ITEM/VARFLD[HEADER/TAG[.='VOLUME']]/FIELDDATA")
+    volume = xmlmap.StringField("/IIIRECORD/VARFLD[HEADER/TAG[.='VOLUME']]/FIELDDATA")
 
 class IIIStatusCode(models.Model):
     """
@@ -47,5 +47,4 @@ class FundProcessLog(models.Model):
     fund short code to full value.
     """
     created_on = models.DateTimeField(auto_now_add=True)
-    subsitutions = models.IntegerField()
-
+    substitutions = models.IntegerField()

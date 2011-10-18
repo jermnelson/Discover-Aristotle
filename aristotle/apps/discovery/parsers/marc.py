@@ -391,7 +391,9 @@ def parse_008(record, marc_record):
         if occur0 == 4 and occur1 == 4:
             date = min(dates[0], dates[1])
         else:
-            if occur0 >= occur1:
+            if dates[1].startswith('9999'):
+                date = dates[0]
+            elif occur0 >= occur1:
                 date = dates[0]
             else:
                 date = dates[1]

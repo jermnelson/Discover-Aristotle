@@ -1,0 +1,26 @@
+[
+    {
+        "fields": {
+           "code":"-",
+           "value": "In Library"
+        },
+        "model": "iii.IIIStatusCode",
+        "pk":1
+     },
+    {
+        "fields": {
+           "code":"j",
+           "value": "Online"
+        },
+        "model": "iii.IIIStatusCode",
+        "pk":2
+     },
+    {
+        "fields": {
+           "code":"h",
+           "value": "Library use only"
+        },
+        "model": "iii.IIIStatusCode",
+        "pk":3
+     }
+]
