@@ -118,6 +118,8 @@ TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT,"templates/vendors/bioheritage"),
     os.path.join(PROJECT_ROOT,"apps/etd/templates/etd"),
     os.path.join(PROJECT_ROOT,"templates/grx"),
+    os.path.join(PROJECT_ROOT,"templates/marc"),
+
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [

@@ -22,15 +22,15 @@ class FundBot(object):
    
         :param  csv_file: CSV file object 
         :param code_location: Field location index 0 where fund codes are located in 
-                              the row, default is 4
+                              the row, default is 9
         """
         if not kwargs.has_key('csv_file'):
             raise ValueError("FundBot requires a csv_file")
-        self.input_csv = csv.Reader(kwargs.get('csv_file'))
+        self.input_csv = csv.reader(kwargs.get('csv_file'))
         if kwargs.has_key('code_location'):
             self.code_location = int(kwargs.get('code_location'))
         else:
-            self.code_location = 4
+            self.code_location = 9
         self.substitutions = 0
         
 
@@ -45,14 +45,25 @@ class FundBot(object):
         """
         output_csv = csv.writer(response)
         for row in self.input_csv:
-            fund_codes = row[self.code_location]
-            fund_accounts = []
-            for code in fund_codes:
-                 fund = Fund(code=code)
-                 self.substitutions += 1
-                 fund_accounts.append(fund.value)
-	    row[self.code_location] = fund_accounts
-            output_csv.writerow(row)
+            paid_date = row[0]
+            invoice_number = row[2]
+            invoice_amount = row[3]
+            end_index = len(row)-1 
+            vendor = row[end_index].strip().upper()
+            fund_code = row[end_index-1].strip().upper()
+            query = Fund.objects.filter(code=fund_code)
+            if query:
+                fund_value = query[0].value
+            elif fund_code.startswith('FUND'):
+                fund_value = fund_code
+            else:
+                fund_value = '%s not found' % fund_code
+            self.substitutions += 1
+            output_csv.writerow([paid_date,
+                                 invoice_number,
+                                 invoice_amount,
+                                 vendor,
+                                 fund_value])
         return response 
         
 

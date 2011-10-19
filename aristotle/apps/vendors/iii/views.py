@@ -4,7 +4,7 @@
 
 __author__ = 'Jeremy Nelson'
 
-import csv,datetime
+import csv,datetime,logging
 from django.http import HttpResponse
 from django.views.generic.simple import direct_to_template
 from vendors.iii.models import Fund,FundProcessLog
@@ -46,6 +46,7 @@ def index(request):
     for log in fund_logs:
        activity_logs.append({'activity_date':log.created_on,
                              'description': '%s fund codes subsituted' % log.substitutions})
+    logging.error("Number of activity logs:%s" % len(activity_logs))
     utilities = [{'name':'csv',
                   'label':'Expand Fund codes to values',
                   'description':'''Takes order records in CSV format, replaces Fund codes with

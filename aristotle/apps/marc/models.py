@@ -18,18 +18,17 @@ class Notes(models.Model):
         db_table = u'notes'
 
 class RecordLoadLog(models.Model):
-    process_id = models.IntegerField(null=True, blank=True)
+    process_id = models.CharField(max_length=50, blank=True)
     filename = models.CharField(max_length=100, blank=True)
     is_processed = models.NullBooleanField(null=True, blank=True)
     load_table = models.IntegerField(null=True, blank=True)
-    modified_file = models.FileField(upload_to='modified') 
+    modified_file = models.FileField(upload_to='modified',blank=True) 
     new_records = models.IntegerField(null=True, blank=True)
     original_file = models.FileField(upload_to='uploads') 
     overlaid_records = models.IntegerField(null=True, blank=True)
     record_type = models.IntegerField(null=True, blank=True)
     rejected_records = models.IntegerField(null=True, blank=True)
     source_id = models.IntegerField(null=True, blank=True)
-    ils_result = models.TextField(blank=True) # This field type is a guess.
     class Meta:
         db_table = u'recordloadlogs'
 

@@ -42,9 +42,28 @@ class NotesForm(forms.ModelForm):
         model = Notes
             
 class RecordLoadLogForm(forms.ModelForm):
+    """`RecordLoadLogForm` is a django model form for adding a new
+    RecordLoadLog after running the bot on the original MARC record
+    uploaded file"""
 
     class Meta:
         model = RecordLoadLog
-        fields = ('original_file','record_type','source_id')
+        #fields = ('original_file','record_type','load_table','source_id')
         widgets = {
-            'record_type':None }
+            'load_table':forms.Select(choices=[(1,"blackdrama"),
+                                               (2,"LTI bibs")]),
+            'record_type':forms.Select(choices=[(1,"Bibliographic"),
+                                                (2,"Name Authority"),
+                                                (3,"Subject Authority")])}
+
+class UpdateRecordLoadLogForm(forms.ModelForm):
+    """`UpdateRecordLoadLogForm` is a Django model form for updating 
+    an `RecordLoadLog`.
+    """
+
+    class Meta:
+        model = RecordLoadLog
+        fields = ('new_records',
+                  'overlaid_records',
+                  'rejected_records',
+                  'ils_result')

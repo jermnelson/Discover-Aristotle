@@ -18,7 +18,7 @@ class AlexanderStreetPressBaseBot(MARCImportBot):
         - `marc_file`: Alexander Street Press MARC records
         - `asp_code`: Alexander Street Press Code, default is asp
         """
-        MARCBot.__init__(self,marc_file)
+        MARCImportBot.__init__(self,marc_file)
         if not kwargs.has_key('asp_code'):
             self.asp_code = 'asp'
         else:
@@ -168,7 +168,17 @@ class AlexanderStreetPressMusicBot(AlexanderStreetPressBaseBot):
     Song, Jazz Music Library, among others and modifies to 
     CC standards.
     """
-    
+    DATABASES = {'American song':{'code':'amso',
+                                           'proxy':'0-amso.alexanderstreet.com.tiger.coloradocollege.edu'},
+                 'Classical music library':{'code':'clmu',
+                                            'proxy':'0-clmu.alexanderstreet.com.tiger.coloradocollege.edu'},
+                 'Contemporary world music':{'code':'womu',
+                                             'proxy':'0-womu.alexanderstreet.com.tiger.coloradocollege.edu'},
+                 'Jazz music library':{'code':'jazz',
+                                       'proxy':'0-jazz.alexanderstreet.com.tiger.coloradocollege.edu'},
+                 'Smithsonian global sounds for libraries':{'code':'glmu',
+                                                            'proxy':'0-glmu.alexanderstreet.com.tiger.coloradocollege.edu'}}
+   
     def __init__(self,**kwargs):
         """
         Creates instance of `AlexanderStreetPressMusicBot`
@@ -182,23 +192,14 @@ class AlexanderStreetPressMusicBot(AlexanderStreetPressBaseBot):
         if not kwargs.has_key('type_of'):
             raise ValueError("AlexanderStreetPressMusicBot requires type_of")
         self.type_of = kwargs.get('type_of')
-        self.databases = {'American song':{'code':'amso',
-                                           'proxy':'0-amso.alexanderstreet.com.tiger.coloradocollege.edu'},
-                          'Classical music library':{'code':'clmu',
-                                                     'proxy':'0-clmu.alexanderstreet.com.tiger.coloradocollege.edu'},
-                          'Contemporary world music':{'code':'womu',
-                                                      'proxy':'0-womu.alexanderstreet.com.tiger.coloradocollege.edu'},
-                          'Jazz music library':{'code':'jazz',
-                                                'proxy':'0-jazz.alexanderstreet.com.tiger.coloradocollege.edu'},
-                          'Smithsonian global sounds for libraries':{'code':'glmu',
-                                                                     'proxy':'0-glmu.alexanderstreet.com.tiger.coloradocollege.edu'}}
-
-
-        if not self.databases.has_key(self.type_of):
+        self.code_dict = {}
+        for k,v in self.DATABASES.iteritems():
+            self.code_dict[v['code']] = k
+        if not self.code_dict.has_key(self.type_of):
             raise ValueError('Unknown database: %s' % self.type_of)
         AlexanderStreetPressBaseBot.__init__(self,
                                              marc_file=kwargs.get('marc_file'),
-                                             asp_code=self.databases[self.type_of]['code'])
+                                             asp_code=self.type_of)
 
     def getResolvedURL(self,
                        marc_record):
@@ -277,8 +278,8 @@ class AlexanderStreetPressMusicBot(AlexanderStreetPressBaseBot):
         Validates 007 fields, if data is sound resource keep, otherwise
         change value to CC standard.
         
-        Paramaters:
-        - `marc_record`: MARC record, required
+        :param marc_record: MARC record, required
+        :rtype marc_record: 
         """
         all007s = marc_record.get_fields('007') # Could be Sean Connery, Roger Moore
                                                 # Pierce Bronson, or Daniel Craig
@@ -311,7 +312,7 @@ class AlexanderStreetPressMusicBot(AlexanderStreetPressBaseBot):
         Parameters:
         - `marc_record`: MARC record, required
         """
-        proxy_location = self.databases[self.type_of]['proxy']
+        proxy_location = self.DATABASES[self.code_dict[self.type_of]]['proxy']
         all856s = marc_record.get_fields('856')
         for field856 in all856s:
             raw_url = urlparse.urlparse(field856.get_subfields('u')[0])

@@ -6,6 +6,7 @@
 import sys,datetime,logging
 import urlparse,urllib2,re
 import os
+import cStringIO
 from pymarc import *
 
 
@@ -58,10 +59,10 @@ class MARCImportBot:
         """ Method extracts URL from 856 field, sets 538 and 856 to CC's format practices.
 
             Parameters:
-            `marc_record` - MARC Record
-            `proxy_location` - proxy prefix prepended to extracted URL from 856 field
-            `public_note` - subfield z value, default is for CC
-            `note_prefix` - prefix for original URL in 538 note field, default is for CC.
+        :param marc_record: - MARC Record
+        :param proxy_location: - proxy prefix prepended to extracted URL from 856 field
+        :param public_note: - subfield z value, default is for CC
+        :param note_prefix: - prefix for original URL in 538 note field, default is for CC.
         """
         all538fields = marc_record.get_fields('538')
         for field538 in all538fields:
@@ -81,7 +82,7 @@ class MARCImportBot:
                                            raw_url.path,
                                            raw_url.query)
             proxy_url = urlparse.urlparse(proxy_raw_url)
-            # Sets values for new 538 with constructed note in     def to_text(self):
+            # Sets values for new 538 with constructed note in     
             new538 = Field(tag='538',
                            indicators=[' ',' '],
                            subfields=['a','%s, %s' % (note_prefix,raw_url.geturl())])
@@ -105,10 +106,13 @@ class MARCImportBot:
 
     def output(self):
         ''' Method writes all records to a MARC21 output file'''
-        output = open(self.marcfile_output,'w')
+        #output = open(self.marcfile_output,'w')
+        output = cStringIO.StringIO()
         for record in self.records:
-            output.write(record.as_marc())
+            record_str = record.as_marc()
+            output.write(record_str.encode('ascii','ignore'))
         output.close()
+        return output
 
   
 
@@ -117,8 +121,7 @@ class MARCImportBot:
         Removes the 009 field, used in some MARC records for local information
         Not used by CC.
         
-        Parameters:
-        - `marc_record`: MARC record        
+        :param marc_record: MARC record        
         """
         return self.__remove_field__(marc_record=marc_record,
                                      tag='009')

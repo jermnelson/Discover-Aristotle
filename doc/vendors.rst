@@ -27,6 +27,12 @@ includes Item status and Patron API interactions.
 .. automodule:: vendors.iii.models
    :members:
 
+`vendors.iii.views` 
+--------------------
+.. automodule:: vendors.iii.views
+   :members:
+
+
 `vendors.iii.bots.iiibots`
 --------------------------
 .. automodule:: vendors.iii.bots.iiibots
