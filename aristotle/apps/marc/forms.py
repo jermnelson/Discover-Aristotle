@@ -40,6 +40,9 @@ class NotesForm(forms.ModelForm):
          
     class Meta:
         model = Notes
+        widgets = {
+            'note_value':forms.Textarea(attrs={'cols':35,'rows':4}),
+        }
             
 class RecordLoadLogForm(forms.ModelForm):
     """`RecordLoadLogForm` is a django model form for adding a new

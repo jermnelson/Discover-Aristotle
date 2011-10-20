@@ -32,7 +32,8 @@ class FundBot(object):
         else:
             self.code_location = 9
         self.substitutions = 0
-        
+        self.amount_re = re.compile(r"\d+[.]\d+")
+        self.date_re = re.compile(r"\d+[-]\d+[-]\d+")
 
     
     def process(self,response):
@@ -58,6 +59,24 @@ class FundBot(object):
                 fund_value = fund_code
             else:
                 fund_value = '%s not found' % fund_code
+            # Handles multiple records in a single row for Literature crit online
+            if len(row) > 25:                 
+                invoice_amount = float(invoice_amount)
+                for field in row[4:]:
+                    if self.amount_re.search(field):
+                        invoice_amount += float(field)
+                invoice_amount = '%.2f' % invoice_amount
+            # Handles merged records by breaking out the second record info 
+            elif len(row) > 11:
+                # Assume the second record paid date
+                second_paid_date = row[8]
+                second_invoice_number = row[10]
+                second_invoice_amount = row[11]
+                output_csv.writerow([second_paid_date,
+                                     second_invoice_number,
+                                     second_invoice_amount,
+                                     vendor,
+                                     fund_value])
             self.substitutions += 1
             output_csv.writerow([paid_date,
                                  invoice_number,
