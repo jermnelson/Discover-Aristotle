@@ -18,6 +18,7 @@ class Notes(models.Model):
         db_table = u'notes'
 
 class RecordLoadLog(models.Model):
+    created_on = models.DateTimeField(auto_now_add=True)
     process_id = models.CharField(max_length=50, blank=True)
     filename = models.CharField(max_length=100, blank=True)
     is_processed = models.NullBooleanField(null=True, blank=True)

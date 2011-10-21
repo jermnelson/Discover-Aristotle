@@ -21,5 +21,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('vendors.iii.views',
     url(r'^$','index',name='iii-index'),
     url(r'csv$','csv',name='iii-csv'),
+    url(r'login$','login',name='iii-login'),
+
 )
 

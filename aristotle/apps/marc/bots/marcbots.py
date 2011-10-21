@@ -104,14 +104,14 @@ class MARCImportBot:
             marc_record.add_field(new856)
         return marc_record    
 
-    def output(self):
+    def output(self,marcfile_output):
         ''' Method writes all records to a MARC21 output file'''
-        #output = open(self.marcfile_output,'w')
-        output = cStringIO.StringIO()
+        output = open(marcfile_output,'wb')
+        #output = cStringIO.StringIO()
         for record in self.records:
             record_str = record.as_marc()
-            output.write(record_str.encode('ascii','ignore'))
-        output.close()
+            output.write(record_str.encode('utf8','replace'))
+    #    output.close()
         return output
 
   
@@ -291,7 +291,7 @@ class MARCImportBot:
         output_string = r''
         for record in self.records:
             output_string += record.as_marc()
-        return output_string
+        return output_string.encode('utf8','ignore')
 
     def __remove_field__(self,**kwargs):
         """

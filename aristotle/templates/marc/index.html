@@ -23,7 +23,7 @@
   <h5>{% trans "Recent History" %}</h5>
   <ul>
   {% for log in history %}
-  <li><a href="detail/{{ log.date }}">{{ log.date }}</a></li>
+  <li><a href="detail/{{ log.created_on }}">{{ log.created_on }} {{ log.process_id }} </a></li>
   {% endfor %}
   </ul>
  </aside>

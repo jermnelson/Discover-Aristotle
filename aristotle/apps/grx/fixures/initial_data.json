@@ -1,0 +1,89 @@
+[
+    {
+        "fields": {
+           "name":"Anthropology"
+        },
+        "model": "grx.Subject",
+        "pk":1
+     },
+    {
+        "fields": {
+           "name":"Art"
+        },
+        "model": "grx.Subject",
+        "pk":2
+     },
+    {
+        "fields": {
+           "name":"Asian Studies"
+        },
+        "model": "grx.Subject",
+        "pk":3
+     },
+     {
+        "fields": {
+           "name":"Biology"
+        },
+        "model": "grx.Subject",
+        "pk":4
+     },
+     {
+        "fields": {
+           "name":"Business"
+        },
+        "model": "grx.Subject",
+        "pk":5
+     },
+     {
+        "fields": {
+           "name":"Chemistry"
+        },
+        "model": "grx.Subject",
+        "pk":7
+     },
+     {
+        "fields": {
+           "name":"Classics"
+        },
+        "model": "grx.Subject",
+        "pk":8
+     },
+     {
+        "fields": {
+           "name":"Comparative Literature"
+        },
+        "model": "grx.Subject",
+        "pk":9
+     },
+     {
+        "fields": {
+           "name":"Computer Science"
+        },
+        "model": "grx.Subject",
+        "pk":10
+     },
+     {
+        "fields": {
+           "name":"Drama and Dance"
+        },
+        "model": "grx.Subject",
+        "pk":11
+     },
+     {
+        "fields": {
+           "name":"Economics"
+        },
+        "model": "grx.Subject",
+        "pk":12
+     },
+     {
+        "fields": {
+           "name":"Education"
+        },
+        "model": "grx.Subject",
+        "pk":13
+     },
+
+
+
+]

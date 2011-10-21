@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load marc_extras %}
  <h2 class="discovery-home"></h2>
- <a href="{% url marc-download %}/{{ download.filename }}">Download modified MARC file</a>
+ <a href="{% url marc-download %}">Download modified MARC file</a>
  <form action="/marc/update" method="POST">
  {% csrf_token %}
  <table>
@@ -23,7 +23,6 @@
   </tr>
  <tr>
  <td colspan="2" align="center">
- <input type="hidden" name="log_pk" value="{{ download.log_pk }}" />
  <input type="submit" value="Update Record" />
  </table>
  </form>

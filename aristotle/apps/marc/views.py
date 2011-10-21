@@ -18,14 +18,18 @@
 #
 __author__ = 'Jeremy Nelson, Cindy Tappan'
 
-import logging,zlib,datetime
+import logging,zlib,datetime,os
 
 from django import forms
 from django.views.generic.simple import direct_to_template
 from django.shortcuts import render_to_response
 from django.http import Http404,HttpResponseRedirect,HttpResponse
+from django.core.files import File
+from django.core.files.base import ContentFile
+from django.core.servers.basehttp import FileWrapper
 from django.template import RequestContext
-from forms import MARCRecordUploadForm,RecordLoadLogForm,NotesForm
+from forms import MARCRecordUploadForm,RecordLoadLogForm,NotesForm,UpdateRecordLoadLogForm
+from models import RecordLoadLog
 
 # Imports Bots
 from bots.aspbots import AlexanderStreetPressMusicBot,BlackDramaBot
@@ -52,21 +56,22 @@ active_bots = [AlexanderStreetPressMusicBot,
 def default(request):
     """Default view for MARC utilities Django application
     """
+    history = RecordLoadLog.objects.all()
     return direct_to_template(request,
                               'marc/index.html',
-                              {'active_bots':active_bots})
+                              {'active_bots':active_bots,
+                               'history':history})
 
 def download(request):
     """Download modified MARC21 file"""
     log_pk = request.session['log_pk']
-    record_log = RecordLoadLog.get(pk=log_pk)
-    modified_file = zlib.decompress(record_log.modified_file)
-    file_wrapper = FileWrapper(modified_file)
-    response = HttpResponse(wrapper,content_type='text/plain')
-    now = datetime.datetime.today()
-    filename = '%s-%s.mrc' % (now.stfttime("%Y-%m-%d"),record_log.process_id)
+    record_log = RecordLoadLog.objects.get(pk=log_pk)
+    modified_file = open(record_log.modified_file.path,'r')
+    file_wrapper = FileWrapper(file(record_log.modified_file.path))
+    response = HttpResponse(file_wrapper,content_type='text/plain')
+    filename = os.path.split(record_log.modified_file.path)[1]
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
-    response['Content-Length'] = modified_file.tell()
+    response['Content-Length'] = os.path.getsize(record_log.modified_file.path)
     return response
 
 def process(request):
@@ -91,13 +96,20 @@ def process(request):
         logging.error("Errors = %s" % record_log_form.errors)
     record_log = record_log_form.save()
     record_log.process_id = bot_name
-    record_log.modified_file = zlib.compress(bot.to_text())
     record_log.save()
+    
+    mod_filename = '%s-%s.mrc' % (datetime.datetime.today().strftime("%Y-%m-%d"),
+                                  record_log.process_id.replace('Bot',''))
+    #modified_file_content = File(mod_filename)
+    #modified_file_content.write(bot.to_text())
+    record_log.modified_file.save(mod_filename,ContentFile(bot.to_text()))
     request.session['log_pk'] = record_log.pk
     note_form = NotesForm(request.POST)
+    note_form.record_load_log_id = record_log.pk
     if note_form.is_valid():
-        note_form.record_load_log_id = record_log.pk
         note_form.save()
+    else:
+        logging.error("Note form is not valid %s" % note_form.errors)
     return HttpResponseRedirect("/marc/update")
     #return HttpResponse('IN MARC BOT process %s' % record_log.pk)
 
@@ -139,12 +151,14 @@ def update_log(request):
     """Displays download link and update log form after
     successful bot processing."""
     log_pk = request.session['log_pk']
-    
+    marc_form = UpdateRecordLoadLogForm()
+    note_form = NotesForm()
+    download = True
     return direct_to_template(request,
                               'marc/index.html',
                               {'active_bots':active_bots,
                                'live_bot':None,
-                               'download':None,
+                               'download':download,
                                'marc_form':marc_form,
                                'note_form':note_form})
 

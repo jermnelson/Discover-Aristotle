@@ -215,7 +215,6 @@ class AlexanderStreetPressMusicBot(AlexanderStreetPressBaseBot):
         redirect = urllib2.urlopen(raw_url)
         redirect_url = urlparse.urlparse(redirect.geturl())
         self.resolved_baseurl = 'http://%s/View/' % redirect_url.netloc.lower()
-        logging.error("IN MUSIC BOT getResolvedURL %s" % self.resolved_baseurl)
 
 
 

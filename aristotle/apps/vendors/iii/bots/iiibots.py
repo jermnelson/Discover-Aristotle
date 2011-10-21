@@ -9,6 +9,8 @@ import csv
 from eulxml import xmlmap
 from vendors.iii.models import ItemRecord,IIIStatusCode,Fund,FundProcessLog
 from discovery.parsers.tutt_maps import LOCATION_CODE_MAP
+from settings import ILS_PATRON_URL
+from BeautifulSoup import BeautifulSoup
 
 class FundBot(object):
     """
@@ -162,4 +164,28 @@ class ItemBot(object):
                 return self.item_xml.volume
         return None
             
- 
+
+class PatronBot(object):
+    """
+    `PatronBot` connects to the III server with the Patron API, parses results 
+    and authenticates a user.
+    """
+
+    def __init__(self,**kwargs):
+        """
+        :param last_name: The patron's last name
+        :param iii_id: The patron's number
+        """
+        if kwargs.has_key('last_name'):
+            self.last_name = kwargs.get('last_name')
+        else:
+            raise ValueError('PatronBot requires a last name')
+        if kwargs.has_key('iii_id'):
+            self.iii_id = kwargs.get('iii_id')
+        else:
+            raise ValueError('PatronBot requires a last name')
+        raw_html = urllib2.urlopen(ILS_PATRON_URL % self.iii_id).read()
+        if re.search(r'ERRMSG=',raw_html):
+            self.is_valid = False
+        else:
+            self.is_valid = True

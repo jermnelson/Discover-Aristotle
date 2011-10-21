@@ -23,10 +23,10 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('marc.views',
     (r'^$','default'),
     (r'process$','process'),
-    (r'(\w+)','record_load'),
     url(r'search$','search',name='marc-search'),
     url(r'download$','download',name='marc-download'),
     url(r'update$','update_log',name='marc-update'),
+    (r'(\w+)','record_load'),
 #    (r'/success$','success'),
 #    (r'(\w+)/upload','upload'),
 )

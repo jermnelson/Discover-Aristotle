@@ -1,0 +1,58 @@
+{% extends 'cc-inside-base-twocol.html' %}
+{% load etd_extras %}
+
+{% block head-title %}III Utilities for Colorado College {% endblock %}
+{% block more-css %}
+{% endblock %}
+
+{% block library-breadcrumb %}
+ <div id="breadcrumb">
+  <div class="stage"><a href="http://www.coloradocollege.edu/library">Library Home</a>&nbsp;&raquo;&nbsp;<a href="http://tuttlibsys/">Internal</a>
+&nbsp;&raquo;&nbsp;
+  <a href="/vendors/iii">III</a>
+&nbsp;&raquo;&nbsp;
+  <a href="/vendors/iii/login">Login</a>
+   </div>
+ </div>
+{% endblock %}
+
+{% block subnavigation %}
+{% endblock %}
+
+{% block left-aside-two %}
+<aside class="aside">
+<div id="contact-lib-detail" style="background-color: #2D4873">
+ {% include 'contact-library.html' %}
+</div>
+</aside>
+{% endblock %}
+
+{% block main-content %}
+ <h1>Login to TIGER</h1>
+ <p>
+  Login to TIGER with your last name and TIGER id from your Goldcard.
+ </p>
+ <form method='POST' action='/vendors/iii/login'>
+ {% csrf_token %}
+ {{ form.as_p }}
+ <p><input type="submit" value="Login" /></p>
+ </form>
+{% endblock %}
+
+{% block right-aside-one %}
+{% endblock %}
+
+{% block right-aside-two %}
+{% endblock %}
+
+{% block right-aside-three %}
+{% endblock %}
+
+
+{% block more-scripts %}
+<script>
+</script>
+{% endblock %}
+
+{% block dialogs %}
+{% endblock %}

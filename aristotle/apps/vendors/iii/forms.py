@@ -28,3 +28,13 @@ class CSVUploadForm(forms.Form):
     csv_file = forms.FileField(required=True,
                                label='Order Records CSV file')
 
+
+class PatronLoginForm(forms.Form):
+    """
+    `PatronLoginForm` displays a last name text and a password fields
+    to the end user.
+    """
+    last_name = forms.CharField(max_length=35,label='Last Name')
+    iii_patron_id = forms.CharField(max_length=20,label='TIGER number')
+
+
