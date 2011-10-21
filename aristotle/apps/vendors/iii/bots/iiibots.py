@@ -1,11 +1,11 @@
-#
+
 # iiibots.py -- Bots for interfacing with III's Millennium system
 #
 # author: Jeremy Nelson
 #
 # Copyrighted by Colorado College
 import urllib2,logging,datetime
-import csv
+import csv,re
 from eulxml import xmlmap
 from vendors.iii.models import ItemRecord,IIIStatusCode,Fund,FundProcessLog
 from discovery.parsers.tutt_maps import LOCATION_CODE_MAP
@@ -186,6 +186,8 @@ class PatronBot(object):
             raise ValueError('PatronBot requires a last name')
         raw_html = urllib2.urlopen(ILS_PATRON_URL % self.iii_id).read()
         if re.search(r'ERRMSG=',raw_html):
+            logging.error("INVALID SEARCH")
             self.is_valid = False
         else:
+            logging.error("VALID SEARCH")
             self.is_valid = True

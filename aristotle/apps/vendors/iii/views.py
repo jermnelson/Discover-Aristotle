@@ -5,13 +5,13 @@
 __author__ = 'Jeremy Nelson'
 
 import csv,datetime,logging
-from django.http import HttpResponse
-from django.contrib.auth import  authenticate, login
+from django.http import HttpResponse,HttpResponseRedirect
+from django.contrib.auth import authenticate,login
 
 from django.views.generic.simple import direct_to_template
 from vendors.iii.models import Fund,FundProcessLog
 from vendors.iii.forms import CSVUploadForm,PatronLoginForm
-from vendors.iii.bots.iiibots import FundBot,PatronBot
+from vendors.iii.bots.iiibots import FundBot
 
 def csv(request):
     """
@@ -37,23 +37,36 @@ def csv(request):
                                   'vendors/iii/csv.html',
                                  {'form':CSVUploadForm()})
 
-def login(request):
+def patron_login(request):
     """
     Processes login request posted from form, if redirect url exists,
     redirect's user.
     """
     if request.method == 'POST':
+        redirect_url = None
         if request.POST.has_key('redirect'):
             redirect_url = request.POST['redirect']
         last_name = request.POST['last_name']
         iii_patron_id = request.POST['iii_patron_id']
-        patron_bot = PatronBot(last_name=last_name,
-                               iii_id=iii_patron_id)
-        
+        user = authenticate(last_name=last_name,iii_id=iii_patron_id)
+        if user is not None:
+            login(request,user)
+            if redirect_url is not None:
+                return HttpResponseRedirect(redirect_url)
+            else:
+                return direct_to_template(request,
+                                         'vendors/iii/login.html',
+                                        {'form':None})
+        else:
+            direct_to_template(request,
+                                  'vendors/iii/login.html',
+                                  {'form':PatronLoginForm(),
+                                   'msg':'Invalid login, please try again'})
     else:
         return direct_to_template(request,
                                   'vendors/iii/login.html',
-                                  {'form':PatronLoginForm()})
+                                  {'form':PatronLoginForm(),
+                                   'msg':'Please login with TIGER number'})
    
 
 def index(request):

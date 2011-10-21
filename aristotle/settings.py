@@ -83,9 +83,6 @@ STATICFILES_DIRS = [
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = posixpath.join(STATIC_URL, "admin/")
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = "vab94obbao=cv(6u@ee2to=u%iys3rd8fb$y$el%f^jzx78af%"
-
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = [
     "django.template.loaders.filesystem.load_template_source",
@@ -243,6 +240,7 @@ ACCOUNT_EMAIL_AUTHENTICATION = False
 ACCOUNT_UNIQUE_EMAIL = EMAIL_CONFIRMATION_UNIQUE_EMAIL = False
 
 AUTHENTICATION_BACKENDS = [
+    "vendors.iii.backends.IIIUserBackend",
     "pinax.apps.account.auth_backends.AuthenticationBackend",
 ]
 

@@ -28,13 +28,16 @@
 {% endblock %}
 
 {% block main-content %}
- <h1>Login to TIGER</h1>
+ <h1>{{ msg }}</h1>
  <p>
   Login to TIGER with your last name and TIGER id from your Goldcard.
  </p>
- <form method='POST' action='/vendors/iii/login'>
+ <form method='POST' action='{% url iii-login %}'>
  {% csrf_token %}
  {{ form.as_p }}
+ {% if redirect_url %}
+  <input type="hidden" name="redirect" value="{{ redirect_url }}"
+ {% endif %}
  <p><input type="submit" value="Login" /></p>
  </form>
 {% endblock %}
