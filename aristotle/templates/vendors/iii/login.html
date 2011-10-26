@@ -7,10 +7,13 @@
 
 {% block library-breadcrumb %}
  <div id="breadcrumb">
-  <div class="stage"><a href="http://www.coloradocollege.edu/library">Library Home</a>&nbsp;&raquo;&nbsp;<a href="http://tuttlibsys/">Internal</a>
+  <div class="stage"><a href="http://www.coloradocollege.edu/library">Library Home</a>&nbsp;&raquo;&nbsp;
+{% if not next %}
+<a href="http://tuttlibsys/">Internal</a>
 &nbsp;&raquo;&nbsp;
   <a href="/vendors/iii">III</a>
 &nbsp;&raquo;&nbsp;
+{% endif %}
   <a href="/vendors/iii/login">Login</a>
    </div>
  </div>
@@ -35,8 +38,8 @@
  <form method='POST' action='{% url iii-login %}'>
  {% csrf_token %}
  {{ form.as_p }}
- {% if redirect_url %}
-  <input type="hidden" name="redirect" value="{{ redirect_url }}"
+ {% if next %}
+  <input type="hidden" name="next" value="{{ next }}"
  {% endif %}
  <p><input type="submit" value="Login" /></p>
  </form>

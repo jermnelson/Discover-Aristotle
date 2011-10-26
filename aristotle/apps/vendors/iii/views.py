@@ -12,6 +12,7 @@ from django.views.generic.simple import direct_to_template
 from vendors.iii.models import Fund,FundProcessLog
 from vendors.iii.forms import CSVUploadForm,PatronLoginForm
 from vendors.iii.bots.iiibots import FundBot
+from vendors.iii.backends import IIIUserBackend 
 
 def csv(request):
     """
@@ -42,30 +43,40 @@ def patron_login(request):
     Processes login request posted from form, if redirect url exists,
     redirect's user.
     """
-    if request.method == 'POST':
+    if request.REQUEST.has_key('next'):
+        redirect_url = request.REQUEST['next']
+    else:
         redirect_url = None
-        if request.POST.has_key('redirect'):
-            redirect_url = request.POST['redirect']
+    if request.method == 'POST':
         last_name = request.POST['last_name']
         iii_patron_id = request.POST['iii_patron_id']
         user = authenticate(last_name=last_name,iii_id=iii_patron_id)
-        if user is not None:
+        if user is None:
+            logging.error("User is none, should return login page")
+            return direct_to_template(request,
+                               'vendors/iii/login.html',
+                               {'form':PatronLoginForm(),
+                                'redirect':redirect_url,
+                                'msg':'Invalid login, please try again'})
+	else:
             login(request,user)
+            logging.error("%s logging in user:%s is_authenticated=%s" % (user.backend,user,request.user.is_authenticated()))
+            logging.error("Request Session key is %s id is %s" % (request.session['_auth_user_id'],user.id))
+            setattr(request,'user',user)
             if redirect_url is not None:
                 return HttpResponseRedirect(redirect_url)
             else:
-                return direct_to_template(request,
-                                         'vendors/iii/login.html',
-                                        {'form':None})
-        else:
-            direct_to_template(request,
-                                  'vendors/iii/login.html',
-                                  {'form':PatronLoginForm(),
-                                   'msg':'Invalid login, please try again'})
+                return HttpResponseRedirect("/")
+
     else:
+        if request.GET.has_key('redirect'):
+            redirect = request.GET['redirect']
+        else:
+            redirect = None
         return direct_to_template(request,
                                   'vendors/iii/login.html',
                                   {'form':PatronLoginForm(),
+                                   'redirect':redirect,
                                    'msg':'Please login with TIGER number'})
    
 

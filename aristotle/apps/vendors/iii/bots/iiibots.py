@@ -186,7 +186,7 @@ class PatronBot(object):
             raise ValueError('PatronBot requires a last name')
         raw_html = urllib2.urlopen(ILS_PATRON_URL % self.iii_id).read()
         if re.search(r'ERRMSG=',raw_html):
-            logging.error("INVALID SEARCH")
+            logging.error("INVALID SEARCH %s" % raw_html)
             self.is_valid = False
         else:
             logging.error("VALID SEARCH")

@@ -275,14 +275,15 @@ def get_format(record):
         elif leader[7] == 's':            # serial
             if len(field008) > 18:
                 frequencies = ['b', 'c', 'd', 'e', 'f', 'i', 'j', 
-                        'm', 'q', 's', 't', 'w']
-                if field008[18] in frequencies:
+                               'q', 's', 't', 'w']
+                if field008[21] in frequencies:
                     format = 'Journal'
-                else:
-                    # this is here to prevent stuff that librarians 
-                    # and nobody else would consider to be a serial 
-                    # from being labeled as a magazine.
+                elif field008[21] == 'm':
                     format = 'Book'
+                else:
+                    format = 'Journal'
+            else:
+                format = 'Journal'
     elif leader[6] == 'b' and len(format) < 1:
         format = 'Manuscript' 
     elif leader[6] == 'e' and len(format) < 1:

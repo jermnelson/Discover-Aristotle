@@ -245,6 +245,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 LOGIN_URL = "/account/login/" # @@@ any way this can be a url name?
+#LOGIN_URL = '/vendors/iii/patron_login/'
 LOGIN_REDIRECT_URLNAME = "what_next"
 
 EMAIL_CONFIRMATION_DAYS = 2
