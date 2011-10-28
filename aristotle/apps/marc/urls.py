@@ -21,7 +21,7 @@ import marc.views
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('marc.views',
-    (r'^$','default'),
+    url(r'^$','default',name='marc-index'),
     (r'process$','process'),
     url(r'search$','search',name='marc-search'),
     url(r'download$','download',name='marc-download'),

@@ -8,7 +8,8 @@
        {% comment %}START SEARCHBOX DIV {% endcomment %}
 	<div id="searchbox">
 	 <ul class="search-help">
-           <li><a href="{% url grx-index %}">{% trans "New Search" %}</a></li>
+           <li><a href="{% url marc-index %}">{% trans "MARC Home" %}</a></li>
+           <li><a href="http://discovery.coloradocollege.edu">{% trans "Discovery Home" %}</a></li>
 	   <li><a href="http://tiger.coloradocollege.edu">{% trans "Classic TIGER" %}</a></li>
          </ul>
 	  <form action="{% url marc-search %}" name="grx_search">
