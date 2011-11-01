@@ -56,7 +56,7 @@ def patron_login(request):
             return direct_to_template(request,
                                'vendors/iii/login.html',
                                {'form':PatronLoginForm(),
-                                'redirect':redirect_url,
+                                'next':redirect_url,
                                 'msg':'Invalid login, please try again'})
 	else:
             login(request,user)
@@ -69,14 +69,14 @@ def patron_login(request):
                 return HttpResponseRedirect("/")
 
     else:
-        if request.GET.has_key('redirect'):
-            redirect = request.GET['redirect']
+        if request.GET.has_key('next'):
+            redirect = request.GET['next']
         else:
             redirect = None
         return direct_to_template(request,
                                   'vendors/iii/login.html',
                                   {'form':PatronLoginForm(),
-                                   'redirect':redirect,
+                                   'next':redirect,
                                    'msg':'Please login with TIGER number'})
    
 

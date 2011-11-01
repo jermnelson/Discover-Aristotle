@@ -723,9 +723,9 @@ def get_record(marc_record, ils=None):
     url_fields = marc_record.get_fields('856')
     record['url'] = []
     for field in url_fields:
-        url_subfield = field.get_subfields('u')
-        if url_subfield:
-            record['url'].append(url_subfield[0])
+        url_subfield = field.get_subfields('u','z')
+        for url in  url_subfield:
+            record['url'].append(url)
     record['marc_record'] = marc_record.__str__()  # Should output to MARCMaker format
     return record
 
