@@ -25,6 +25,8 @@ class FundBot(object):
         :param  csv_file: CSV file object 
         :param code_location: Field location index 0 where fund codes are located in 
                               the row, default is 9
+        :param program_code: Suffix program code required by Accounting, default is 
+                             -AS
         """
         if not kwargs.has_key('csv_file'):
             raise ValueError("FundBot requires a csv_file")
@@ -33,6 +35,10 @@ class FundBot(object):
             self.code_location = int(kwargs.get('code_location'))
         else:
             self.code_location = 9
+        if kwargs.has_key('program_code'):
+            self.program_code = kwargs.get('program_code')
+        else:
+            self.program_code = '-AS'
         self.substitutions = 0
         self.amount_re = re.compile(r"\d+[.]\d+")
         self.date_re = re.compile(r"\d+[-]\d+[-]\d+")
@@ -56,11 +62,11 @@ class FundBot(object):
             fund_code = row[end_index-1].strip().upper()
             query = Fund.objects.filter(code=fund_code)
             if query:
-                fund_value = query[0].value
+                fund_value = "%s%s" % (query[0].value,self.program_code)      
             elif fund_code.startswith('FUND'):
-                fund_value = fund_code
+                fund_value = "%s%s" % (fund_code,self.program_code) 
             else:
-                fund_value = '%s not found' % fund_code
+                fund_value = '%s not found' % fund_co
             # Handles multiple records in a single row for Literature crit online
             if len(row) > 25:                 
                 invoice_amount = float(invoice_amount)

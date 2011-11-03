@@ -7,7 +7,7 @@ __author__ = 'Jeremy Nelson'
 import grx.settings as grx
 from django.test import TestCase
 from grx.bots.grxbots import GoldRushBot
-from solr.bots.solrbots import SolrBot
+from grx.bots.solrbots import SolrBot
 
 class SetupTest(TestCase):
 
