@@ -1,20 +1,22 @@
 {% extends 'cc-inside-base-twocol.html' %}
 
-{% block head-title %}III Utilities for Colorado College {% endblock %}
+{% block head-title %}Internal Utilities for Tutt Library, Colorado College {% endblock %}
 {% block more-css %}
 {% endblock %}
 
 {% block library-breadcrumb %}
  <div id="breadcrumb">
   <div class="stage"><a href="http://www.coloradocollege.edu/library">Library Home</a>&nbsp;&raquo;&nbsp;<a href="http://tuttlibsys/">Internal</a>
-&nbsp;&raquo;&nbsp;
-  <a href="/vendors/iii">III</a>
    </div>
  </div>
 {% endblock %}
 
 {% block subnavigation %}
-<h1><strong><a href="#">Recent activity</a></strong></h1>
+<h1><strong><a href="#">About</a></strong></h1>
+<p>
+ These utilities are used for internal uses by various
+ units at the Tutt Library.
+</p>
 <ul>
 {% for activity in activity_log %}
 <li>{{ activity.activity_date }} {{ activity.description }}</li> 
@@ -31,14 +33,16 @@
 {% endblock %}
 
 {% block main-content %}
- <h1>Colorado College III Utilities</h1>
+ <h1>Colorado College Tutt Library Internal Utilities</h1>
  <p>
-  Here are all of the III utilities.
+  The Tutt Library has a number of internally developed or migrated
+  <a href="http://www.djangoproject.com">Django</a> applications all running
+  under the <a href="https://github.com/jermnelson/Discover-Aristotle">Aristotle</a>
+  framework.
  </p>
  <ul>
- {% for utility in utilities %}
-  <li><a href="/vendors/iii/{{ utility.name }}">{{ utility.label }}</a> {{ utility.description }}</li> 
- {% endfor %}
+  <li><a href="/vendors/iii/">III Utilities</a></li>
+  <li><a href="/marc">MARC Record Utilities</a.<?li>
  </ul>
 {% endblock %}
 

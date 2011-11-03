@@ -112,8 +112,8 @@ TEMPLATE_DIRS = [
     os.path.join(PINAX_ROOT, "templates", PINAX_THEME),
     os.path.join(PROJECT_ROOT,"templates/discovery/snippets"),
     os.path.join(PROJECT_ROOT,"templates/vendors/whitewhale"),
-    os.path.join(PROJECT_ROOT,"templates/vendors/bioheritage"),
-    os.path.join(PROJECT_ROOT,"apps/etd/templates/etd"),
+#    os.path.join(PROJECT_ROOT,"templates/vendors/bioheritage"),
+#    os.path.join(PROJECT_ROOT,"apps/etd/templates/etd"),
     os.path.join(PROJECT_ROOT,"templates/grx"),
     os.path.join(PROJECT_ROOT,"templates/marc"),
 
@@ -200,16 +200,6 @@ INSTALLED_APPS = [
     "pinax.apps.photos",
     "pinax.apps.topics",
     "pinax.apps.threadedcomments_extras",
-    "pinax.apps.voting_extras",
-    
-    # Aristotle Project
-    "about",
-    "discovery",
-    "etd",
-    "marc",
-    "grx",
-    "vendors.iii",
-    "vendors.bioheritage",
 ]
 
 FIXTURE_DIRS = [
@@ -295,5 +285,6 @@ CACHE_BACKEND = 'file:///var/tmp/django_cache'
 # like database and email that differ between development and production.
 try:
     from local_settings import *
+    INSTALLED_APPS.extend(ARISTOTLE_APPS)
 except ImportError:
     pass

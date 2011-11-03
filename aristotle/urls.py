@@ -20,6 +20,7 @@ from pinax.apps.photos.models import Image
 from pinax.apps.topics.models import Topic
 from pinax.apps.tribes.models import Tribe
 
+import logging
 
 handler500 = "pinax.views.server_error"
 
@@ -37,19 +38,18 @@ blogs_feed_dict = {"feed_dict": {
 
 bookmarks_feed_dict = {"feed_dict": {"": BookmarkFeed }}
 
+try:
+    from local_urls import *
+    urlpatterns = ARISTOTLE_PATTERNS
+except ImportError:
+    urlpatterns = patterns("",
+        url(r"^$", include("discovery.urls")))
 
-urlpatterns = patterns("",
-    url(r"^$",include("discovery.urls")), 
+urlpatterns += patterns("",
     url(r"^admin/invite_user/$", "pinax.apps.signup_codes.views.admin_invite_user", name="admin_invite_user"),
     url(r"^admin/", include(admin.site.urls)),
-    url(r"^about/", include("about.urls")),
     url(r"^account/", include("pinax.apps.account.urls")),
     url(r"^openid/(.*)", PinaxConsumer()),
-    url(r"^catalog/",include("discovery.urls")),
-    url(r"^etd/",include("etd.urls")),
-    url(r"^grx/",include("grx.urls")),
-    url(r"^marc/",include("marc.urls")),
-    url(r"^bioheritage/",include("vendors.bioheritage.urls")),
     url(r"^vendors/iii/",include("vendors.iii.urls")),
     url(r"^profiles/", include("pinax.apps.profiles.urls")),
     url(r"^bbauth/", include("pinax.apps.bbauth.urls")),
@@ -151,3 +151,5 @@ if settings.SERVE_MEDIA:
     urlpatterns += patterns("",
         url(r"", include("staticfiles.urls")),
     )
+
+

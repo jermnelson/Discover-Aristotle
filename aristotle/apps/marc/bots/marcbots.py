@@ -231,8 +231,9 @@ class MARCImportBot:
             indicator1,indicator2 = field245.indicators
             if len(a_subfields) > 0:
                 subfield_a = a_subfields[0]
-                if subfield_a[-1] == '/':
-                    subfield_a = subfield_a[:-1].strip()
+                if len(subfield_a) > 0:
+                    if subfield_a[-1] == '/': 
+                        subfield_a = subfield_a[:-1].strip()
             new245 = Field(tag='245',
                            indicators=[indicator1,indicator2],
                            subfields = ['a','%s ' % subfield_a])
@@ -288,10 +289,11 @@ class MARCImportBot:
         return marc_record
 
     def to_text(self):
-        output_string = r''
+        output_string = cStringIO.StringIO()
+        marc_writer = MARCWriter(output_string)
         for record in self.records:
-            output_string += record.as_marc()
-        return output_string.encode('utf8','ignore')
+            marc_writer.write(record)
+        return output_string.getvalue()
 
     def __remove_field__(self,**kwargs):
         """

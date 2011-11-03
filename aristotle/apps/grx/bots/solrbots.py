@@ -17,6 +17,7 @@
 #
 # Copyright: Currently copyrighted by Jeremy Nelson and Colorado College
 #
+import logging
 import re,sunburnt,httplib2
 import datetime,sys,urllib
 
@@ -51,8 +52,8 @@ class SolrBot(object):
             self.cache_location = kwargs.get('cache')
         else:
             self.cache_location = 'solr/solr_cache'
-        h = httplib2.Http(cache=self.cache_location)
         try:
+            h = httplib2.Http(cache=self.cache_location)
             self.solr_interface = sunburnt.SolrInterface(url=self.solr_server,
                                                          http_connection=h)
         except:

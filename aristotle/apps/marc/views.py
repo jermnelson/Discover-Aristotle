@@ -40,6 +40,7 @@ from bots.galebots import GVRLBot
 from bots.gutenbergbots import ProjectGutenbergBot
 from bots.opbots import OxfordHandbooksOnlineBot,OxfordReferenceOnlineBot
 from bots.springerbots import SpringerEBookBot
+from bots.video_bots import FilmsOnDemand
 
 active_bots = [AlexanderStreetPressMusicBot,
                AmericanWestBot,
@@ -47,6 +48,7 @@ active_bots = [AlexanderStreetPressMusicBot,
                ECCOBot,
                GarlandEWMOBot,
                GVRLBot,
+               FilmsOnDemand,
                OxfordHandbooksOnlineBot,
                OxfordReferenceOnlineBot,
                ProjectGutenbergBot,
@@ -100,8 +102,8 @@ def process(request):
     
     mod_filename = '%s-%s.mrc' % (datetime.datetime.today().strftime("%Y-%m-%d"),
                                   record_log.process_id.replace('Bot',''))
-    #modified_file_content = File(mod_filename)
-    #modified_file_content.write(bot.to_text())
+    #record_log.modified_file_content = File(mod_filename)
+    #record_log.modified_file_content.write(bot.to_text())
     record_log.modified_file.save(mod_filename,ContentFile(bot.to_text()))
     request.session['log_pk'] = record_log.pk
     note_form = NotesForm(request.POST)
