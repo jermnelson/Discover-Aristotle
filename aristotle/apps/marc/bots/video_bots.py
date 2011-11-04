@@ -3,6 +3,7 @@
 #
 # Colorado College Cataloging utilities
 #
+__author__ = "Cindy Tappan"
 import urlparse,urllib2,re
 import datetime,logging
 from marcbots import MARCImportBot
@@ -38,7 +39,27 @@ class FilmsOnDemand(MARCImportBot):
             raw_record = self.processRecord(record)
             raw_record = self.remove009(raw_record)
             raw_record = self.remove648(raw_record)
+            list001_499 = []
+            for num in range(1,501):
+                tag = "%03d" % num
+                fields = raw_record.get_fields(tag)
+                if len(fields)>0:
+                    list001_499.extend(fields)
+                    for field in fields:
+                        raw_record.remove_field(field)
+            list600_999 = []
+            for num in range(600,1001):
+                tag = "%03d" % num
+                fields = raw_record.get_fields(tag)
+                if len(fields)>0:
+                    list600_999.extend(fields)
+                    for field in fields:
+                        raw_record.remove_field(field)
+            list001_499.sort(key=lambda x: x.tag)
+            list600_999.sort(key=lambda x: x.tag)
+            raw_record.fields = list001_499 + raw_record.fields + list600_999
             self.records.append(raw_record)
+   
             self.stats['records'] += 1
 
     def processRecord(self,marc_record):
