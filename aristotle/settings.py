@@ -110,13 +110,6 @@ ROOT_URLCONF = "aristotle.urls"
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),
     os.path.join(PINAX_ROOT, "templates", PINAX_THEME),
-    os.path.join(PROJECT_ROOT,"templates/discovery/snippets"),
-    os.path.join(PROJECT_ROOT,"templates/vendors/whitewhale"),
-#    os.path.join(PROJECT_ROOT,"templates/vendors/bioheritage"),
-#    os.path.join(PROJECT_ROOT,"apps/etd/templates/etd"),
-    os.path.join(PROJECT_ROOT,"templates/grx"),
-    os.path.join(PROJECT_ROOT,"templates/marc"),
-
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [
@@ -286,5 +279,6 @@ CACHE_BACKEND = 'file:///var/tmp/django_cache'
 try:
     from local_settings import *
     INSTALLED_APPS.extend(ARISTOTLE_APPS)
+    TEMPLATE_DIRS.extend(ARISTOTLE_TEMPLATE_DIRS)
 except ImportError:
     pass

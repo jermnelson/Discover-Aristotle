@@ -3,8 +3,8 @@
         "pk": 1, 
         "model": "sites.site", 
         "fields": {
-            "domain": "example.com", 
-            "name": "Example Site"
+            "domain": "coloradocollege.edu", 
+            "name": "Aristotle Resource Discovery Project"
         }
     }
 ]
