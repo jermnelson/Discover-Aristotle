@@ -17,8 +17,8 @@ import sys, os
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.insert(0, os.path.abspath('.'))
-sys.path.insert(0,'/usr/local/aristotle/aristotle/')
-sys.path.insert(0,'/usr/local/aristotle/aristotle/apps')
+sys.path.insert(0,os.path.abspath('../aristotle/'))
+sys.path.insert(0,os.path.abspath('../aristotle/apps'))
 # Set the DJANGO_SETTINGS_MODULE environment variable
 os.environ['DJANGO_SETTINGS_MODULE'] = "settings"
 

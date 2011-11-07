@@ -7,7 +7,7 @@ Aristotle isolates specific utilities and web services that interact
 with various vendors into a sub-applications in a master Vendor Django
 Application for a couple of reasons. The first is that allows common
 functionality to be shared among different applications in the Aristotle
-project. For example, the both the :doc:`catalog` and 
+project. For example, the both the :doc:`discovery` and 
 :doc:`etd` modules use the Innovative Patron API microservice to 
 autenticate students for different uses. 
 
