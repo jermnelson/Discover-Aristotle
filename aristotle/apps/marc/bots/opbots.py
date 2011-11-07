@@ -17,13 +17,12 @@ class OxfordHandbooksOnlineBot(MARCImportBot):
         """
         Initializes `OxfordHandbooksOnlineBot` 
  
-        Parameters:
-        `marc_file`: Required input MARC file object from Oxford Handbooks
-        `proxy_filter`: Optional, proxy prefix for 856 field default is HANDBOOK_PROXY_FILTER
-                        constant.
-        `public_note`: Optional, default is 'View Online'
-        `note_prefix`: Optional 538 note prefix, default is 'Available via Internet'
-        `type_of`: Optional, used when specific collections are loaded, used for XXX
+        :param marc_file: Required input MARC file object from Oxford Handbooks
+        :param proxy_filter: Optional, proxy prefix for 856 field default is HANDBOOK_PROXY_FILTER
+                             constant.
+        :param public_note: Optional, default is 'View Online'
+        :param note_prefix: Optional 538 note prefix, default is 'Available via Internet'
+        :param type_of: Optional, used when specific collections are loaded, used for XXX
                         field.
         """
         if not kwargs.has_key('marc_file'):
@@ -52,8 +51,8 @@ class OxfordHandbooksOnlineBot(MARCImportBot):
         """
         Method process record and is called by `MARCImportBot` load method.
 
-        Parameters:
-        `marc_record`: Required input MARC file from Oxford Reference, should have been set when instance was initialized.
+        :param marc_record: Required input MARC file from Oxford Reference, 
+                            should have been set when instance was initialized.
         """
         #marc_record.leader = self.processLeader(marc_record.leader)
         marc_record = self.remove050(marc_record)
@@ -72,8 +71,7 @@ class OxfordHandbooksOnlineBot(MARCImportBot):
         Method overrides parent processURLS for Oxford Handbook URL  specific
         modification of the 538 and 856 fields
 
-         Parameters:
-         `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         all856fields = marc_record.get_fields('856')
         field856 = all856fields[0]
@@ -103,8 +101,7 @@ class OxfordHandbooksOnlineBot(MARCImportBot):
         """
         Removes the 082 field.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         return self.__remove_field__(marc_record=marc_record,
                                      tag='082')
@@ -114,8 +111,7 @@ class OxfordHandbooksOnlineBot(MARCImportBot):
         """
         Method removes the 490 field.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         return self.__remove_field__(marc_record=marc_record,
                                      tag='490')
@@ -124,8 +120,7 @@ class OxfordHandbooksOnlineBot(MARCImportBot):
         """
         Method removes the 830 field.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         return self.__remove_field__(marc_record=marc_record,
                                      tag='830')
@@ -135,8 +130,7 @@ class OxfordHandbooksOnlineBot(MARCImportBot):
         """
         Method validates 007 field, sets position 13 to u
         
-        Parameter:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         field007 = marc_record.get_fields('007')[0]
         org_data = field007.data
@@ -152,8 +146,7 @@ class OxfordHandbooksOnlineBot(MARCImportBot):
         Method creates two 730 fields with specific collection set for subfield 
         a.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         marc_record = self.__remove_field__(marc_record=marc_record,
                                             tag='730')
@@ -167,6 +160,8 @@ class OxfordHandbooksOnlineBot(MARCImportBot):
                            subfields=['a',self.handbook_type])
             marc_record.add_field(new730)
         return marc_record
+
+
 class OxfordReferenceOnlineBot(MARCImportBot):
     """
     Class reads Oxford Reference Online MARC file, validates,
@@ -179,10 +174,9 @@ class OxfordReferenceOnlineBot(MARCImportBot):
         """
         Initializes `OxfordReferenceOnlineBot`
 
-        Parameters:
-        `marc_file`: Required input MARC file from Oxford Reference
-        `proxy_filter`: Optional, proxy prefix for 856 field default is REFERENCE_PROXY_FILTER constant.
-        `series_title`: Optional, default is 'Oxford reference online premium'
+        :param marc_file: Required input MARC file from Oxford Reference
+        :param proxy_filter: Optional, proxy prefix for 856 field default is REFERENCE_PROXY_FILTER constant.
+        :param series_title: Optional, default is 'Oxford reference online premium'
         """
         if not kwargs.has_key('marc_file'):
             raise ValueError("OxfordReferenceOnlineBot requires a marc_file")
@@ -202,8 +196,7 @@ class OxfordReferenceOnlineBot(MARCImportBot):
         """
         Method processes record leader.
 
-        Parameters:
-        `leader`: Required, marc leader
+        :param leader: Required, marc leader
         """
         return leader
 
@@ -211,9 +204,7 @@ class OxfordReferenceOnlineBot(MARCImportBot):
         """
         Method process record and is called by `MARCImportBot` load method.
 
-        Parameters:
-        `marc_record`: Required input MARC file from Oxford Reference, should
-        have been set when instance was initialized.
+        :param marc_record: MARC record, required
         """
         marc_record.leader = self.processLeader(marc_record.leader)
         marc_record = self.validate001(marc_record)
@@ -234,8 +225,7 @@ class OxfordReferenceOnlineBot(MARCImportBot):
         """
         Method removes all 730 fields in MARC record
        
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         all730s = marc_record.get_fields('730')
         for field in all730s:
@@ -247,8 +237,7 @@ class OxfordReferenceOnlineBot(MARCImportBot):
         """
         Method validates 001 field, sets control number to OXO
         
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         field001 = marc_record.get_fields('001')[0]
         org_data = field001.data
@@ -266,8 +255,7 @@ class OxfordReferenceOnlineBot(MARCImportBot):
         """
         Method validates/adds 006 field
 
-        Paramaters:
-        - `marc_record`: MARC Record
+        :param marc_record: MARC record, required
         """
         all006s = marc_record.get_fields('006')
         if all006s:
@@ -282,8 +270,7 @@ class OxfordReferenceOnlineBot(MARCImportBot):
         """
         Method validates 007 field, sets position 13 to u
         
-        Parameter:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         all007s = marc_record.get_fields('007')
         if len(all007s) > 0:
@@ -303,8 +290,7 @@ class OxfordReferenceOnlineBot(MARCImportBot):
         Method checks for any existing 020 records, removes
         any subfield a, adds subfield z with subfield a's value.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         all020s = marc_record.get_fields('020')
         for field in all020s:
@@ -320,8 +306,7 @@ class OxfordReferenceOnlineBot(MARCImportBot):
         Method checks for any existing 490 records, creates new
         490 record using series_title if 490 field does not exist.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         all490s = marc_record.get_fields('490')
         if len(all490s) < 1:
@@ -336,8 +321,7 @@ class OxfordReferenceOnlineBot(MARCImportBot):
         Method removes any existing 830 records, creates new
         830 record using series_title.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         all830s = marc_record.get_fields('830')
         for field in all830s:

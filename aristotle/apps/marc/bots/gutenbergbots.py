@@ -16,9 +16,8 @@ class ProjectGutenbergBot(MARCImportBot):
         """
         Inititalizes instance of `ProjectGutenbergBot`.
 
-        Parameters:
-        `marc_file`: Required, MARC record file.
-        `control_code`: Optional 003 field value, default is CONTROL_CODE constant
+        :param marc_file: Required, MARC record file.
+        :param control_code: Optional 003 field value, default is CONTROL_CODE constant
         """
         if not kwargs.has_key('marc_file'):
             raise ValueError("ProjectGutenbergBot requires a marc_file")
@@ -36,8 +35,7 @@ class ProjectGutenbergBot(MARCImportBot):
         Method is called by base class load method and processes
         Project Gutenberg MARC record for CC specific manipulation.
         
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         marc_record = self.validate003(marc_record)
         marc_record = self.validate006(marc_record)
@@ -56,8 +54,7 @@ class ProjectGutenbergBot(MARCImportBot):
         """
         Removes 042 MARC field
         
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         marc_record = self.__remove_field__(marc_record=marc_record,
                                             tag='042')
@@ -66,9 +63,8 @@ class ProjectGutenbergBot(MARCImportBot):
     def remove500(self,marc_record):
         """
         Removes 500 field with ISO language code
-
-        Parameters:
-        `marc_record`: Required, MARC record
+        
+        :param marc_record: MARC record, required
         """
         all_500s = marc_record.get_fields('500')
         for field in all_500s:
@@ -81,8 +77,7 @@ class ProjectGutenbergBot(MARCImportBot):
         """
         Removes 540 MARC field
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         marc_record = self.__remove_field__(marc_record=marc_record,
                                             tag='540')
@@ -94,8 +89,7 @@ class ProjectGutenbergBot(MARCImportBot):
         Method checks/adds 001 field. Control number is 
         derived from 856 URL base value.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         if not self.url:
             raise ValueError('ProjectGutenbergBot.validate001 requires a URL')
@@ -111,8 +105,7 @@ class ProjectGutenbergBot(MARCImportBot):
         """
         Validates 003 field, adds control code.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         marc_record = self.__remove_field__(marc_record=marc_record,
                                             tag='003')
@@ -124,8 +117,7 @@ class ProjectGutenbergBot(MARCImportBot):
         """
         Validates MARC 245 field.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         field245 = marc_record.get_fields('245')[0]
         subfield_a = field245.get_subfields('a')[0]
@@ -165,8 +157,7 @@ class ProjectGutenbergBot(MARCImportBot):
         Adds 538 and modifies 856 fields, sets url for
         later validation.
 
-        Paramters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         field856 = marc_record.get_fields('856')[0]
         raw_url = field856.get_subfields('u')[0]
@@ -191,8 +182,7 @@ class ProjectGutenbergBot(MARCImportBot):
         """
         Method validates MARC 710 field
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         marc_record = self.__remove_field__(marc_record=marc_record,
                                             tag='710')

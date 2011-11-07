@@ -58,11 +58,11 @@ class MARCImportBot:
                     note_prefix='Available via Internet'):
         """ Method extracts URL from 856 field, sets 538 and 856 to CC's format practices.
 
-            Parameters:
         :param marc_record: - MARC Record
         :param proxy_location: - proxy prefix prepended to extracted URL from 856 field
         :param public_note: - subfield z value, default is for CC
         :param note_prefix: - prefix for original URL in 538 note field, default is for CC.
+
         """
         all538fields = marc_record.get_fields('538')
         for field538 in all538fields:
@@ -105,16 +105,16 @@ class MARCImportBot:
         return marc_record    
 
     def output(self,marcfile_output):
-        ''' Method writes all records to a MARC21 output file'''
+        ''' 
+        Method writes all records to a MARC21 output file
+
+        :param marcfield_output: Output filename, required
+        '''
         output = open(marcfile_output,'wb')
-        #output = cStringIO.StringIO()
         for record in self.records:
             record_str = record.as_marc()
             output.write(record_str.encode('utf8','replace'))
-    #    output.close()
         return output
-
-  
 
     def remove009(self,marc_record):
         """
@@ -130,8 +130,7 @@ class MARCImportBot:
         """
         Removes the 050 field, used in some MARC records for call number.
         
-        Parameters:
-        - `marc_record`: MARC record        
+        :param marc_record: MARC record, required      
         """
         return self.__remove_field__(marc_record=marc_record,
                                      tag='050')
@@ -140,9 +139,8 @@ class MARCImportBot:
         """
         Removes the 509 field, used in some MARC records as a local note.
         Not used by CC.
-
-        Parameters:
-        - `marc_record`: MARC record
+        
+        :param marc_record: MARC record, required 
         """
         return self.__remove_field__(marc_record=marc_record,
                                      tag='509')
@@ -151,9 +149,8 @@ class MARCImportBot:
     def remove530(self,marc_record):
         """
         Method removes all 530 fields in MARC record
-       
-        Parameters:
-        `marc_record`: Required, MARC record
+      
+        :param marc_record: MARC record, required 
         """
         return self.__remove_field__(marc_record=marc_record,
                                      tag='530')
@@ -162,9 +159,8 @@ class MARCImportBot:
         """
         Removes the 648 (Chronological Term) from the MARC record
         Not used by CC.
-        
-        Parameters:
-        - `marc_record`: MARC record
+       
+        :param marc_record: MARC record, required 
         """
         return self.__remove_field__(marc_record=marc_record,
                                     tag='648')
@@ -173,10 +169,9 @@ class MARCImportBot:
         """
         Removes exisiting 007 fields and replaces with standard data
         for the 007 electronic records.
-
-        Parameters:
-        - `marc_record`: MARC record
-        - `data`: Optional, default data is set if not present
+        
+        :param marc_record: MARC record, required 
+        :param data: Default data is set if not present, optional
         """
         marc_record = self.__remove_field__(marc_record=marc_record,
                                             tag='007')
@@ -190,9 +185,8 @@ class MARCImportBot:
         """
         Default validation of the 006 field with standard
         field data of m||||||||d|||||||| for electronic records.
-
-        Parameters:
-        `marc_record`: Required, MARC record
+        
+        :param marc_record: MARC record, required
         """
         marc_record = self.__remove_field__(marc_record=marc_record,
                                             tag='006')   
@@ -205,9 +199,8 @@ class MARCImportBot:
         """
         Default validation of the 007 field with the 
         standard CC data of cr|||||||||||u
-        
-        Parameters:
-        `marc_record`: Required, MARC record
+         
+        :param marc_record: MARC record, required
         """
         marc_record = self.replace007(marc_record)
         return marc_record
@@ -217,9 +210,8 @@ class MARCImportBot:
         """
         Method adds a subfield 'h' with value of electronic resource 
         to the 245 field.
-
-        Parameters:
-        `marc_record`: Required, MARC record
+        
+        :param marc_record: MARC record, required
         """
         all245s = marc_record.get_fields('245')
         subfield_h_val = '[electronic resource]'
@@ -259,8 +251,7 @@ class MARCImportBot:
         Method removes any existing 300 fields, adds a single
         300 field with default of '1 online resource'.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         all300s = marc_record.get_fields('300')
         for field in all300s:
@@ -275,9 +266,8 @@ class MARCImportBot:
         """
         Method removes any existing 506 fields, adds a single
         506 field with default of 'Access limited to subscribers.'
-
-        Parameters:
-        `marc_record`: Required, MARC record
+        
+        :param marc_record: MARC record, required
         """
         all506s = marc_record.get_fields('506')
         for field in all506s:
@@ -289,6 +279,10 @@ class MARCImportBot:
         return marc_record
 
     def to_text(self):
+        """
+        Method returns a string containing all of the records in MARC21
+        format.
+        """
         output_string = cStringIO.StringIO()
         marc_writer = MARCWriter(output_string)
         for record in self.records:
@@ -300,9 +294,8 @@ class MARCImportBot:
         Internal method removes all instances of a field in
         the MARC record.
 
-        Parameters:
-        `marc_record`: Required, MARC record
-        `tag`: Required, tag of field 
+        :param marc_record: MARC record, required
+        :param tag: Tag of field, required 
         """
         if not kwargs.has_key('marc_record') or not kwargs.has_key('tag'):
             raise ValueError('__remove_field__ requires marc_record and tag')
@@ -318,9 +311,8 @@ class MARCImportBot:
         first_name middle_names and returns the direct form of the personal
         name.
 
-        Parameters:
-        `raw_name`: Required, raw name
-        `suffix_list`: Optional, default list is JR., SR., I, II, III, IV
+        :param raw_name: Required, raw name
+        :param suffix_list: Optional, default list is JR., SR., I, II, III, IV
         """
         if not kwargs.has_key('raw_name'):
             ValueError("MARCImportBot.__switch_name__ requires a raw_name")

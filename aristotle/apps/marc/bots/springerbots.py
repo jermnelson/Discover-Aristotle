@@ -19,10 +19,9 @@ class SpringerEBookBot(MARCImportBot):
                  **kwargs):
         ''' Creates instance of Springer eBook process.
 
-            args:
-            * `proxy` -- Optional proxy location, default is PROXY_LOCATION constant
-            * `public_note` -- Optional public note, default is 'View online'
-            * `note_prefix` -- Optional note prefix, default is 'Available via Internet'
+        :param proxy: Optional proxy location, default is PROXY_LOCATION constant
+        :param public_note: Optional public note, default is 'View online'
+        :param note_prefix: Optional note prefix, default is 'Available via Internet'
         '''
         MARCImportBot.__init__(self,marc_file)
         self.spr_url = 'http://www.springerlink.com/openurl.asp?genre=book&id=doi:'
@@ -40,10 +39,10 @@ class SpringerEBookBot(MARCImportBot):
             self.note_prefix='Available via Internet'
 
     def processLeader(self,marc_leader):
-        ''' Method validates/sets leader positions for Spring MARC record.
+        ''' 
+        Method validates/sets leader positions for Spring MARC record.
 
-            args:
-            marc_leader -- MARC file leader
+        :param marc_leader: MARC file leader
         '''
         # Checks/sets record type in position 6
         if marc_leader[6-1] != 'a':
@@ -54,11 +53,11 @@ class SpringerEBookBot(MARCImportBot):
         return marc_leader
 
     def processRecord(self,marc_record): 
-        ''' Call-back method called by base class load method, Springer 
-            eBook specific validation. 
+        ''' 
+        Callback method called by base class load method, Springer 
+        eBook specific validation. 
  
-            args: 
-            marc_record -- MARC record 
+        :param marc_record: MARC record 
         ''' 
         marc_record.leader = self.processLeader(marc_record.leader) 
         marc_record = self.validate001(marc_record) 
@@ -70,6 +69,7 @@ class SpringerEBookBot(MARCImportBot):
     def validate001(self,marc_record): 
         ''' Method sets 001 Control Number of CC's format. 
  
+         :param marc_record: MARC record 
             args: 
             marc_record -- MARC record 
         ''' 
@@ -86,11 +86,11 @@ class SpringerEBookBot(MARCImportBot):
 
 
     def validate006(self,marc_record):
-        ''' Method checks/sets 006 fixed length data elements in MARC
-            record.
+        ''' 
+        Method checks/sets 006 fixed length data elements in MARC
+        record.
 
-            args:
-            marc_record -- MARC record
+        :param marc_record: MARC record 
         '''
         existing_fields = marc_record.get_fields('006')
         if existing_fields:
@@ -104,11 +104,11 @@ class SpringerEBookBot(MARCImportBot):
 
 
     def validate008(self,marc_record):
-        ''' Method checks/sets 008 fixed length data elements in MARC
-            record.
+        ''' 
+        Method checks/sets 008 fixed length data elements in MARC
+        record.
 
-            args:
-            marc_record -- MARC record
+        :param marc_record: MARC record 
         '''
         field008 = marc_record.get_fields('008')[0]
         marc_record.remove_field(field008)
@@ -124,11 +124,10 @@ class SpringerEBookBot(MARCImportBot):
 
     def processSpringerURLs(self,marc_record):
         '''
-         Method overrides parent processURLS for Springer specific
-         modification of the 538 and 856 fields
+        Method overrides parent processURLS for Springer specific
+        modification of the 538 and 856 fields
 
-         args:
-         marc_record -- MARC record
+        :param marc_record: MARC record 
          '''
         all856fields = marc_record.get_fields('856')
         field856 = all856fields[0]

@@ -14,21 +14,21 @@ class ECCOBot(MARCImportBot):
 
     def __init__(self,
                  marc_file):
-        ''' Creates instance of bot for creating valid MARC record for
-            importing into TIGER from ECCO MARC file.
+        ''' 
+        Creates instance of bot for creating valid MARC record for
+        importing into TIGER from ECCO MARC file.
 
-            args:
-            marc_file -- file location for ECCO MARC file
+        :param marc_file:file location for ECCO MARC file
         '''
         self.series_statement = 'Eighteenth century collections online'
         MARCImportBot.__init__(self,marc_file)
 
     def processRecord(self,marc_record):
-        '''Call-back method for specific Gale ECCO validation and
-           processing.
-
-           args:
-           marc_record -- MARC record
+        '''
+        Call-back method for specific Gale ECCO validation and
+        processing.
+        
+        :param marc_record: MARC record, required
         '''
         marc_record = self.validate001(marc_record)
         marc_record = self.validate490(marc_record)
@@ -40,6 +40,7 @@ class ECCOBot(MARCImportBot):
     def validate001(self,marc_record):
         ''' Method sets 001 Control Number of CC's format.
 
+         :param marc_record: MARC record, required
             args:
             marc_record -- MARC record
         '''
@@ -54,8 +55,7 @@ class ECCOBot(MARCImportBot):
         """
         Method adds/sets 490 field with series statement.
 
-        Parameters:
-        - `marc_record`: MARC record
+        :param marc_record: MARC record, required
         """
         all490s = marc_record.get_fields('490')
         if len(all490s) > 0:

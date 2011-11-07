@@ -1,26 +1,19 @@
 Aristotle Development Roadmap
 =============================
+The Aristotle framework is in active development. Version |version| is the 
+current release. Below are the listing of versions released so far for
+Aristotle.  
 
-Current Release |release|
-^^^^^^^^^^^^^^^^^^^^^^^^^
-The current version of Aristotle, |release| note.
-
-
-.. include:: 0.1.3beta.rst
+Contents:
 
 .. toctree::
-   :maxdepth:2
+   :maxdepth: 2
 
-   0.1.1alpha.rst
-   0.1.1alpha.rst
-   0.1.3beta.rst
-   0.1.4.rst
+   0.1.1alpha
+   0.1.2alpha
+   0.1.3beta
+   0.1.4
 
-Next Release
-^^^^^^^^^^^^
-The next release of Aristotle includes the following.
-
-.. include:: 0.1.4.rst
 
 Future Releases
 ^^^^^^^^^^^^^^^
@@ -31,8 +24,8 @@ The following functionality is on the road-map for Aristotle.
    The following future plans for Aristotle are subject to changing priorities for Colorado College
    Tutt Library. 
 
-Past Releases
-^^^^^^^^^^^^^
-The following release-specific documentation is available.
-
-.. include:: 0.1.1alpha.rst
+* Native FRBR datastore 
+* Migration of reference blog statistic application
+* Discovery portals for specific Special Collections 
+* Discovery portal with separate Solr index for Music Library
+* `Schema.org <http://schema.org>`_ support.
