@@ -28,6 +28,7 @@ import logging,sunburnt
 from django.conf import settings
 from django.core import serializers
 from django.core.cache import cache
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
 from django.template import loader, RequestContext
@@ -596,6 +597,42 @@ def drop_item_cart(request):
     else:
         msg = 'No items in your list'
     return HttpResponse(msg)
+
+def email_cart(request):
+    """Function emails contents of cart to provided email
+    address.
+    """
+    if request.method == 'GET':
+        to_email = request.GET['email']
+    solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
+    if not request.session.has_key('items_cart'):
+        return HttpResponse('No email sent, you do not have any saved items')
+    items_cart = request.session['items_cart']
+    email_message = 'Your Saved Records\n'
+    for i,item_id in enumerate(items_cart):
+        solr_response = solr_server.search(q="id:%s" % item_id)
+        if solr_response.result.numFound > 0:
+            doc = solr_response.result.docs[0]
+            email_message += '%s. %s' % (i+1,doc['full_title'])
+            if doc.has_key('author'):
+                email_message += ' by %s' % doc['author']
+            email_message += '\n\t'
+            if doc.has_key('callnum'):
+                email_message += ' Call number: %s.' %  doc['callnum']
+            if doc.has_key('location'):
+                email_message += " Location: %s." % doc['location']
+            if doc.has_key('format'):
+                email_message += " Format: %s." %  doc['format']
+            if doc.has_key('url'):
+                for url in doc['url']:
+                    email_message += '\n\tOnline at %s' % url
+        email_message += "\n\n"
+    send_mail('Exported records from Discovery Server', # Subject
+              email_message, # Email body
+              settings.EMAIL_HOST_USER,
+              [to_email,],
+              fail_silently=False)
+    return HttpResponse('Email sent to %s from %s' % (to_email,settings.EMAIL_HOST_USER))
 
 def get_cart(request):
     """Function returns all of the items in JSON format that 

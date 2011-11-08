@@ -55,7 +55,30 @@
 <script src="http://jqueryui.com/ui/jquery.ui.dialog.js"></script>
 <script src="{{ STATIC_URL }}discovery/js/discovery.js"></script>
 <script>
- $(function() {
+$(document).ready(function() {
+  $("a#search_display").fancybox();
+{% comment %}
+  $("a#cart_display").fancybox({
+    ajax: {
+      type: 'get',
+       url: '/catalog/cart',
+       success: function(responseText) {
+          alert("Response is " + responseText);
+          var results = eval(responseText);
+          var html_content = '<h2>Your Cart</h2><ol>';
+          for (row in results) {
+              var record = results[row];
+              html_content += '<li>' + record.full_title + '</li>';
+          }
+          $(this).content = html_content;
+       }
+
+    }
+  });
+ {% endcomment %}
+});
+{% comment %}
+ jQuery(document).ready(function($) {
     $("#search-history").dialog({ autoOpen: false,
                                  buttons: {"Ok":function() { $(this).dialog("close"); }},
                                    width: 550,
@@ -69,11 +92,15 @@
                                  title: "Your selected items",});
 
 });
+{% endcomment %}
 </script>
 {% endblock more-scripts %}
 
 {% block dialogs %}
+<div style="display:none">
 {% include 'search_history_dialog.html' %}
+</div>
+<div style="display:none">
 {% include 'cart_dialog.html' %}
+</div>
 {% endblock %}
-

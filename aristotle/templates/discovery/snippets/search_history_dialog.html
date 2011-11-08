@@ -1,9 +1,9 @@
-{% load i18n %}
-<div id="search-history">
+<div id="search_dialog">
  <h2>Search History</h2>
   <ul>
   {% for url, query, timestamp in search_history %}
-   <li><a href="{{ url }}">{{ query|safe }}</a> ({{ timestamp|timesince }} {% trans "ago" %})</li>
+   <li><a href="{{ url }}">{{ query|safe }}</a> ({{ timestamp|timesince }} ago )</li>
   {% endfor %}
   </ul>
+  <button onclick="$.fancybox.close()">Close</button>
 </div>

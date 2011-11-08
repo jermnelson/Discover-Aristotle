@@ -17,6 +17,7 @@
 # along with Kochief.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf.urls.defaults import *
+from discovery.feeds import SavedRecordsFeed
 
 urlpatterns = patterns('discovery.views',
     url(r'^$', 'index', name='discovery-index'),
@@ -26,6 +27,8 @@ urlpatterns = patterns('discovery.views',
     url(r'^cart$','get_cart', name='discovery-getcart'),
     url(r'^cart/add$','add_item_cart', name='discovery-add-item-cart'),
     url(r'^cart/drop$','drop_item_cart', name='discovery-drop-item-cart'),
+    url(r'^cart/email$','email_cart', name='discovery-email-cart'),
+    url(r'^cart/feed$',SavedRecordsFeed(),name='discovery-feed-cart'),
     #(r'^feed/atom/$', 'atomFeed'),
     #(r'^feed/rss/$', 'rssFeed'),
 )
