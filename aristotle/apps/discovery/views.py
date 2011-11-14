@@ -24,6 +24,7 @@ import sys
 import time
 import urllib
 import logging,sunburnt
+from reportlab.pdfgen import canvas
 
 from django.conf import settings
 from django.core import serializers
@@ -38,6 +39,11 @@ from django.utils.html import escape
 from django.utils.http import urlquote
 from django.utils.translation import ugettext as _
 from django.views.decorators.vary import vary_on_headers
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
 
 @vary_on_headers('accept-language', 'accept-encoding')
 def index(request):
@@ -658,4 +664,27 @@ def get_cart(request):
                 records.append(rec_info)
     data = simplejson.dumps(records)
     return HttpResponse(data,'application/javascript')
+   
+
+def print_cart(request):
+    """Function generates a dynamic PDF for all of items that are
+    in current session. 
+    """
+    response = HttpResponse(mimetype="application/pdf")
+    response['Content-Disposition'] = 'attachment; filename=your_records.pdf'
     
+    buffer = StringIO()
+    
+    p = canvas.Canvas(buffer)
+    if request.session.get('items_cart',True):
+        p.drawString(5,5,"Your Saved Records from %s" % datetime.today().strftime("%B, %d, %Y"))
+    else:
+        p.drawString(100,100,"You do not have any saved records")
+
+
+    p.showPage()
+    p.save()
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response

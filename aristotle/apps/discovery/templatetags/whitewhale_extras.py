@@ -60,7 +60,7 @@ def harvest_latest():
     footer = cc_tree.xpath('//footer[@id="footer"]')[0]
     cache.set('cc-footer',lxml.etree.tostring(footer))
     tabs = cc_tree.xpath('//div[@id="library-tabs"]')[0]
-    cache.set('cc-tabs',lxml.etree.tostring(tabs,encoding='UTF-8'))
+    cache.set('cc-tabs',lxml.etree.tostring(tabs,encoding='ISO-8859-15'))
     
 register.filter('get_footer',get_footer)    
 register.filter('get_header',get_header)

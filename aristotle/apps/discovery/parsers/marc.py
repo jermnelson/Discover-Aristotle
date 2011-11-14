@@ -55,10 +55,13 @@ except NameError:
 # local libs
 import marc_maps,tutt_maps
 
-NONINT_RE = re.compile(r'\D')
 ISBN_RE = re.compile(r'(\b\d{10}\b|\b\d{13}\b)')
-UPC_RE = re.compile(r'\b\d{12}\b')
 LOCATION_RE = re.compile(r'\(\d+\)')
+NONINT_RE = re.compile(r'\D')
+REF_LOC_RE = re.compile(r'(tarf*)')
+PER_LOC_RE = re.compile(r'(tper*)')
+UPC_RE = re.compile(r'\b\d{12}\b')
+
 FIELDNAMES = [
     'access',
     'audience',
@@ -353,7 +356,29 @@ def get_format(record):
     if len(format) < 1:
         logging.error("309 UNKNOWN FORMAT Title=%s Leader: %s" % (record.title(),leader))
         format = 'Unknown'
+
+    # Some formats are determined by location
+    format = lookup_location(record)
     return format
+
+def lookup_location(record):
+    """
+    Does a look-up on location to determine format for edge cases like annuals in the 
+    reference area.
+
+    :param record: MARC Record
+    """
+    location_list = list(get_location(record))
+    for location in location_list:
+         in_reference = REF_LOC_RE.search(location)
+         if in_reference is not None:
+              ref_loc_code = in_reference.groups()[0]
+              if ref_loc_code != 'tarfc':
+                  return "Book" # Classify everything as a book and not journal
+         in_periodicals = PER_LOC_RE.search(location)
+         if in_periodical is not None:
+             return "Journal" 
+          
 
 def get_subject_names(record):
     """

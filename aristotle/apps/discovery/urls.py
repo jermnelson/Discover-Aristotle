@@ -29,6 +29,7 @@ urlpatterns = patterns('discovery.views',
     url(r'^cart/drop$','drop_item_cart', name='discovery-drop-item-cart'),
     url(r'^cart/email$','email_cart', name='discovery-email-cart'),
     url(r'^cart/feed$',SavedRecordsFeed(),name='discovery-feed-cart'),
+    url(r'^cart/print$','print_cart', name="discovery-print-cart"),
     #(r'^feed/atom/$', 'atomFeed'),
     #(r'^feed/rss/$', 'rssFeed'),
 )
