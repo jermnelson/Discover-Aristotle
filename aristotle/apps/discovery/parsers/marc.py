@@ -358,27 +358,32 @@ def get_format(record):
         format = 'Unknown'
 
     # Some formats are determined by location
-    format = lookup_location(record)
+    
+    format = lookup_location(record,format)
+    logging.error("After lookup Format is %s" % format)
     return format
 
-def lookup_location(record):
+def lookup_location(record,format=None):
     """
     Does a look-up on location to determine format for edge cases like annuals in the 
     reference area.
 
     :param record: MARC Record
+    :param format: current format
     """
-    location_list = list(get_location(record))
+    location_list = locations = record.get_fields('994')
     for location in location_list:
-         in_reference = REF_LOC_RE.search(location)
+         subfield_a = location['a']
+         logging.error("Location is %s" % subfield_a)
+         in_reference = REF_LOC_RE.search(subfield_a)
          if in_reference is not None:
               ref_loc_code = in_reference.groups()[0]
               if ref_loc_code != 'tarfc':
                   return "Book" # Classify everything as a book and not journal
-         in_periodicals = PER_LOC_RE.search(location)
-         if in_periodical is not None:
+         in_periodicals = PER_LOC_RE.search(subfield_a)
+         if in_periodicals is not None:
              return "Journal" 
-          
+    return format     
 
 def get_subject_names(record):
     """

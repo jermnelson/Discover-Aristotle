@@ -22,5 +22,31 @@
         },
         "model": "iii.IIIStatusCode",
         "pk":3
+     },
+     {
+        "fields": {
+           "code":"m",
+           "value":"Missing"
+        },
+        "model": "iii.IIIStatusCode",
+        "pk":4
+     },
+     {
+        "fields": {
+           "code":"$",
+           "value":"Lost and Paid"
+        },
+        "model": "iii.IIIStatusCode",
+        "pk":5
+     },
+     {
+        "fields": {
+           "code":"!",
+           "value":"On hold shelf"
+        },
+        "model": "iii.IIIStatusCode",
+        "pk":6
      }
+
+   
 ]
