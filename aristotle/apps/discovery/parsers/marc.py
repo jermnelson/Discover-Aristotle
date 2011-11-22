@@ -492,11 +492,11 @@ def get_callnumber(record):
     if record['086']:
         callnumber = record['086'].value()
     # Next check to see if there is a local call number
-    elif record['099']:
-        callnumber = record['099'].value()
     elif record['090']:
         callnumber = record['090'].value()
-    # Finally checks for value in 050
+    elif record['099']:
+        callnumber = record['099'].value()
+   # Finally checks for value in 050
     elif record['050']:
         callnumber = record['050'].value()
     return callnumber

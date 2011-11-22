@@ -212,13 +212,16 @@ def get_item_status(item_id):
         css_class = 'available'
     status_txt = '''<span class="%s">%s ''' % (css_class,item_status)
     volume = item_bot.volume()
-    if volume:
+    if volume is not None:
         status_txt += item_bot.volume()
     status_txt += '</span>'
     location = item_bot.location()
     if location is not None:
         if not location.startswith('Online'):
-            status_txt += ' located at %s' % location
+            status_txt += ' located in %s' % location
+    call_number = item_bot.callnumber()
+    if call_number is not None:
+        status_txt += ' with call number %s' % call_number
     return mark_safe(status_txt) 
 
 def get_marc_as_list(raw_marc):
