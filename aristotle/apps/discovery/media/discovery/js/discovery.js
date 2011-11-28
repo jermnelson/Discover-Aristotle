@@ -178,13 +178,10 @@ function ShowCart() {
        url: '/catalog/cart',
       data: data,
    success: function(responseText) {
-        //var output = '<html><head><script src="/site_media/static/discovery/js/discovery.js"></script>';
-        //output += '<style type="text/css">body { font-family: Arial, sans-serif; background-color:#f1ece5; }</style></head>';
         var output = '<h2>Your Saved Records</h2>';
         output += '<button onclick="$.fancybox.close()">Close</button><button onclick="PrintCart()">Print</button>';
         output += '<button onclick="EmailCart()">Email</button><button onclick="CartToRSSFeed()">RSS Feed</button>';
         output += '<button onclick="CartToRefworks()">Export to RefWorks</button><ol>';
-        //var output = '<ol>';
         var results = eval(responseText);
         for(row in results) {
            var record = results[row];
@@ -206,18 +203,15 @@ function ShowCart() {
            }
            
         }
-        //output += '</ol></body></html>';
         output += '</ol>';
-        //top.wRef = window.open('','Your Saved Records','width=500,height=450,left=20,top=30,menubar=1,toolbar=0,status=1');
-        //top.wRef.document.writeln(output);
-        //top.wRef.document.close();
         $('a#cart_display').fancybox({
            content: output,
              width: 480,
              height: 340,
         });
+        //alert("After ShowCart fancybox call");
     }
    });
-  
+  //$('a#cart_display').click();
 
 }

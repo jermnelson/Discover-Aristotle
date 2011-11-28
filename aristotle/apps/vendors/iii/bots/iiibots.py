@@ -142,6 +142,12 @@ class ItemBot(object):
                 xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='099']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]/SUBFIELDDATA")
                 if len(xpath_result) > 0:
                     call_number = xpath_result[0].text
+            # Finally tries to retieve 086 for Government Documents
+            if call_number is None:
+                xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='086']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]/SUBFIELDDATA")
+                if len(xpath_result) > 0:
+                    call_number = xpath_result[0].text
+      
         return call_number  
 
     def location(self):

@@ -367,6 +367,9 @@ def get_specialized_results(request,request_handler='dimax'):
                                             args=[doc['id']])
             if 'isbn' in doc:
                 doc['isbn_numeric'] = ''.join( [ x for x in doc['isbn'] if ( x.isdigit() or x.lower() == "x" ) ] )
+    else:
+        if solr_results.spellcheck is not None:
+            context['spellcheck'] = solr_results.spellcheck
     facet_counts = solr_results.facet_counts
     facet_fields = facet_counts.facet_fields
     facets = []   

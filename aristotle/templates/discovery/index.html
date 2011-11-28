@@ -1,5 +1,6 @@
 {% extends 'cc-search-base.html' %}
 {% load i18n %}
+{% load discovery_extras %}
 
 {% block more-css %}
 <link href="{{ STATIC_URL }}discovery/css/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
@@ -17,18 +18,7 @@
 <div class="results-list discovery-service">
 <div class="discovery-home">
 {% if spellcheck %}
- <h1 class="discovery-home">{% trans "Your search "%}<em>{{ query }}</em>{% trans " not found in TIGER" %}</h1>
- <p>
-  {% trans "Did you mean?" %}
- </p>
- <ul class="search-help">
- {% for term in spellcheck.suggestions.0.1.suggestion %}
-  <li><a href="{% url discovery-search %}?q={{ term.word }}">{{ term.word }}</a> ({{ term.freq }})</li>
- {% endfor %}
- </ul>
- <p>
-  {% trans "No luck? Try searching " %}<a href="http://prospector.coalliance.org">Prospector</a>.
- </p>
+  {{ spellcheck|display_spellcheck }}
 {% else %}
 <h1>{% trans "Welcome to Tutt Library's New TIGER" %}</h1>
  <h1 class="discovery-home">{% trans "What is a discovery service?" %}</h1>
@@ -57,42 +47,10 @@
 <script>
 $(document).ready(function() {
   $("a#search_display").fancybox();
-{% comment %}
   $("a#cart_display").fancybox({
-    ajax: {
-      type: 'get',
-       url: '/catalog/cart',
-       success: function(responseText) {
-          alert("Response is " + responseText);
-          var results = eval(responseText);
-          var html_content = '<h2>Your Cart</h2><ol>';
-          for (row in results) {
-              var record = results[row];
-              html_content += '<li>' + record.full_title + '</li>';
-          }
-          $(this).content = html_content;
-       }
-
-    }
+    onStart: ShowCart(),
   });
- {% endcomment %}
 });
-{% comment %}
- jQuery(document).ready(function($) {
-    $("#search-history").dialog({ autoOpen: false,
-                                 buttons: {"Ok":function() { $(this).dialog("close"); }},
-                                   width: 550,
-                                position: 'center',
-                                   title: "Your Search History",});
-    $('#cart-dlg').dialog({ autoOpen: false,
-                             buttons: {"Ok":function() { $(this).dialog("close"); }},
-                                 width: 550,
-                                position: 'center',
-                               draggable: true,
-                                 title: "Your selected items",});
-
-});
-{% endcomment %}
 </script>
 {% endblock more-scripts %}
 

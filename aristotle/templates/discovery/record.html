@@ -22,7 +22,7 @@
   </li>
   {{ doc|display_ill }}
   <li><a href="javascript:AddCartItem(this,'{{ doc.id }}')">Add</a> this work to your saved resources 
-      <a href="javascript:ShowCart()" id="cart_display">folder <img src="{{ STATIC_URL }}pinax/img/silk/icons/folder_go.png" alt="Your saved items" /></a></li>
+      <a href="a#cart_dialog" id="cart_display">folder <img src="{{ STATIC_URL }}pinax/img/silk/icons/folder_go.png" alt="Your saved items" /></a></li>
   <li><a href="https://tiger.coloradocollege.edu/patroninfo">Login</a> to your library account with your
    TIGER number</li>
  </ul>
@@ -122,6 +122,12 @@
   <dt>{% trans "Performers/Cast" %}:</dt>
   <dd>{{ doc.cast_display.0 }}</dd>
   {% endif %}
+  {% if doc.personal_name %}
+  <dt>{% trans "Other names" %}:</dt>
+  {% for row in doc.personal_name %}
+  <dd>{{ row }}</dd>
+  {% endfor %}
+  {% endif %}
   {% if doc.notes %}
   <dt>{% trans "Note(s)"  %}:</dt>
   {% for note in doc.notes %}
@@ -202,31 +208,9 @@
     });
    $("a#cite_fancybox").fancybox();
    $("a#marc_fancybox").fancybox();
-  {% comment %}
-    $('#cart-dlg').dialog({ autoOpen: false,
-                             buttons: {"Ok":function() { $(this).dialog("close"); }},
-                                 width: 550,
-                                position: 'center',
-                               draggable: true,
-                                 title: "Your selected items",});
-
-    $('#citation-dlg').dialog({ autoOpen: false,
-                                 buttons: {"Ok":function() { $(this).dialog("close"); }},
-                                 width: 550,
-                                position: 'center',
-                               draggable: true,
-                                 title: "Citation Styles for <em>{{ doc.title|truncatewords:5 }}</em>",});
-    $("#marc-display").dialog({ autoOpen: false,
-                                 buttons: {"Ok":function() { $(this).dialog("close"); }},
-                                   width: 550,
-                                position: 'center',
-                                   title: "MARC View for <em>{{ doc.title|truncatewords:5 }}</em>",});
-    $("#search-history").dialog({ autoOpen: false,
-                                 buttons: {"Ok":function() { $(this).dialog("close"); }},
-                                   width: 550,
-                                position: 'center',
-                                   title: "Your Search History",});
-  {% endcomment %}
+   $("a#cart_display").fancybox({
+      onStart: ShowCart(),
+   });
 
  });
 </script>

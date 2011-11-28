@@ -13,7 +13,7 @@
    {% endfor %}
   </div>
   <div class="grid_3" style="text-align:right">
-   <a href="#" onclick="ShowCart()" id="cart_display"><img src="{{ STATIC_URL }}pinax/img/silk/icons/folder_go.png" alt="View saved items"  /></a>
+   <a href="#cart_dialog"  id="cart_display"><img src="{{ STATIC_URL }}pinax/img/silk/icons/folder_go.png" alt="View saved items"  /></a>
   </div>
   <div class="clear"></div>
   <ol start="{{ response.start|add:'1' }}">
@@ -46,12 +46,6 @@
 	<th>{% trans "Published"%}:</th>
 	<td>{{ doc.pubyear }}</td>
        </tr>
-      {% endif %}
-      {% if doc.callnum %}
-      <tr>
-        <th>{% trans "Call Number" %}</th>
-        <td>{{ doc.callnum }}</td>
-      </tr>
       {% endif %}
       <tr>
 	<th>{% trans "Access" %}:</th>
