@@ -799,7 +799,10 @@ def get_cart(request):
     records = []
     if request.session.get('items_cart',True):
         solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
-        items_cart = request.session['items_cart']
+        if request.session.has_key('items_cart'):
+            items_cart = request.session['items_cart']
+        else:
+            items_cart = []
         for item_id in items_cart:
             solr_response = solr_server.search(q="id:%s" % item_id)
             if solr_response.result.numFound > 0:
