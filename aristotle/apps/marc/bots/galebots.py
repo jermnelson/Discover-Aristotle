@@ -14,10 +14,10 @@ class GVRLBot(MARCImportBot):
 
     def __init__(self,
                  marc_file):
-        ''' Initializes instance.
+        ''' 
+        Initializes instance.
 
-             args:
-             marc_file -- file location of MARC file.
+        :param marc_file: file location of MARC file.
         '''
         MARCImportBot.__init__(self,marc_file)
         self.stats['titles'] = 0
@@ -26,11 +26,11 @@ class GVRLBot(MARCImportBot):
 
     def processRecord(self,
                       marc_record):
-        ''' Method iterates through specific MARC record and performs validation
-            and updates to MARC record before writing to output MARC file.
+        ''' 
+        Method iterates through specific MARC record and performs validation
+        and updates to MARC record before writing to output MARC file.
 
-            args:
-            marc_record -- MARC record
+        :param marc_record:  MARC record, required
         '''
         # Validate 490 and 830 fields
         if not marc_record.get_fields('490','830'):
@@ -59,8 +59,13 @@ class GVRLBot(MARCImportBot):
         return marc_record
 
     def validate490(self,marc_record):
-        ''' Method validates or sets MARC 490 series statement field and
-            corresponding 830 MARC field.'''
+        ''' 
+        Method validates or sets MARC 490 series statement field and
+        corresponding 830 MARC field.
+
+        :param marc_record:  MARC record, required
+ 
+        '''
         field490s = marc_record.get_fields('490')
         field830s = marc_record.get_fields('830')
         if len(field490s) > 0:
@@ -91,7 +96,11 @@ class GVRLBot(MARCImportBot):
         return marc_record
 
     def validate710(self,marc_record): 
-        ''' Method validates or sets MARC 710 - Corporate Name field.''' 
+        ''' 
+        Method validates or sets MARC 710 - Corporate Name field.
+
+        :param marc_record:  MARC record, required
+        ''' 
         field710 = marc_record.get_fields('710')[0]  
         if not field710: 
             marc_record.add_field(Field(tag='710', 

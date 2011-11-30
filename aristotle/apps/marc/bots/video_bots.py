@@ -25,14 +25,17 @@ class FilmsOnDemand(MARCImportBot):
         Initializes `FilmsOnDemand` for conversion
         process.
 
-        Parameters:
-        - `marc_file`: MARC file
-        - `output_file`: Output file name, default is vod-{time-stamp}.mrc
-           used for command-line interface
+        :param marc_file: MARC file
+        :param output_file: Output file name, default is vod-{time-stamp}.mrc
+                            used for command-line interface
         """
         MARCImportBot.__init__(self,marc_file,output_file)
 
     def load(self):
+        """
+        Load method overrides parent method to preserve ordering of
+        5xx fields.
+        """
         for record in self.marc_reader:
             if record is None:
                 break
@@ -64,10 +67,10 @@ class FilmsOnDemand(MARCImportBot):
 
     def processRecord(self,marc_record):
         """
-         Method processes a single marc_record for Films on Demand MARC.
+        Method processes a single marc_record for Films on Demand MARC.
 
-         Parameters:
-         - `marc_record`: MARC record
+        :param marc_record: MARC record, required
+
         """
         marc_record = self.validate001(marc_record)
         marc_record = self.validate006(marc_record)
@@ -88,8 +91,7 @@ class FilmsOnDemand(MARCImportBot):
         Method constructs 001 by inserting fod infront of unique
         number from record provided by FOD.
 
-        Parameters:
-        - `marc_record`: MARC record
+        :param marc_record: MARC record, required
         """
         field001 = marc_record.get_fields('001')[0]
         marc_record.remove_field(field001)
@@ -104,8 +106,7 @@ class FilmsOnDemand(MARCImportBot):
         Default validation of the 006 field with standard
         field data of m||||||||c|||||||| for electronic video records.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: Required, MARC record
         """
         marc_record = self.__remove_field__(marc_record=marc_record,
                                             tag='006')   
@@ -119,9 +120,8 @@ class FilmsOnDemand(MARCImportBot):
         Removes exisiting 007 fields and replaces with standard data
         for the 007 electronic records.
 
-        Parameters:
-        - `marc_record`: MARC record
-        - `data`: Optional, default data is set if not present
+        :param marc_record: MARC record, required
+        :param data: Default data is set if not present, optional
         """
         marc_record = self.__remove_field__(marc_record=marc_record,
                                             tag='007')
@@ -136,9 +136,8 @@ class FilmsOnDemand(MARCImportBot):
         Removes exisiting 007 fields and replaces with standard data
         for the 007 electronic records.
 
-        Parameters:
-        - `marc_record`: MARC record
-        - `data`: Optional, default data is set if not present
+        :param marc_record: MARC record
+        :param data: Optional, default data is set if not present
         """
         marc_record = self.__remove_field__(marc_record=marc_record,
                                             tag='007')
@@ -152,16 +151,17 @@ class FilmsOnDemand(MARCImportBot):
         """
         Method removes the 020 field.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required
         """
         return self.__remove_field__(marc_record=marc_record,
                                      tag='020')
 
     def validate300(self,marc_record):
         """
-        Method reorders 300 |b removing the word 'file' ."""
-
+        Method reorders 300 subfield b, removing the word *file*
+        
+        :param marc_record: MARC record, required
+        """
         all300s = marc_record.get_fields('300')
         field300 = all300s[0]
         raw_string = field300.get_subfields('b')[0]
@@ -186,8 +186,7 @@ class FilmsOnDemand(MARCImportBot):
         """
         Method removes the 490 field.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required 
         """
         return self.__remove_field__(marc_record=marc_record,
                                      tag='490')
@@ -200,8 +199,7 @@ class FilmsOnDemand(MARCImportBot):
         Method orders 5xxs to support streaming video order per AACR2
         538,546,588,511,500s,518,521,520,505,506
         
-        Parameters:
-        - `marc_record`: MARC record, required
+        :param marc_record: MARC record, required
         """
         all500s = marc_record.get_fields('500')
         all505s = marc_record.get_fields('505')
@@ -268,8 +266,7 @@ class FilmsOnDemand(MARCImportBot):
         Method removes/replaces existing 730 with uniform title
         for Films on Demand
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required 
         """
         self.__remove_field__(marc_record=marc_record,
                               tag='730')
@@ -284,16 +281,8 @@ class FilmsOnDemand(MARCImportBot):
         """
         Method removes the 830 field.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+        :param marc_record: MARC record, required 
         """
         return self.__remove_field__(marc_record=marc_record,
                                      tag='830')
 
-    
-
-    
-
-    
-        
-        

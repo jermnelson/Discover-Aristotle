@@ -55,6 +55,11 @@ Child MARC bots for specific publishers
 .. automodule:: apps.marc.bots.gutenbergbots
    :members:
 
+`aristotle.marc.bots.video_bots` Film on Demand Bots
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: apps.marc.bots.video_bots
+   :members:
+
 `aristotle.marc.bots.ltibots` LTI Bots
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. automodule:: apps.marc.bots.ltibots

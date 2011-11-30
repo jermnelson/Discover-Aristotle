@@ -16,6 +16,7 @@
 # along with Kochief.  If not, see <http://www.gnu.org/licenses/>.
 
 import urllib,urllib2
+import sunburnt
 
 from django.template import Context,Library,Template,loader
 from django.utils.translation import ugettext as _
@@ -150,6 +151,9 @@ def display_ill(record):
 
 def display_online(record):
     """Displays online access link if item's is available online
+
+    :param record: Solr document, required
+    :rtype: String
     """
     if record.has_key('url'):
         return mark_safe('''<li>Access <em><a href="%s">%s</a></em> online</li>''' % (record.get('url')[0],
@@ -157,10 +161,40 @@ def display_online(record):
     else:
         return ''
 
+class spellcheck_stub(object):
+    """
+    Spellcheck stub class for normalizing XML Solr Spellcheck with 
+    Sunburnt SolrSpellCheck class
+    """
+    missspelledTerm = None
+    suggestions = []
+
+def display_spellcheck(spellcheck):
+    """Displays Solr spellcheck results.
+
+    :param spellcheck: Solr spellcheck, either Kochief Solr or Sunburnt 
+                       Spellcheck object
+    """
+    spellcheck_template = loader.get_template('spellcheck.html')
+    params = {}
+    if type(spellcheck) == sunburnt.schema.SolrSpellCheck:
+        params['spellcheck'] = spellcheck
+    # Uses old manual Kochief-style SolrSpell check
+    else:
+        spell_stub = spellcheck_stub()
+        spell_stub.missspelledTerm = spellcheck['suggestions'][0][0]
+        for row in spellcheck['suggestions'][0][1]['suggestion']:
+            spell_stub.suggestions.append(row)
+        params['spellcheck'] = spell_stub
+    context = Context(params)
+    return mark_safe(spellcheck_template.render(context))
 
 def get_cover_image(num_isbn):
     """Custom method queries multiple web services for a thumbnail image,
     returns a matched URL using isbn number
+
+    :param num_isbn: numeric string for an ISBN number, required
+    :rtype: URL of Amazon cover image
     """
     amazon_image_url = 'http://ec2.images-amazon.com/images/P/%s.01._PE00_SCMZZZZZZZ_.jpg' % num_isbn
     return mark_safe(amazon_image_url)
@@ -212,13 +246,16 @@ def get_item_status(item_id):
         css_class = 'available'
     status_txt = '''<span class="%s">%s ''' % (css_class,item_status)
     volume = item_bot.volume()
-    if volume:
+    if volume is not None:
         status_txt += item_bot.volume()
     status_txt += '</span>'
     location = item_bot.location()
     if location is not None:
         if not location.startswith('Online'):
-            status_txt += ' located at %s' % location
+            status_txt += ' located in %s' % location
+    call_number = item_bot.callnumber()
+    if call_number is not None:
+        status_txt += ' with call number <b>%s</b>' % call_number
     return mark_safe(status_txt) 
 
 def get_marc_as_list(raw_marc):
@@ -280,6 +317,7 @@ def search_operator_options(output_html):
 register.filter('display_empty_facets',display_empty_facets)
 register.filter('display_ill',display_ill)
 register.filter('display_online',display_online)
+register.filter('display_spellcheck',display_spellcheck)
 register.filter('get_cover_image',get_cover_image)
 register.filter('get_format_icon',get_format_icon)
 register.filter('get_google_book',get_google_book) 

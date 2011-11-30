@@ -22,7 +22,7 @@ ITEMS_PER_PAGE = 10
 MAX_FACET_TERMS_BASIC = 4    # how many facet terms display by default
 MAX_FACET_TERMS_EXPANDED = 25 # how many facet terms display when you hit "show more"
 LOCAL_LOGO_LOCATION = 'http://www.laurentian.ca/Laurentian.WCMSPortal/Inc/images/logo_laurentian.jpg' #image with 177 x 54 pixels
-LOCAL_INSTITUTION_NAME = 'University Library:'
+LOCAL_INSTITUTION_NAME = 'Colorado College Tutt Library'
 # Horizon IPAC example
 #OPAC_FULL_BIB_URL = "http://catalog.spl.org/ipac20/ipac.jsp?index=BIB&term=%(bib_num)s"
 # Unicorn iBistro / iLink example
@@ -128,7 +128,8 @@ SEARCH_INDEXES = [ {'name' : _('Anywhere'), 'index': 'text'},
 #items to be listed in the "Sort By:" Dropdown box
 SORTS = [{ 'name' : _('Pub. Date (newest first)'), 'direction' : 'desc', 'field' : 'pubyear' },
          { 'name' : _('Pub. Date (oldest first)'), 'direction' : 'asc', 'field' : 'pubyear' },
-         { 'name' : _('Author A-Z'), 'direction' : 'desc', 'field' : 'author_exact' },]
+         { 'name' : _('Author A-Z'), 'direction' : 'desc', 'field' : 'author_exact' },
+         { 'name' : _('Title A-Z'), 'direction': 'desc', 'field' : 'full_title'},]
 
 #Icons corresponding to item type
 FORMAT_ICONS = {'Atlas' : '<img src="/site_media/static/pinax/img/silk/icons/map.png" alt="Atlas" />',
@@ -152,4 +153,6 @@ FORMAT_ICONS = {'Atlas' : '<img src="/site_media/static/pinax/img/silk/icons/map
                 }
 
 #White-whale template tags
-CC_URL = 'http://www.coloradocollege.edu/test/library/'
+#CC_URL = 'http://www.coloradocollege.edu/test/library/'
+CC_URL = 'http://www.coloradocollege.edu/library/xindex.dot'
+

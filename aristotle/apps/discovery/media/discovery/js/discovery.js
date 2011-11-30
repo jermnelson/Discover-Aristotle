@@ -14,6 +14,14 @@ function AddCartItem(anchor_tag,record_id) {
    });
 }
 
+function CartToRefworks() {
+  alert("In CartToRefworks");
+}
+
+function CartToRSSFeed() {
+  alert("In CartToRssFeed");
+}
+
 function DropCartItem(anchor_tag,record_id,keep) {
   var data = 'record_id=' + record_id;
   $.ajax({
@@ -84,6 +92,19 @@ function DisplaySearch(search_a) {
       DisplayAdvSearch(search_a);
    }
 
+}
+
+function EmailCart() {
+  var email_addr = prompt('Please enter your email');
+  var data = 'email=' + email_addr;
+  $.ajax({
+     type: 'get',
+      url: '/catalog/cart/email',
+     data: data,
+    success: function(responseText) {
+          alert(responseText);
+     }
+    });
 }
 
 function FilterByFacet(facet,value) {
@@ -157,10 +178,10 @@ function ShowCart() {
        url: '/catalog/cart',
       data: data,
    success: function(responseText) {
-        //var output = '<html><head><script src="/site_media/static/discovery/js/discovery.js"></script>';
-        //output += '<style type="text/css">body { font-family: Arial, sans-serif; background-color:#f1ece5; }</style></head>';
-        //output += '<body><h2>Your Saved Records</h2><button onclick="PrintCart()">Print</button><ol>';
-        var output = '<ol>';
+        var output = '<h2>Your Saved Records</h2>';
+        output += '<button onclick="$.fancybox.close()">Close</button><button onclick="PrintCart()">Print</button>';
+        output += '<button onclick="EmailCart()">Email</button><button onclick="CartToRSSFeed()">RSS Feed</button>';
+        output += '<button onclick="CartToRefworks()">Export to RefWorks</button><ol>';
         var results = eval(responseText);
         for(row in results) {
            var record = results[row];
@@ -182,15 +203,15 @@ function ShowCart() {
            }
            
         }
-        //output += '</ol></body></html>';
         output += '</ol>';
-        //top.wRef = window.open('','Your Saved Records','width=500,height=450,left=20,top=30,menubar=1,toolbar=0,status=1');
-        //top.wRef.document.writeln(output);
-        //top.wRef.document.close();
-        $('#cart-dlg-contents').html(output);
-        $('#cart-dlg').dialog('open');
+        $('a#cart_display').fancybox({
+           content: output,
+             width: 480,
+             height: 340,
+        });
+        //alert("After ShowCart fancybox call");
     }
    });
-  
+  //$('a#cart_display').click();
 
 }

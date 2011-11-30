@@ -35,6 +35,17 @@ def get_header(cache_key='cc-header'):
         harvest_latest()
         return mark_safe(cache.get(cache_key))
 
+def get_tabs(cache_key='cc-tabs'):
+    """Function returns cached version of library-tabs div element from 
+    live CC site
+    """
+    tabs = cache.get(cache_key)
+    if tabs:
+        return mark_safe(tabs)
+    else:
+        harvest_latest()
+        return mark_safe(cache.get(cache_key))
+
 def harvest_latest():
     """Function retrieves latest snapshot from live CC site, uses xpath to 
     save portions of the site to cache."""
@@ -48,8 +59,11 @@ def harvest_latest():
     cache.set('cc-header',lxml.etree.tostring(header))
     footer = cc_tree.xpath('//footer[@id="footer"]')[0]
     cache.set('cc-footer',lxml.etree.tostring(footer))
+    tabs = cc_tree.xpath('//div[@id="library-tabs"]')[0]
+    cache.set('cc-tabs',lxml.etree.tostring(tabs,encoding='ISO-8859-15'))
     
 register.filter('get_footer',get_footer)    
 register.filter('get_header',get_header)
+register.filter('get_tabs',get_tabs)
     
     

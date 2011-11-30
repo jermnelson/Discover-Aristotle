@@ -55,10 +55,13 @@ except NameError:
 # local libs
 import marc_maps,tutt_maps
 
-NONINT_RE = re.compile(r'\D')
 ISBN_RE = re.compile(r'(\b\d{10}\b|\b\d{13}\b)')
-UPC_RE = re.compile(r'\b\d{12}\b')
 LOCATION_RE = re.compile(r'\(\d+\)')
+NONINT_RE = re.compile(r'\D')
+REF_LOC_RE = re.compile(r'(tarf*)')
+PER_LOC_RE = re.compile(r'(tper*)')
+UPC_RE = re.compile(r'\b\d{12}\b')
+
 FIELDNAMES = [
     'access',
     'audience',
@@ -353,7 +356,34 @@ def get_format(record):
     if len(format) < 1:
         logging.error("309 UNKNOWN FORMAT Title=%s Leader: %s" % (record.title(),leader))
         format = 'Unknown'
+
+    # Some formats are determined by location
+    
+    format = lookup_location(record,format)
+    logging.error("After lookup Format is %s" % format)
     return format
+
+def lookup_location(record,format=None):
+    """
+    Does a look-up on location to determine format for edge cases like annuals in the 
+    reference area.
+
+    :param record: MARC Record
+    :param format: current format
+    """
+    location_list = locations = record.get_fields('994')
+    for location in location_list:
+         subfield_a = location['a']
+         logging.error("Location is %s" % subfield_a)
+         in_reference = REF_LOC_RE.search(subfield_a)
+         if in_reference is not None:
+              ref_loc_code = in_reference.groups()[0]
+              if ref_loc_code != 'tarfc':
+                  return "Book" # Classify everything as a book and not journal
+         in_periodicals = PER_LOC_RE.search(subfield_a)
+         if in_periodicals is not None:
+             return "Journal" 
+    return format     
 
 def get_subject_names(record):
     """
@@ -462,11 +492,11 @@ def get_callnumber(record):
     if record['086']:
         callnumber = record['086'].value()
     # Next check to see if there is a local call number
-    elif record['099']:
-        callnumber = record['099'].value()
     elif record['090']:
         callnumber = record['090'].value()
-    # Finally checks for value in 050
+    elif record['099']:
+        callnumber = record['099'].value()
+   # Finally checks for value in 050
     elif record['050']:
         callnumber = record['050'].value()
     return callnumber

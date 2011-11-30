@@ -23,6 +23,7 @@ class ItemRecord(IIIRecord):
     Millennium XML item records
     """
     due_date = xmlmap.StringField("/IIIRECORD/TYPEINFO/ITEM/FIXFLD[FIXLABEL[.='DUE DATE']]/FIXVALUE")
+    local_call_number = xmlmap.StringField("/IIIRECORD/VARFLD[MARCINFO/MARCTAG[.='099']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]/SUBFIELDDATA")
     location_code = xmlmap.StringField("/IIIRECORD/TYPEINFO/ITEM/FIXFLD[FIXLABEL[.='LOCATION']]/FIXVALUE")
     status = xmlmap.StringField("/IIIRECORD/TYPEINFO/ITEM/FIXFLD[FIXLABEL[.='STATUS']]/FIXVALUE")
     volume = xmlmap.StringField("/IIIRECORD/VARFLD[HEADER/TAG[.='VOLUME']]/FIELDDATA")

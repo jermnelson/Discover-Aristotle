@@ -120,6 +120,36 @@ class ItemBot(object):
         else:
             self.item_id = None
 
+    def callnumber(self):
+        """
+        Retrieves call number from XML by first checking to see if there is a 
+        090 and then tries 099 field.
+
+        :rtype: string or None
+        """
+        call_number = None
+        if self.item_xml is not None:
+            # First tries to retrieve 090
+            xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='090']]/MARCSUBFLD")
+            if len(xpath_result) > 0:
+                call_number = '' 
+                for row in xpath_result:
+                    for subfield in row.getchildren():
+                        if subfield.tag == 'SUBFIELDDATA':
+                            call_number += subfield.text
+            # Now tries to retrieve 099
+            if call_number is None:
+                xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='099']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]/SUBFIELDDATA")
+                if len(xpath_result) > 0:
+                    call_number = xpath_result[0].text
+            # Finally tries to retieve 086 for Government Documents
+            if call_number is None:
+                xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='086']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]/SUBFIELDDATA")
+                if len(xpath_result) > 0:
+                    call_number = xpath_result[0].text
+      
+        return call_number  
+
     def location(self):
         """
         Retrieves location code from XML and then does a look-up

@@ -24,10 +24,12 @@ import sys
 import time
 import urllib
 import logging,sunburnt
+from reportlab.pdfgen import canvas
 
 from django.conf import settings
 from django.core import serializers
 from django.core.cache import cache
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, Http404
 from django.template import loader, RequestContext
@@ -37,6 +39,11 @@ from django.utils.html import escape
 from django.utils.http import urlquote
 from django.utils.translation import ugettext as _
 from django.views.decorators.vary import vary_on_headers
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
 
 @vary_on_headers('accept-language', 'accept-encoding')
 def index(request):
@@ -84,6 +91,20 @@ def index(request):
 @vary_on_headers('accept-language', 'accept-encoding')
 def search(request):
     context = RequestContext(request)
+    if request.GET.get('search-type'):
+        search_type = request.GET['search-type']
+        if search_type == 'author_search':
+            context.update(get_specialized_results(request,'author'))
+        elif search_type == 'title_search':
+            context.update(get_specialized_results(request,'title'))
+        elif search_type == 'subject_search':
+            context.update(get_specialized_results(request,'subject'))
+        elif search_type == 'journal_title_search':
+            #! Should add extra format = 'journal'
+            context.update(get_specialized_results(request,'subject'))
+        if search_type != 'search':
+            template = loader.get_template('discovery/index.html')
+            return HttpResponse(template.render(context))
     if request.GET.get('history'):
         template = loader.get_template('discovery/search_history.html')
         return HttpResponse(template.render(context))
@@ -262,6 +283,7 @@ def get_solr_response(params):
     params.extend(default_params)
     urlparams = urllib.urlencode(params)
     url = '%sselect?%s' % (settings.SOLR_URL, urlparams)
+    logging.error("SOLR URL=%s" % url)
     try:
         solr_response = urllib.urlopen(url)
     except IOError:
@@ -297,6 +319,143 @@ def add_advanced_search(request_get):
         output = output[:-7] 
     return output
 
+
+def get_specialized_results(request,request_handler='dimax'):
+    solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
+    query = request.GET.get('q')
+    page_str = request.GET.get('page')
+    try:
+        page = int(page_str)
+    except (TypeError, ValueError):
+        page = 1
+    cache_key = request.META['QUERY_STRING']
+    context = cache.get(cache_key)
+    if context is not None:
+        return context
+    context = {'docs':None}
+    context['current_sort'] = _('newest')
+    context['sorts'] = [x[0] for x in settings.SORTS]
+    zero_index = (settings.ITEMS_PER_PAGE * (page - 1))
+    limits_param = request.GET.get('limits', '')
+    limits, fq_params = pull_limits(limits_param)
+    params = {'q':query,
+              'facet':True,
+              'facet.limit':settings.MAX_FACET_TERMS_EXPANDED,
+              'facet.mincount':1,
+              'facet.field':[],
+              'start':zero_index,
+              'rows':settings.ITEMS_PER_PAGE,
+              'fq':fq_params,
+              'qt':request_handler}
+    for facet in settings.FACETS:
+        params['facet.field'].append( facet['field'] + '_facet')
+        # sort facets by name vs. count as per the config.py file        
+        if not facet['sort_by_count']:
+            params['f.%s.facet.sort' % facet['field']] = False
+    solr_results = solr_server.search(**params)
+    context['response'] = solr_results.result
+    if solr_results.result.numFound > 0:
+        count = 1   
+        for doc in context['response'].docs:
+            doc['count'] = count + zero_index
+            count += 1
+            doc['name'] = list(doc.get('personal_name',[])) + list(doc.get('corporate_name',[]))
+            if settings.CATALOG_RECORD_URL:
+                doc['record_url'] = settings.CATALOG_RECORD_URL % doc['id']
+            else:
+                doc['record_url'] = reverse('discovery-record', 
+                                            args=[doc['id']])
+            if 'isbn' in doc:
+                doc['isbn_numeric'] = ''.join( [ x for x in doc['isbn'] if ( x.isdigit() or x.lower() == "x" ) ] )
+    else:
+        if solr_results.spellcheck is not None:
+            context['spellcheck'] = solr_results.spellcheck
+    facet_counts = solr_results.facet_counts
+    facet_fields = facet_counts.facet_fields
+    facets = []   
+    for facet_option in settings.FACETS:
+        field = facet_option['field']
+        all_terms = facet_fields[field + '_facet']
+        terms = []
+        # drop terms found in limits
+        for term, count in all_terms:
+            limit = '%s:"%s"' % (field, term)
+            if limit not in limits:
+                terms.append((term, count))
+        if not terms:
+            continue
+        if len(terms) > settings.MAX_FACET_TERMS_BASIC:
+            extended_terms = terms[settings.MAX_FACET_TERMS_BASIC:]
+            terms = terms[:settings.MAX_FACET_TERMS_BASIC]
+            has_more = True
+        else:
+            extended_terms = []
+            has_more = False
+        facet = {
+            'terms': terms,
+            'extended_terms': extended_terms,
+            'field': field,
+            'name': facet_option['name'],
+            'has_more': has_more,
+        }
+        facets.append(facet)
+        
+    #find out if callnumlayerone is a limit and remove it from the facets 
+    #dictionary if it is so that only callnumlayer2 is displayed (i.e. if 
+    #100's dewey is limited, display the 10's)
+    callnumlayeronefound = 0
+    callnumlayertwofound = 0
+    if limits:
+        for limitOn in limits:
+            if limitOn[:15] == 'callnumlayerone':
+                callnumlayeronefound = 1
+        for limitOn in limits:
+            if limitOn[:15] == 'callnumlayertwo':
+                callnumlayertwofound = 1
+    #if callnumlayerone was not found to be a limit, remove 
+    #callnumlayertwo so that only callnumlayerone displays 
+    #(ie, show the 100's dewey only instead of 100's and 10's)
+    if callnumlayeronefound == 1 or (callnumlayeronefound == 0 and callnumlayertwofound == 1): 
+        count = 0
+        for f in facets:
+            if f['field'] == 'callnumlayerone':
+                del facets[count]
+                break
+            count += 1
+    
+    if callnumlayeronefound == 0 or (callnumlayeronefound == 1 and callnumlayertwofound == 1): 
+        count = 0
+        for f in facets:
+            if f['field'] == 'callnumlayertwo':
+                del facets[count]
+                break
+            count += 1
+            
+    context['facets'] = facets
+    context['format'] = request.GET.get('format', None)
+    context['limits'] = limits
+    context['limits_param'] = limits_param
+    # limits_str for use in blocktrans 
+    limits_str = _(' and ').join(['<strong>%s</strong>' % x for x in limits]) 
+    context['limits_str'] = limits_str 
+    full_query_str = get_full_query_str(query, limits)
+    context['full_query_str'] = full_query_str
+    context['get'] = request.META['QUERY_STRING']
+    context['query'] = query
+    number_found = context['response'].numFound
+    context['number_found'] = number_found
+    context['start_number'] = zero_index + 1
+    context['end_number'] = min(number_found, settings.ITEMS_PER_PAGE * page)
+    context['pagination'] = do_pagination(page, number_found, 
+            settings.ITEMS_PER_PAGE)
+    context['DEBUG'] = settings.DEBUG
+    context['solr_url'] = settings.SOLR_URL 
+    set_search_history(request, full_query_str)
+    if not settings.DEBUG: 
+        # only cache for production
+        cache.set(cache_key, context, settings.SEARCH_CACHE_TIME)
+    return context
+            
 def get_search_results(request): 
     query = request.GET.get('q', '')
     if request.GET.has_key('field1_phrase'):
@@ -329,6 +488,7 @@ def get_search_results(request):
         if not facet['sort_by_count']:
             params.append(('f.%s.facet.sort' % facet['field'], 'false'))
     powerless_query, field_queries = pull_power(query)
+    logging.error("IN SEARCH RESULTS field_queries=%s" % powerless_query)
     if not powerless_query.strip() or powerless_query == '*':
         params.append(('q.alt', '*:*'))
         context['sorts'] = [x[0] for x in settings.SORTS 
@@ -597,6 +757,42 @@ def drop_item_cart(request):
         msg = 'No items in your list'
     return HttpResponse(msg)
 
+def email_cart(request):
+    """Function emails contents of cart to provided email
+    address.
+    """
+    if request.method == 'GET':
+        to_email = request.GET['email']
+    solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
+    if not request.session.has_key('items_cart'):
+        return HttpResponse('No email sent, you do not have any saved items')
+    items_cart = request.session['items_cart']
+    email_message = 'Your Saved Records\n'
+    for i,item_id in enumerate(items_cart):
+        solr_response = solr_server.search(q="id:%s" % item_id)
+        if solr_response.result.numFound > 0:
+            doc = solr_response.result.docs[0]
+            email_message += '%s. %s' % (i+1,doc['full_title'])
+            if doc.has_key('author'):
+                email_message += ' by %s' % doc['author']
+            email_message += '\n\t'
+            if doc.has_key('callnum'):
+                email_message += ' Call number: %s.' %  doc['callnum']
+            if doc.has_key('location'):
+                email_message += " Location: %s." % doc['location']
+            if doc.has_key('format'):
+                email_message += " Format: %s." %  doc['format']
+            if doc.has_key('url'):
+                for url in doc['url']:
+                    email_message += '\n\tOnline at %s' % url
+        email_message += "\n\n"
+    send_mail('Exported records from Discovery Server', # Subject
+              email_message, # Email body
+              settings.EMAIL_HOST_USER,
+              [to_email,],
+              fail_silently=False)
+    return HttpResponse('Email sent to %s from %s' % (to_email,settings.EMAIL_HOST_USER))
+
 def get_cart(request):
     """Function returns all of the items in JSON format that 
     is the current session."""
@@ -621,4 +817,27 @@ def get_cart(request):
                 records.append(rec_info)
     data = simplejson.dumps(records)
     return HttpResponse(data,'application/javascript')
+   
+
+def print_cart(request):
+    """Function generates a dynamic PDF for all of items that are
+    in current session. 
+    """
+    response = HttpResponse(mimetype="application/pdf")
+    response['Content-Disposition'] = 'attachment; filename=your_records.pdf'
     
+    buffer = StringIO()
+    
+    p = canvas.Canvas(buffer)
+    if request.session.get('items_cart',True):
+        p.drawString(5,5,"Your Saved Records from %s" % datetime.today().strftime("%B, %d, %Y"))
+    else:
+        p.drawString(100,100,"You do not have any saved records")
+
+
+    p.showPage()
+    p.save()
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response

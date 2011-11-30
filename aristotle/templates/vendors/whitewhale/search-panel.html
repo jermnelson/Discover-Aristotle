@@ -12,7 +12,8 @@
 	   <li><a href="#" onclick="DisplaySearch(this)">{% trans "Advanced Search" %}</a></li>
            <li><a href="/">{% trans "New Search" %}</a></li>
            {% if search_history %}
-           <li><a href="#" onclick="$('#search-history').dialog('open')">{% trans "Search History" %}</a>
+           <li><a href="#search_dialog" id="search_display">{% trans "Search History" %}</a>
+           </li>
            {% endif %}
 	   <li><a href="http://tiger.coloradocollege.edu">{% trans "Classic TIGER" %}</a></li>
            <li><a href="https://tiger.coloradocollege.edu/patroninfo">{% trans "Login to TIGER" %}</a></li>
