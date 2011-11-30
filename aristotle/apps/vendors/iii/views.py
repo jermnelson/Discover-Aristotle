@@ -50,7 +50,10 @@ def patron_login(request):
     if request.method == 'POST':
         last_name = request.POST['last_name']
         iii_patron_id = request.POST['iii_patron_id']
-        user = authenticate(last_name=last_name,iii_id=iii_patron_id)
+        try:
+            user = authenticate(last_name=last_name,iii_id=iii_patron_id)
+        except KeyError:
+            user = None
         if user is None:
             logging.error("User is none, should return login page")
             return direct_to_template(request,
