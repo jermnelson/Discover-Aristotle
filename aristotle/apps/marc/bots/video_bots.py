@@ -43,7 +43,7 @@ class FilmsOnDemand(MARCImportBot):
             raw_record = self.remove009(raw_record)
             raw_record = self.remove648(raw_record)
             list001_499 = []
-            for num in range(1,501):
+            for num in range(1,500):
                 tag = "%03d" % num
                 fields = raw_record.get_fields(tag)
                 if len(fields)>0:
@@ -95,7 +95,7 @@ class FilmsOnDemand(MARCImportBot):
         """
         field001 = marc_record.get_fields('001')[0]
         marc_record.remove_field(field001)
-        raw_data = field001.data
+        raw_data = field001.data 
         new_data = 'fod%s' % raw_data
         field001.data = new_data
         marc_record.add_field(field001)
