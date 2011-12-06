@@ -12,7 +12,12 @@ SUFFIX_LIST = ['JR','SR','I','II','III','IV']
 
 def separate_author(raw_author):
    """Takes Solr author string in format of family name, given name middle names
-   and returns a dict of values for use by different citation styles"""
+   and returns a dict of values for use by different citation styles
+
+   :param raw_author: Raw author string usually in the format last name, given
+                      name, and middle names
+   :rtype: Dictionary of values with given, family, middle, and suffix keys
+   """
    author = {}
    author_list = raw_author.split(",")
    # Assumes the first list item is the family name
@@ -35,7 +40,12 @@ def separate_author(raw_author):
 
 def apa_name(author):
     """Generates family name, given name first initial following APA
-    format for author and editor in citation."""
+    format for author and editor in citation.
+
+    :param author: Dictionary of given, family, middle, and suffix name
+                   values
+    :rtype: String of name in APA format
+    """
     author = separate_author(author)
     output = author['family']
     if author.has_key('given'):
@@ -47,12 +57,23 @@ def apa_name(author):
 
 def chicago_first_author(author):
     """Generates family name, given name first initial, cheats
-    and uses apa_name function."""
+    and uses apa_name function.
+
+
+    :param author: Dictionary of given, family, middle, and suffix name
+                   values
+    :rtype: String of name in Chicago format
+    """
     return apa_name(author)
 
 def chicago_name(author):
     """Generates given name middle initials family name for
-    additional authors in Chicago citation format."""
+    additional authors in Chicago citation format.
+
+    :param author: Dictionary of given, family, middle, and suffix name
+                   values
+    :rtype: String of name in Chicago format
+    """
     author = separate_author(author)
     output = str()
     if author.has_key('given'):
@@ -65,7 +86,12 @@ def chicago_name(author):
     
 def mla_name(author):
     """Generates family name, given name, first initial for 
-    MLA format."""
+    MLA format.
+
+    :param author: Dictionary of given, family, middle, and suffix name
+                   values
+    :rtype: String of name in MLA format
+    """
     author = separate_author(author)
     output = author['family']
     if author.has_key('given'):

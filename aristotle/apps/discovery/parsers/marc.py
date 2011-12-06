@@ -133,10 +133,25 @@ class RowDict(dict):
         return value.encode('utf8')
 
 def normalize(value):
+    """
+    Function normalizes value by replacing periods, commas, semi-colons,
+    and colons.
+
+    :param value: Raw value
+    :rtype: String with punctuations removed
+    """
     if value:
         return value.replace('.', '').strip(',:/; ')
   
 def subfield_list(field, subfield_indicator):
+    """
+    Method takes MARC field and subfield values and returns
+    a list of the subfield values
+    
+    :param field: MARC field
+    :param subfield_indicator: List or char of subfields
+    :rtype: List
+    """
     subfields = field.get_subfields(subfield_indicator)
     if subfields is not None:
         return [normalize(subfield) for subfield in subfields]
@@ -144,6 +159,14 @@ def subfield_list(field, subfield_indicator):
         return []
 
 def multi_field_list(fields, indicators):
+    """
+    Function takes a list of MARC fields and indicators and returns
+    a set of values
+
+    :param fields: List of MARC fields
+    :param indicators: List of indicators
+    :rtype: Set of values
+    """
     values = []
     for f in fields:
         for i in indicators:
@@ -153,7 +176,11 @@ def multi_field_list(fields, indicators):
 access_search = re.compile(r'ewww')
 
 def get_access(record):
-    '''Generates simple access field specific to CC's location codes'''
+    '''Generates simple access field specific to CC's location codes
+
+    :param record: MARC record
+    :rtype: String message
+    '''
     if record['994']:
         raw_location = record['994'].value()
         if access_search.search(raw_location):
@@ -164,7 +191,11 @@ def get_access(record):
         return 'In the Library'
 
 def get_format(record):
-    '''Generates format, extends existing Kochief function.'''
+    '''Generates format, extends existing Kochief function.
+
+    :param record: MARC record
+    :rtype: String of Format
+    '''
     format = ''
     if record['007']:
         field007 = record['007'].value()
@@ -240,6 +271,8 @@ def get_format(record):
                         elif field007[6] == 'e':   # 12 inch
                             format = 'LP Record'
             elif field007[0] == 'v':            # videorecording
+                if field007[1] == 'f':
+                    format = 'VHS Video'
                 if field007[1] == 'd':        # videodisc
                     if field007[4] == 'v' or field007[4] == 'g':
                         format = 'DVD Video'
@@ -387,10 +420,10 @@ def lookup_location(record,format=None):
 
 def get_subject_names(record):
     """
-     Iterates through record's 600 fields, returns a list of names
+    Iterates through record's 600 fields, returns a list of names
  
-     Parameters:
-     * `record` -- MARC record, required
+    :param record: MARC record, required
+    :rtype: List of subject terms
     """
     output = []
     subject_name_fields = record.get_fields('600')
@@ -409,6 +442,12 @@ def get_subject_names(record):
     return output
 
 def parse_008(record, marc_record):
+    """
+    Function parses 008 MARC field 
+
+    :param record: Dictionary of MARC record values
+    :param marc_record: MARC record
+    """
     if marc_record['008']:
         field008 = marc_record['008'].value()
 
@@ -454,6 +493,13 @@ def parse_008(record, marc_record):
     return record
 
 def id_match(id_fields, id_re):
+    """
+    Function matches an ID based on regular expression
+
+    :param id_fields: List of values from the MARC ID field
+    :param id_re: ID reqular expression
+    :rtype: List of id values
+    """
     id_list = []
     for field in id_fields:
         id_str = normalize(field['a'])
@@ -465,6 +511,13 @@ def id_match(id_fields, id_re):
     return id_list
 
 def get_languages(language_codes):
+    """
+    Function extracts language codes and then does a lookup in the 
+    MARC maps value.
+   
+    :param language_codes: List of codes
+    :rtype: List
+    """
     split_codes = []
     for code in language_codes:
         code = code.lower()

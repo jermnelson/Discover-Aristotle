@@ -47,7 +47,10 @@ except ImportError:
 
 @vary_on_headers('accept-language', 'accept-encoding')
 def index(request):
-    cache_key = request.META['HTTP_HOST']
+    if request.META.has_key('HTTP_HOST'):
+        cache_key = request.META['HTTP_HOST']
+    else:
+        cache_key = None
     response = cache.get(cache_key)
     if response:
         return response
@@ -299,6 +302,9 @@ def get_solr_response(params):
 def add_advanced_search(request_get):
     """
     Kluge to add advanced search to the query string.
+
+    :param request_get: Request GET object
+    :rtype: String
     """
     output = ''
     for r in range(1,4):
@@ -321,6 +327,13 @@ def add_advanced_search(request_get):
 
 
 def get_specialized_results(request,request_handler='dimax'):
+    """
+    Function queries Solr instance using :mod:`Sunburnt` for 
+    specific types of request queries (author, title, subject)
+    
+    :param request: Request from client
+    :param request_handler: Solr request type, defaul is dimax
+    """
     solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
     query = request.GET.get('q')
     page_str = request.GET.get('page')
@@ -456,7 +469,12 @@ def get_specialized_results(request,request_handler='dimax'):
         cache.set(cache_key, context, settings.SEARCH_CACHE_TIME)
     return context
             
-def get_search_results(request): 
+def get_search_results(request):
+    """
+    Function returns search results from request
+
+    :param request: Request object from client
+    """ 
     query = request.GET.get('q', '')
     if request.GET.has_key('field1_phrase'):
         if len(request.GET.get('field1_phrase')) > 0:
@@ -722,7 +740,11 @@ def do_pagination(this_page_num, total, per_page):
 def add_item_cart(request):
     """Function accepts AJAX request for adding an item from either the 
     results or record display. The bib-number of the item is used as 
-    an unique key of items."""
+    an unique key of items.
+
+    :param request: Client GET or POST Request 
+    :rtype: Message string
+    """
     if request.method == 'POST':
         # do something
         record_id = request.POST['record_id']
@@ -741,7 +763,11 @@ def add_item_cart(request):
 def drop_item_cart(request):
     """Function accepts AJAX request for dropping an item from either the 
     results or record display. The bib-number of the item is used as 
-    an unique key of items."""
+    an unique key of items.
+
+    :param request: Client GET or POST Request 
+    :rtype: Message string
+    """
     if request.method == 'POST':
         record_id = request.POST['record_id']
     else:
@@ -760,6 +786,9 @@ def drop_item_cart(request):
 def email_cart(request):
     """Function emails contents of cart to provided email
     address.
+
+    :param request: Client GET or POST Request 
+    :rtype: Message string
     """
     if request.method == 'GET':
         to_email = request.GET['email']
@@ -795,7 +824,11 @@ def email_cart(request):
 
 def get_cart(request):
     """Function returns all of the items in JSON format that 
-    is the current session."""
+    is the current session.
+
+    :param request: Client GET or POST Request 
+    :rtype: Message
+    """
     records = []
     if request.session.get('items_cart',True):
         solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
@@ -824,7 +857,10 @@ def get_cart(request):
 
 def print_cart(request):
     """Function generates a dynamic PDF for all of items that are
-    in current session. 
+    in current session.
+
+    :param request: Request from client
+    :rtype: PDF for download 
     """
     response = HttpResponse(mimetype="application/pdf")
     response['Content-Disposition'] = 'attachment; filename=your_records.pdf'
