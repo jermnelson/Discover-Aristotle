@@ -9,7 +9,11 @@
        {% comment %}START SEARCHBOX DIV {% endcomment %}
 	<div id="searchbox">
 	 <ul class="search-help">
-	   <li><a href="#" onclick="DisplaySearch(this)">{% trans "Advanced Search" %}</a></li>
+           {% if is_advanced_search %}
+           <li><a href="/catalog/">{% trans "Basic Search" %}</a></li>
+           {% else %}
+	   <li><a href="/catalog/advanced/">{% trans "Advanced Search" %}</a></li>
+           {% endif %}
            <li><a href="/">{% trans "New Search" %}</a></li>
            {% if search_history %}
            <li><a href="#search_dialog" id="search_display">{% trans "Search History" %}</a>
@@ -19,9 +23,9 @@
            <li><a href="https://tiger.coloradocollege.edu/patroninfo">{% trans "Login to TIGER" %}</a></li>
 	   <li><a href="#" onclick="alert('Coming soon.')">{% trans "Need help?" %}</a></li>
          </ul>
-
-	  <form action="{% url discovery-search %}" name="catalog_search">
         {% block simple-searchbox %}
+        {% if not is_advanced_search %}
+	  <form action="{% url discovery-search %}" name="catalog_search">
 	    <fieldset id="basic-searchbox">
              <input type="text" name="q" value="{{ query }}" alt="search" id="book-search" />
              <input type="hidden" name="search-type" value="search" />
@@ -35,8 +39,12 @@
 		  <li><a href="#" data-searchtype="title_search">{% trans "Journal Title" %}</a></li>
 		</ul>
 	    </fieldset>
+        {% endif %}
         {% endblock %}
         {% block adv-searchbox %}
+        {% if is_advanced_search %}
+        <form action="{% url discovery-adv-search %}" name="catalog_search" method="POST">
+        {% csrf_token %} 
         <fieldset id="adv-searchbox">
          <h3>Advanced Search</h3>
          <select name="field1_type">
@@ -61,6 +69,7 @@
          <input type="text" name="field3_phrase" value="" />
          <input type="submit" name="btnsubmit" class="submit" value="Search" />
         </fieldset>
+        {% endif %}
         {% endblock %}
         {% if limits %}
 	<ul class="search-filters" id="search-filters">

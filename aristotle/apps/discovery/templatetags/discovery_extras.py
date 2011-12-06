@@ -204,9 +204,12 @@ def display_spellcheck(spellcheck):
     # Uses old manual Kochief-style SolrSpell check
     else:
         spell_stub = spellcheck_stub()
-        spell_stub.missspelledTerm = spellcheck['suggestions'][0][0]
-        for row in spellcheck['suggestions'][0][1]['suggestion']:
-            spell_stub.suggestions.append(row)
+        if not spellcheck['suggestions'][0][1]: # correctly spelled is False
+            spell_stub.missspelledTerm = spellcheck['suggestions'][0][0]
+            for row in spellcheck['suggestions'][0][1]['suggestion']:
+                spell_stub.suggestions.append(row)
+        else:
+            spell_stub.missspelledTerm = "NOT FOUND" # need to extract query term
         params['spellcheck'] = spell_stub
     context = Context(params)
     return mark_safe(spellcheck_template.render(context))

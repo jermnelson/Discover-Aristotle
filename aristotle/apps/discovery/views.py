@@ -39,6 +39,8 @@ from django.utils.html import escape
 from django.utils.http import urlquote
 from django.utils.translation import ugettext as _
 from django.views.decorators.vary import vary_on_headers
+from django.views.generic.simple import direct_to_template
+
 try:
     from cStringIO import StringIO
 except ImportError:
@@ -299,31 +301,105 @@ def get_solr_response(params):
         raise ValueError, 'Solr response was not a JSON object.'
     return url, response
 
-def add_advanced_search(request_get):
+def advanced_search(request):
     """
-    Kluge to add advanced search to the query string.
+    Advanced search displays empty form for request.GET, displays
+    results if request.POST
 
-    :param request_get: Request GET object
-    :rtype: String
+    :param request: Request from Client
     """
-    output = ''
-    for r in range(1,4):
-        field_type = request_get['field%s_type' % r]
-        field_phrase = request_get['field%s_phrase' % r]
-        if field_type != 'keyword' and len(field_type) > 0:
-            output += '%s:' % field_type
-        output += field_phrase
-        if r < 3:
-            field_operator = request_get['field%s_operator' % r]
-            output += ' %s ' % field_operator
-    output = output.strip()
-    if output.endswith('AND'):
-        output = output[:-3]
-    elif output.endswith('OR'):
-        output = output[:-2]
-    elif output.endswith('AND NOT'):
-        output = output[:-7] 
-    return output
+    if request.method == 'GET':
+        return direct_to_template(request,
+                                  'discovery/index.html',
+                                  {'is_advanced_search':True})
+    else:
+        # Use Sunburnt standard request handler
+        solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
+        field1_q = generate_Q(solr_server,
+                              request.POST.get('field1_type',''),
+                              request.POST.get('field1_phrase',''))
+        field2_q = generate_Q(solr_server,
+                              request.POST.get('field2_type',''),
+                              request.POST.get('field2_phrase',''))
+        operator_1 = request.POST.get('field1_operator','')
+        solr_query = add_operator(field1_q,field2_q,operator_1)
+        field3_q = generate_Q(solr_server,
+                              request.POST.get('field3_type',''),
+                              request.POST.get('field3_phrase',''))
+        operator_2 = request.POST.get('field2_operator')
+        solr_query = add_operator(solr_query,field3_q,operator_2)
+        adv_search_query = solr_server.query(solr_query).facet_by(["%s_facet" % x for x in settings.FACETS],
+                                                                  limit=settings.MAX_FACET_TERMS_EXPANDED,
+                                                                  mincount=1)
+        logging.error("Before executing solr query %s" % adv_search_query)
+        solr_results = adv_search_query.execute()
+        facets = []
+        for facet_option in settings.FACETS:
+            facet_name = '%s_facet' % facet_option['name']
+            if solr_results.facet_counts.facet_fields.has_key(facet_name):
+                facet = {
+                  'terms': solr_results.facet_count.facet_fields[facet_name],
+                  'name': facet_option['name'],
+                }
+                facets.append(facet)
+        logging.error("Facets: %s" % facets)
+        return direct_to_template(request,
+                                  'discovery/index.html',
+                                  {'is_advanced_search':True,
+                                   'facets':facets})
+
+
+def generate_Q(solr_instance,field_type,value):
+    """
+    Helper function takes field type and value and parses out 
+    values and returns a sunburnt.Q object or None
+
+    :param solr_instance: Solr instance
+    :param field_type: Search field type, should be keyword, author, title,
+                       or subject
+    :param value: Raw value from the field
+    :rtype: sunburnt.Q instance or None
+    """
+    logging.error("IN GENERATE Q: %s %s" % (field_type,value))
+    if value is None or len(value) < 1:
+        return None
+    if field_type == 'author':
+        solr_query = solr_instance.Q()
+        for raw_name in value.split(" "):
+            name = raw_name.replace(".","")
+            solr_query = solr_query & solr_instance.Q(author=name)
+    elif field_type == 'topic':
+        solr_query = solr_instance.Q(topic=value)
+    elif field_type == 'title':
+        solr_query = solr_instance.Q(title=value)
+    else:
+        solr_query = solr_instance.Q()
+        for keyword in value.split(" "):
+            solr_query = solr_query & solr_instance.Q(keyword)
+    return solr_query
+
+def add_operator(solr_Q1,solr_Q2,operator):
+    """
+    Function joins two Solr Qs with the correct operator
+
+    :param solr_Q1: Solr Q object
+    :param solr_Q2: Solr Q object
+    :param operator: String, should be AND, OR, AND NOT
+    """
+    if solr_Q1 is not None and solr_Q2 is not None:
+        if operator.strip() == 'AND NOT':
+            return solr_Q1 & ~solr_Q2
+        elif operator.strip() == 'OR':
+            return solr_Q1 | solr_Q2
+        # Defaults to AND
+        else:
+            return solr_Q1 & solr_Q2
+    if solr_Q1 is not None and solr_Q2 is None:
+        return solr_Q1
+    if solr_Q1 is None and solr_Q2 is not None:
+        return solr_Q2
+    else:
+        return None
 
 
 def get_specialized_results(request,request_handler='dimax'):
@@ -332,7 +408,7 @@ def get_specialized_results(request,request_handler='dimax'):
     specific types of request queries (author, title, subject)
     
     :param request: Request from client
-    :param request_handler: Solr request type, defaul is dimax
+    :param request_handler: Solr request type, default is dimax
     """
     solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
     query = request.GET.get('q')
@@ -476,9 +552,6 @@ def get_search_results(request):
     :param request: Request object from client
     """ 
     query = request.GET.get('q', '')
-    if request.GET.has_key('field1_phrase'):
-        if len(request.GET.get('field1_phrase')) > 0:
-            query = add_advanced_search(request.GET)
     page_str = request.GET.get('page')
     try:
         page = int(page_str)
