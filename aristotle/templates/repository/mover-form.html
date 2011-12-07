@@ -1,0 +1,21 @@
+{% load i18n %}
+{% load marc_extras %}
+ <h2 class="discovery-home">Fedora Object Mover</h2>
+ <form action="/repository/mover" method="POST">
+ {% csrf_token %}
+ <table>
+  <tr>
+   <th>{{ mover_form.source_pid.label }}</th>
+   <th>{{ mover_form.collection_pid.label }}</th>
+  </tr>
+  <tr>
+   <td>{{ mover_form.source_pid }}</td>
+   <td>{{ mover_form.collection_pid }}</td>
+  </tr>
+ <tr>
+  <td colspan="2" align="center">
+  <input type="submit" value="Move PID to new Collection" />
+  </td>
+  </tr>
+ </table>
+ </form>

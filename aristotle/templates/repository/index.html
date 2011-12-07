@@ -1,0 +1,58 @@
+{% extends 'cc-search-base.html' %}
+{% load i18n %}
+{% load marc_extras %}
+
+{% block search-title %}Tutt Library Fedora Repository Utilities • Colorado College{% endblock %}
+
+{% block more-css %}
+{% endblock %}
+
+{% block search-panel %}
+ {% include 'marc-search-panel.html' %}
+{% endblock %}
+
+{% block search-facets %}
+<div class="side">
+ <aside class="search-facets">
+  <h5>{% trans "Recent History" %}</h5>
+  <ul>
+  {% for log in history %}
+  <li><a href="detail/{{ log.created_on }}">{{ log.created_on }} {{ log.process_id }} </a></li>
+  {% endfor %}
+  </ul>
+ </aside>
+</div>
+{% endblock %}
+
+{% block results-detail %}
+{% endblock %}
+
+{% block results-list %}
+<div class="main">
+<div class="results-list discovery-service">
+<h1>{% trans "Tutt Library Fedora Repository Utilities" %}</h1>
+<div class="discovery-home">
+ {% if message %}
+ <p>
+  {{ message }}
+ </p>
+ {% endif %}
+ {% if mover_form %}
+  {% include 'mover-form.html' %}
+ {% endif %}
+ {% if not mover_form %}
+ <p>{% trans "Please select an Utility" %}</p>
+ <ul>
+  <li><a href="mover">{% trans "Fedora Object Mover" %}</a></li>
+ </ul>
+ </p>
+ {% endif %}
+ <span class="clear"></span>
+</div>
+</div>
+</div>
+<span class="clear"></span>
+{% endblock %}
+
+{% block more-scripts %}
+{% endblock more-scripts %}
