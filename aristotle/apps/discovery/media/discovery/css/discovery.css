@@ -93,10 +93,6 @@ h1.discovery-home {
  text-align: center;
 }
 
-#adv-searchbox {
- display: none;
-}
-
 #search-history {
  border: 1px solid #960;
  display: none;

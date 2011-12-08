@@ -33,10 +33,21 @@ Solr core, you will need to run the index management command from
 .. automodule:: discovery.parsers.tutt_maps
    :members:
 
+`aristotle.discovery.templatetags.citation_extras` Template Tags
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: discovery.templatetags.citation_extras
+   :members:
+
 `aristotle.discovery.templatetags.discovery_extras` Template Tags
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 .. automodule:: discovery.templatetags.discovery_extras
    :members:
+
+`aristotle.discovery.templatetags.whitewhale_extras` Template Tags
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. automodule:: discovery.templatetags.whitewhale_extras
+   :members:
+
 
 `aristotle.discovery.management.commands.index` Management Commands
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

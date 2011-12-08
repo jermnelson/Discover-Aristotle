@@ -10,6 +10,7 @@ function AddCartItem(anchor_tag,record_id) {
        anchor_html += "DropCartItem(this,'" + record_id + "'," + true + ')">';
        anchor_html += "<img src='/site_media/static/pinax/img/silk/icons/folder_delete.png' /><br/>Drop</a>";
        $(anchor_tag).parent().html(anchor_html);
+       window.location.reload();
     }
    });
 }

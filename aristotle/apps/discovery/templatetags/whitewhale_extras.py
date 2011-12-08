@@ -17,6 +17,9 @@ register = template.Library()
 
 def get_footer(cache_key='cc-footer'):
     """Function returns cached version of footer element from live CC site
+
+    :param cache_key: Key to retrieve footer from cache, defaults to 
+                      cc-footer
     """
     footer = cache.get(cache_key)
     if footer:
@@ -27,6 +30,9 @@ def get_footer(cache_key='cc-footer'):
 
 def get_header(cache_key='cc-header'):
     """Function returns cached version of header element from live CC site
+
+    :param cache_key: Key to retrieve header from cache, defaults to 
+                      cc-header
     """
     header = cache.get(cache_key)
     if header:
@@ -38,6 +44,9 @@ def get_header(cache_key='cc-header'):
 def get_tabs(cache_key='cc-tabs'):
     """Function returns cached version of library-tabs div element from 
     live CC site
+
+    :param cache_key: Key to retrieve tabs from cache, defaults to 
+                      cc-tabs
     """
     tabs = cache.get(cache_key)
     if tabs:

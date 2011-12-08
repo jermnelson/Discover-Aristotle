@@ -21,8 +21,7 @@ class AmericanWestBot(MARCImportBot):
         Initializes `AmericanWestBot` for conversion
         process.
 
-        Parameters:
-        - `marc_file`: MARC file
+        :param marc_file: MARC file
         """
         MARCImportBot.__init__(self,marc_file)
 
@@ -32,8 +31,7 @@ class AmericanWestBot(MARCImportBot):
         Method processes a single marc_record for American West
         MARC.
 
-        Parameters:
-        - `marc_record`: MARC record
+        :param marc_file: MARC file
         """
         marc_record = self.validate001(marc_record)
         marc_record = self.validate003(marc_record)
@@ -52,8 +50,7 @@ class AmericanWestBot(MARCImportBot):
         """
         Method replaces AC prefix with AMP prefix for Prospector compatibility.
 
-        Parameters:
-        - `marc_record`: MARC record
+        :param marc_file: MARC file
         """
         field001 = marc_record.get_fields('001')[0]
         marc_record.remove_field(field001)
@@ -66,8 +63,8 @@ class AmericanWestBot(MARCImportBot):
         """
         Validates 003 field, adds control code.
 
-        Parameters:
-        `marc_record`: Required, MARC record
+
+        :param marc_file: MARC file
         """
         marc_record = self.__remove_field__(marc_record=marc_record,
                                             tag='003')
@@ -82,8 +79,7 @@ class AmericanWestBot(MARCImportBot):
         """
         Method removes all existing 490 fields.
 
-        Parameters:
-        - `marc_record`: MARC record
+        :param marc_file: MARC file
         """
         all490s = marc_record.get_fields('490')
         for field in all490s:
@@ -95,8 +91,7 @@ class AmericanWestBot(MARCImportBot):
         """
         Method validates/adds 710 fields
 
-        Paramaters:
-        - `marc_record`: MARC Record
+        :param marc_file: MARC file
         """
         all710s = marc_record.get_fields('710')
         for field in all710s:
@@ -117,8 +112,7 @@ class AmericanWestBot(MARCImportBot):
         """
         Method validates 730 with American West desired text.
 
-        Parameters:
-        - `marc_record`: MARC record
+        :param marc_file: MARC file
         """ 
         self.__remove_field__(marc_record=marc_record,
                               tag='730')
@@ -132,8 +126,7 @@ class AmericanWestBot(MARCImportBot):
         """
         Method removes all existing 830 fields.
 
-        Parameters:
-        - `marc_record`: MARC record
+        :param marc_file: MARC file
         """
         all830s = marc_record.get_fields('830')
         for field in all830s:

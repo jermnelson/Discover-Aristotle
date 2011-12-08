@@ -18,6 +18,7 @@ Dependencies
 * `eulxml <https://github.com/emory-libraries/eulxml>`_ 
 * `pinax <http://pinaxproject.com/>`_
 * `pymarc <https://github.com/tow/sunburnt>`_
+* `reportlab <http://www.reportlab.com/software/opensource/>`_
 * `sunburnt <https://github.com/edsu/pymarc>`_
 
 Current and Future Django Applications

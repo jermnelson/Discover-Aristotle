@@ -48,6 +48,13 @@ register.inclusion_tag('discovery/snippets/result_title.html',
         takes_context=True)(title_link)
 
 def add_sort(context, sort_type):
+    """
+    Method adds sort to query stored in the context.
+
+    :param context: Context object
+    :param sort_type: Sort type
+    :rtype: dictionary of urlparams
+    """
     params = []
     query = context['query']
     if query:
@@ -76,6 +83,14 @@ register.inclusion_tag('discovery/snippets/search_url.html',
         takes_context=True)(pagination_url)
 
 def new_limit(context, field, field_query):
+    """
+    Function creates a new limit
+
+    :param context: Context
+    :param field: Field for the new limit
+    :param field_query: Query string to add limit
+    :rtype: dictionary of urlparams
+    """
     params = []
     limit = u'%s:"%s"' % (field, field_query)
     params.append(('limits', limit.encode('utf8')))
@@ -120,6 +135,9 @@ register.inclusion_tag('discovery/snippets/search_url.html',
 
 def display_empty_facets(output_html):
     """Displays an empty list of facets for when query returns no hits
+
+    :param output_html: HTML string
+    :rtype string:
     """
     for facet in settings.FACETS:
         output_html += '<a href="#" onclick="DisplayFacet(this)">'
@@ -130,6 +148,9 @@ def display_empty_facets(output_html):
 
 def display_ill(record):
     """Displays an ill and Hold links if the item's status is Checked out
+
+    :param record: Solr response for a single document
+    :rtype string:
     """
     ils_numbers = record.get('item_ids')
     ill_template = loader.get_template('ill_link_li.html')
@@ -174,6 +195,7 @@ def display_spellcheck(spellcheck):
 
     :param spellcheck: Solr spellcheck, either Kochief Solr or Sunburnt 
                        Spellcheck object
+    :rtype: String
     """
     spellcheck_template = loader.get_template('spellcheck.html')
     params = {}
@@ -182,9 +204,12 @@ def display_spellcheck(spellcheck):
     # Uses old manual Kochief-style SolrSpell check
     else:
         spell_stub = spellcheck_stub()
-        spell_stub.missspelledTerm = spellcheck['suggestions'][0][0]
-        for row in spellcheck['suggestions'][0][1]['suggestion']:
-            spell_stub.suggestions.append(row)
+        if not spellcheck['suggestions'][0][1]: # correctly spelled is False
+            spell_stub.missspelledTerm = spellcheck['suggestions'][0][0]
+            for row in spellcheck['suggestions'][0][1]['suggestion']:
+                spell_stub.suggestions.append(row)
+        else:
+            spell_stub.missspelledTerm = "NOT FOUND" # need to extract query term
         params['spellcheck'] = spell_stub
     context = Context(params)
     return mark_safe(spellcheck_template.render(context))
@@ -201,7 +226,11 @@ def get_cover_image(num_isbn):
 
 def get_format_icon(term):
     """Custom method returns an img tag with URL to bundled Pinax Silk icon
-    set."""
+    set.
+
+    :param term: Term of format
+    :rtype: String with URL to image 
+    """
     if FORMAT_ICONS.has_key(term):
         return mark_safe(FORMAT_ICONS[term])
     else:
@@ -210,6 +239,9 @@ def get_format_icon(term):
 def get_google_book(num_isbn):
     """Custom method queries Google Books API to retrieve urls and book 
     cover thumbnails to display to the end user.
+
+    :param num_isbn: numeric string for an ISBN number, required
+    :rtype: String of embedded HTML for Google Book cover
     """
     google_book_url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:%s' % num_isbn
     try:
@@ -235,6 +267,9 @@ def get_google_book(num_isbn):
 def get_item_status(item_id):
     """Method connects to ILS and retrieves the current circulation status
     of a an item.
+
+    :param item_id: Item id, required
+    :rtype: String of status
     """
     item_bot = ItemBot(opac_url=ils_settings.OPAC_URL,item_id=item_id)
     item_status = item_bot.status()
@@ -260,6 +295,9 @@ def get_item_status(item_id):
 
 def get_marc_as_list(raw_marc):
     """Method takes Solr MARC format and splits into a list of field dictionarys
+
+    :param raw_marc: Raw MARC string
+    :rtype: List of field dictionary
     """
     output = []
     marc_listing = raw_marc.split("=")
@@ -271,11 +309,17 @@ def get_marc_as_list(raw_marc):
 
 def get_refworks_url(record_id):
     """Generates a link for exporting citation to RefWorks.
+
+    :param record_id: Bib ID of record
+    :rtype: String
     """
     return mark_safe('#')
 
 def generate_prospector_url(record_id):
     """Generates link to Prospector's union catalog
+
+    :param record_id: Bib ID of record
+    :rtype: String of URL to prospector
     """
     prospector_url = settings.PROSPECTOR_URL % (record_id,record_id)
     return mark_safe(prospector_url)
@@ -283,6 +327,10 @@ def generate_prospector_url(record_id):
 def reduce_subjects(doc):
     """Iterates and sort all topic and subject related fields and
     returns a set of unique subjects.
+
+    :param doc: Dictionary of subject values from the Solr document
+                query
+    :rtype: Set of subject terms
     """
     subjects = []
     if doc.has_key('subject'):
@@ -297,6 +345,9 @@ def reduce_subjects(doc):
 def search_field_options(output_html):
     """
     Generates a list of field search options
+
+    :param output_html: String of HTML
+    :rtype: HTML String 
     """
     field_types = [('keyword','Any Field'),
                    ('author','Author'),
@@ -309,6 +360,9 @@ def search_field_options(output_html):
 def search_operator_options(output_html):
     """Generates a list of boolean search HTML options for
     AND, AND NOT, OR
+
+    :param output_html: String of HTML
+    :rtype: HTML String 
     """
     for row in ['AND','AND NOT','OR']:
         output_html += '<option value="%s">%s</option>' % (row,row.title())
