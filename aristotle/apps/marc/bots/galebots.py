@@ -4,6 +4,7 @@
 __author__ = 'Jeremy Nelson'
 
 from marcbots import MARCImportBot
+from pymarc import Field
 
 PROXY_LOCATION='0-find.galegroup.com.tiger.coloradocollege.edu'
 
