@@ -3,9 +3,12 @@
 """
 __author__ = "Jeremy Nelson"
 
+import logging
 from django import forms
-from models import ADRBasicContentModel
 from eulfedora.server import Repository
+from eulfedora.util import RequestFailed
+
+repository = Repository()
 
 class MoverForm(forms.Form):
     """
@@ -20,20 +23,31 @@ class MoverForm(forms.Form):
                                  label="PID of source PID",
                                  help_text='PID of source Fedora Object')
 
-    def clean(self):
-        repository = Repository()
-        mover_data = self.cleaned_data
-        collection_pid = mover_data.get('collection_pid')
-        source_pid = mover_data.get('source_pid')
+    def clean_collection_pid(self):
+        """
+        Custom clean method for :class:`MoverForm.collection_pid` checks to see
+        if PID exists in Repository, raise :mod:`forms.ValidationError` if PID
+        not present.
+        """
+        data = self.cleaned_data['collection_pid']
+        if data is not None:
+            try:
+                collection_object = repository.api.getObjectHistory(pid=data)
+            except RequestFailed:
+                raise forms.ValidationError("Collection PID %s not found in repository" % data)
+        return data
 
-        if collection_pid and source_pid:
-            if not repository.find_objects(pid=collection_pid):
-                raise forms.ValidationError("Collection PID %s not found in repository" % collection_pid)
-            if not repository.find_objects(pid=source_pid):
-                raise forms.ValidationError("Source PID %s not found in repository" % source_pid)
- 
-        return self.cleaned_data
 
-
-          
-        
+    def clean_source_pid(self):
+        """
+        Custom clean method for :class:`MoverForm.collection_pid` checks to see
+        if PID exists in Repository, raise :mod:`forms.ValidationError` if PID
+        not present.
+        """
+        data = self.cleaned_data['source_pid']
+        if data is not None:
+            try:
+                source_object = repository.api.getObjectHistory(pid=data)
+            except RequestFailed:
+                raise forms.ValidationError("Source PID %s not found in repository" % data)
+        return data

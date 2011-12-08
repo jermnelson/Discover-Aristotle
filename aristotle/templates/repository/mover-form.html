@@ -4,6 +4,12 @@
  <form action="/repository/mover" method="POST">
  {% csrf_token %}
  <table>
+  {% if mover_form.errors %}
+  <tr>
+   <td>{{ mover_form.source_pid.errors }}</td>
+   <td>{{ mover_form.collection_pid.errors }}</td>
+  </tr>
+  {% endif %}
   <tr>
    <th>{{ mover_form.source_pid.label }}</th>
    <th>{{ mover_form.collection_pid.label }}</th>

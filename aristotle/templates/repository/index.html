@@ -17,7 +17,8 @@
   <h5>{% trans "Recent History" %}</h5>
   <ul>
   {% for log in history %}
-  <li><a href="detail/{{ log.created_on }}">{{ log.created_on }} {{ log.process_id }} </a></li>
+   <li>{{log.source_pid }} moved to {{ log.collection_pid }} on {{ log.created_on }} 
+       by {{ log.library_user.last_name}}</li>
   {% endfor %}
   </ul>
  </aside>
@@ -43,7 +44,7 @@
  {% if not mover_form %}
  <p>{% trans "Please select an Utility" %}</p>
  <ul>
-  <li><a href="mover">{% trans "Fedora Object Mover" %}</a></li>
+  <li><a href="mover">{% trans "Fedora Single Object Mover" %}</a></li>
  </ul>
  </p>
  {% endif %}

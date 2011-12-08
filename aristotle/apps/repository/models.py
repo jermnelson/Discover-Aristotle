@@ -4,16 +4,17 @@
 """
 
 from django.db import models
-from eulfedora.models import DigitalObject,FileDatastream,XmlDatastream
-from eulxml.xmlmap import mods
+from django.contrib.auth.models import User
 import settings
 
-class ADRBasicContentModel(DigitalObject):
+class RepositoryMovementLog(models.Model):
     """
-     `ADRBasicContentModel` models the ADR Basic Content Model
+    :class:`RepositoryMovementLog` logs PID movement within the Fedora 
+    Commons Digital Repository
     """
-    ADRBASIC_CONTENT_MODEL = 'info:fedora/%s' % settings.FEDORA_ADRBASICMODEL
-    CONTENT_MODELS = [ ADRBASIC_CONTENT_MODEL ]
-    mods = XmlDatastream("MODS",
-                         "MODS XML datastream",
-                         defaults={'versionable': True})
+    collection_pid = models.CharField(max_length=30)
+    created_on = models.DateField(auto_now_add=True)
+    source_pid = models.CharField(max_length=30)
+    library_user = models.ForeignKey(User,
+                                     null=True,
+                                     blank=True)
