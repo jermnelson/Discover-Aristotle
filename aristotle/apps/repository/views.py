@@ -30,8 +30,6 @@ def object_mover(request):
 
     :param request: Django request
     """
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect('/vendors/iii/patron_login?next=%s' % request.path)
     if request.method == 'POST':
         mover_form = MoverForm(request.POST)
         if mover_form.is_valid():
@@ -39,8 +37,7 @@ def object_mover(request):
             source_pid = mover_form.cleaned_data['source_pid']
             repository_move(source_pid,collection_pid)
             new_log = RepositoryMovementLog(collection_pid=collection_pid,
-                                            source_pid=source_pid,
-                                            library_user=request.user)
+                                            source_pid=source_pid)
             new_log.save()
             message = 'PID %s moved to collection PID %s' % (source_pid,
                                                              collection_pid)

@@ -17,8 +17,7 @@
   <h5>{% trans "Recent History" %}</h5>
   <ul>
   {% for log in history %}
-   <li>{{log.source_pid }} moved to {{ log.collection_pid }} on {{ log.created_on }} 
-       by {{ log.library_user.last_name}}</li>
+   <li>{{log.source_pid }} moved to {{ log.collection_pid }} on {{ log.created_on }}</li>
   {% endfor %}
   </ul>
  </aside>
