@@ -15,6 +15,3 @@ class RepositoryMovementLog(models.Model):
     collection_pid = models.CharField(max_length=30)
     created_on = models.DateField(auto_now_add=True)
     source_pid = models.CharField(max_length=30)
-    library_user = models.ForeignKey(User,
-                                     null=True,
-                                     blank=True)
