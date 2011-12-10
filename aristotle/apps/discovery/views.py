@@ -328,25 +328,41 @@ def advanced_search(request):
                               request.POST.get('field3_phrase',''))
         operator_2 = request.POST.get('field2_operator')
         solr_query = add_operator(solr_query,field3_q,operator_2)
-        adv_search_query = solr_server.query(solr_query).facet_by(["%s_facet" % x for x in settings.FACETS],
+        facet_fields = ["%s_facet" % x['field'] for x in settings.FACETS]
+        logging.error(facet_fields)
+        adv_search_query = solr_server.query(solr_query).facet_by(facet_fields,
                                                                   limit=settings.MAX_FACET_TERMS_EXPANDED,
                                                                   mincount=1)
-        logging.error("Before executing solr query %s" % adv_search_query)
+        logging.error(adv_search_query.query_obj.__unicode__())
         solr_results = adv_search_query.execute()
         facets = []
         for facet_option in settings.FACETS:
-            facet_name = '%s_facet' % facet_option['name']
+            facet_name = '%s_facet' % facet_option['field']
             if solr_results.facet_counts.facet_fields.has_key(facet_name):
                 facet = {
-                  'terms': solr_results.facet_count.facet_fields[facet_name],
+                  'field': facet_option['field'],
                   'name': facet_option['name'],
+                  'terms': solr_results.facet_counts.facet_fields[facet_name],
                 }
                 facets.append(facet)
-        logging.error("Facets: %s" % facets)
+        for doc in solr_results.result.docs:
+            if settings.CATALOG_RECORD_URL:
+                doc['record_url'] = settings.CATALOG_RECORD_URL % doc['id']
+            else:
+                doc['record_url'] = reverse('discovery-record', 
+                                            args=[doc['id']])
+        context = {'docs':solr_results.result.docs}
         return direct_to_template(request,
                                   'discovery/index.html',
-                                  {'is_advanced_search':True,
-                                   'facets':facets})
+                                  {'advanced_query':request.POST,
+                                   'is_advanced_search':True,
+                                   'current_sort':_('newest'),
+                                   'facets':facets,
+                                   'limits_param':request.POST.get('limits', ''),
+                                   'response':context,
+                                   'sorts':[x[0] for x in settings.SORTS],
+                                   'query':adv_search_query.query_obj.__unicode__()})
+
 
 
 def generate_Q(solr_instance,field_type,value):
@@ -360,7 +376,6 @@ def generate_Q(solr_instance,field_type,value):
     :param value: Raw value from the field
     :rtype: sunburnt.Q instance or None
     """
-    logging.error("IN GENERATE Q: %s %s" % (field_type,value))
     if value is None or len(value) < 1:
         return None
     if field_type == 'author':

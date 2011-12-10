@@ -65,7 +65,7 @@
        {% if doc.format %}
        <tr>
 	 <th>{% trans "Format" %}:</th>
-	 <td>{{ doc.format|get_format_icon }} <a href="{% new_limit "format" doc.format %}" title="{% trans "Filter on" %}">{{ doc.format }}</a></td>
+	 <td>{{ doc.format|get_format_icon }} <a href='{% new_limit "format" doc.format %}' title="{% trans "Filter on" %}">{{ doc.format }}</a></td>
 	</tr>
        {% endif %}
        {% if doc.LCClass %}
