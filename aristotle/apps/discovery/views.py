@@ -972,7 +972,7 @@ def print_cart(request):
     """
     records = []
     if request.session.has_key('items_cart'):
-        solr_server = sunburnt.solrinterface(settings.solr_url)
+        solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
         items_cart = request.session['items_cart']
         for item_id in items_cart:
             solr_response = solr_server.search(q="id:%s" % item_id)
@@ -1021,7 +1021,7 @@ def refworks_helper(item_id):
     :rtype: Text in RefWorks Tagged Format
     """
     output = ''
-    solr_server = sunburnt.solrinterface(settings.solr_url)
+    solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
     solr_response = solr_server.search(q="id:%s" % item_id)
     if solr_response.result.numFound > 0:
         doc = solr_response.result.docs[0]

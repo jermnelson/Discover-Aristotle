@@ -18,7 +18,7 @@
  <h1><strong><a href="#">You can...</a></strong></h1>
  <ul>
   {{ doc|display_online }}
-  <li><a href="#citation-dlg" id="cite_fancybox">Cite</a> this work with a MLA, Chicago, APA, or other citation styles with <a href="{{ ''|get_refworks_url }}">RefWorks</a>.</span>
+  <li><a href="#citation-dlg" id="cite_fancybox">Cite</a> this work with a MLA, Chicago, APA, or other citation styles with <a href="{{ doc.id|get_refworks_url }}">RefWorks</a>.</span>
   </li>
   {{ doc|display_ill }}
   <li><a href="javascript:AddCartItem(this,'{{ doc.id }}')">Add</a> this work to your saved resources 

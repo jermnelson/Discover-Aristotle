@@ -313,7 +313,7 @@ def get_refworks_url(record_id):
     :param record_id: Bib ID of record
     :rtype: String
     """
-    return mark_safe('#')
+    return mark_safe('/catalog/record/%s/refworks' % record_id)
 
 def generate_prospector_url(record_id):
     """Generates link to Prospector's union catalog

@@ -21,8 +21,8 @@ from discovery.feeds import SavedRecordsFeed
 
 urlpatterns = patterns('discovery.views',
     url(r'^$', 'index', name='discovery-index'),
+    url(r'^record/(.+)/refworks','refworks_item',name='discovery-record-refworks'),
     url(r'^record/(.+)$', 'record', name='discovery-record'),
-    url(r'^record/(.+)$/refwork','refworks_item',name='discovery-record-refworks'),
     url(r'^search$', 'search', name='discovery-search'),
     url(r'^unapi$', 'unapi', name='discovery-unapi'),
     url(r'^advanced$','advanced_search', name='discovery-adv-search'),

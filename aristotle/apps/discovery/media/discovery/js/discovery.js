@@ -20,9 +20,6 @@ function CartToRefworks() {
   window.open('http://www.refworks.com/express/expressimport.asp?vendor=discover-aristotle&url=' + window.location.host + '/catalog/cart/refworks');
 }
 
-function CartToRSSFeed() {
-  alert("In CartToRssFeed");
-}
 
 function DropCartItem(anchor_tag,record_id,keep) {
   var data = 'record_id=' + record_id;
@@ -171,15 +168,6 @@ function set_fieldname(field_stem) {
 function PrintCart() {
   var print_window = window.open('/catalog/cart/print','_blank','fullscreen=yes');
   print_window.print();
-  //alert("IN PRINT CART");
-  /**
-  $.ajax({
-    type: 'get',
-     url: '/catalog/cart/print',
-    data: '',
- success: function(responseText) {
-      window.open(responseText);}
-   }); **/
 }
 
 function ShowCart() {
@@ -190,8 +178,8 @@ function ShowCart() {
       data: data,
    success: function(responseText) {
         var output = '<h2>Your Saved Records</h2>';
-        output += '<button onclick="$.fancybox.close()">Close</button><button onclick="PrintCart()">Print</button>';
-        output += '<button onclick="EmailCart()">Email</button><button onclick="CartToRSSFeed()">RSS Feed</button>';
+        output += '<button onclick="$.fancybox.close()">Close</b/utton><button onclick="PrintCart()">Print</button>';
+        output += '<button onclick="EmailCart()">Email</button>';
         output += '<button onclick="CartToRefworks()">Export to RefWorks</button><ol>';
         var results = eval(responseText);
         for(row in results) {
