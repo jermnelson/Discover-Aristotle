@@ -1,0 +1,36 @@
+<html>
+<head>
+<style>
+ 
+</style>
+</head>
+<body>
+{% if records %}
+<h2>Your Saved Records</h2>
+<table>
+{% for record in records %}
+<tr>
+ <td>{{ record.full_title }}</td>
+</tr>
+<tr>
+ <td>
+ {{ record.callnum }}
+ {% if record.location %}
+ {{ record.location.0 }}
+ {% endif %}
+ {{ record.format }}
+ </td>
+</tr>
+{% if record.url %}
+<tr>
+ <td>{{ record.url.0 }}</td>
+</tr>
+{% endif %}
+<tr><td><hr/></td></tr>
+{% endfor %}
+</table>
+{% else %}
+<h2>No saved records</h2>
+{% endif %}
+</body>
+</html>

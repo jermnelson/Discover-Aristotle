@@ -16,7 +16,8 @@ function AddCartItem(anchor_tag,record_id) {
 }
 
 function CartToRefworks() {
-  alert("In CartToRefworks");
+  //alert("In CartToRefworks");
+  window.open('http://www.refworks.com/express/expressimport.asp?vendor=discover-aristotle&url=' + window.location.host + '/catalog/cart/refworks');
 }
 
 function CartToRSSFeed() {
@@ -168,8 +169,17 @@ function set_fieldname(field_stem) {
 
 
 function PrintCart() {
-  alert("IN PRINT CART");
-  window.print();
+  var print_window = window.open('/catalog/cart/print','_blank','fullscreen=yes');
+  print_window.print();
+  //alert("IN PRINT CART");
+  /**
+  $.ajax({
+    type: 'get',
+     url: '/catalog/cart/print',
+    data: '',
+ success: function(responseText) {
+      window.open(responseText);}
+   }); **/
 }
 
 function ShowCart() {

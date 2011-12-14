@@ -24,7 +24,12 @@ import sys
 import time
 import urllib
 import logging,sunburnt
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.rl_config import defaultPageSize
 from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.platypus import *
 
 from django.conf import settings
 from django.core import serializers
@@ -308,13 +313,30 @@ def advanced_search(request):
 
     :param request: Request from Client
     """
+    solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
+    facet_fields = ["%s_facet" % x['field'] for x in settings.FACETS]
     if request.method == 'GET':
+        all_results = solr_server.search(q="*:*",
+                                         **{'facet':'true',
+                                            'facet.limit':settings.MAX_FACET_TERMS_EXPANDED,
+                                            'facet.mincount':1,
+                                            'facet.field':facet_fields})
+        facets = []
+        for facet_option in settings.FACETS:
+            facet_name = '%s_facet' % facet_option['field']
+            if all_results.facet_counts.facet_fields.has_key(facet_name):
+                facet = {
+                  'field': facet_option['field'],
+                  'name': facet_option['name'],
+                  'terms': all_results.facet_counts.facet_fields[facet_name],
+                }
+                facets.append(facet)
         return direct_to_template(request,
                                   'discovery/index.html',
-                                  {'is_advanced_search':True})
+                                  {'is_advanced_search':True,
+                                   'facets':facets})
     else:
         # Use Sunburnt standard request handler
-        solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
         field1_q = generate_Q(solr_server,
                               request.POST.get('field1_type',''),
                               request.POST.get('field1_phrase',''))
@@ -328,12 +350,10 @@ def advanced_search(request):
                               request.POST.get('field3_phrase',''))
         operator_2 = request.POST.get('field2_operator')
         solr_query = add_operator(solr_query,field3_q,operator_2)
-        facet_fields = ["%s_facet" % x['field'] for x in settings.FACETS]
         logging.error(facet_fields)
         adv_search_query = solr_server.query(solr_query).facet_by(facet_fields,
                                                                   limit=settings.MAX_FACET_TERMS_EXPANDED,
                                                                   mincount=1)
-        logging.error(adv_search_query.query_obj.__unicode__())
         solr_results = adv_search_query.execute()
         facets = []
         for facet_option in settings.FACETS:
@@ -944,6 +964,96 @@ def get_cart(request):
    
 
 def print_cart(request):
+    """Function returns HTML for printing of all items that are 
+    in the current user's session.
+
+    :param request: Request from client
+    :rtype: HTML
+    """
+    records = []
+    if request.session.has_key('items_cart'):
+        solr_server = sunburnt.solrinterface(settings.solr_url)
+        items_cart = request.session['items_cart']
+        for item_id in items_cart:
+            solr_response = solr_server.search(q="id:%s" % item_id)
+            if solr_response.result.numFound > 0:
+                records.append(solr_response.result.docs[0])
+    return direct_to_template(request,
+                              'discovery/snippets/cart_print.html',
+                              {'records':records})
+
+
+
+def refworks_cart(request):
+    """Function returns the contents in item carts as 
+       RefWorks tagged format
+
+    :param request: Client request
+    :rtype: Text in RefWorks Tagged Format
+    """
+    response = HttpResponse(mimetype="text/plain")
+    output = ''
+    if request.session.has_key('items_cart'):
+        for item_id in request.session['items_cart']:
+            output += refworks_helper(item_id)
+    response.write(output)
+    return response
+
+def refworks_item(request,record_id):
+    """Function returns Refworks Tagged format for a single
+    item id.
+
+    :param request: Client request
+    :param record_id: Record ID
+    :rtype: Text in RefWorks Tagged Format
+    """
+    response = HttpResponse(mimetype="text/plain")
+    output = refworks_helper(record_id)
+    response.write(output)
+    return response
+
+
+def refworks_helper(item_id):
+    """Helper function queries Solr for item and returns 
+    a RefWork's tagged format for the item. 
+
+    :param item_id: Item id
+    :rtype: Text in RefWorks Tagged Format
+    """
+    output = ''
+    solr_server = sunburnt.solrinterface(settings.solr_url)
+    solr_response = solr_server.search(q="id:%s" % item_id)
+    if solr_response.result.numFound > 0:
+        doc = solr_response.result.docs[0]
+        if doc.has_key('format'):
+            raw_format = doc['format'].lower()
+            if raw_format.find('book') > -1:
+                output += 'RT Book, Whole\n'
+            elif raw_format.find('map') or raw_format.find('atlas'):
+                output += 'RT Map\n'
+            elif raw_format.find('video'):
+                output += 'RT Video/ DVD'
+            elif raw_format.find('electronic'):
+                output += 'RT Web Page\n'
+            elif raw_format.find('sound'):
+                output += 'RT Sound Recording\n'
+            else:
+                output += 'RT Generic\n'
+        if doc.has_key('title'):
+            output += 'T1 %s\n' % doc['title']
+        if doc.has_key('author'):
+            for i,author in doc['author']:
+                output += 'A%s %s\n' % (i,author)
+        if doc.has_key('pubyear'):
+            output += 'YR %s' % doc['pubyear']
+        if doc.has_key('publisher'):
+            output += 'PB %s\n' % doc['publisher']
+        output += "\n"
+    return output
+
+        
+
+def cart_pdf(request):
     """Function generates a dynamic PDF for all of items that are
     in current session.
 
@@ -951,19 +1061,54 @@ def print_cart(request):
     :rtype: PDF for download 
     """
     response = HttpResponse(mimetype="application/pdf")
-    response['Content-Disposition'] = 'attachment; filename=your_records.pdf'
+    response['Content-Disposition'] = 'attachment; filename=saved_records.pdf'
     
     buffer = StringIO()
     
-    p = canvas.Canvas(buffer)
-    if request.session.get('items_cart',True):
-        p.drawString(5,5,"Your Saved Records from %s" % datetime.today().strftime("%B, %d, %Y"))
+    #p = canvas.Canvas(buffer)
+   
+    styles =  getSampleStyleSheet()
+    PAGE_HEIGHT = defaultPageSize[1]
+    PAGE_WIDTH = defaultPageSize[0]
+    title = 'Saved Records from Discovery Layer'
+    doc = SimpleDocTemplate(buffer,
+                            rightMargin=30,
+                            leftMargin=20,
+                            topMargin=30,
+                            bottomMargin=15)
+    Records = []
+    default_style = styles["Normal"]
+    if request.session.has_key('items_cart'):
+        solr_server = sunburnt.SolrInterface(settings.SOLR_URL)
+        
+        items_cart = request.session['items_cart']
+        #p.setFont('Times-Bold',16)
+        #p.drawString(inch,PAGE_HEIGHT-inch,"Your Saved Records from %s" % datetime.today().strftime("%B %d, %Y"))
+        heading_txt = "Your Saved Records from %s" % datetime.today().strftime("%B %d, %Y")
+        Records.append(Paragraph(heading_txt,styles["Heading1"]))
+        Records.append(Spacer(1,0.2*inch))
+        for i,item_id in enumerate(items_cart):
+            solr_response = solr_server.search(q="id:%s" % item_id)
+            if solr_response.result.numFound > 0:
+                solr_doc = solr_response.result.docs[0]
+                record_text = "%s. <b>%s</b> " % (i+1,solr_doc['full_title'])
+                if solr_doc.has_key('callnum'):
+                    record_text += "Call-number: %s" % solr_doc['callnum']
+                if solr_doc.has_key('location'):
+                    record_text += " at %s" % solr_doc['location'][0]
+                if solr_doc.has_key('url'):
+                    record_text += " %s" % solr_doc['url'][0]
+                Records.append(Paragraph(record_text,default_style))
+                Records.append(Spacer(1,0.2*inch))
+                #p.saveState()
+        doc.build(Records)
     else:
-        p.drawString(100,100,"You do not have any saved records")
+        pass
+        #p.drawString(100,100,"You do not have any saved records")
 
 
-    p.showPage()
-    p.save()
+    #p.showPage()
+    #p.save()
     pdf = buffer.getvalue()
     buffer.close()
     response.write(pdf)
