@@ -307,13 +307,15 @@ def get_marc_as_list(raw_marc):
     return output
   
 
-def get_refworks_url(record_id):
+def get_refworks_url(record_id,hostname):
     """Generates a link for exporting citation to RefWorks.
 
     :param record_id: Bib ID of record
+    :param hostname: Hostname of server
     :rtype: String
     """
-    return mark_safe('/catalog/record/%s/refworks' % record_id)
+    refworks_url = u'http://www.refworks.com/express/expressimport.asp?vendor=discover-aristotle&filter=RefWorks+Tagged+Format&url=http://%s/catalog/record/%s/refworks' % (hostname,record_id)
+    return mark_safe(refworks_url)
 
 def generate_prospector_url(record_id):
     """Generates link to Prospector's union catalog

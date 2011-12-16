@@ -48,7 +48,7 @@
 $(document).ready(function() {
   $("a#search_display").fancybox();
   $("a#cart_display").fancybox({
-    onStart: ShowCart(),
+    onStart: ShowCart("{{ session_id }}"),
   });
 });
 </script>

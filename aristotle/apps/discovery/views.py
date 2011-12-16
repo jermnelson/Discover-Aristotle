@@ -24,6 +24,7 @@ import sys
 import time
 import urllib
 import logging,sunburnt
+from templatetags.citation_extras import apa_name
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.rl_config import defaultPageSize
@@ -36,6 +37,7 @@ from django.core import serializers
 from django.core.cache import cache
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
+from django.contrib.sessions.models import Session
 from django.http import HttpResponse, Http404
 from django.template import loader, RequestContext
 from django.utils import simplejson
@@ -146,6 +148,8 @@ def record(request, record_id):
     subject_terms = [(x[1], x[0]) for x in subject_terms]
     context['subject_terms'] = subject_terms
     context['MAJAX_URL'] = settings.MAJAX_URL
+    context['session_id'] = request.session.session_key
+    context['host_name'] = request.get_host()
     template = loader.get_template('discovery/record.html')
     return HttpResponse(template.render(context))
 
@@ -993,8 +997,15 @@ def refworks_cart(request):
     """
     response = HttpResponse(mimetype="text/plain")
     output = ''
-    if request.session.has_key('items_cart'):
-        for item_id in request.session['items_cart']:
+    if request.GET.has_key("session"):
+        session_id = request.GET['session']
+        session = Session.objects.get(pk=session_id)
+        session_vars = session.get_decoded()
+    else:
+        session_vars = request.session
+    logging.error("IN REFWORKS CART=%s" % session_vars)
+    if session_vars.has_key('items_cart'):
+        for item_id in session_vars['items_cart']:
             output += refworks_helper(item_id)
     response.write(output)
     return response
@@ -1029,23 +1040,25 @@ def refworks_helper(item_id):
             raw_format = doc['format'].lower()
             if raw_format.find('book') > -1:
                 output += 'RT Book, Whole\n'
+            elif raw_format.find('video'):
+                output += 'RT Video/ DVD\n'
             elif raw_format.find('map') or raw_format.find('atlas'):
                 output += 'RT Map\n'
-            elif raw_format.find('video'):
-                output += 'RT Video/ DVD'
             elif raw_format.find('electronic'):
                 output += 'RT Web Page\n'
             elif raw_format.find('sound'):
                 output += 'RT Sound Recording\n'
             else:
                 output += 'RT Generic\n'
+        output += 'SR Electronic(1)\n'
+        output += 'ID %s\n' % doc['id']
         if doc.has_key('title'):
             output += 'T1 %s\n' % doc['title']
         if doc.has_key('author'):
-            for i,author in doc['author']:
-                output += 'A%s %s\n' % (i,author)
+            for author in doc['author']:
+                output += 'A1 %s\n' % apa_name(author)
         if doc.has_key('pubyear'):
-            output += 'YR %s' % doc['pubyear']
+            output += 'YR %s\n' % doc['pubyear']
         if doc.has_key('publisher'):
             output += 'PB %s\n' % doc['publisher']
         output += "\n"

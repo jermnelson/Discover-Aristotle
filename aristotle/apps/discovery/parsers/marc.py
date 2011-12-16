@@ -573,8 +573,8 @@ def get_lcletter(record):
     lc_descriptions = []
     if record['050']:
         callnum = record['050'].value()
-    elif record['945']:
-        callnum = record['945'].value()
+    elif record['090']: # Per CC's practice
+        callnum = record['090'].value()
     else:
         return None
     lc_stub_result = lc_stub_search.search(callnum)

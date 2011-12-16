@@ -15,9 +15,10 @@ function AddCartItem(anchor_tag,record_id) {
    });
 }
 
-function CartToRefworks() {
+function CartToRefworks(session_id) {
   //alert("In CartToRefworks");
-  window.open('http://www.refworks.com/express/expressimport.asp?vendor=discover-aristotle&url=' + window.location.host + '/catalog/cart/refworks');
+  var refworks_url = 'http://www.refworks.com/express/expressimport.asp?vendor=iii&filter=RefWorks%20Tagged%20Format&url=http%3A//' + window.location.host + '/catalog/cart/refworks?session=' + session_id;
+  window.open(refworks_url);
 }
 
 
@@ -170,7 +171,7 @@ function PrintCart() {
   print_window.print();
 }
 
-function ShowCart() {
+function ShowCart(session_id) {
    var data = '';
    $.ajax({
       type: 'get',
@@ -180,7 +181,10 @@ function ShowCart() {
         var output = '<h2>Your Saved Records</h2>';
         output += '<button onclick="$.fancybox.close()">Close</b/utton><button onclick="PrintCart()">Print</button>';
         output += '<button onclick="EmailCart()">Email</button>';
-        output += '<button onclick="CartToRefworks()">Export to RefWorks</button><ol>';
+        output += '<button onclick=';
+        output += "'CartToRefworks(";
+        output += '"' + session_id + '"';
+        output += ")'>Export to RefWorks</button><ol>";
         var results = eval(responseText);
         for(row in results) {
            var record = results[row];
