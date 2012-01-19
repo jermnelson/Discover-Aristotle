@@ -91,7 +91,6 @@ LOCATION_CODE_MAP = {
     'tdmo':'Oversize Tutt 2nd Floor',
     'tf':'Folio Tutt 3rd Floor',
     'to':'Oversize Tutt 3rd Floor',
-    'xmscm':'Musical Scores',
     'tsa':'Special Collections Audio',
     'tlr':'Special Collections Lincoln Room',
     'tlrc':'Special Collections Lincoln Room',
