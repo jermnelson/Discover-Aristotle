@@ -13,6 +13,7 @@ Contents:
    0.1.2alpha
    0.1.3beta
    0.1.4
+   0.1.5
 
 
 Future Releases

@@ -13,7 +13,7 @@
    {% endfor %}
   </div>
   <div class="grid_3" style="text-align:right">
-   <a href="#cart_dialog"  id="cart_display"><img src="{{ STATIC_URL }}pinax/img/silk/icons/folder_go.png" alt="View saved items"  /></a>
+   <a href="#cart_dialog"  id="cart_display"><img src="{{ STATIC_URL }}img/silk/icons/folder_go.png" alt="View saved items"  /></a>
   </div>
   <div class="clear"></div>
   <ol start="{{ response.start|add:'1' }}">
@@ -22,7 +22,7 @@
     <h2> {% title_link %}</h2>
     <span class="save_result">
     <a onclick="AddCartItem(this,'{{ doc.id }}')">
-    <img src="{{ STATIC_URL }}pinax/img/silk/icons/folder_add.png"  />
+    <img src="{{ STATIC_URL }}img/silk/icons/folder_add.png"  />
     <br/>{% trans 'Save' %}</a></span>
    <div class="details">
    {% if doc.isbn_numeric %}

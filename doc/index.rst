@@ -42,7 +42,7 @@ Project's documentation resides at `aristotle.readthedocs.org <http://aristotle.
 
    Aristotle uses `Semantic Versioning <http://semver.org/>`_ with the following
    format X.Y.Z or Major.Minor.Patch. We are currently targeting a full public stable
-   API and production stable 0.5.0 by the forth quarter of 2011. 
+   API and production stable 0.1.5 by the first quarter of 2012. 
 
 Contents:
 
