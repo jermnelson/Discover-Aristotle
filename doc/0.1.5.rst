@@ -1,0 +1,12 @@
+Aristotle `0.1.5` Release
+==============================
+
+Overview
+^^^^^^^^
+The  `0.1.5` release for the Aristotle framework is the first public stable version release 
+that will go live simultaneously as the new library website at 
+`discovery.coloradocollege.edu <http://discovery.coloradocollege.edu>`_.
+
+
+Issues
+^^^^^^

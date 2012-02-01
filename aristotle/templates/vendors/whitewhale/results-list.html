@@ -57,7 +57,9 @@
        {% endif %}
        {% if doc.url %}
          {% for url in doc.url %}
+          {% if url != 'View online' %}
           (<a href="{{ url }}">{% trans "Online Location" %}</a>)
+          {% endif %}
          {% endfor %}
        {% endif %}
         </td>
