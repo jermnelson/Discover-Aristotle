@@ -466,21 +466,31 @@ def get_specialized_results(request,request_handler='dimax'):
     zero_index = (settings.ITEMS_PER_PAGE * (page - 1))
     limits_param = request.GET.get('limits', '')
     limits, fq_params = pull_limits(limits_param)
-    params = {'q':query,
-              'facet':True,
-              'facet.limit':settings.MAX_FACET_TERMS_EXPANDED,
-              'facet.mincount':1,
-              'facet.field':[],
-              'start':zero_index,
-              'rows':settings.ITEMS_PER_PAGE,
-              'fq':fq_params,
-              'qt':request_handler}
+    if len(query) < 1:
+        params = {'q':'*:*',
+                  'facet':True,
+                  'facet.limit':settings.MAX_FACET_TERMS_EXPANDED,
+                  'facet.mincount':1,
+                  'facet.field':[],
+                  'start':zero_index,
+                  'rows':settings.ITEMS_PER_PAGE}
+    else:
+        params = {'q':query,
+                  'facet':True,
+                  'facet.limit':settings.MAX_FACET_TERMS_EXPANDED,
+                  'facet.mincount':1,
+                  'facet.field':[],
+                  'start':zero_index,
+                  'rows':settings.ITEMS_PER_PAGE,
+                  'fq':fq_params,
+                  'qt':request_handler}
     for facet in settings.FACETS:
         params['facet.field'].append( facet['field'] + '_facet')
         # sort facets by name vs. count as per the config.py file        
         if not facet['sort_by_count']:
             params['f.%s.facet.sort' % facet['field']] = False
     solr_results = solr_server.search(**params)
+    
     context['response'] = solr_results.result
     if solr_results.result.numFound > 0:
         count = 1   
