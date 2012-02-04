@@ -73,6 +73,11 @@ STATICFILES_DIRS = (
 
     os.path.join(PROJECT_ROOT, "media/img"),
     os.path.join(PROJECT_ROOT, "apps/discovery/media"),
+    os.path.join(PROJECT_ROOT, "apps/etd/media/etd/css"),
+    os.path.join(PROJECT_ROOT, "apps/etd/media/etd/js"),
+    os.path.join(PROJECT_ROOT, "apps/etd/media/etd/img"),
+
+
 )
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
