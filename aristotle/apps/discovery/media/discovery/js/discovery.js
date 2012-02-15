@@ -15,13 +15,12 @@ function AddCartItem(anchor_tag,record_id) {
    });
 }
 
-function CartToRefworks() {
-  alert("In CartToRefworks");
+function CartToRefworks(session_id) {
+  //alert("In CartToRefworks");
+  var refworks_url = 'http://www.refworks.com/express/expressimport.asp?vendor=iii&filter=RefWorks%20Tagged%20Format&url=http%3A//' + window.location.host + '/catalog/cart/refworks?session=' + session_id;
+  window.open(refworks_url);
 }
 
-function CartToRSSFeed() {
-  alert("In CartToRssFeed");
-}
 
 function DropCartItem(anchor_tag,record_id,keep) {
   var data = 'record_id=' + record_id;
@@ -168,11 +167,11 @@ function set_fieldname(field_stem) {
 
 
 function PrintCart() {
-  alert("IN PRINT CART");
-  window.print();
+  var print_window = window.open('/catalog/cart/print','_blank','fullscreen=yes');
+  print_window.print();
 }
 
-function ShowCart() {
+function ShowCart(session_id) {
    var data = '';
    $.ajax({
       type: 'get',
@@ -180,9 +179,12 @@ function ShowCart() {
       data: data,
    success: function(responseText) {
         var output = '<h2>Your Saved Records</h2>';
-        output += '<button onclick="$.fancybox.close()">Close</button><button onclick="PrintCart()">Print</button>';
-        output += '<button onclick="EmailCart()">Email</button><button onclick="CartToRSSFeed()">RSS Feed</button>';
-        output += '<button onclick="CartToRefworks()">Export to RefWorks</button><ol>';
+        output += '<button onclick="$.fancybox.close()">Close</b/utton><button onclick="PrintCart()">Print</button>';
+        output += '<button onclick="EmailCart()">Email</button>';
+        output += '<button onclick=';
+        output += "'CartToRefworks(";
+        output += '"' + session_id + '"';
+        output += ")'>Export to RefWorks</button><ol>";
         var results = eval(responseText);
         for(row in results) {
            var record = results[row];

@@ -21,6 +21,7 @@ from discovery.feeds import SavedRecordsFeed
 
 urlpatterns = patterns('discovery.views',
     url(r'^$', 'index', name='discovery-index'),
+    url(r'^record/(.+)/refworks','refworks_item',name='discovery-record-refworks'),
     url(r'^record/(.+)$', 'record', name='discovery-record'),
     url(r'^search$', 'search', name='discovery-search'),
     url(r'^unapi$', 'unapi', name='discovery-unapi'),
@@ -31,6 +32,8 @@ urlpatterns = patterns('discovery.views',
     url(r'^cart/email$','email_cart', name='discovery-email-cart'),
     url(r'^cart/feed$',SavedRecordsFeed(),name='discovery-feed-cart'),
     url(r'^cart/print$','print_cart', name="discovery-print-cart"),
+    url(r'^cart/refworks$','refworks_cart', name="discovery-print-cart"),
+
     #(r'^feed/atom/$', 'atomFeed'),
     #(r'^feed/rss/$', 'rssFeed'),
 )

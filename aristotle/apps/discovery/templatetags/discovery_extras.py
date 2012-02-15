@@ -307,13 +307,15 @@ def get_marc_as_list(raw_marc):
     return output
   
 
-def get_refworks_url(record_id):
+def get_refworks_url(record_id,hostname):
     """Generates a link for exporting citation to RefWorks.
 
     :param record_id: Bib ID of record
+    :param hostname: Hostname of server
     :rtype: String
     """
-    return mark_safe('#')
+    refworks_url = u'http://www.refworks.com/express/expressimport.asp?vendor=discover-aristotle&filter=RefWorks+Tagged+Format&url=http://%s/catalog/record/%s/refworks' % (hostname,record_id)
+    return mark_safe(refworks_url)
 
 def generate_prospector_url(record_id):
     """Generates link to Prospector's union catalog
@@ -342,30 +344,38 @@ def reduce_subjects(doc):
     subjects.sort()
     return set(subjects)
 
-def search_field_options(output_html):
+def search_field_options(search_type):
     """
     Generates a list of field search options
 
-    :param output_html: String of HTML
+    :param search_type: Type of search, can be none 
     :rtype: HTML String 
     """
+    output_html = ""
     field_types = [('keyword','Any Field'),
                    ('author','Author'),
                    ('title','Title'),
                    ('topic','Subject')]
     for row in field_types:
-        output_html += '<option value="%s">%s</option>' % row
+        output_html += '<option value="%s" ' % row[0]
+        if search_type == row[0]:
+            output_html += 'selected="SELECTED" '
+        output_html += '>%s</option>' % row[1]
     return mark_safe(output_html)
 
-def search_operator_options(output_html):
+def search_operator_options(bool_operator):
     """Generates a list of boolean search HTML options for
     AND, AND NOT, OR
 
-    :param output_html: String of HTML
+    :param bool_operator: Boolean Operator, can be none
     :rtype: HTML String 
     """
-    for row in ['AND','AND NOT','OR']:
-        output_html += '<option value="%s">%s</option>' % (row,row.title())
+    output_html = ''
+    for row in ['AND','AND NOT','OR']:  
+        output_html += '<option value="%s" ' % row
+        if row == bool_operator:
+             output_html += ' selected="SELECTED" '
+        output_html += '>%s</option>' % row.title()
     return mark_safe(output_html)
 
 register.filter('display_empty_facets',display_empty_facets)

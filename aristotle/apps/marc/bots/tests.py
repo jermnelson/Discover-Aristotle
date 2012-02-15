@@ -13,7 +13,7 @@ test4_300b = 'sd., col., digital.'
 
 
 def validate300b(raw_string):
-    good_300b = '%s, %s' % ('digital',digital_re.sub('',raw_string)
+    good_300b = '%s, %s' % ('digital',digital_re.sub('',raw_string))
     last_char = good_300b[-1]
     if last_char == '+':
          if good_300b[-3] == ',':
@@ -23,6 +23,6 @@ def validate300b(raw_string):
     elif last_char == ',':
         good_300b = good_300b[:-1]
         if good_300b[-1] != '.':
-            good_300b = good_300b += '.'
+            good_300b += '.'
     return good_300b    
  

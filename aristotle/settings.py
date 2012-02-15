@@ -1,20 +1,13 @@
 # -*- coding: utf-8 -*-
-# Django settings for social pinax project.
 
 import os.path
 import posixpath
-import pinax
 
-PINAX_ROOT = os.path.abspath(os.path.dirname(pinax.__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-
-# tells Pinax to use the default theme
-PINAX_THEME = "default"
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-# tells Pinax to serve media through the staticfiles app.
 SERVE_MEDIA = DEBUG
 
 INTERNAL_IPS = ["127.0.0.1",
@@ -72,11 +65,20 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, "site_media", "static")
 STATIC_URL = "/site_media/static/"
 
 # Additional directories which hold static files
-STATICFILES_DIRS = [
+STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, "media"),
+    os.path.join(PROJECT_ROOT, "media/js"),
+    os.path.join(PROJECT_ROOT, "media/css"),
+    os.path.join(PROJECT_ROOT, "media/css/departments"),
+
+    os.path.join(PROJECT_ROOT, "media/img"),
     os.path.join(PROJECT_ROOT, "apps/discovery/media"),
-    os.path.join(PINAX_ROOT, "media", PINAX_THEME),
-]
+    os.path.join(PROJECT_ROOT, "apps/etd/media/etd/css"),
+    os.path.join(PROJECT_ROOT, "apps/etd/media/etd/js"),
+    os.path.join(PROJECT_ROOT, "apps/etd/media/etd/img"),
+
+
+)
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -94,22 +96,18 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django_openid.consumer.SessionConsumer",
+    #"django_openid.consumer.SessionConsumer",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "groups.middleware.GroupAwareMiddleware",
-    "pinax.apps.account.middleware.LocaleMiddleware",
     "django.middleware.doc.XViewMiddleware",
-    "pagination.middleware.PaginationMiddleware",
-    "django_sorting.middleware.SortingMiddleware",
-    "pinax.middleware.security.HideSensistiveFieldsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    #"pagination.middleware.PaginationMiddleware",
+    #"django_sorting.middleware.SortingMiddleware",
+    #"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "aristotle.urls"
 
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),
-    os.path.join(PINAX_ROOT, "templates", PINAX_THEME),
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [
@@ -117,28 +115,12 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
+    "django.core.context_processors.static",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
-    
-    "staticfiles.context_processors.static_url",
-    
-    "pinax.core.context_processors.pinax_settings",
-    
-    "pinax.apps.account.context_processors.account",
-    
-    "notification.context_processors.notification",
-    "announcements.context_processors.site_wide_announcements",
-    "messages.context_processors.inbox",
-    "friends_app.context_processors.invitations",
-    "aristotle.context_processors.combined_inbox_count",
     "discovery.context_processors.search_history",
 ]
 
-COMBINED_INBOX_COUNT_SOURCES = [
-    "messages.context_processors.inbox",
-    "friends_app.context_processors.invitations",
-    "notification.context_processors.notification",
-]
 
 INSTALLED_APPS = [
     # Django
@@ -150,81 +132,20 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.humanize",
     "django.contrib.markup",
-    "pinax.templatetags",
-    
-    # external
-    "notification", # must be first
-    "staticfiles",
-    "debug_toolbar",
-    "mailer",
-    "uni_form",
-    "django_openid",
-    "ajax_validation",
-    "timezones",
-    "emailconfirmation",
-    "announcements",
-    "pagination",
-    "friends",
-    "messages",
-    "oembed",
-    "groups",
-    "threadedcomments",
-    "wakawaka",
-    "swaps",
-    "voting",
-    "tagging",
-    "bookmarks",
-    "photologue",
-    "avatar",
-    "flag",
-    "microblogging",
-    "locations",
-    "django_sorting",
-    "django_markup",
-    "tagging_ext",
-    
-    # Pinax
-    "pinax.apps.account",
-    "pinax.apps.signup_codes",
-    "pinax.apps.analytics",
-    "pinax.apps.profiles",
-    "pinax.apps.blog",
-    "pinax.apps.tribes",
-    "pinax.apps.photos",
-    "pinax.apps.topics",
-    "pinax.apps.threadedcomments_extras",
+    "django.contrib.staticfiles"    
 ]
 
 FIXTURE_DIRS = [
     os.path.join(PROJECT_ROOT, "fixtures"),
 ]
 
-MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
-ABSOLUTE_URL_OVERRIDES = {
-    "auth.user": lambda o: "/profiles/profile/%s/" % o.username,
-}
 
 MARKUP_FILTER_FALLBACK = "none"
-MARKUP_CHOICES = [
-    ("restructuredtext", u"reStructuredText"),
-    ("textile", u"Textile"),
-    ("markdown", u"Markdown"),
-    ("creole", u"Creole"),
-]
 
-AUTH_PROFILE_MODULE = "profiles.Profile"
-NOTIFICATION_LANGUAGE_MODULE = "account.Account"
-
-ACCOUNT_OPEN_SIGNUP = True
-ACCOUNT_REQUIRED_EMAIL = False
-ACCOUNT_EMAIL_VERIFICATION = False
-ACCOUNT_EMAIL_AUTHENTICATION = False
-ACCOUNT_UNIQUE_EMAIL = EMAIL_CONFIRMATION_UNIQUE_EMAIL = False
 
 AUTHENTICATION_BACKENDS = [
     "vendors.iii.backends.IIIUserBackend",
-    "pinax.apps.account.auth_backends.AuthenticationBackend",
 ]
 
 LOGIN_URL = "/account/login/" # @@@ any way this can be a url name?
@@ -235,44 +156,12 @@ EMAIL_CONFIRMATION_DAYS = 2
 EMAIL_DEBUG = DEBUG
 
 ugettext = lambda s: s
+
 LANGUAGES = [
     ("en", u"English"),
 ]
 
 # URCHIN_ID = "ua-..."
-
-YAHOO_MAPS_API_KEY = "..."
-
-class NullStream(object):
-    def write(*args, **kwargs):
-        pass
-    writeline = write
-    writelines = write
-
-RESTRUCTUREDTEXT_FILTER_SETTINGS = {
-    "cloak_email_addresses": True,
-    "file_insertion_enabled": False,
-    "raw_enabled": False,
-    "warning_stream": NullStream(),
-    "strip_comments": True,
-}
-
-# if Django is running behind a proxy, we need to do things like use
-# HTTP_X_FORWARDED_FOR instead of REMOTE_ADDR. This setting is used
-# to inform apps of this fact
-BEHIND_PROXY = False
-
-FORCE_LOWERCASE_TAGS = True
-
-# Uncomment this line after signing up for a Yahoo Maps API key at the
-# following URL: https://developer.yahoo.com/wsregapp/
-# YAHOO_MAPS_API_KEY = ""
-
-DEBUG_TOOLBAR_CONFIG = {
-    "INTERCEPT_REDIRECTS": False,
-}
-
-CACHE_BACKEND = 'file:///var/tmp/django_cache'
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

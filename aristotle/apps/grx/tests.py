@@ -4,12 +4,12 @@ test.py - Unit tests for Gold Rush Django Application
 (c) 2011 Colorado College
 """
 __author__ = 'Jeremy Nelson'
-import grx.settings as grx
-from django.test import TestCase
-from grx.bots.grxbots import GoldRushBot
-from grx.bots.solrbots import SolrBot
+import settings as grx
+import unittest
+from bots.grxbots import GoldRushBot
+from bots.solrbots import SolrBot
 
-class SetupTest(TestCase):
+class SetupTest(unittest.TestCase):
 
     def setUp(self):
         # Default bots used in this app

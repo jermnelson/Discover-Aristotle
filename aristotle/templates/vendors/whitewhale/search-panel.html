@@ -11,11 +11,12 @@
 	 <ul class="search-help">
            {% if is_advanced_search %}
            <li><a href="/catalog/">{% trans "Basic Search" %}</a></li>
+           <li><a href="/catalog/advanced">{% trans "New Advanced Search" %}</a></li>
            {% else %}
-	   <li><a href="/catalog/advanced/">{% trans "Advanced Search" %}</a></li>
-           {% endif %}
+	   <li><a href="/catalog/advanced">{% trans "Advanced Search" %}</a></li>
            <li><a href="/">{% trans "New Search" %}</a></li>
-           {% if search_history %}
+           {% endif %}
+                      {% if search_history %}
            <li><a href="#search_dialog" id="search_display">{% trans "Search History" %}</a>
            </li>
            {% endif %}
@@ -48,25 +49,25 @@
         <fieldset id="adv-searchbox">
          <h3>Advanced Search</h3>
          <select name="field1_type">
-         {{ ""|search_field_options }} 
+         {{ advanced_query.field1_type|search_field_options }} 
          </select>
-         <input type="text" name="field1_phrase" value="" />
+         <input type="text" name="field1_phrase" value="{{ advanced_query.field1_phrase }}" />
          <select name="field1_operator">
-         {{ ""|search_operator_options }}
+         {{ advanced_query.field1_operator|search_operator_options }}
          </select>
          <br/>
          <select name="field2_type">
-         {{ ""|search_field_options }} 
+         {{ advanced_query.field2_type|search_field_options }} 
          </select>
-         <input type="text" name="field2_phrase" value="" />
+         <input type="text" name="field2_phrase" value="{{ advanced_query.field2_phrase }}" />
          <select name="field2_operator">
-         {{ ""|search_operator_options }}
+         {{ advanced_query.field2_operator|search_operator_options }}
          </select>
          <br/>
          <select name="field3_type">
-         {{ ""|search_field_options }} 
+         {{ advanced_query.field3_type|search_field_options }} 
          </select>
-         <input type="text" name="field3_phrase" value="" />
+         <input type="text" name="field3_phrase" value="{{ advanced_query.field3_phrase }}" />
          <input type="submit" name="btnsubmit" class="submit" value="Search" />
         </fieldset>
         {% endif %}
