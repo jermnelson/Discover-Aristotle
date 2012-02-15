@@ -4,6 +4,8 @@
 __author__ = 'Jeremy Nelson'
 
 from marcbots import MARCImportBot
+import urlparse
+from pymarc import Field
 
 PROXY_LOCATION = 'http://0-www.springerlink.com.tiger.coloradocollege.edu/openurl.asp?genre=book&id=doi:'
 

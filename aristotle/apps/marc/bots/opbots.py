@@ -2,6 +2,7 @@
  opbots.py - Oxford Press Bots
 """
 from marcbots import MARCImportBot
+from pymarc import Field
 
 HANDBOOK_PROXY_FILTER = 'http://0-www.oxfordhandbooks.com.tiger.coloradocollege.edu/'
 REFERENCE_PROXY_FILTER = 'http://0-www.oxfordreference.com.tiger.coloradocollege.edu/'

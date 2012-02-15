@@ -66,7 +66,7 @@ class FundBot(object):
             elif fund_code.startswith('FUND'):
                 fund_value = "%s%s" % (fund_code,self.program_code) 
             else:
-                fund_value = '%s not found' % fund_co
+                fund_value = '%s not found' % fund_code
             # Handles multiple records in a single row for Literature crit online
             if len(row) > 25:                 
                 invoice_amount = float(invoice_amount)
