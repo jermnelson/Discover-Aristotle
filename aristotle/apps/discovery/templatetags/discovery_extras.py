@@ -214,6 +214,16 @@ def display_spellcheck(spellcheck):
     context = Context(params)
     return mark_safe(spellcheck_template.render(context))
 
+def get_adjacent(call_number,position):
+    """Method queries Solr index for adjacent call number depending
+    on position from current call number
+   
+    :param call_number: call number of current item
+    :param position: position to retrieve adjacent item, negative is before call number,
+                     positive is after call number
+    """
+    return mark_safe('')
+
 def get_cover_image(num_isbn):
     """Custom method queries multiple web services for a thumbnail image,
     returns a matched URL using isbn number
@@ -382,6 +392,7 @@ register.filter('display_empty_facets',display_empty_facets)
 register.filter('display_ill',display_ill)
 register.filter('display_online',display_online)
 register.filter('display_spellcheck',display_spellcheck)
+register.filter('get_adjacent',get_adjacent)
 register.filter('get_cover_image',get_cover_image)
 register.filter('get_format_icon',get_format_icon)
 register.filter('get_google_book',get_google_book) 

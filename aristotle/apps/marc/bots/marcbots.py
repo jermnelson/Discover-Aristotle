@@ -6,7 +6,7 @@
 import sys,datetime,logging
 import urlparse,urllib2,re
 import os
-import cStringIO
+import StringIO
 from pymarc import *
 
 
@@ -283,7 +283,7 @@ class MARCImportBot:
         Method returns a string containing all of the records in MARC21
         format.
         """
-        output_string = cStringIO.StringIO()
+        output_string = StringIO.StringIO()
         marc_writer = MARCWriter(output_string)
         for record in self.records:
             marc_writer.write(record)

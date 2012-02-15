@@ -150,8 +150,10 @@ def record(request, record_id):
     context['MAJAX_URL'] = settings.MAJAX_URL
     context['session_id'] = request.session.session_key
     context['host_name'] = request.get_host()
-    template = loader.get_template('discovery/record.html')
+    template = loader.get_template('discovery/record2.html')
     return HttpResponse(template.render(context))
+
+
 
 def unapi(request):
     context = RequestContext(request)
