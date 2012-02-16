@@ -17,7 +17,7 @@
   <h5>{% trans "Active Workflows" %}</h5>
   <ul>
   {% for bot in active_bots %}
-  <li><a href="{{ bot|get_bot_name }}">{{ bot|get_bot_name }}</a></li>
+  <li><a href="{{ bot }}">{{ bot }}</a></li>
   {% endfor %}
   </ul>
   <h5>{% trans "Recent History" %}</h5>

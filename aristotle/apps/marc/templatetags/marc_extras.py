@@ -13,6 +13,8 @@ def get_bot_name(bot):
     """Method takes a Bot class and returns the name of the class because
     Django templates cannot call underscore methods or properties.
     """
+    if type(bot) == str:
+        return ''
     return mark_safe(bot.__name__)
 
 

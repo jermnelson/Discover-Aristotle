@@ -61,7 +61,7 @@ def default(request):
     history = RecordLoadLog.objects.all()
     return direct_to_template(request,
                               'marc/index.html',
-                              {'active_bots':active_bots,
+                              {'active_bots':[bot.__name__ for bot in active_bots],
                                'history':history})
 
 def download(request):
@@ -137,9 +137,10 @@ def record_load(request,bot_name):
            
     return direct_to_template(request,
                               'marc/index.html',
-                              {'active_bots':active_bots,
+                              {'active_bots':[bot.__name__ for bot in active_bots],
                                'live_bot':bot_name,
                                'download':None,
+                               'history':RecordLoadLog.objects.all(),
                                'marc_form':marc_form,
                                'note_form':note_form})
 
@@ -158,9 +159,10 @@ def update_log(request):
     download = True
     return direct_to_template(request,
                               'marc/index.html',
-                              {'active_bots':active_bots,
+                              {'active_bots':[bot.__name__ for bot in active_bots],
                                'live_bot':None,
                                'download':download,
+                               'history':RecordLoadLog.objects.all(),
                                'marc_form':marc_form,
                                'note_form':note_form})
 

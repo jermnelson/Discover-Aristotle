@@ -26,10 +26,8 @@ class OxfordHandbooksOnlineBot(MARCImportBot):
         :param type_of: Optional, used when specific collections are loaded, used for XXX
                         field.
         """
-        if not kwargs.has_key('marc_file'):
-            raise ValueError('OxfordHandbooksOnlineBot requires a marc_file object')
         marc_file = kwargs.get('marc_file')
-        MARCImportBot.__init__(self,marc_file,output_file)
+        MARCImportBot.__init__(self,marc_file)
         if kwargs.has_key('proxy_filter'):
             self.proxy_filter = kwargs.get('proxy_filter')
         else:
@@ -179,8 +177,6 @@ class OxfordReferenceOnlineBot(MARCImportBot):
         :param proxy_filter: Optional, proxy prefix for 856 field default is REFERENCE_PROXY_FILTER constant.
         :param series_title: Optional, default is 'Oxford reference online premium'
         """
-        if not kwargs.has_key('marc_file'):
-            raise ValueError("OxfordReferenceOnlineBot requires a marc_file")
         marc_file = kwargs.get('marc_file')
         MARCImportBot.__init__(self,marc_file)
         if kwargs.has_key('proxy_filter'):

@@ -3,6 +3,7 @@
 """
 __author__ = 'Jeremy Nelson'
 from marcbots import MARCImportBot
+import re
 
 CONTROL_CODE = 'COC'
 
@@ -19,8 +20,6 @@ class ProjectGutenbergBot(MARCImportBot):
         :param marc_file: Required, MARC record file.
         :param control_code: Optional 003 field value, default is CONTROL_CODE constant
         """
-        if not kwargs.has_key('marc_file'):
-            raise ValueError("ProjectGutenbergBot requires a marc_file")
         marc_file = kwargs.get('marc_file')
         if not kwargs.has_key('control_code'):
             self.control_code = CONTROL_CODE
@@ -28,7 +27,7 @@ class ProjectGutenbergBot(MARCImportBot):
             self.control_code = kwargs.get('control_code')
         self.url = None
         self.field500_re = re.compile(r"ISO ")
-        MARCImportBot.__init__(self,marc_file,output_file)
+        MARCImportBot.__init__(self,marc_file)
 
     def processRecord(self,marc_record):
         """

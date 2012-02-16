@@ -187,16 +187,15 @@ class AlexanderStreetPressMusicBot(AlexanderStreetPressBaseBot):
         - `marc_file`: MARC file, required
         - `type_of`: ASP music database, required
         """
-        if not kwargs.has_key('marc_file'):
-            raise ValueError("AlexanderStreetPressMusicBot requires a MARC file")
-        if not kwargs.has_key('type_of'):
-            raise ValueError("AlexanderStreetPressMusicBot requires type_of")
+        #if not kwargs.has_key('type_of'):
+        #    raise ValueError("AlexanderStreetPressMusicBot requires type_of")
         self.type_of = kwargs.get('type_of')
         self.code_dict = {}
         for k,v in self.DATABASES.iteritems():
             self.code_dict[v['code']] = k
-        if not self.code_dict.has_key(self.type_of):
-            raise ValueError('Unknown database: %s' % self.type_of)
+        if self.type_of is not None:
+            if not self.code_dict.has_key(self.type_of):
+                raise ValueError('Unknown database: %s' % self.type_of)
         AlexanderStreetPressBaseBot.__init__(self,
                                              marc_file=kwargs.get('marc_file'),
                                              asp_code=self.type_of)
@@ -338,8 +337,8 @@ class BlackDramaBot(AlexanderStreetPressBaseBot):
         Parameters:
         - `marc_file`: MARC file, required
         """
-        if not kwargs.has_key('marc_file'):
-            raise ValueError("BlackDramaBot requires a MARC file")
+        #if not kwargs.has_key('marc_file'):
+        #    raise ValueError("BlackDramaBot requires a MARC file")
         AlexanderStreetPressBaseBot.__init__(self,
                                              marc_file=kwargs.get('marc_file'),
                                              asp_code='aspbd2')
@@ -398,8 +397,6 @@ class WomenSocialMovementsBot(AlexanderStreetPressBaseBot):
         Parameters:
         - `marc_file`: MARC file
         """
-        if not kwargs.has_key('marc_file'):
-            raise ValueError('Bot requires a MARC file')
         AlexanderStreetPressBaseBot.__init__(self,
                                              marc_file=kwargs.get('marc_file'),
                                              asp_code='aspw')
@@ -455,8 +452,6 @@ class GarlandEWMOBot(AlexanderStreetPressBaseBot):
         Parameters:
         - `marc_file`: MARC file
         """
-        if not kwargs.has_key('marc_file'):
-            raise ValueError('Bot requires a MARC file')
         AlexanderStreetPressBaseBot.__init__(self,
                                              marc_file=kwargs.get('marc_file'),
                                              asp_code='aspglnd')
