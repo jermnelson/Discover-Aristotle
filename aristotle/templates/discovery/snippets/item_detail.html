@@ -1,0 +1,104 @@
+{% load i18n %}
+{% load discovery_extras %}
+<div>
+<br/>
+<dl class="detail-display">
+  {% if doc.author %}
+  <dt>{% trans "Author/Creator" %}:</dt>
+  {% for author in doc.author %}
+   <dd><a href="{% new_limit "author" author %}">{{ author }}</a></dd>
+  {% endfor %}
+  {% endif %}
+  {% if doc.url %}
+  <dt>{% trans "Online Location" %}:</dt>
+  {% for url in doc.url %}
+   <dd><a href="{{ url }}">{{ url }}</a></dd>
+  {% endfor %}
+  {% endif %}
+  {% if doc.language %}
+  <dt>{% trans "Language" %}:</dt>
+  {% for language in doc.language %}
+  <dd>{{ language }}</dd>
+  {% endfor %}
+  {% endif %}
+  {% if doc.imprint %}
+  <dt>{% trans "Imprint" %}:</dt>
+  <dd>{{ doc.imprint }}</dd>
+  {% endif %}
+  {% if doc.publisher %}
+  <dt>{% trans "Publisher" %}:</dt>
+  <dd>{{ doc.publisher }}</dd>
+  {% endif %}
+  {% if doc.pubyear %}
+  <dt>{% trans "Year Published" %}:</dt>
+  <dd>{{ doc.pubyear }}</dd>
+  {% endif %}
+  {% if doc.format %}
+  <dt>{% trans "Format" %}:</td>
+  <dd>{{ doc.format|get_format_icon }} {{ doc.format }}</dd>
+  {% endif %}
+  {% if doc.description %}
+  {% for note in doc.description %}<dd>{{ note }}</dd>{% endfor %}
+  {% endif %}
+   {% if doc.genre %}
+  <dt>{% trans "Genre(s)" %}:</dt>
+  {% for genre in doc.genre %}
+  <dd><a href="{% new_limit "genre" genre %}">{{ genre }}</a></dd>
+  {% endfor %}
+  {% endif %}
+  {% if doc.era %}
+  <dt>{% trans "Era" %}</dt>
+  {% for era in doc.era %}
+  <dd>{{ era }}</dd>
+  {% endfor %}
+  {% endif %}
+  {% if doc.summary %}
+  <dt>{% trans "Summary" %}:</dt>
+  {% for summary in doc.summary %}
+  <dd>{{ summary }}</dd>
+  {% endfor %}
+  {% endif %}
+  {% if doc.credits_display %}
+  <dt>{% trans "Credits" %}:</td>
+  <dd>{{ doc.credits_display.0 }}</dd>
+  {% endif %}
+  {% if doc.cast_display %}
+  <dt>{% trans "Performers/Cast" %}:</dt>
+  <dd>{{ doc.cast_display.0 }}</dd>
+  {% endif %}
+  {% if doc.personal_name %}
+  <dt>{% trans "Other names" %}:</dt>
+  {% for row in doc.personal_name %}
+  <dd>{{ row }}</dd>
+  {% endfor %}
+  {% endif %}
+  {% if doc.notes %}
+  <dt>{% trans "Note(s)"  %}:</dt>
+  {% for note in doc.notes %}
+  <dd>{{ note }}</dd>
+  {% endfor %}
+  {% endif %}
+  {% if doc.subject or doc.topic %}
+  <dt>{% trans "Subjects" %}:</dt>
+  {% for topic in doc|reduce_subjects %}
+  <dd><a href="{% new_limit "topic" topic %}">{{ topic }}</a></dd>
+  {% endfor %}
+  {% endif %}
+  {% if doc.full_lc_subject %}
+  <dt>{% trans "LC Subject Headings" %}:</dt>
+  {% for heading in doc.full_lc_subject %}
+  <dd><a href="{% new_limit "full_lc_subject" heading %}">{{ heading }}</a></dd>
+  {% endfor %}
+  {% endif %}
+  {% if doc.isbn %}
+  <dt>{% trans "ISBN" %}{% if doc.isbn|length > 1 %}(s){% endif %}:</dt>
+  {% for isbn in doc.isbn %}
+   <dd>{{ isbn }}</dd>
+  {% endfor %}
+  {% endif %}
+  <dt>{% trans "MARC Record format" %}:</dt>
+  <dd><a href="#marc-display" id="marc_fancybox">View</a></dd>
+ </dl>
+
+
+</div>

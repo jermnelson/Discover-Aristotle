@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8" />
+   <title>{% block head-title %}Library Search &#8226; Colorado College{% endblock %}</title>
+   {% block base-css %}
+    {% include "cc-styles.html" %}
+    <link href="{{ STATIC_URL }}css/960.css" rel="stylesheet" />
+   {% endblock %}
+   {% block more-css %}{% endblock %}
+ </head>
+ <body class=" department library">
+ {% block accessibility %}
+  {% include "accessibility.html" %}
+ {% endblock %}
+ {% block collapsed-header %}
+  {% include "cc-collapsed-header.html" %}
+ {% endblock %}
+ <div class="clear"></div>
+ {% block feature %}
+  <div class="feature" style="background-image: url({{ STATIC_URL }}img/temp/library/busy-library.jpg);height:180px;">
+   <span class="clear"></span>
+  </div>
+ {% endblock %}
+ <div class="clear"></div>
+ {% block library-tabs %}
+  {% include "library-tabs.html" %}
+{% endblock %}
+{% block library-breadcrumb %}
+  <div id="breadcrumb">
+    <div class="stage"><a href="#">Library Home</a> » <a href="#">About the Library</a> » <a class="on" href="#"#">Alternative Template</a></div> 
+  </div>
+  <div class="clear"></div>
+{% endblock %}
+
+<div style="background-color:#FFFFFF">
+{% block content %}
+
+
+{% endblock %}
+</div>
+{% block footers %}
+  {% include 'cc-footer.html' %}
+{% endblock %}
+
+{% block scripts %}
+  {% include 'cc-scripts.html' %}
+  {% block more-scripts %}
+  {% endblock more-scripts %}
+{% endblock %}
+ </body>
+</html>
