@@ -68,6 +68,7 @@ FIELDNAMES = [
     'author',
     'bib_num',
     'callnum',
+    'callnumlayerone',
     'collection',
     'contents',
     'corporate_name',
@@ -702,6 +703,7 @@ def get_record(marc_record, ils=None):
     record['access'] = get_access(marc_record)
     record['author'] = marc_record.author()
     record['callnum'] = get_callnumber(marc_record)
+    record['callnumlayerone'] = record['callnum']
     record['item_ids'] = get_items(marc_record,ils)
     record['lc_firstletter'] = get_lcletter(marc_record)
     record['location'] = get_location(marc_record)
