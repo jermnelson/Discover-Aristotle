@@ -873,10 +873,14 @@ def write_csv(marc_file_handle, csv_file_handle, collections=None,
                 logging.info(u"%s error at count=%s, titles is '%s'" %\
                             (sys.exc_info()[0],
                              count,
-                             title))
-                sys.stderr.write("\nError in MARC record #%s (%s):\n" % 
-                        (count, title.encode('ascii', 'ignore')))
-                raise
+                             title.encode('utf8','ignore')))
+                try:
+                    sys.stderr.write(u"\nError in MARC record #%s (%s):\n" % 
+                            (count, title.encode('utf8', 'ignore')))
+                except:
+                    sys.stderr.write(u"\nError in MARC record #%s, %s:\n" %
+                            (count,sys.exc_info()[0]))
+               #raise
             else:
                 if count % 1000:
                     sys.stderr.write(".")

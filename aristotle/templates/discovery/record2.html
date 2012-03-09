@@ -133,7 +133,11 @@
   {% comment %}DIV item-actions-wrapper DIV {% endcomment %}
   </div>
   <div class="browse-shelf-wrapper">
-       {% include 'browse_shelf.html' %}
+    {% if doc.callnum %}
+    <br/>
+    <iframe height="300px" src="http://tuttdemo:8090/call_number/widget?standalone=True&call_number={{ doc.callnum }}"></iframe>
+    {% endif %}
+      {% comment %} {% include 'browse_shelf.html' %}{% endcomment %}
       {% comment %}END browse-shelf DIV{% endcomment %}
   </div>
   <aside class="aside">
