@@ -127,7 +127,7 @@ class ItemBot(object):
 
         :rtype: string or None
         """
-        call_number = None
+        call_number = '' 
         if self.item_xml is not None:
             # First tries to retrieve 090
             xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='090']]/MARCSUBFLD")
@@ -138,10 +138,14 @@ class ItemBot(object):
                         if subfield.tag == 'SUBFIELDDATA':
                             call_number += subfield.text
             # Now tries to retrieve 099
-            if call_number is None:
-                xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='099']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]/SUBFIELDDATA")
+            if len(call_number) < 1:
+                xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='099']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]")
                 if len(xpath_result) > 0:
-                    call_number = xpath_result[0].text
+                    for row in xpath_result:
+                        for subfield in row.getchildren():
+                            
+                            if subfield.tag == 'SUBFIELDDATA':
+                                call_number += ' %s' % subfield.text
             # Finally tries to retieve 086 for Government Documents
             if call_number is None:
                 xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='086']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]/SUBFIELDDATA")
