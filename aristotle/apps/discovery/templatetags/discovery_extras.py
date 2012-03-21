@@ -327,6 +327,21 @@ def get_refworks_url(record_id,hostname):
     refworks_url = u'http://www.refworks.com/express/expressimport.asp?vendor=discover-aristotle&filter=RefWorks+Tagged+Format&url=http://%s/catalog/record/%s/refworks' % (hostname,record_id)
     return mark_safe(refworks_url)
 
+def get_valid_url(raw_url):
+    """
+    Returns HTML snippet of URL by checking to see if it doesn't include
+    View online or variations
+
+    :param raw_url: URL string
+    :rtype: String 
+    """
+    web_location = raw_url.lower().split("/")[-1]
+    if not web_location.startswith('view'):
+       html_str = '(<a href="%s">Online Location</a>)' % raw_url
+       return mark_safe(html_str)
+    else:
+       return mark_safe('')
+
 def generate_prospector_url(record_id):
     """Generates link to Prospector's union catalog
 
@@ -353,6 +368,8 @@ def reduce_subjects(doc):
             subjects.append(topic)
     subjects.sort()
     return set(subjects)
+
+
 
 def search_field_options(search_type):
     """
@@ -399,6 +416,7 @@ register.filter('get_google_book',get_google_book)
 register.filter('get_item_status',get_item_status)
 register.filter('get_marc_as_list',get_marc_as_list)
 register.filter('get_refworks_url',get_refworks_url)
+register.filter('get_valid_url',get_valid_url)
 register.filter('generate_prospector_url',generate_prospector_url)
 register.filter('reduce_subjects',reduce_subjects)
 register.filter('search_field_options',search_field_options)
