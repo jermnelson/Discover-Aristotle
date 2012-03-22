@@ -60,7 +60,7 @@ def harvest_latest():
     save portions of the site to cache."""
     try:
         cc_home = urllib2.urlopen(CC_URL).read()
-    except HTTPError, e:
+    except urllib2.HTTPError, e:
         logging.error("Unable to open CC_URL of %s" % CC_URL)
     cc_tree = lxml.html.document_fromstring(cc_home)
     cc_tree.make_links_absolute(CC_URL)
