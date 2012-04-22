@@ -1,0 +1,13 @@
+{% load i18n %}
+<p>
+  This item is <strong>{{ item.status }}</strong>
+</p>
+<p>
+  It is located {% if item.location != 'Online' %}in{% endif %} 
+  <strong>{{ item.location }}</strong>
+</p>
+{% if item.call_number %}
+<p>
+ at the call number <strong>{{ item.call_number }}</strong>
+</p>
+{% endif %}

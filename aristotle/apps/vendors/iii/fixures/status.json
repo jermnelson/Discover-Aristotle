@@ -54,8 +54,15 @@
         },
         "model": "iii.IIIStatusCode",
         "pk":7
-     }
-
+     },
+     {
+       "fields": {
+          "code":"r",
+          "value":"Being replaced"
+       },
+       "model": "iii.IIIStatusCode",
+       "pk":8
+    }
 
    
 ]

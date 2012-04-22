@@ -214,6 +214,16 @@ def display_spellcheck(spellcheck):
     context = Context(params)
     return mark_safe(spellcheck_template.render(context))
 
+def get_adjacent(call_number,position):
+    """Method queries Solr index for adjacent call number depending
+    on position from current call number
+   
+    :param call_number: call number of current item
+    :param position: position to retrieve adjacent item, negative is before call number,
+                     positive is after call number
+    """
+    return mark_safe('')
+
 def get_cover_image(num_isbn):
     """Custom method queries multiple web services for a thumbnail image,
     returns a matched URL using isbn number
@@ -263,7 +273,20 @@ def get_google_book(num_isbn):
     else:
         return '' 
 
- 
+def get_item_availablity(item_id):
+    """
+    Method conntects to ILS, retrieves item information, and generates
+    corresponding html from template fragment.
+
+    :param item_id: Item id
+    :rtype: HTML
+    """
+    item_bot = ItemBot(opac_url=ils_settings.OPAC_URL,item_id=item_id)
+    item_available_template = loader.get_template('item_availability.html')
+    params = {'item':item_bot}
+    context = Context(params)
+    return mark_safe(item_available_template.render(context))
+
 def get_item_status(item_id):
     """Method connects to ILS and retrieves the current circulation status
     of a an item.
@@ -317,6 +340,21 @@ def get_refworks_url(record_id,hostname):
     refworks_url = u'http://www.refworks.com/express/expressimport.asp?vendor=discover-aristotle&filter=RefWorks+Tagged+Format&url=http://%s/catalog/record/%s/refworks' % (hostname,record_id)
     return mark_safe(refworks_url)
 
+def get_valid_url(raw_url):
+    """
+    Returns HTML snippet of URL by checking to see if it doesn't include
+    View online or variations
+
+    :param raw_url: URL string
+    :rtype: String 
+    """
+    web_location = raw_url.lower().split("/")[-1]
+    if not web_location.startswith('view'):
+       html_str = '(<a href="%s">Online Location</a>)' % raw_url
+       return mark_safe(html_str)
+    else:
+       return mark_safe('')
+
 def generate_prospector_url(record_id):
     """Generates link to Prospector's union catalog
 
@@ -343,6 +381,8 @@ def reduce_subjects(doc):
             subjects.append(topic)
     subjects.sort()
     return set(subjects)
+
+
 
 def search_field_options(search_type):
     """
@@ -382,12 +422,15 @@ register.filter('display_empty_facets',display_empty_facets)
 register.filter('display_ill',display_ill)
 register.filter('display_online',display_online)
 register.filter('display_spellcheck',display_spellcheck)
+register.filter('get_adjacent',get_adjacent)
 register.filter('get_cover_image',get_cover_image)
 register.filter('get_format_icon',get_format_icon)
 register.filter('get_google_book',get_google_book) 
+register.filter('get_item_availablity',get_item_availablity)
 register.filter('get_item_status',get_item_status)
 register.filter('get_marc_as_list',get_marc_as_list)
 register.filter('get_refworks_url',get_refworks_url)
+register.filter('get_valid_url',get_valid_url)
 register.filter('generate_prospector_url',generate_prospector_url)
 register.filter('reduce_subjects',reduce_subjects)
 register.filter('search_field_options',search_field_options)

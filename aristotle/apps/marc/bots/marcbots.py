@@ -5,8 +5,13 @@
 #
 import sys,datetime,logging
 import urlparse,urllib2,re
+<<<<<<< HEAD
 import os,codecs
 from StringIO import StringIO
+=======
+import os
+import StringIO
+>>>>>>> new_record
 from pymarc import *
 
 
@@ -283,8 +288,13 @@ class MARCImportBot:
         Method returns a string containing all of the records in MARC21
         format.
         """
+<<<<<<< HEAD
         output_string = StringIO()
         wrapper = codecs.getwriter("utf8")(output_string)
+=======
+        output_string = StringIO.StringIO()
+        marc_writer = MARCWriter(output_string)
+>>>>>>> new_record
         for record in self.records:
             wrapper.write(record.as_marc())
         return wrapper.getvalue()

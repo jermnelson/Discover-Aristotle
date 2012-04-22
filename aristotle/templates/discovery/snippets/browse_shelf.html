@@ -1,0 +1,48 @@
+{% load discovery_extras %}
+{% if doc.callnum %}
+<div class="browse-shelf">
+ <h2 style="background: url() top left no-repeat"><img src="{{ STATIC_URL }}img/silk/icons/chart_bar.png" /> Browse by call number</h2>
+ <p>{{ doc.callnum }}</p>
+ <table>
+  <tr>
+   <td>
+    {{ doc.callnum|get_adjacent:-2 }}
+   </td>
+  </tr>
+  <tr>
+   <td>
+    {{ doc.callnum|get_adjacent:-1 }}
+   </td>
+  </tr>
+  <tr>
+   <td class="current-item">
+    {{ doc.full_title }}<br/>
+    {% if doc.author %}
+     {% for author in doc.author %}
+       {% if not forloop.last %}, {% endif %}
+       {{ author }}
+     {% endfor %}
+    {% endif %}<br/>
+    {{ doc.callnum }}
+   </td>
+  </tr>
+  <tr>
+   <td>
+     {{ doc.callnum|get_adjacent:1 }}
+   </td>  
+  </tr>
+  <tr>
+   <td>
+     {{ doc.callnum|get_adjacent:2 }}
+   </td>  
+  </tr>
+  <tr>
+   <td class="browse-shelf-nav">
+    <a href="#">&lt; Previous</a> Show full page 
+    <a href="#">Next &gt;</a>
+   </td>
+  </tr>
+ </table>
+ <br/>
+</div>
+{% endif %}
