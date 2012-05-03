@@ -4,6 +4,7 @@
 
 {% block head-title %}Details for {{ doc.title }} at Tutt Library{% endblock %}
 {% block more-css %}
+ <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" /> 
  <link href="{{ STATIC_URL }}discovery/css/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
  <link href="{{ STATIC_URL }}discovery/css/discovery.css" rel="stylesheet" />
  <style>
@@ -154,9 +155,12 @@
 
 
 {% block more-scripts %}
-<script src="http://jqueryui.com/ui/jquery.ui.core.js"></script>
-<script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script> 
-<script src="http://jqueryui.com/ui/jquery.ui.dialog.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.ui.core.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.ui.widget.js"></script> 
+<script src="{{ STATIC_URL }}js/jquery.ui.dialog.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap-tab.js"></script>
 <script src="{{ STATIC_URL }}discovery/js/discovery.js"></script>
 <script>
  $(function() {

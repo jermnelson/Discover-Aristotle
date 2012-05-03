@@ -63,6 +63,10 @@ dl.detail-display dd {
  margin-left: 10em;
 }
 
+h1,h5 {
+  font-weight: normal !important;
+}
+
 h1.discovery-home {
  color: #530921 !important;
  font-size: 1.1em !important;

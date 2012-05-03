@@ -130,7 +130,7 @@ class ItemBot(object):
         call_number = '' 
         if self.item_xml is not None:
             # First tries to retrieve 090
-            xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='090']]/MARCSUBFLD")
+            xpath_result = self.item_xml.node.xpath("/IIIRECORD/VARFLD[MARCINFO/MARCTAG[.='090']]/MARCSUBFLD")
             if len(xpath_result) > 0:
                 call_number = '' 
                 for row in xpath_result:
@@ -139,7 +139,7 @@ class ItemBot(object):
                             call_number += subfield.text
             # Now tries to retrieve 099
             if len(call_number) < 1:
-                xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='099']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]")
+                xpath_result = self.item_xml.node.xpath("/IIIRECORD/VARFLD[MARCINFO/MARCTAG[.='099']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]")
                 if len(xpath_result) > 0:
                     for row in xpath_result:
                         for subfield in row.getchildren():
@@ -148,7 +148,7 @@ class ItemBot(object):
                                 call_number += ' %s' % subfield.text
             # Finally tries to retieve 086 for Government Documents
             if call_number is None:
-                xpath_result = self.item_xml.node.xpath("VARFLD[MARCINFO/MARCTAG[.='086']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]/SUBFIELDDATA")
+                xpath_result = self.item_xml.node.xpath("/IIIRECORD/VARFLD[MARCINFO/MARCTAG[.='086']]/MARCSUBFLD[SUBFIELDINDICATOR[.='a']]/SUBFIELDDATA")
                 if len(xpath_result) > 0:
                     call_number = xpath_result[0].text
       
