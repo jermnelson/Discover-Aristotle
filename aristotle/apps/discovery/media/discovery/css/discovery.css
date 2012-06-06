@@ -157,3 +157,39 @@ quote {
  font-size: .9em;
  padding: 3px;
 }
+
+
+
+body.library {
+background-color: #292C34 !important;
+}
+
+#library-tabs {
+font-size: 14px !important;
+line-height: 21px !important;
+}
+
+#library-tabs ul {
+margin-top: 14px !important;
+margin-bottom: 14px !important;
+margin-left: -42px !important;
+padding-top: 21px !important;
+padding-left: 40px !important;
+line-height: 24px;
+height: 0 !important;
+}
+
+#library-tabs ul li {
+line-height: 24px !important;
+height: 36px !important;
+}
+
+#footer {
+font-family: Georgia,"Times New Roman",serif !important;
+}
+
+p.address {
+font-family: Georgia,"Times New Roman",serif !important;
+height: 63px !important;
+margin-bottom: 14px !important;
+}
