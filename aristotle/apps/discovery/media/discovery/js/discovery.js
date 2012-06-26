@@ -178,10 +178,9 @@ function ShowCart(session_id) {
        url: '/catalog/cart',
       data: data,
    success: function(responseText) {
-        var output = '<h2>Your Saved Records</h2>';
-        output += '<button onclick="$.fancybox.close()">Close</b/utton><button onclick="PrintCart()">Print</button>';
-        output += '<button onclick="EmailCart()">Email</button>';
-        output += '<button onclick=';
+        var output = '<button class="btn" onclick="PrintCart()">Print</button>';
+        output += '<button class="btn" onclick="EmailCart()">Email</button>';
+        output += '<button class="btn" onclick=';
         output += "'CartToRefworks(";
         output += '"' + session_id + '"';
         output += ")'>Export to RefWorks</button><ol>";
@@ -201,17 +200,13 @@ function ShowCart(session_id) {
              if(record.location) {
                 output +=  record.location;
              }
-             output += '. <a onclick="DropCartItem(this,' + "'" + record.id + "'," + false + ')">';
-             output += "<img src='/site_media/static/pinax/img/silk/icons/folder_delete.png' /></a>";
+             output += '. <a class="btn btn-mini btn-danger" onclick="DropCartItem(this,' + "'" + record.id + "'," + false + ')">';
+             output += 'Remove</a>';
            }
            
         }
         output += '</ol>';
-        $('a#cart_display').fancybox({
-           content: output,
-             width: 480,
-             height: 340,
-        });
+        $('#cart-dlg-contents').html(output);
         //alert("After ShowCart fancybox call");
     }
    });
