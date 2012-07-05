@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load discovery_extras %}
+{% comment %}START facet-listing Accordion{% endcomment %}
+<div class="accordion" id="facet-listing">
+ {% if facets %}
+  {% for facet in facets %}
+  <div class="accordion-group">
+   {% comment %}START facet accordion heading{% endcomment %}
+   <div class="accordion-heading facet-heading">
+    <a class="accordion-toggle" 
+       data-toggle="collapse" 
+       data-parent="facet-listing"
+       href="#{{ facet.name|slugify }}">{{ facet.name }}</a>
+   {% comment %}END facet accordion heading{% endcomment %}
+   </div>
+   {% comment %}START facet accordion body{% endcomment %}
+   <div class="accordion-body collapse {% if forloop.counter < 3 %}in{% endif %}" 
+     id="{{ facet.name|slugify }}">
+     {% comment %}START facet accordion inner{% endcomment %}
+     <div class="accordion-inner facet-inner">
+      <ul>
+      {% for term,count in facet.terms %}
+       <li>
+       {% if facet.name == "Format" %}{{ term|get_format_icon }}{% endif %}
+      <a href="{% if query or limits %}{% add_limit facet.field term %}{% else %}{% new_limit facet.field term %}{% endif %}">{{ term }}</a> ({{ count }})</li>
+      {% endfor %}
+      </ul>
+     {% comment %}END facet accordion inner{% endcomment %}
+     </div>
+   {% comment %}END facet accordion body{% endcomment %}
+   </div>
+  </div>
+  {% endfor %}
+ {% endif %}
+{% comment %}END facet-listing Accordion{% endcomment %}
+</div>

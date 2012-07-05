@@ -13,7 +13,7 @@
    {% endfor %}
   </div>
   <div class="grid_3" style="text-align:right">
-   <a href="#cart_dialog"  id="cart_display"><img src="{{ STATIC_URL }}img/silk/icons/folder_go.png" alt="View saved items"  /></a>
+   <a href="#cart-dialog"  data-toggle="modal" id="cart_display"><img src="{{ STATIC_URL }}img/silk/icons/folder_go.png" alt="View saved items"  /></a>
   </div>
   <div class="clear"></div>
   <ol start="{{ response.start|add:'1' }}">

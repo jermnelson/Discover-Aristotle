@@ -22,6 +22,28 @@ function CartToRefworks(session_id) {
 }
 
 
+function ChangeSearchBookText(btn_text) {
+ $("#searchby").html(btn_text);
+ $("#searchby").val(btn_text);
+ var search_char = btn_text.charAt(0);
+ switch(search_char) {
+  case 'A':
+   $('#search-type').val("author_search");
+   break;
+  case 'J':
+   $('#search-type').val("title_search");
+   break;
+  case 'K':
+   $('#search-type').val("search");
+   break;
+  case 'S':
+   $('#search-type').val("subject_search");
+   break;
+  case 'T':
+   $('#search-type').val("title_search");
+ }
+}
+
 function DropCartItem(anchor_tag,record_id,keep) {
   var data = 'record_id=' + record_id;
   $.ajax({

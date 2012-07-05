@@ -37,6 +37,44 @@ div.discovery-service {
   height: 60%;
  }
 
+div.bootstrap-searchbox {
+  background-color: #F1ECE5 !important;
+  border: 5px solid #FFFFFF;
+  margin-bottom: 16px;
+  padding: 10px 15px;
+}
+
+div.facet-heading {
+  background-color: #F1ECE5 !important;
+}
+
+div.facet-heading a {
+  color: #3E332C;
+  font-size: 1.2em;
+  font-weight: 300;
+}
+
+div.facet-inner {
+  background-color: #FFFFFF !important;
+} 
+
+div.facet-inner ul {
+ margin-left: 0;
+}
+
+div.facet-inner li {
+  list-style-type: none;
+  font-size: 1.1em;
+  margin: 0;
+  padding-bottom: 5px;
+}
+
+div.facet-inner li a {
+ border-bottom: 1px dotted #333333;
+ color: #333333;
+ text-decoration: none;
+}
+
 div.gbsLinkCover {
   text-align: center;
  }
@@ -150,6 +188,19 @@ table.open {
   display: block;
 }
 
+table.search-tbl {
+  background-color: #F1ECE5 !important;
+  border-bottom: none;
+
+}
+
+table.search-tbl tr td {
+  background-color: #F1ECE5 !important;
+  border-bottom: none;
+  margin-left: 1px;
+  padding-left: 1px;
+}
+
 quote {
  background-color: #F1ECE5;
  border: 1px solid black;
@@ -158,7 +209,14 @@ quote {
  padding: 3px;
 }
 
+ul.search-options {
+ float: right;
+}
 
+ul.search-options a {
+ color: #950B24;
+ font-weight: bold;
+}
 
 body.library {
 background-color: #292C34 !important;

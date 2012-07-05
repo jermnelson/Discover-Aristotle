@@ -1,0 +1,36 @@
+{% load i18n %}
+{% load discovery_extras %}
+<div class="row">
+ <div id="contact-library" class="span3">
+   <h5><strong>Contacting Tutt Library</strong></h5>
+     <ul style="margin-left:1.5em;list-style-type:none">
+      <li>Circulation Desk: 389-6184</li>
+      <li>Reference Desk: 389-6662</li>
+      <li>
+        <a href="http://www2.coloradocollege.edu/library/index.php/contact/?to=9">Email</a> | <a href="http://www2.coloradocollege.edu/library/index.php/about/ask-a-librarian">IM</a> a Librarian
+       </li>
+       </ul>
+ </div>
+ <div class="span8 bootstrap-searchbox">
+  <ul class="search-options">
+   {% if is_advanced_search %}
+    <li><a href="/catalog/">{% trans "Basic Search" %}</a></li>
+    <li><a href="/catalog/advanced">{% trans "New Advanced Search" %}</a></li>
+   {% else %}
+    <li><a href="/catalog/advanced">{% trans "Advanced Search" %}</a></li>
+    <li><a href="/">{% trans "New Search" %}</a></li>
+   {% endif %}
+   {% if search_history %}
+    <li><a href="#search_dialog" id="search_display">{% trans "Search History" %}</a></li>
+   {% endif %}
+    <li><a href="http://tiger.coloradocollege.edu">{% trans "Classic TIGER" %}</a></li>
+    <li><a href="https://tiger.coloradocollege.edu/patroninfo">{% trans "Login to TIGER" %}</a></li>
+     <li><a href="#" onclick="alert('Coming soon.')">{% trans "Need help?" %}</a></li>
+  </ul>
+ {% if not is_advanced_search %}
+  {% include "cc-simple-search.html" %}
+ {% else %}
+  {% include "cc-advanced-search.html" %}
+ {% endif %}
+ </div>
+</div>

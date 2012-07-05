@@ -7,7 +7,29 @@
    {% comment %}START SEARCHBOX-WRAPPER DIV {% endcomment %}
      <div id="searchbox-wrapper">
        {% comment %}START SEARCHBOX DIV {% endcomment %}
-	<div id="searchbox">
+<!--	<div id="searchbox"> //-->
+        <div class="bootstrap-searchbox">
+        {% block simple-searchbox %}
+        {% if not is_advanced_search %}
+         <form class="form-inline" style="margin:12px;" action="/catalog/search" method="get"  target="_top">
+           <input style="width:260px;" name="q" type="text" size="14" placeholder="Search TIGER!"></input> 
+           <input type="hidden" id="search-type" name="search-type" value="search" />
+          <div class="btn-group">
+           <button type="submit" id="searchby" name="btnsubmit" class="btn" style="width:81px;" value="Keyword">Keyword</button>
+           <button class="btn dropdown-toggle" data-toggle="dropdown">
+             <span class="caret"></span>
+           </button>
+           <ul class="dropdown-menu">
+             <li><a onclick='ChangeSearchBookText("Keyword");' href="#">Keyword</a></li>
+             <li><a onclick='ChangeSearchBookText("Author");' href="#">Author</a></li>
+             <li><a onclick='ChangeSearchBookText("Title");' href="#">Title</a></li>
+             <li><a onclick='ChangeSearchBookText("Subject");' href="#">Subject</a></li>
+             <li><a onclick='ChangeSearchBookText("Journal Title");' href="#">Journal Title</a></li>
+           </ul>
+         </div>
+        </form>
+        {% endif %}
+        {% endblock %}
 	 <ul class="search-help">
            {% if is_advanced_search %}
            <li><a href="/catalog/">{% trans "Basic Search" %}</a></li>
@@ -16,7 +38,7 @@
 	   <li><a href="/catalog/advanced">{% trans "Advanced Search" %}</a></li>
            <li><a href="/">{% trans "New Search" %}</a></li>
            {% endif %}
-                      {% if search_history %}
+           {% if search_history %}
            <li><a href="#search_dialog" id="search_display">{% trans "Search History" %}</a>
            </li>
            {% endif %}
@@ -24,24 +46,7 @@
            <li><a href="https://tiger.coloradocollege.edu/patroninfo">{% trans "Login to TIGER" %}</a></li>
 	   <li><a href="#" onclick="alert('Coming soon.')">{% trans "Need help?" %}</a></li>
          </ul>
-        {% block simple-searchbox %}
-        {% if not is_advanced_search %}
-	  <form action="{% url discovery-search %}" name="catalog_search">
-	    <fieldset id="basic-searchbox">
-             <input type="text" name="q" value="{{ query }}" alt="search" id="book-search" />
-             <input type="hidden" name="search-type" value="search" />
-	     <input type="submit" name="btnsubmit" class="submit" value="{% trans "Search Keyword" %}" />
-	     <input type="button" name="search-type-selector" class="button" value="" />
-	     <ul class="search-types">
-		  <li><a href="#" data-searchtype="search">{% trans "Keyword" %}</a></li>
-		  <li><a href="#" data-searchtype="author_search">{% trans "Author" %}</a></li>
-		  <li><a href="#" data-searchtype="title_search">{% trans "Title" %}</a></li>
-		  <li><a href="#" data-searchtype="subject_search">{% trans "Subject" %}</a></li>
-		  <li><a href="#" data-searchtype="title_search">{% trans "Journal Title" %}</a></li>
-		</ul>
-	    </fieldset>
-        {% endif %}
-        {% endblock %}
+        </div>
         {% block adv-searchbox %}
         {% if is_advanced_search %}
         <form action="{% url discovery-adv-search %}" name="catalog_search" method="POST">
@@ -81,6 +86,7 @@
         {% endif %}
          </form>
          <span class="clear"></span>
+      </div>
     {% comment %}END SEARCHBOX DIV{% endcomment %} 
     </div>
     {% comment %}START SEARCH-PAGINATION DIV{% endcomment %} 

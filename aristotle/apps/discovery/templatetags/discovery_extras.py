@@ -382,7 +382,17 @@ def reduce_subjects(doc):
     subjects.sort()
     return set(subjects)
 
-
+def search_dropdown(search_type):
+    """Sets drop-down button for the simple search to match the type,
+    defaults to Keyword.
+    
+    :param search_type: Type of search (keyword, author, etc.) from
+                        hidden input field
+    :rtype: HTML String
+    """
+    if len(search_type) < 1:
+        search_type = 'Keyword'
+    return mark_safe('''<button type="submit" id="searchby" name="btnsubmit" class="btn" value="{0}">{0}</button>'''.format(search_type))
 
 def search_field_options(search_type):
     """
@@ -433,5 +443,6 @@ register.filter('get_refworks_url',get_refworks_url)
 register.filter('get_valid_url',get_valid_url)
 register.filter('generate_prospector_url',generate_prospector_url)
 register.filter('reduce_subjects',reduce_subjects)
+register.filter('search_dropdown',search_dropdown)
 register.filter('search_field_options',search_field_options)
 register.filter('search_operator_options',search_operator_options)
