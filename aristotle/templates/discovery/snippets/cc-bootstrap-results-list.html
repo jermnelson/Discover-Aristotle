@@ -1,0 +1,31 @@
+{% load i18n %}
+{% load discovery_extras %}
+<div class="row">
+ {% include 'cc-bootstrap-sortby.html' %}
+ {% include 'cc-bootstrap-cart.html' %}
+</div>
+<div class="row">
+<div class="span9">
+<ol start="{{ response.start|add:'1' }}">
+{% for doc in response.docs %}
+  <li><h2> {% title_link %} </h2>
+    <a class="label label-success" 
+      rel="tooltip" title="Save Record to cart"
+     onclick="AddCartItem(this,'{{ doc.id }}')">
+     <i class="icon-plus-sign icon-white"></i></a>
+     <table class="record-listing">
+      {% if doc.author %}
+      {% for author in doc.author %}
+      <tr>
+        <th>{% trans "Author" %}/{% trans "Creator"%}:</th>
+        <td><a href="{% new_limit "author" author %}" title="{% trans "Filter on" %}{{ author }}">{{ author }}</a></td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+     </table>
+
+  </li>
+{% endfor %}
+</ol>
+</div>
+

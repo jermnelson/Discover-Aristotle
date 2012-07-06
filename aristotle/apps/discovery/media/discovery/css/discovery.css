@@ -1,3 +1,4 @@
+
 article.discovery-home {
  font-size: 1em;
  float: left;
@@ -45,13 +46,18 @@ div.bootstrap-searchbox {
 }
 
 div.facet-heading {
-  background-color: #F1ECE5 !important;
+  background-color: #CDCAB4 !important;
 }
 
 div.facet-heading a {
   color: #3E332C;
   font-size: 1.2em;
   font-weight: 300;
+}
+
+div.facet-heading a:hover {
+  color: #FFFFFF;
+  background-color: #2D4873;
 }
 
 div.facet-inner {
@@ -73,6 +79,53 @@ div.facet-inner li a {
  border-bottom: 1px dotted #333333;
  color: #333333;
  text-decoration: none;
+}
+
+div.records-cart {
+ margin-top: .5em;
+}
+
+
+div.results-block {
+ background-color: #FFFFFF;
+ font-family: "Helvetica Neue",Arial,sans-serif;
+ font-size: 1.1em;
+}
+
+div.results-block a {
+  color: #660000;
+  font-weight: bold;
+}
+
+div.results-block h1 {
+  color: #594738;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.5em;
+}
+
+div.results-block h2 {
+  color: #29456C;
+  margin-top: 0em;
+  margin-bottom: 0.5em;
+}
+
+div.results-block h2 a {
+  color: #264D85 !important;
+  font-size: .9em;
+  font-weight: normal !important;
+  vertical-align: -1px;
+}
+
+div.results-block li {
+  color: #264D85;
+  font-size: 1.4em;
+  margin-left: .5em;
+} 
+
+div.results-block p {
+ font-family: "Helvetica Neue",Arial,sans-serif;
+ margin: 0.5em;
 }
 
 div.gbsLinkCover {
@@ -188,6 +241,11 @@ table.open {
   display: block;
 }
 
+table.record-listing tr th td {
+  color: #29456C;
+  font-size: .9em;
+}
+
 table.search-tbl {
   background-color: #F1ECE5 !important;
   border-bottom: none;
@@ -208,6 +266,24 @@ quote {
  font-size: .9em;
  padding: 3px;
 }
+
+
+ul.records-cart a {
+  color: #333333;
+  font-size: .7em;
+  font-weight: normal;
+  padding-left: 0px;
+  padding-right: 5px;
+
+}
+
+ul.records-cart a:hover {
+  color: #333333;
+  font-size: .7em;
+  margin-left: 0px;
+  padding: none;
+}
+
 
 ul.search-options {
  float: right;

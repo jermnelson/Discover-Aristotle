@@ -7,8 +7,16 @@
 
  {% comment %}END Facets DIV{% endcomment %}
  </div>
- <div class="span9">
-
+ <div class="span9 results-block">
+ {% if response.docs %}
+   {% include 'cc-bootstrap-results-list.html' %}
+ {% else %}
+  {% if spellcheck %}
+    <h1>Spell Check</h1>
+  {% else %}
+   {% include 'cc-bootstrap-welcome-msg.html' %} 
+  {% endif %}
+ {% endif %}
  </div>
  </div>
 </div>
