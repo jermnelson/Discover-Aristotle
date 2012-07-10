@@ -21,16 +21,24 @@
     <li><a href="/">{% trans "New Search" %}</a></li>
    {% endif %}
    {% if search_history %}
-    <li><a href="#search_dialog" id="search_display">{% trans "Search History" %}</a></li>
+    <li><a href="#search_dialog" data-toggle="modal" id="search_display">{% trans "Search History" %}</a></li>
    {% endif %}
     <li><a href="http://tiger.coloradocollege.edu">{% trans "Classic TIGER" %}</a></li>
     <li><a href="https://tiger.coloradocollege.edu/patroninfo">{% trans "Login to TIGER" %}</a></li>
-     <li><a href="#" onclick="alert('Coming soon.')">{% trans "Need help?" %}</a></li>
+    <li><a href="#" onclick="alert('Coming soon.')">{% trans "Need help?" %}</a></li>
   </ul>
  {% if not is_advanced_search %}
   {% include "cc-simple-search.html" %}
  {% else %}
   {% include "cc-advanced-search.html" %}
+ {% endif %}
+ {% if limits %}
+ <ul class="search-filters" id="search-filters">
+  {% for limit in limits %}
+    <li>{{ limit }} <a  href="{% remove_limit %}"><button style="color:#FF0000;" class="close">&times;</button></a>
+    </li>
+  {% endfor %}
+ </ul>
  {% endif %}
  </div>
 </div>

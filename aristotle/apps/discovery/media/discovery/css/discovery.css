@@ -41,8 +41,8 @@ div.discovery-service {
 div.bootstrap-searchbox {
   background-color: #F1ECE5 !important;
   border: 5px solid #FFFFFF;
-  margin-bottom: 16px;
-  padding: 10px 15px;
+  padding-left: 10px;
+  padding-top:  15px;
 }
 
 div.facet-heading {
@@ -120,7 +120,7 @@ div.results-block h2 a {
 div.results-block li {
   color: #264D85;
   font-size: 1.4em;
-  margin-left: .5em;
+  margin-left: 1em;
 } 
 
 div.results-block p {
@@ -241,9 +241,15 @@ table.open {
   display: block;
 }
 
-table.record-listing tr th td {
-  color: #29456C;
+table.list-record {
+  border: none;
+}
+
+.list-record {
+  background-color: #FFFFFF;
+  border: none;
   font-size: .9em;
+  padding: .25em;
 }
 
 table.search-tbl {
@@ -284,6 +290,28 @@ ul.records-cart a:hover {
   padding: none;
 }
 
+ul.search-filters {
+ list-style: none outside none;
+ margin: 0;
+ padding: 0;
+}
+
+ul.search-filters li {
+  background-color: #FBF9F7;
+  color: #2B486F;
+  display: inline;
+  float: left;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  margin-right: 0.6em;
+  padding: 0.5em;
+}
+
+ul.search-filters a {
+  font-color: #FF0000;
+  margin-left: 0.5em;
+}
 
 ul.search-options {
  float: right;

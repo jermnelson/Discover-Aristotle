@@ -6,11 +6,10 @@ function AddCartItem(anchor_tag,record_id) {
       data: data,
    success: function(responseText) {
        // Should change icon and text to Drop
-       var anchor_html = '<a href="#" onclick="';
-       anchor_html += "DropCartItem(this,'" + record_id + "'," + true + ')">';
-       anchor_html += "<img src='/site_media/static/pinax/img/silk/icons/folder_delete.png' /><br/>Drop</a>";
-       $(anchor_tag).parent().html(anchor_html);
-       window.location.reload();
+       var anchor_html = "DropCartItem(this,'" + record_id + "'," + true + ')"';
+       $(anchor_tag).removeClass('label-success').addClass('label-important');
+       $(anchor_tag).attr('onclick',anchor_html);
+       $(anchor_tag).html('<i class="icon-minus-sign icon-white"></i>');
     }
    });
 }
@@ -52,14 +51,10 @@ function DropCartItem(anchor_tag,record_id,keep) {
       data: data,
    success: function(responseText) {
        // Should change icon and text to Drop
-       if(keep) {
-         var anchor_html = '<a href="#" onclick="';
-         anchor_html += "AddCartItem(this,'" + record_id + "'" + ')">';
-         anchor_html += "<img src='/site_media/static/pinax/img/silk/icons/folder_add.png' /><br/>Save</a>";
-         $(anchor_tag).parent().html(anchor_html);
-       } else {
-         $(anchor_tag).parent().remove();
-       }
+       var anchor_html = "AddCartItem(this,'" + record_id + "'" + ')"';
+       $(anchor_tag).removeClass('label-important').addClass('label-success');
+       $(anchor_tag).attr('onclick',anchor_html);
+       $(anchor_tag).html('<i class="icon-plus-sign icon-white"></i>');
     }
    });
 }
