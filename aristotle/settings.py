@@ -76,7 +76,7 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, "apps/etd/media/etd/css"),
     os.path.join(PROJECT_ROOT, "apps/etd/media/etd/js"),
     os.path.join(PROJECT_ROOT, "apps/etd/media/etd/img"),
-
+    os.path.join(PROJECT_ROOT, "help/help-screenshots"),
 
 )
 

@@ -25,7 +25,8 @@
    {% endif %}
     <li><a href="http://tiger.coloradocollege.edu">{% trans "Classic TIGER" %}</a></li>
     <li><a href="https://tiger.coloradocollege.edu/patroninfo">{% trans "Login to TIGER" %}</a></li>
-    <li><a href="#" onclick="alert('Coming soon.')">{% trans "Need help?" %}</a></li>
+    <li><a href="#" onclick="$('#discovery_help').modal('show')">Need Help?</a></li>
+    {% include "snippets/help.html" %}
   </ul>
  {% if not is_advanced_search %}
   {% include "cc-simple-search.html" %}

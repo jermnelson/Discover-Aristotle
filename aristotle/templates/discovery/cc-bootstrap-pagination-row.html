@@ -25,7 +25,9 @@
      {% if pagination.last_page %}
      <li><a href="{% pagination_url pagination.last_page.number %}">{{ pagination.last_page.number }}</a></li>
      {% endif %}
+     {% if pagination.next_page %}
      <li><a href="{% pagination_url pagination.next_page.number %}">Next</a></li>
+     {% endif %}
      </ul>
    </div>
   </div>

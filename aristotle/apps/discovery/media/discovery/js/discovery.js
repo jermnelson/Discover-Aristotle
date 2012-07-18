@@ -15,7 +15,6 @@ function AddCartItem(anchor_tag,record_id) {
 }
 
 function CartToRefworks(session_id) {
-  //alert("In CartToRefworks");
   var refworks_url = 'http://www.refworks.com/express/expressimport.asp?vendor=iii&filter=RefWorks%20Tagged%20Format&url=http%3A//' + window.location.host + '/catalog/cart/refworks?session=' + session_id;
   window.open(refworks_url);
 }
@@ -51,10 +50,15 @@ function DropCartItem(anchor_tag,record_id,keep) {
       data: data,
    success: function(responseText) {
        // Should change icon and text to Drop
-       var anchor_html = "AddCartItem(this,'" + record_id + "'" + ')"';
-       $(anchor_tag).removeClass('label-important').addClass('label-success');
-       $(anchor_tag).attr('onclick',anchor_html);
-       $(anchor_tag).html('<i class="icon-plus-sign icon-white"></i>');
+       if(keep) {
+         var anchor_html = "AddCartItem(this,'" + record_id + "'" + ')';
+         $(anchor_tag).removeClass('label-important').addClass('label-success');
+         $(anchor_tag).attr('onclick',anchor_html);
+         $(anchor_tag).attr('title','Remove Record from cart');
+         $(anchor_tag).html('<i class="icon-plus-sign icon-white"></i>');
+       } else {
+         $(anchor_tag).parent().remove();
+       }
     }
    });
 }
@@ -195,12 +199,12 @@ function ShowCart(session_id) {
        url: '/catalog/cart',
       data: data,
    success: function(responseText) {
-        var output = '<button class="btn" onclick="PrintCart()">Print</button>';
-        output += '<button class="btn" onclick="EmailCart()">Email</button>';
+        var output = '<button class="btn" onclick="PrintCart()"><i class="icon-print"></i> Print</button>';
+        output += '<button class="btn" onclick="EmailCart()"><i class="icon-envelope"></i> Email</button>';
         output += '<button class="btn" onclick=';
         output += "'CartToRefworks(";
         output += '"' + session_id + '"';
-        output += ")'>Export to RefWorks</button><ol>";
+        output += ")'><i class='icon-share'></i> Export to RefWorks</button><ol>";
         var results = eval(responseText);
         for(row in results) {
            var record = results[row];
@@ -224,9 +228,7 @@ function ShowCart(session_id) {
         }
         output += '</ol>';
         $('#cart-dlg-contents').html(output);
-        //alert("After ShowCart fancybox call");
     }
    });
-  //$('a#cart_display').click();
 
 }
