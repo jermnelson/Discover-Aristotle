@@ -4,6 +4,7 @@
 
 {% block head-title %}Details for {{ doc.title }} at Tutt Library{% endblock %}
 {% block more-css %}
+ <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" /> 
  <link href="{{ STATIC_URL }}discovery/css/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
  <link href="{{ STATIC_URL }}discovery/css/discovery.css" rel="stylesheet" />
  <style>
@@ -120,11 +121,11 @@
      <h1>You can...</h1>
       <ul>
        {{ doc|display_online }}
-       <li><a href="#citation-dlg" id="cite_fancybox">Cite</a> this work with a MLA, Chicago, APA, or other citation styles with <a href='{{ doc.id|get_refworks_url:host_name }}' target="RefWorksMain">RefWorks</a>.</span>
+       <li><a href="#citation-dlg" data-toggle="modal" id="cite_fancybox">Cite</a> this work with a MLA, Chicago, APA, or other citation styles with <a href='{{ doc.id|get_refworks_url:host_name }}' target="RefWorksMain">RefWorks</a>.</span>
         </li>
         {{ doc|display_ill }}
         <li><a href="javascript:AddCartItem(this,'{{ doc.id }}')">Add</a> this work to your saved resources 
-        <a href="a#cart_dialog" id="cart_display">folder <img src="{{ STATIC_URL }}img/silk/icons/folder_go.png" alt="Your saved items" /></a></li>
+        <a href="#cart-dlg" data-toggle="modal" id="cart_display">folder <img src="{{ STATIC_URL }}img/silk/icons/folder_go.png" alt="Your saved items" /></a></li>
         <li><a href="https://tiger.coloradocollege.edu/patroninfo">Login</a> to your library account with your
           TIGER number</li>
         </ul>
@@ -154,49 +155,58 @@
 
 
 {% block more-scripts %}
-<script src="http://jqueryui.com/ui/jquery.ui.core.js"></script>
-<script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script> 
-<script src="http://jqueryui.com/ui/jquery.ui.dialog.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.ui.core.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.ui.widget.js"></script> 
+<script src="{{ STATIC_URL }}js/jquery.ui.dialog.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap-tab.js"></script>
 <script src="{{ STATIC_URL }}discovery/js/discovery.js"></script>
 <script>
  $(function() {
-   $("a#search_display").fancybox({
-     title:"Search History"
-    });
-   $("a#cite_fancybox").fancybox();
-   $("a#marc_fancybox").fancybox();
-   $("a#cart_display").fancybox({
-      onStart: ShowCart("{{ session_id }}"),
+   $("#cart-dlg").on('show', function() {
+     ShowCart("{{ session_id }}")
    });
-
  });
 </script>
 {% endblock %}
 
 {% block dialogs %}
-<div style="display:none">
-<div id="citation-dlg">
-<h2>Citations</h2>
+<div class="modal hide" id="citation-dlg">
+<div class="modal-header">
+ <button type="button" class="close" data-dismiss="modal">x</button>
+ <h2>Citations</h2>
+</div>
+<div class="modal-body">
 <ul>
  {% include 'apa_citation.html' %}
  {% include 'chicago_citation.html' %}
  {% include 'mla_citation.html' %}
 </ul>
 </div>
+<div class="modal-footer">
+ <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+</div>
 </div>
 
-<div style="display:none">
-<div id="marc-display">
-<h2>MARC Record Display</h2>
+<div class="modal hide" id="marc-display">
+<div class="modal-header">
+ <button type="button" class="close" data-dismiss="modal">x</button>
+ <h2>MARC Record Display</h2>
+</div>
+<div class="modal-body">
 {% include 'marc_display.html' %}
 </div>
+<div class="modal-footer">
+ <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+</div>
 </div>
 
-<div style="display:none">
+<div class="modal hide" id="search_dialog">
 {% include 'search_history_dialog.html' %}
 </div>
 
-<div style="display:none">
+<div id="cart-dlg" class="modal hide">
 {% include 'cart_dialog.html' %}
 </div>
 {% endblock %}

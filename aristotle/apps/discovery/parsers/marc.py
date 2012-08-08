@@ -31,13 +31,27 @@ import unicodedata
 import urllib
 import logging
 
-from django.conf import settings
-from django.contrib.sites.models import Site
-from django.utils import simplejson
+try:
+    from django.conf import settings
+except ImportError:
+    class stub_settings(object):
+        def __init__(self,*args):
+            self.BASE_DIR = args[0]
+            self.ILS = args[1]
+    settings = stub_settings("./",'III')
+try:
+    from django.contrib.sites.models import Site
+except ImportError:
+    pass
+try:
+    from django.utils import simplejson
+except ImportError:
+    import json as simplejson
 
 logging.basicConfig(filename='%slog/%s-marc-solr-indexer.log' % (settings.BASE_DIR,
                                                                  datetime.datetime.today().strftime('%Y%m%d-%H')),
                     level=logging.INFO)
+
 
 #logger = logging.getLogger('marc_solr_import')
 #logger.setLevel(logging.INFO)
@@ -394,7 +408,6 @@ def get_format(record):
     # Some formats are determined by location
     
     format = lookup_location(record,format)
-    logging.error("After lookup Format is %s" % format)
     return format
 
 def lookup_location(record,format=None):
@@ -407,8 +420,7 @@ def lookup_location(record,format=None):
     """
     location_list = locations = record.get_fields('994')
     for location in location_list:
-         subfield_a = location['a']
-         logging.error("Location is %s" % subfield_a)
+         subfield_a = str(location['a'])
          in_reference = REF_LOC_RE.search(subfield_a)
          if in_reference is not None:
               ref_loc_code = in_reference.groups()[0]
@@ -451,7 +463,10 @@ def parse_008(record, marc_record):
     """
     if marc_record['008']:
         field008 = marc_record['008'].value()
-
+        if len(field008) < 20:
+            print("FIELD 008 len=%s, value=%s bib_#=%s" % (len(field008),
+                                                           field008,
+                                                           record["id"]))
         # "a" added for noninteger search to work
         dates = (field008[7:11] + 'a', field008[11:15] + 'a')
         # test for which date is more precise based on searching for
@@ -482,7 +497,7 @@ def parse_008(record, marc_record):
         if audience_code != ' ':
             try:
                 record['audience'] = marc_maps.AUDIENCE_CODING_MAP[audience_code]
-            except KeyError, error:
+            except KeyError as error:
                 #sys.stderr.write("\nIllegal audience code: %s\n" % error)
                 record['audience'] = ''
 
@@ -546,11 +561,11 @@ def get_callnumber(record):
     if record['086']:
         callnumber = record['086'].value()
     # Next check to see if there is a local call number
-    elif record['090']:
-        callnumber = record['090'].value()
     elif record['099']:
         callnumber = record['099'].value()
-   # Finally checks for value in 050
+    elif record['090']:
+        callnumber = record['090'].value()
+       # Finally checks for value in 050
     elif record['050']:
         callnumber = record['050'].value()
     return callnumber
@@ -600,6 +615,8 @@ def get_location(record):
             for code in locations_raw:
                 code = LOCATION_RE.sub("",code)
                 output.append(tutt_maps.LOCATION_CODE_MAP[code])
+                if code in tutt_maps.SPECIAL_COLLECTIONS:
+                    output.append("Special Collections")
         except KeyError:
             logging.info("%s Location unknown=%s" % (record.title(),locations[0].value()))
             output.append('Unknown')
@@ -640,7 +657,6 @@ def get_record(marc_record, ils=None):
     George, Henry, 1839-1897.
     """
     record = {}
-
     # TODO: split ILS-specific into separate parsers that subclass this one:
     # horizonmarc, iiimarc, etc.
     try:
@@ -648,7 +664,20 @@ def get_record(marc_record, ils=None):
             record['id'] = marc_record['999']['a']
         elif ils == 'III':
             # [1:-1] because that's how it's referred to in the opac
-            record['id'] = marc_record['907']['a'][1:-1]
+            bib_id = marc_record['907']['a']
+            if bib_id is None or len(bib_id) < 10:
+              # Try to extract bib number from 035
+              for field in  marc_record.get_fields('035'):
+                  sub_a = field['a']
+                  if sub_a is not None:
+                      sub_a = field['a'][1:-1]
+                      if sub_a.startswith('b') and len(sub_a) == 8:
+                          record['id'] = sub_a
+            else:
+                record['id'] = bib_id[1:-1]
+            
+            #if not hasattr(record,"id"):
+            #    raise ValueError("Unable to extract ID from record %s" % record.title())
         elif ils == 'Unicorn':
             record['id'] = marc_record['35']['a']
         else:
@@ -659,6 +688,7 @@ def get_record(marc_record, ils=None):
         #sys.stderr.write("\nNo value in ID field, leaving ID blank\n")
         #record['id'] = ''
         # if it has no id let's not include it
+        logging.error("%s: %s not indexed because of AttributeError" % (marc_record['907']['a'],marc_record.title()))
         return
     all999s = marc_record.get_fields('999')
     if all999s:
@@ -870,15 +900,15 @@ def write_csv(marc_file_handle, csv_file_handle, collections=None,
                     title = marc_record.title()
                 else:
                     title = marc_record['245'].format_field()
-                logging.info(u"%s error at count=%s, titles is '%s'" %\
+                logging.info("%s error at count=%s, titles is '%s'" %\
                             (sys.exc_info()[0],
                              count,
                              title.encode('utf8','ignore')))
                 try:
-                    sys.stderr.write(u"\nError in MARC record #%s (%s):\n" % 
+                    sys.stderr.write("\nError in MARC record #%s (%s):\n" % 
                             (count, title.encode('utf8', 'ignore')))
                 except:
-                    sys.stderr.write(u"\nError in MARC record #%s, %s:\n" %
+                    sys.stderr.write("\nError in MARC record #%s, %s:\n" %
                             (count,sys.exc_info()[0]))
                #raise
             else:
@@ -907,12 +937,12 @@ def get_old_record(id):
     try:
         solr_response = urllib.urlopen(url)
     except IOError:
-        raise IOError, 'Unable to connect to the Solr instance.'
+        raise IOError('Unable to connect to the Solr instance.')
     try:
         response = simplejson.load(solr_response)
-    except ValueError, e:
-        print urllib.urlopen(url).read()
-        raise ValueError, 'Solr response was not a valid JSON object.'
+    except ValueError as e:
+        print(urllib.urlopen(url).read())
+        raise ValueError('Solr response was not a valid JSON object.')
     try:
         doc = response['response']['docs'][0]
     except IndexError:

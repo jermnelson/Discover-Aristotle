@@ -1,0 +1,30 @@
+{% load discovery_extras %}
+<form class="form-search" action="/catalog/search" method="get"  target="_top">
+   <table class="search-tbl">
+    <tr>
+     <td>
+      <img src="{{ STATIC_URL }}img/bg/library/mag-glass.png" />
+     </td>
+     <td>
+    <input name="q" type="text" style="width:280px" class="input-medium" placeholder="Search TIGER!" value="{{ request.REQUEST.q }}"></input>
+     </td>
+     <td>
+    <div class="btn-group">
+     {{ request.REQUEST.btnsubmit|search_dropdown }}
+     {% comment %}<button type="submit" id="searchby" name="btnsubmit" class="btn" value="Keyword" >Keyword</button>{% endcomment %}
+     <a class="btn dropdown-toggle" data-toggle="dropdown">
+      <span class="caret"></span>
+     </a>
+     <ul class="dropdown-menu">
+      <li><a onclick='ChangeSearchBookText("Keyword");' href="#">Keyword</a></li>
+      <li><a onclick='ChangeSearchBookText("Author");' href="#">Author</a></li>
+      <li><a onclick='ChangeSearchBookText("Title");' href="#">Title</a></li>
+      <li><a onclick='ChangeSearchBookText("Subject");' href="#">Subject</a></li>
+      <li><a onclick='ChangeSearchBookText("Journal Title");' href="#">Journal Title</a></li>
+     </ul>
+   </div>
+   </td>
+   </tr>
+  </table>
+ <input type="hidden" id="search-type" name="search-type" value="search" />
+</form>

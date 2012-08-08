@@ -1,5 +1,7 @@
 {% load i18n %}
 {% load discovery_extras %}
+<div class="row">
+<div class="span12">
 {% if pagination.previous_page %}
   <span class="page-previous">
     <a href="{% pagination_url pagination.previous_page.number %}" title="results {{ pagination.previous_page.start }} to {{ pagination.previous_page.end }}">&larr;&nbsp;{% trans "Previous" %}</a>
@@ -29,3 +31,5 @@
     <a href="{% pagination_url pagination.next_page.number %}" title="results {{ pagination.next_page.start }} to {{ pagination.next_page.end }}">{% trans "Next" %}&nbsp;&rarr;</a>
   </span>
 {% endif %}
+</div>
+</div>

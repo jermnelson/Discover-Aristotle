@@ -1,0 +1,18 @@
+{% load i18n %}
+{% load markup %}
+<div class="modal hide fade" id="discovery_help">
+ <div class="modal-header">
+   <a class="close" data-dismiss="modal">×</a>
+   <h1>Help with the New TIGER</h1>
+ </div>
+ <div class="modal-body">
+  {% autoescape off %}
+  {% for key, value in help_loader.items %}
+  {{ value }}
+  {% endfor %}
+  {% endautoescape %}
+ </div>
+ <div class="modal-footer">
+  <a href="#" onclick="$('#discovery_help').modal('hide')" class="btn btn-primary" style="color:#fff;">{% trans 'Close' %}</a>
+ </div>
+</div>

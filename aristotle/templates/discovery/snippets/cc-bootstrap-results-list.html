@@ -1,0 +1,68 @@
+{% load i18n %}
+{% load discovery_extras %}
+<div class="row">
+ {% include 'cc-bootstrap-sortby.html' %}
+ {% include 'cc-bootstrap-cart.html' %}
+</div>
+<div class="row">
+<div class="span9">
+<ol start="{{ response.start|add:'1' }}">
+{% for doc in response.docs %}
+  <li><h2> {% title_link %} </h2>
+    <a class="label label-success" 
+      rel="tooltip" title="Save Record to cart"
+     onclick="AddCartItem(this,'{{ doc.id }}')">
+     <i class="icon-plus-sign icon-white"></i></a>
+     <table class="list-record">
+      <tbody>
+      {% if doc.author %}
+      {% for author in doc.author %}
+      <tr class="list-record">
+        <th class="list-record">{% trans "Author" %}/{% trans "Creator"%}:</th>
+        <td class="list-record"><a href="{% new_limit "author" author %}" title="{% trans "Filter on" %}{{ author }}">{{ author }}</a></td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+     {% if doc.pubyear %}
+      <tr class="list-record">
+        <th class="list-record">{% trans "Published"%}:</th>
+        <td class="list-record">{{ doc.pubyear }}</td>
+      </tr>
+     {% endif %}
+      <tr class="list-record" >
+        <th class="list-record">{% trans "Access" %}:</th>
+        <td class="list-record">
+       {% if doc.item_ids %}
+        {% for item_id in doc.item_ids|slice:":3" %}
+        {{ item_id|get_item_status }}<br/>
+        {% endfor %}
+       {% endif %}
+       {% if doc.url %}
+         {% for url in doc.url %}
+          {{ url|get_valid_url }}
+         {% endfor %}
+       {% endif %}
+        </td>
+       </tr>
+       {% if doc.format %}
+       <tr class="list-record">
+         <th class="list-record">{% trans "Format" %}:</th>
+         <td class="list-record">{{ doc.format|get_format_icon }} <a href='{% new_limit "format" doc.format %}' title="{% trans "Filter on" %}">{{ doc.format }}</a></td>
+        </tr>
+       {% endif %}
+       {% if doc.LCClass %}
+       {% for LCNum in doc.LCClass %}
+       <tr class="list-record">
+         <th class="list-record">{% trans "Call number" %}:</th>
+         <td class="list-record">{{ record.lc_callnum_display.0 }}</td>
+       </tr>
+       {% endfor %}
+       {% endif %}
+      </tbody>
+    </table>
+    <hr/>
+  </li>
+{% endfor %}
+</ol>
+</div>
+

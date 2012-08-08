@@ -31,6 +31,7 @@ from reportlab.rl_config import defaultPageSize
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.platypus import *
+from aristotle.help import help_loader
 
 from django.conf import settings
 from django.core import serializers
@@ -94,6 +95,7 @@ def index(request):
         facets.append(facet)
     context['facets'] = facets
     context['INDEX_FACET_TERMS'] = settings.INDEX_FACET_TERMS
+    context['help_loader'] = help_loader.help_loader
     template = loader.get_template('discovery/index.html')
     response = HttpResponse(template.render(context))
     if not settings.DEBUG:
@@ -123,6 +125,7 @@ def search(request):
     context.update(get_search_results(request))
     context['ILS'] = settings.ILS
     context['MAJAX_URL'] = settings.MAJAX_URL
+    context['help_loader'] = help_loader.help_loader
     template = loader.get_template('discovery/index.html')
     return HttpResponse(template.render(context))
 

@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load discovery_extras %}
+<div class="span6" style="padding: 1.1em;">
+{% trans "Sort by:" %}
+{% for sort in sorts %}
+ {% ifequal sort current_sort %}
+ <span>{{ sort }}</span>
+ {% else %}
+ <span><a href="{% add_sort sort %}">{{ sort }}</a></span>
+  {% endifequal %}
+{% endfor %}
+</div>

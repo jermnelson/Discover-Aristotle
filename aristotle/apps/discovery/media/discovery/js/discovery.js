@@ -6,21 +6,41 @@ function AddCartItem(anchor_tag,record_id) {
       data: data,
    success: function(responseText) {
        // Should change icon and text to Drop
-       var anchor_html = '<a href="#" onclick="';
-       anchor_html += "DropCartItem(this,'" + record_id + "'," + true + ')">';
-       anchor_html += "<img src='/site_media/static/pinax/img/silk/icons/folder_delete.png' /><br/>Drop</a>";
-       $(anchor_tag).parent().html(anchor_html);
-       window.location.reload();
+       var anchor_html = "DropCartItem(this,'" + record_id + "'," + true + ')"';
+       $(anchor_tag).removeClass('label-success').addClass('label-important');
+       $(anchor_tag).attr('onclick',anchor_html);
+       $(anchor_tag).html('<i class="icon-minus-sign icon-white"></i>');
     }
    });
 }
 
 function CartToRefworks(session_id) {
-  //alert("In CartToRefworks");
   var refworks_url = 'http://www.refworks.com/express/expressimport.asp?vendor=iii&filter=RefWorks%20Tagged%20Format&url=http%3A//' + window.location.host + '/catalog/cart/refworks?session=' + session_id;
   window.open(refworks_url);
 }
 
+
+function ChangeSearchBookText(btn_text) {
+ $("#searchby").html(btn_text);
+ $("#searchby").val(btn_text);
+ var search_char = btn_text.charAt(0);
+ switch(search_char) {
+  case 'A':
+   $('#search-type').val("author_search");
+   break;
+  case 'J':
+   $('#search-type').val("title_search");
+   break;
+  case 'K':
+   $('#search-type').val("search");
+   break;
+  case 'S':
+   $('#search-type').val("subject_search");
+   break;
+  case 'T':
+   $('#search-type').val("title_search");
+ }
+}
 
 function DropCartItem(anchor_tag,record_id,keep) {
   var data = 'record_id=' + record_id;
@@ -31,10 +51,11 @@ function DropCartItem(anchor_tag,record_id,keep) {
    success: function(responseText) {
        // Should change icon and text to Drop
        if(keep) {
-         var anchor_html = '<a href="#" onclick="';
-         anchor_html += "AddCartItem(this,'" + record_id + "'" + ')">';
-         anchor_html += "<img src='/site_media/static/pinax/img/silk/icons/folder_add.png' /><br/>Save</a>";
-         $(anchor_tag).parent().html(anchor_html);
+         var anchor_html = "AddCartItem(this,'" + record_id + "'" + ')';
+         $(anchor_tag).removeClass('label-important').addClass('label-success');
+         $(anchor_tag).attr('onclick',anchor_html);
+         $(anchor_tag).attr('title','Remove Record from cart');
+         $(anchor_tag).html('<i class="icon-plus-sign icon-white"></i>');
        } else {
          $(anchor_tag).parent().remove();
        }
@@ -178,13 +199,12 @@ function ShowCart(session_id) {
        url: '/catalog/cart',
       data: data,
    success: function(responseText) {
-        var output = '<h2>Your Saved Records</h2>';
-        output += '<button onclick="$.fancybox.close()">Close</b/utton><button onclick="PrintCart()">Print</button>';
-        output += '<button onclick="EmailCart()">Email</button>';
-        output += '<button onclick=';
+        var output = '<button class="btn" onclick="PrintCart()"><i class="icon-print"></i> Print</button>';
+        output += '<button class="btn" onclick="EmailCart()"><i class="icon-envelope"></i> Email</button>';
+        output += '<button class="btn" onclick=';
         output += "'CartToRefworks(";
         output += '"' + session_id + '"';
-        output += ")'>Export to RefWorks</button><ol>";
+        output += ")'><i class='icon-share'></i> Export to RefWorks</button><ol>";
         var results = eval(responseText);
         for(row in results) {
            var record = results[row];
@@ -201,20 +221,14 @@ function ShowCart(session_id) {
              if(record.location) {
                 output +=  record.location;
              }
-             output += '. <a onclick="DropCartItem(this,' + "'" + record.id + "'," + false + ')">';
-             output += "<img src='/site_media/static/pinax/img/silk/icons/folder_delete.png' /></a>";
+             output += '. <a class="btn btn-mini btn-danger" onclick="DropCartItem(this,' + "'" + record.id + "'," + false + ')">';
+             output += 'Remove</a>';
            }
            
         }
         output += '</ol>';
-        $('a#cart_display').fancybox({
-           content: output,
-             width: 480,
-             height: 340,
-        });
-        //alert("After ShowCart fancybox call");
+        $('#cart-dlg-contents').html(output);
     }
    });
-  //$('a#cart_display').click();
 
 }

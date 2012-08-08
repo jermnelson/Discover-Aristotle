@@ -1,6 +1,15 @@
 {% load i18n %}
+<div class="modal-header">
+ <button type="button" class="close" data-dismiss="modal">x</button>
+ <h2>Your Search History</h2>
+</div>
+<div class="modal-body">
   <ul>
     {% for url, query, timestamp in search_history %}
     <li><a href="{{ url }}">{{ query|safe }}</a> ({{ timestamp|timesince }} {% trans "ago" %})</li>
     {% endfor %}
   </ul>
+</div>
+<div class="modal-footer">
+ <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+</div>

@@ -1,0 +1,35 @@
+{% load i18n %}
+{% load discovery_extras %}
+{% if pagination %}
+ <div class="row">
+  <div class="span12" style="color: white;float:right">
+  <div class="pagination pagination-right">
+   {% trans "Results" %}
+   <strong>{{ start_number }} - {{ end_number }}</strong>
+   {% trans "of" %}
+   <strong>{{ number_found }}</strong>
+   {% trans "for" %}
+   {{ full_query_str|safe }} 
+     <ul>
+     {% if pagination.first_page %}
+     <li><a href="{% pagination_url 1 %}">Prev</a></li>
+     {% endif %}
+     {% for page in pagination.pages %}
+      {% if page.selected %}
+      <li class="active"><a href="#">{{ page.number }}</a></li>
+      {% else %}
+      <li><a href="{% pagination_url page.number %}">{{ page.number }}</a></li>
+     {% endif %}
+     {% endfor %}
+     <li class="disabled"><a href="#">...</a></li>
+     {% if pagination.last_page %}
+     <li><a href="{% pagination_url pagination.last_page.number %}">{{ pagination.last_page.number }}</a></li>
+     {% endif %}
+     {% if pagination.next_page %}
+     <li><a href="{% pagination_url pagination.next_page.number %}">Next</a></li>
+     {% endif %}
+     </ul>
+   </div>
+  </div>
+ </div>
+ {% endif %}

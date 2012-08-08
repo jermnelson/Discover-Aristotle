@@ -1,17 +1,23 @@
-{% extends 'cc-search-base.html' %}
+{% extends 'cc-bootstrap-base.html' %}
 {% load i18n %}
 {% load discovery_extras %}
 
 {% block more-css %}
-<link href="{{ STATIC_URL }}discovery/css/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
+ <link href="{{ STATIC_URL }}discovery/css/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
+ <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" />
  <link href="{{ STATIC_URL }}discovery/css/discovery.css" rel="stylesheet" /> 
+{% endblock %}
+
+{% block library-breadcrumb %}
+ <div id="breadcrumb"></div>
 {% endblock %}
 
 {% block results-detail %}
 {% endblock %}
 
+
 {% block results-list %}
-<div class="main" id="main-content">
+<div class="main content" id="main-content">
 {% if response.docs %}
 {% include 'results-list.html' %}
 {% else %}
@@ -44,25 +50,28 @@
 
 
 {% block more-scripts %}
-<script src="http://jqueryui.com/ui/jquery.ui.core.js"></script>
-<script src="http://jqueryui.com/ui/jquery.ui.widget.js"></script>
-<script src="http://jqueryui.com/ui/jquery.ui.dialog.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.ui.core.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.ui.widget.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.ui.dialog.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap-tab.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap-tooltip.js"></script>
 <script src="{{ STATIC_URL }}discovery/js/discovery.js"></script>
 <script>
-$(document).ready(function() {
-  $("a#search_display").fancybox();
-  $("a#cart_display").fancybox({
-    onStart: ShowCart("{{ session_id }}"),
-  });
-});
+ $(function() {
+   $("#cart-dlg").on('show', function() {
+     ShowCart("{{ session_id }}")
+   });
+ });
 </script>
 {% endblock more-scripts %}
 
 {% block dialogs %}
-<div style="display:none">
+<div id="search_dialog" class="modal hide">
 {% include 'search_history_dialog.html' %}
 </div>
-<div style="display:none">
+<div id="cart-dlg" class="modal hide">
 {% include 'cart_dialog.html' %}
 </div>
 {% endblock %}

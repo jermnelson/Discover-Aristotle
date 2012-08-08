@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>{% block head-title %}Library Search &#8226; Colorado College{% endblock %}</title>
+   {% block base-css %}
+    {% include "cc-bootstrap-styles.html" %}
+   {% endblock %}
+   {% block more-css %}{% endblock %}
+ </head>
+ <body class="department library">
+ {% block accessibility %}
+  {% include "accessibility.html" %}
+ {% endblock %}
+ {% block collapsed-header %}
+  {% include "cc-bootstrap-collapsed-header.html" %}
+ {% endblock %}
+ <div class="clear"></div>
+ {% block feature %}
+  <div class="feature" style="background-image: url({{ STATIC_URL }}img/temp/library/busy-library.jpg);height:180px;">
+   <span class="clear"></span>
+  </div>
+ {% endblock %}
+ <div class="clear"></div>
+ {% block library-tabs %}
+  {% include "library-tabs.html" %}
+{% endblock %}
+{% block library-breadcrumb %}
+  <div id="breadcrumb">
+    <div class="stage"><a href="#">Library Home</a> &raquo; <a href="#">TIGER Catalog</a> &raquo; <a class="on" href="#"> Bootstrap Template</a></div> 
+  </div>
+  <div class="clear"></div>
+{% endblock %}
+{% comment %}START background color div{% endcomment %}
+<div style="background: #F1ECE5 url('{{ STATIC_URL }}img/design/bg/blue.gif') repeat-x;">
+ {% comment %}START Bootstrap Container{% endcomment %}
+ <div class="container">
+ {% comment %}START search-panel row{% endcomment %}
+  {% include "cc-bootstrap-search-panel-row.html" %}
+ {% comment %}END search-panel row{% endcomment %}
+ {% comment %}START pagination row{% endcomment %}
+  {% include "cc-bootstrap-pagination-row.html" %}
+ {% comment %}END pagination row{% endcomment %}
+ {% comment %}START facets-results row{% endcomment %}
+  {% include "cc-bootstrap-facets-results-row.html" %}
+ {% comment %}END facet-results row{% endcomment %}
+ 
+ {% comment %}END Bootstrap Content{% endcomment %}
+ </div>
+{% comment %}END background color div{% endcomment %}
+</div>
+{% block footers %}
+  {% include 'cc-footer.html' %}
+{% endblock %}
+
+{% block scripts %}
+  {% include 'cc-scripts.html' %}
+  {% block more-scripts %}
+  {% endblock more-scripts %}
+{% endblock %}
+
+{% block dialogs %}{% endblock %}
+ </body>
+</html>

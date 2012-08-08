@@ -1,0 +1,23 @@
+{% load i18n %}
+{% load discovery_extras %}
+<div class="span2">
+ <div class="btn-group records-cart">
+  <a class="btn dropdown-toggle btn-small btn-inverse"
+     data-toggle="dropdown" href="#">
+    <i class="icon-shopping-cart icon-white"></i> 
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu records-cart">
+   <li><a class="records-cart" data-toggle="modal" href="#cart-dlg" id="cart_display">
+       <i class="icon-list-alt"></i> Display Saved Records</a></li>
+   <li><a class="records-cart" onclick="PrintCart()">
+       <i class="icon-print"></i> Print Saved Records</a></li>
+   <li><a class="records-cart" onclick="EmailCart()">
+       <i class="icon-envelope"></i> Email Saved Records</a>
+   </li>
+   <li><a class="records-cart" onclick="CartToRefworks()" >
+       <i class="icon-share"></i> Export to RefWorks</a>
+   </li>
+  </ul>
+ </div>
+</div>
