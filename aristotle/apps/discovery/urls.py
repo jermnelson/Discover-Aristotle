@@ -33,7 +33,7 @@ urlpatterns = patterns('discovery.views',
     url(r'^cart/feed$',SavedRecordsFeed(),name='discovery-feed-cart'),
     url(r'^cart/print$','print_cart', name="discovery-print-cart"),
     url(r'^cart/refworks$','refworks_cart', name="discovery-print-cart"),
-
+    url(r'^ajax/items$','get_all_items',name='all-record-items-dlg-body'),
     #(r'^feed/atom/$', 'atomFeed'),
     #(r'^feed/rss/$', 'rssFeed'),
 )

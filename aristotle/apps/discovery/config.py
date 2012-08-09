@@ -154,5 +154,5 @@ FORMAT_ICONS = {'Atlas' : '<img src="/site_media/static/img/silk/icons/map.png" 
 
 #White-whale template tags
 #CC_URL = 'http://www.coloradocollege.edu/test/library/'
-CC_URL = 'http://www.coloradocollege.edu/library/xindex.dot'
+CC_URL = 'http://www.coloradocollege.edu/library/'
 

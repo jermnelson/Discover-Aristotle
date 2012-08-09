@@ -62,6 +62,22 @@
        },
        "model": "iii.IIIStatusCode",
        "pk":8
+    },
+    {
+       "fields": {
+          "code":"g",
+          "value":"CC Use Only"
+       },
+       "model": "iii.IIIStatusCode",
+       "pk":9
+    },
+    {
+       "fields": {
+          "code":"a",
+          "value":"Being digitized"
+       },
+       "model": "iii.IIIStatusCode",
+       "pk":10
     }
 
    

@@ -1018,7 +1018,6 @@ def refworks_cart(request):
         session_vars = session.get_decoded()
     else:
         session_vars = request.session
-    logging.error("IN REFWORKS CART=%s" % session_vars)
     if session_vars.has_key('items_cart'):
         for item_id in session_vars['items_cart']:
             output += refworks_helper(item_id)
@@ -1141,3 +1140,20 @@ def cart_pdf(request):
     buffer.close()
     response.write(pdf)
     return response
+
+def get_all_items(request):
+    """
+    AJAX function takes a record id, and generates a table
+    of all of the items associated with a record 
+    including each item's circ status to display in a client-side 
+    dialog.
+
+    :param request: HTTP GET or POST request
+    :rtype string: HTML string
+    """
+    record_id = request.REQUEST.get('record_id')
+    solr_status,doc = get_record(record_id)
+    return direct_to_template(request,
+                              'discovery/snippets/all-items-dlg.html',
+                              {'doc':doc})
+

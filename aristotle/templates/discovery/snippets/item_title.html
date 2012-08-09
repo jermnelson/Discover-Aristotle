@@ -6,7 +6,7 @@
  <div class="tabbable tabs-below">
  {% comment %}START TAB CONTENT DIV{% endcomment %}
   <div class="tab-content" style="border:1px solid white;padding:.5em;">
- {% for item_num in doc.item_ids %}
+ {% for item_num in doc.item_ids|slice:"0:9" %}
    <div class="tab-pane{% if forloop.first %} active{% endif %}" id="tab{{ item_num }}">
    {{ item_num|get_item_availablity }}
    </div>  
@@ -14,10 +14,13 @@
  {% comment %} END CONTENT DIV{% endcomment %}
   </div>
   <ul class="nav nav-tabs" id="item-tabs">
-  {% for item_num in doc.item_ids %}
+  {% for item_num in doc.item_ids|slice:"0:9" %}
    <li {% if forloop.first %}class="active"{% endif %}><a href="#tab{{item_num}}" data-toggle="tab">Item {{ forloop.counter }}</a></li>
   {% endfor %}
   </ul>
+  {% if doc.item_ids|length > 10 %}
+   <a href="#" onclick="DisplayAllItems('{{ doc.id  }}')" class="btn btn-small btn-primary">All items...</a>
+  {% endif %}
 {% comment %}END TAB DIV{% endcomment %}
  </div>
  {% comment %}

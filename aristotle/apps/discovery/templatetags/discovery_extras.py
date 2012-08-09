@@ -273,9 +273,23 @@ def get_google_book(num_isbn):
     else:
         return '' 
 
+def get_item_tds(item_id):
+    """
+    Method conntect to ILS to retrieve item information and generates
+    an html table cells with the information.
+    
+    :param item_id: Item id
+    :rtype: HTML string
+    """
+    item_bot = ItemBot(opac_url=ils_settings.OPAC_URL,item_id=item_id)
+    output_html = "<td>{0}</td><td>{1}</td><td>{2}</td>".format(item_bot.status(),
+                                                                item_bot.location(),
+                                                                item_bot.callnumber())
+    return mark_safe(output_html)
+
 def get_item_availablity(item_id):
     """
-    Method conntects to ILS, retrieves item information, and generates
+    Method connects to ILS, retrieves item information, and generates
     corresponding html from template fragment.
 
     :param item_id: Item id
@@ -437,6 +451,7 @@ register.filter('get_cover_image',get_cover_image)
 register.filter('get_format_icon',get_format_icon)
 register.filter('get_google_book',get_google_book) 
 register.filter('get_item_availablity',get_item_availablity)
+register.filter('get_item_tds',get_item_tds)
 register.filter('get_item_status',get_item_status)
 register.filter('get_marc_as_list',get_marc_as_list)
 register.filter('get_refworks_url',get_refworks_url)

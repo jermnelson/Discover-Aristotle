@@ -97,6 +97,21 @@ function DisplayItems(more_dd) {
   $(more_dd).remove();
 }
 
+function DisplayAllItems(record_id) {
+  var data = "record_id=" + record_id;
+  $("#all-items-dlg").modal('show');
+
+  $.ajax({
+     type: 'get',
+      url: '/catalog/ajax/items',
+     data: data,
+    success: function(responseText) {
+      $("#all-items-dlg").html(responseText);
+     }
+    });
+
+}
+
 function DisplayRows(row_count_select) {
  var new_row_count = $(row_count_select).attr('value');
  $('#solr_rows').attr('value',new_row_count);
