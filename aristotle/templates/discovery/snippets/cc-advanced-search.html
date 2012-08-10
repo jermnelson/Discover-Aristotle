@@ -1,0 +1,29 @@
+{% load i18n %}
+{% load discovery_extras %}
+ <form action="{% url discovery-adv-search %}" name="catalog_search" method="POST">
+        {% csrf_token %} 
+        <fieldset id="adv-searchbox">
+         <h3>Advanced Search</h3>
+         <select name="field1_type" style="width:100px">
+         {{ advanced_query.field1_type|search_field_options }} 
+         </select>
+         <input type="text" name="field1_phrase" value="{{ advanced_query.field1_phrase }}" />
+         <select name="field1_operator" style="width:100px">
+         {{ advanced_query.field1_operator|search_operator_options }}
+         </select>
+         <br/>
+         <select name="field2_type" style="width:100px">
+         {{ advanced_query.field2_type|search_field_options }} 
+         </select>
+         <input type="text" name="field2_phrase" value="{{ advanced_query.field2_phrase }}" />
+         <select name="field2_operator" style="width:100px">
+         {{ advanced_query.field2_operator|search_operator_options }}
+         </select>
+         <br/>
+         <select name="field3_type" style="width:100px">
+         {{ advanced_query.field3_type|search_field_options }} 
+         </select>
+         <input type="text" name="field3_phrase" value="{{ advanced_query.field3_phrase }}" />
+         <input type="submit" name="btnsubmit" class="submit btn" value="Search" />
+        </fieldset>
+</form>

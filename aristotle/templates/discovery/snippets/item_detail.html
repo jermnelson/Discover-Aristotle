@@ -15,6 +15,12 @@
    <dd><a href="{{ url }}">{{ url }}</a></dd>
   {% endfor %}
   {% endif %}
+  {% if doc.holdings %}
+  <dt>{% trans "Holdings" %}:</dt>
+  {% for row in doc.holdings %}
+   <dd>{{ row }}</dd>
+  {% endfor %}
+  {% endif %}
   {% if doc.language %}
   <dt>{% trans "Language" %}:</dt>
   {% for language in doc.language %}

@@ -44,6 +44,16 @@
        {% endif %}
         </td>
        </tr>
+       {% if doc.holdings %}
+       <tr class="list-record">
+         <th class="list-record">{% trans "Holdings" %}:</th>
+         <td class="list-record">
+         {% for holding in doc.holdings|slice:"0:4" %}
+          {{ holding }}<br/>
+         {% endfor %}
+         </td>
+       </tr>
+       {% endif %}
        {% if doc.format %}
        <tr class="list-record">
          <th class="list-record">{% trans "Format" %}:</th>

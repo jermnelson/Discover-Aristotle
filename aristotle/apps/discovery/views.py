@@ -340,10 +340,24 @@ def advanced_search(request):
                   'terms': all_results.facet_counts.facet_fields[facet_name],
                 }
                 facets.append(facet)
+        number_found = all_results.numFound
+        page_str = request.GET.get('page')
+        try:
+            page = int(page_str)
+        except (TypeError, ValueError):
+            page = 1
+        zero_index = (settings.ITEMS_PER_PAGE * (page - 1))
+        logging.error("In advanced_search page: {0} zero_index: {1} number_found: {2}".format(page,zero_index,number_found))
         return direct_to_template(request,
                                   'discovery/index.html',
                                   {'is_advanced_search':True,
-                                   'facets':facets})
+                                   'end_number': min(number_found, settings.ITEMS_PER_PAGE * page)
+                                   'facets':facets,
+                                   'number_found': all_results.numFound,
+                                   'pagination': do_pagination(page, 
+                                                               number_found, 
+                                                               settings.ITEMS_PER_PAGE),
+                                   'start_number':zero_index + 1})
     else:
         # Use Sunburnt standard request handler
         field1_q = generate_Q(solr_server,
@@ -633,7 +647,6 @@ def get_search_results(request):
         if not facet['sort_by_count']:
             params.append(('f.%s.facet.sort' % facet['field'], 'false'))
     powerless_query, field_queries = pull_power(query)
-    logging.error("IN SEARCH RESULTS field_queries=%s" % powerless_query)
     if not powerless_query.strip() or powerless_query == '*':
         params.append(('q.alt', '*:*'))
         context['sorts'] = [x[0] for x in settings.SORTS 

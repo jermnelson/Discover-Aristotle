@@ -93,6 +93,7 @@ FIELDNAMES = [
     'full_title',
     'full_lc_subject',
     'genre',
+    'holdings',
     'id',
     'imprint',
     'isbn',
@@ -570,6 +571,23 @@ def get_callnumber(record):
         callnumber = record['050'].value()
     return callnumber
 
+def get_holdings(record):
+    """Extracts serial holding from 850 and 945 fields
+    """
+    holdings = []
+    if record["945"]:
+        all945s = record.get_fields('945')
+        for field in all945s:
+            for subfield in field.get_subfields('c'):
+                holdings.append(subfield)
+    if record["850"]:
+        all850s = record.get_fields('850')
+        for field in all850s:
+            for subfield in field.get_subfields('a'):
+                if holdings.count(subfield) < 1:
+                    holdings.append(subfield)
+    return holdings
+
 def get_items(record,ils=None):
     """Extracts item id from bib record for web service call
     to active ILS."""
@@ -734,6 +752,7 @@ def get_record(marc_record, ils=None):
     record['author'] = marc_record.author()
     record['callnum'] = get_callnumber(marc_record)
     record['callnumlayerone'] = record['callnum']
+    record['holdings'] = get_holdings(marc_record)
     record['item_ids'] = get_items(marc_record,ils)
     record['lc_firstletter'] = get_lcletter(marc_record)
     record['location'] = get_location(marc_record)
@@ -838,7 +857,7 @@ def get_record(marc_record, ils=None):
     url_fields = marc_record.get_fields('856')
     record['url'] = []
     for field in url_fields:
-        url_subfield = field.get_subfields('u','z')
+        url_subfield = field.get_subfields('u')
         for url in  url_subfield:
             record['url'].append(url)
     record['marc_record'] = marc_record.__str__()  # Should output to MARCMaker format
