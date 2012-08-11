@@ -351,7 +351,7 @@ def advanced_search(request):
         return direct_to_template(request,
                                   'discovery/index.html',
                                   {'is_advanced_search':True,
-                                   'end_number': min(number_found, settings.ITEMS_PER_PAGE * page)
+                                   'end_number': min(number_found, settings.ITEMS_PER_PAGE * page),
                                    'facets':facets,
                                    'number_found': all_results.numFound,
                                    'pagination': do_pagination(page, 
