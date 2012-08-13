@@ -12,7 +12,7 @@
    {% include 'cc-bootstrap-results-list.html' %}
  {% else %}
   {% if spellcheck %}
-    <h1>Spell Check</h1>
+    {{ spellcheck|display_spellcheck:query }}
   {% else %}
    {% include 'cc-bootstrap-welcome-msg.html' %} 
   {% endif %}

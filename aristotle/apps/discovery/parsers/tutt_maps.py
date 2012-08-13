@@ -156,6 +156,16 @@ LOCATION_CODE_MAP = {
     'xwebb':'Penrose Hospital',
 }
 
+GOVDOCS_COLLECTIONS = {'tdacd':'Government Documents CD-ROM index',
+                       'td':'Tutt South Basement',
+                       'tdo':'Tutt South Basement',
+                       'tdcol':'Tutt South Basement',
+                       'tde':'Tutt South Basement',
+                       'tdea':'Tutt South Basement',
+                       'tdem':'Tutt South Basement',
+                       'tdemc':'Tutt South Basement'}
+
+
 SPECIAL_COLLECTIONS = {'tsa':'Special Collections Audio',
                        'tlr':'Special Collections Lincoln Room',
                        'tlrc':'Special Collections Lincoln Room',
@@ -190,4 +200,7 @@ SPECIAL_COLLECTIONS = {'tsa':'Special Collections Audio',
                        'tv':'Videos-Tutt 2nd Floor North',
                        'tvc':'Video-Tutt Circulation Desk',
                        'tvdvd':'DVD-Tutt Circulation Desk'}
+
+
+
 

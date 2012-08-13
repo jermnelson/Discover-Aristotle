@@ -1,11 +1,12 @@
 {% load i18n %}
-<h1 class="discovery-home">{% trans "Your search "%}<em>{{ spellcheck.missspelledTerm }}</em>{% trans " not found in TIGER" %}</h1>
-{% if spellcheck.suggestions %}
+<h1>{% trans "We couldn't find anything matching "%}<em>{{ query }}</em></h1>
+{{ spellcheck }}
+{% if suggestions %}
 <p>
   {% trans "Did you mean?" %}
 </p>
 <ul class="search-help">
-{% for suggestion in spellcheck.suggestions %}
+{% for suggestion in suggestions %}
   <li><a href="{% url discovery-search %}?q={{ suggestion.word }}">{{ suggestion.word }}</a> ({{ suggestion.freq }})</li>
 {% endfor %}
 </ul>

@@ -115,7 +115,7 @@ def search(request):
             context.update(get_specialized_results(request,'subject'))
         elif search_type == 'journal_title_search':
             #! Should add extra format = 'journal'
-            context.update(get_specialized_results(request,'subject'))
+            context.update(get_specialized_results(request,'title'))
         if search_type != 'search':
             template = loader.get_template('discovery/index.html')
             return HttpResponse(template.render(context))
@@ -302,7 +302,6 @@ def get_solr_response(params):
     params.extend(default_params)
     urlparams = urllib.urlencode(params)
     url = '%sselect?%s' % (settings.SOLR_URL, urlparams)
-    logging.error("SOLR URL=%s" % url)
     try:
         solr_response = urllib.urlopen(url)
     except IOError:
@@ -340,23 +339,25 @@ def advanced_search(request):
                   'terms': all_results.facet_counts.facet_fields[facet_name],
                 }
                 facets.append(facet)
-        number_found = all_results.numFound
+        number_found = all_results.result.numFound
         page_str = request.GET.get('page')
         try:
             page = int(page_str)
         except (TypeError, ValueError):
             page = 1
         zero_index = (settings.ITEMS_PER_PAGE * (page - 1))
-        logging.error("In advanced_search page: {0} zero_index: {1} number_found: {2}".format(page,zero_index,number_found))
         return direct_to_template(request,
                                   'discovery/index.html',
                                   {'is_advanced_search':True,
+                                   'current_sort':_('newest'),
                                    'end_number': min(number_found, settings.ITEMS_PER_PAGE * page),
                                    'facets':facets,
-                                   'number_found': all_results.numFound,
+                                   'limits_param':request.GET.get('limits', ''),
+                                   'number_found': number_found,
                                    'pagination': do_pagination(page, 
                                                                number_found, 
                                                                settings.ITEMS_PER_PAGE),
+                                   'query':'*',
                                    'start_number':zero_index + 1})
     else:
         # Use Sunburnt standard request handler
@@ -373,7 +374,6 @@ def advanced_search(request):
                               request.POST.get('field3_phrase',''))
         operator_2 = request.POST.get('field2_operator')
         solr_query = add_operator(solr_query,field3_q,operator_2)
-        logging.error(facet_fields)
         adv_search_query = solr_server.query(solr_query).facet_by(facet_fields,
                                                                   limit=settings.MAX_FACET_TERMS_EXPANDED,
                                                                   mincount=1)
@@ -526,7 +526,7 @@ def get_specialized_results(request,request_handler='dimax'):
                 doc['isbn_numeric'] = ''.join( [ x for x in doc['isbn'] if ( x.isdigit() or x.lower() == "x" ) ] )
     else:
         if solr_results.spellcheck is not None:
-            context['spellcheck'] = solr_results.spellcheck
+            context['spellcheck'] = {'sunburnt':solr_results.spellcheck,'query':query}
     facet_counts = solr_results.facet_counts
     facet_fields = facet_counts.facet_fields
     facets = []   

@@ -16,7 +16,7 @@
 # along with Kochief.  If not, see <http://www.gnu.org/licenses/>.
 
 import urllib,urllib2
-import sunburnt
+import sunburnt,logging
 
 from django.template import Context,Library,Template,loader
 from django.utils.translation import ugettext as _
@@ -190,7 +190,7 @@ class spellcheck_stub(object):
     missspelledTerm = None
     suggestions = []
 
-def display_spellcheck(spellcheck):
+def display_spellcheck(spellcheck,query=None):
     """Displays Solr spellcheck results.
 
     :param spellcheck: Solr spellcheck, either Kochief Solr or Sunburnt 
@@ -199,18 +199,19 @@ def display_spellcheck(spellcheck):
     """
     spellcheck_template = loader.get_template('spellcheck.html')
     params = {}
-    if type(spellcheck) == sunburnt.schema.SolrSpellCheck:
-        params['spellcheck'] = spellcheck
-    # Uses old manual Kochief-style SolrSpell check
+    if 'sunburnt' in spellcheck:
+        params['query'] = query
+        logging.error(spellcheck['sunburnt'])
+        params['suggestions'] = spellcheck['sunburnt'].suggestions
+    # In Kochief Solr Result
     else:
-        spell_stub = spellcheck_stub()
-        if not spellcheck['suggestions'][0][1]: # correctly spelled is False
-            spell_stub.missspelledTerm = spellcheck['suggestions'][0][0]
-            for row in spellcheck['suggestions'][0][1]['suggestion']:
-                spell_stub.suggestions.append(row)
+        if "correctlySpelled" in spellcheck["suggestions"][0]:
+            if spellcheck["suggestions"][0][1] is True:
+                params["query"] = query
+                params["suggestions"] = []
         else:
-            spell_stub.missspelledTerm = "NOT FOUND" # need to extract query term
-        params['spellcheck'] = spell_stub
+            params['query'] = spellcheck['suggestions'][0][0]
+            params['suggestions'] = spellcheck['suggestions'][0][1]['suggestion']
     context = Context(params)
     return mark_safe(spellcheck_template.render(context))
 

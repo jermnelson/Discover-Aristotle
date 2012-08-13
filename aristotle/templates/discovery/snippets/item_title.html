@@ -18,7 +18,7 @@
    <li {% if forloop.first %}class="active"{% endif %}><a href="#tab{{item_num}}" data-toggle="tab">Item {{ forloop.counter }}</a></li>
   {% endfor %}
   </ul>
-  {% if doc.item_ids|length > 10 %}
+  {% if doc.item_ids|length > "10" %}
    <a href="#" onclick="DisplayAllItems('{{ doc.id  }}')" class="btn btn-small btn-primary">All items...</a>
   {% endif %}
 {% comment %}END TAB DIV{% endcomment %}

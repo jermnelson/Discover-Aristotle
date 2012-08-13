@@ -6,9 +6,10 @@ function AddCartItem(anchor_tag,record_id) {
       data: data,
    success: function(responseText) {
        // Should change icon and text to Drop
-       var anchor_html = "DropCartItem(this,'" + record_id + "'," + true + ')"';
+       var anchor_html = "DropCartItem(this,'" + record_id + "'," + true + ')';
        $(anchor_tag).removeClass('label-success').addClass('label-important');
        $(anchor_tag).attr('onclick',anchor_html);
+       $(anchor_tag).attr('title','Remove Record from cart');
        $(anchor_tag).html('<i class="icon-minus-sign icon-white"></i>');
     }
    });
