@@ -1,5 +1,10 @@
 {% load discovery_extras %}
 <div class="item-about">
+ {% if doc.isbn %}
+ <div style="float:right">
+  {{ doc.isbn.0|get_google_book:"large" }}
+ </div>
+ {% endif %}
  <h1>{{ doc.full_title }}</h1>
  <h2>About this Work:</h2>
 {% comment %}START TAB DIV{% endcomment %}
@@ -23,11 +28,4 @@
   {% endif %}
 {% comment %}END TAB DIV{% endcomment %}
  </div>
- {% comment %}
- {% if doc.isbn %}
- <div style="float:right">
-  {{ doc.isbn.0|get_google_book }}
- </div>
- {% endif %}
- {% endcomment %}
 </div>

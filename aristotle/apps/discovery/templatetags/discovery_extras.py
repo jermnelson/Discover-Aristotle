@@ -22,7 +22,7 @@ from django.template import Context,Library,Template,loader
 from django.utils.translation import ugettext as _
 from django.utils import simplejson
 from django.utils.safestring import mark_safe
-import settings
+from settings import GBS_API_KEY,ILS_HOLD_URL,PROSPECTOR_URL
 from discovery.config import FORMAT_ICONS
 from vendors.iii.bots.iiibots import ItemBot
 import vendors.iii.settings as ils_settings
@@ -161,7 +161,7 @@ def display_ill(record):
         status = item_bot.status()
         if status is not None:
             if item_bot.status().startswith('Due'):
-                hold_link = settings.ILS_HOLD_URL % (3*(record.get('id'),))
+                hold_link = ILS_HOLD_URL % (3*(record.get('id'),))
                 ill_link = generate_prospector_url(record.get('id'))
                 context = Context({'hold_link':hold_link,
                                    'ill_link':ill_link,
@@ -247,14 +247,16 @@ def get_format_icon(term):
     else:
         return ''
    
-def get_google_book(num_isbn):
+def get_google_book(num_isbn,size='small'):
     """Custom method queries Google Books API to retrieve urls and book 
     cover thumbnails to display to the end user.
 
     :param num_isbn: numeric string for an ISBN number, required
     :rtype: String of embedded HTML for Google Book cover
     """
-    google_book_url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:%s' % num_isbn
+    params = urllib.urlencode({'q':'isbn:{0}'.format(num_isbn),
+                               'access_token':GBS_API_KEY})
+    google_book_url = 'https://www.googleapis.com/books/v1/volumes?{0}'.format(params) 
     try:
         book_json = simplejson.load(urllib2.urlopen(google_book_url))
     except:
@@ -264,9 +266,12 @@ def get_google_book(num_isbn):
         output = '<div class="gbsLinkCover">'
         output += '''<a href="%s">''' % top_result["volumeInfo"]["infoLink"]
         if top_result['volumeInfo'].has_key('imageLinks'):
-            output += '''<img src="%s" title="%s" />''' % \
-                      (top_result['volumeInfo']['imageLinks']['smallThumbnail'],
-                       'Summary, etc. at Google Book Search')
+            if size == 'small':
+                thumbnail_url = top_result['volumeInfo']['imageLinks']['smallThumbnail']
+            else:
+                thumbnail_url = top_result['volumeInfo']['imageLinks']['thumbnail']
+            output += '''<img src="{0}" title="{1}" />'''.format(thumbnail_url,
+                                                                 'Summary, etc. at Google Book Search')
         output += '</a><br/>'
         output += '<a href="%s"><img src="http://www.google.com/intl/en/googlebooks/images/gbs_preview_button1.gif" /></a>' % top_result["volumeInfo"]["infoLink"]
         output += '</div>'
@@ -376,7 +381,7 @@ def generate_prospector_url(record_id):
     :param record_id: Bib ID of record
     :rtype: String of URL to prospector
     """
-    prospector_url = settings.PROSPECTOR_URL % (record_id,record_id)
+    prospector_url = PROSPECTOR_URL % (record_id,record_id)
     return mark_safe(prospector_url)
 
 def reduce_subjects(doc):

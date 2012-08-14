@@ -8,7 +8,14 @@
 <div class="span9">
 <ol start="{{ response.start|add:'1' }}">
 {% for doc in response.docs %}
-  <li><h2> {% title_link %} </h2>
+  <li>
+   {% if doc.isbn %}
+   <div style="float:right">
+    {{ doc.isbn.0|get_google_book }}
+   </div>
+   {% endif %}
+   <h2> {% title_link %} </h2>
+    
     <a class="label label-success" 
       rel="tooltip" title="Save Record to cart"
      onclick="AddCartItem(this,'{{ doc.id }}')">
