@@ -255,7 +255,7 @@ def get_google_book(num_isbn,size='small'):
     :rtype: String of embedded HTML for Google Book cover
     """
     params = urllib.urlencode({'q':'isbn:{0}'.format(num_isbn),
-                               'access_token':GBS_API_KEY})
+                               'key':GBS_API_KEY})
     google_book_url = 'https://www.googleapis.com/books/v1/volumes?{0}'.format(params) 
     try:
         book_json = simplejson.load(urllib2.urlopen(google_book_url))

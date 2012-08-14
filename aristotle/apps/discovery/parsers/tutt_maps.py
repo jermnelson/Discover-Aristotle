@@ -158,10 +158,19 @@ LOCATION_CODE_MAP = {
 
 GOVDOCS_COLLECTIONS = {'tdacd':'Government Documents CD-ROM index',
                        'td':'Tutt South Basement',
+                       'tdi':'Tutt 1st Floor South',
+                       'tdm':'Tutt 1st Floor South',
+                       'tdmf':'Tutt 1st Floor South',
+                       'tdmi':'Microforms Tutt 2nd Floor',
+                       'tdmo':'Oversize Tutt 2nd Floor',
+                       'tdmt':'Tutt 1st Floor South',
+                       'tdn':'Tutt South Basement',
+                       'tdof':'Tutt 1st Floor South',
                        'tdo':'Tutt South Basement',
                        'tdcol':'Tutt South Basement',
                        'tde':'Tutt South Basement',
                        'tdea':'Tutt South Basement',
+                       'ewwwd':'Online',
                        'tdem':'Tutt South Basement',
                        'tdemc':'Tutt South Basement'}
 
