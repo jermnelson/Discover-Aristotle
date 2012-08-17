@@ -30,6 +30,7 @@ import time,datetime
 import unicodedata
 import urllib
 import logging
+from erm_update import ELECTRONIC_JRNLS,load_csv
 
 try:
     from django.conf import settings
@@ -52,7 +53,7 @@ logging.basicConfig(filename='%slog/%s-marc-solr-indexer.log' % (settings.BASE_D
                                                                  datetime.datetime.today().strftime('%Y%m%d-%H')),
                     level=logging.INFO)
 
-
+load_csv()
 #logger = logging.getLogger('marc_solr_import')
 #logger.setLevel(logging.INFO)
 #logger.addHandler(logging.FileHandler('%slog/%s-marc-solr-indexer.out' %\

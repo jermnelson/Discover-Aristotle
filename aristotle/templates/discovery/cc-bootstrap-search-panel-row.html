@@ -7,7 +7,7 @@
       <li>Circulation Desk: 389-6184</li>
       <li>Reference Desk: 389-6662</li>
       <li>
-        <a href="http://www2.coloradocollege.edu/library/index.php/contact/?to=9">Email</a> | <a href="http://www2.coloradocollege.edu/library/index.php/about/ask-a-librarian">IM</a> a Librarian
+        <a href="mailto:tuttref@coloradocollege.edu">Email</a> | <a href="http://www.coloradocollege.edu/library/about/contact.dot">IM</a> a Librarian
        </li>
        </ul>
  </div>
@@ -33,6 +33,7 @@
  {% else %}
   {% include "cc-advanced-search.html" %}
  {% endif %}
+    <a class="btn btn-primary" href="/catalog/browse">{% if is_browse_search %}{% trans "New " %}{% endif %}{% trans "Browse Search" %}</a>
  {% if limits %}
  <ul class="search-filters" id="search-filters">
   {% for limit in limits %}

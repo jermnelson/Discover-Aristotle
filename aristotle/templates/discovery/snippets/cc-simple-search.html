@@ -6,25 +6,22 @@
       <img src="{{ STATIC_URL }}img/bg/library/mag-glass.png" />
      </td>
      <td>
-    <input name="q" type="text" style="width:280px" class="input-medium" placeholder="Search TIGER!" value="{{ request.REQUEST.q }}"></input>
+     <td>
+      <select name="search_type" style="width:100px">
+        <option value="search" {% if request.REQUEST.search_type == 'select' %}selected="SELECTED"{% endif %}>Keyword</option>
+        <option value="author_search"  {% if request.REQUEST.search_type == 'author_search' %}selected="SELECTED"{% endif %}>Author</option>
+        <option value="title_search" {% if request.REQUEST.search_type == 'title_search' %}selected="SELECTED"{% endif %}>Title</option>
+        <option value="subject_search" {% if request.REQUEST.search_type == 'subject_search' %}selected="SELECTED"{% endif %}>Subject</option>
+        <option value="call_number_search" {% if request.REQUEST.search_type == 'call_number_search' %}selected="SELECTED"{% endif %}>Call Number</option>
+        <option value="jrnl_title_search"  {% if request.REQUEST.search_type == 'jrnl_title_search' %}selected="SELECTED"{% endif %}>Journal Title</option>
+      </select>
      </td>
      <td>
-    <div class="btn-group">
-     {{ request.REQUEST.btnsubmit|search_dropdown }}
-     {% comment %}<button type="submit" id="searchby" name="btnsubmit" class="btn" value="Keyword" >Keyword</button>{% endcomment %}
-     <a class="btn dropdown-toggle" data-toggle="dropdown">
-      <span class="caret"></span>
-     </a>
-     <ul class="dropdown-menu">
-      <li><a onclick='ChangeSearchBookText("Keyword");' href="#">Keyword</a></li>
-      <li><a onclick='ChangeSearchBookText("Author");' href="#">Author</a></li>
-      <li><a onclick='ChangeSearchBookText("Title");' href="#">Title</a></li>
-      <li><a onclick='ChangeSearchBookText("Subject");' href="#">Subject</a></li>
-      <li><a onclick='ChangeSearchBookText("Journal Title");' href="#">Journal Title</a></li>
-     </ul>
-   </div>
-   </td>
+    <input name="q" type="text" style="width:270px" class="input-medium" placeholder="Search TIGER" value="{{ request.REQUEST.q }}"></input>
+     </td>
+     <td>
+      <input type="submit" class="btn" value="Go"></input>
+     </td>
    </tr>
   </table>
- <input type="hidden" id="search-type" name="search-type" value="search" />
 </form>

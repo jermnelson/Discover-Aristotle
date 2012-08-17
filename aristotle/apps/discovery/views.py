@@ -105,15 +105,15 @@ def index(request):
 @vary_on_headers('accept-language', 'accept-encoding')
 def search(request):
     context = RequestContext(request)
-    if request.GET.get('search-type'):
-        search_type = request.GET['search-type']
+    if request.GET.get('search_type'):
+        search_type = request.GET['search_type']
         if search_type == 'author_search':
             context.update(get_specialized_results(request,'author'))
         elif search_type == 'title_search':
             context.update(get_specialized_results(request,'title'))
         elif search_type == 'subject_search':
             context.update(get_specialized_results(request,'subject'))
-        elif search_type == 'journal_title_search':
+        elif search_type == 'jrnl_title_search':
             #! Should add extra format = 'journal'
             context.update(get_specialized_results(request,'title'))
         if search_type != 'search':

@@ -78,6 +78,14 @@
        },
        "model": "iii.IIIStatusCode",
        "pk":10
+    },
+    {
+      "fields": {
+          "code":"n",
+          "value":"Billed"
+      },
+       "model": "iii.IIIStatusCode",
+       "pk":11
     }
 
    
