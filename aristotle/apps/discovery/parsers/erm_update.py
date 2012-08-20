@@ -6,9 +6,7 @@
 __author__ = "Jeremy Nelson"
 import csv,urllib,httplib2
 import xml.etree.ElementTree as ElementTree
-from settings import CSV_FILE,SOLR_UPDATE_URL
-
-ELECTRONIC_JRNLS = {}
+from settings import CSV_FILE
     
 def load_csv(csv_file=CSV_FILE):
     """
@@ -18,6 +16,7 @@ def load_csv(csv_file=CSV_FILE):
 
     :param csv_file: Common separated file, defaults to settings values
     """
+    electronic_bibs = {}
     csv_reader = csv.reader(open(csv_file,'rb'))
     for row in csv_reader:
         row_dict = {}
@@ -44,7 +43,8 @@ def load_csv(csv_file=CSV_FILE):
                     pass
         row_dict['urls'] = '|'.join(urls)
         row_dict['holdings'] = '|'.join(paired_holdings)
-        ELECTRONIC_JRNLS[bib_id] = row_dict
+        electronic_bibs[bib_id] = row_dict
+    return electronic_bibs   
                 
                 
         

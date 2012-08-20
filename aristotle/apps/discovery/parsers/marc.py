@@ -30,7 +30,7 @@ import time,datetime
 import unicodedata
 import urllib
 import logging
-from erm_update import ELECTRONIC_JRNLS,load_csv
+from erm_update import load_csv
 
 try:
     from django.conf import settings
@@ -53,7 +53,7 @@ logging.basicConfig(filename='%slog/%s-marc-solr-indexer.log' % (settings.BASE_D
                                                                  datetime.datetime.today().strftime('%Y%m%d-%H')),
                     level=logging.INFO)
 
-load_csv()
+ELECTRONIC_JRNLS = load_csv()
 #logger = logging.getLogger('marc_solr_import')
 #logger.setLevel(logging.INFO)
 #logger.addHandler(logging.FileHandler('%slog/%s-marc-solr-indexer.out' %\
@@ -704,6 +704,7 @@ def get_record(marc_record, ils=None):
         else:
             # Includes Aleph and Voyager.
             record['id'] = marc_record['001'].value()
+    
     except AttributeError:
         # try other fields for id?
         #sys.stderr.write("\nNo value in ID field, leaving ID blank\n")
@@ -711,6 +712,10 @@ def get_record(marc_record, ils=None):
         # if it has no id let's not include it
         logging.error("%s: %s not indexed because of AttributeError" % (marc_record['907']['a'],marc_record.title()))
         return
+    # Checks and updates record by checking ELECTRONIC_JRNLS
+    # for additional information from check-in records
+    if ELECTRONIC_JRNLS.has_key(record['id']):
+        record.update(ELECTRONIC_JRNLS[record['id']])
     all999s = marc_record.get_fields('999')
     if all999s:
         for field999 in all999s:
