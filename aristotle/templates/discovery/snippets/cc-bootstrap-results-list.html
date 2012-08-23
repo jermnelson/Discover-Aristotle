@@ -56,7 +56,7 @@
          <th class="list-record">{% trans "Holdings" %}:</th>
          <td class="list-record">
          {% for holding in doc.holdings|slice:"0:4" %}
-          {{ holding }}<br/>
+          {{ holding|safe }}<br/>
          {% endfor %}
          </td>
        </tr>

@@ -32,6 +32,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.platypus import *
 from aristotle.help import help_loader
+from discovery_apps import call_number_app
 
 from django.conf import settings
 from django.core import serializers
@@ -105,6 +106,10 @@ def index(request):
 @vary_on_headers('accept-language', 'accept-encoding')
 def search(request):
     context = RequestContext(request)
+    context['ILS'] = settings.ILS
+    context['MAJAX_URL'] = settings.MAJAX_URL
+    context['help_loader'] = help_loader.help_loader
+    template = loader.get_template('discovery/index.html')
     if request.GET.get('search_type'):
         search_type = request.GET['search_type']
         if search_type == 'author_search':
@@ -116,6 +121,10 @@ def search(request):
         elif search_type == 'jrnl_title_search':
             #! Should add extra format = 'journal'
             context.update(get_specialized_results(request,'title'))
+        elif search_type == 'call_number_search':
+            results = call_number_app().json_search(request)
+            context.update({"response":results})
+            return HttpResponse(template.render(context))
         if search_type != 'search':
             template = loader.get_template('discovery/index.html')
             return HttpResponse(template.render(context))
@@ -123,10 +132,6 @@ def search(request):
         template = loader.get_template('discovery/search_history.html')
         return HttpResponse(template.render(context))
     context.update(get_search_results(request))
-    context['ILS'] = settings.ILS
-    context['MAJAX_URL'] = settings.MAJAX_URL
-    context['help_loader'] = help_loader.help_loader
-    template = loader.get_template('discovery/index.html')
     return HttpResponse(template.render(context))
 
 @vary_on_headers('accept-language', 'accept-encoding')
