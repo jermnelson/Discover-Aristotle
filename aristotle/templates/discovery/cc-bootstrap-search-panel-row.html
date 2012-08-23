@@ -33,7 +33,9 @@
  {% else %}
   {% include "cc-advanced-search.html" %}
  {% endif %}
+ {% comment %}
     <a class="btn btn-primary" href="/catalog/browse">{% if is_browse_search %}{% trans "New " %}{% endif %}{% trans "Browse Search" %}</a>
+ {% endcomment %}
  {% if limits %}
  <ul class="search-filters" id="search-filters">
   {% for limit in limits %}

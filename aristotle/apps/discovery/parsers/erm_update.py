@@ -36,13 +36,14 @@ def load_csv(csv_file=CSV_FILE):
             else:
                 try:
                     int(value[0]) # Assumes holdings starts with an int
-                    paired_holdings[counter] = "{0} {1}".format(paired_holdings[counter],
-                                                                value)
+                    paired_holdings[counter] = '''<a href="{0}">{1}</a> {2}'''.format(urls[counter],
+                                                                                      paired_holdings[counter],
+                                                                                      value)
                     counter += 1
                 except:
                     pass
-        row_dict['urls'] = '|'.join(urls)
-        row_dict['holdings'] = '|'.join(paired_holdings)
+        row_dict['url'] = urls
+        row_dict['holdings'] = paired_holdings
         electronic_bibs[bib_id] = row_dict
     return electronic_bibs   
                 

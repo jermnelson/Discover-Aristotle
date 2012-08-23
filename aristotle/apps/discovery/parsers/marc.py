@@ -98,6 +98,7 @@ FIELDNAMES = [
     'id',
     'imprint',
     'isbn',
+    'issn',
     'item_ids',
     'language',
     'language_dubbed', 
@@ -715,7 +716,11 @@ def get_record(marc_record, ils=None):
     # Checks and updates record by checking ELECTRONIC_JRNLS
     # for additional information from check-in records
     if ELECTRONIC_JRNLS.has_key(record['id']):
-        record.update(ELECTRONIC_JRNLS[record['id']])
+        record_result = ELECTRONIC_JRNLS[record['id']]
+        try:
+            record.update(record_result)
+        except:
+            print("ERROR updating record {0}".format(sys.exc_info()[0]))
     all999s = marc_record.get_fields('999')
     if all999s:
         for field999 in all999s:
@@ -733,6 +738,7 @@ def get_record(marc_record, ils=None):
     # there should be a test here for the 001 to start with 'oc'
     try:
         oclc_number = marc_record['001'].value()
+        oclc_number = oclc_number.replace("|a","")
     except AttributeError:
         oclc_number = ''
     record['oclc_num'] = oclc_number
@@ -760,7 +766,10 @@ def get_record(marc_record, ils=None):
     record['author'] = marc_record.author()
     record['callnum'] = get_callnumber(marc_record)
     record['callnumlayerone'] = record['callnum']
-    record['holdings'] = get_holdings(marc_record)
+    if record.has_key('holdings'):
+        record['holdings'].extend(get_holdings(marc_record))
+    else: 
+        record['holdings'] = get_holdings(marc_record)
     record['item_ids'] = get_items(marc_record,ils)
     record['lc_firstletter'] = get_lcletter(marc_record)
     record['location'] = get_location(marc_record)
@@ -863,7 +872,8 @@ def get_record(marc_record, ils=None):
         record['corporate_name'].append(corporate_name)
 
     url_fields = marc_record.get_fields('856')
-    record['url'] = []
+    if not record.has_key("url"):
+        record['url'] = []
     for field in url_fields:
         url_subfield = field.get_subfields('u')
         for url in  url_subfield:
@@ -920,23 +930,38 @@ def write_csv(marc_file_handle, csv_file_handle, collections=None,
                             record['collection'].extend(new_collections)
                         except (AttributeError, KeyError):
                             record['collection'] = new_collections
-                    row = get_row(record)
-                    writer.writerow(row)
+                    try:
+                        row = get_row(record)
+                        if row is not None:
+                            writer.writerow(row)
+                    except:
+                        exc_type = sys.exc_info()[0]
+                        exc_value = sys.exc_info()[1]
+                        exc_tb = sys.exc_info()[2]
+                        print("CSV Write Error {0} {1} at line {2} count is {3} ".format(exc_type,
+                                                                                         exc_value,
+                                                                                         exc_tb.tb_lineno,
+                                                                                         count))
+                        for k,v in row.iteritems():
+                            print("\t{0} {1}".format(k,v))
+
             except:
+                exc_type = sys.exc_info()[0]
+                exc_tb = sys.exc_info()[2]
                 if marc_record.title() is not None:
                     title = marc_record.title()
                 else:
                     title = marc_record['245'].format_field()
-                logging.info("%s error at count=%s, titles is '%s'" %\
-                            (sys.exc_info()[0],
-                             count,
-                             title.encode('utf8','ignore')))
+                error_msg = "\n{0} error at count={1} line num={2}, title is '{3}'".format(exc_type,
+                                                                                           count,
+                                                                                           exc_tb.tb_lineno,
+                                                                                           title.encode('utf8','ignore'))
+                logging.info(error_msg)
                 try:
-                    sys.stderr.write("\nError in MARC record #%s (%s):\n" % 
-                            (count, title.encode('utf8', 'ignore')))
+                    sys.stderr.write(error_msg) 
                 except:
-                    sys.stderr.write("\nError in MARC record #%s, %s:\n" %
-                            (count,sys.exc_info()[0]))
+                    new_exc_type,new_tb = sys.exc_info()[0],sys.exc_info()[2]
+                    sys.stderr.write("\nERROR writing stderror {0}".format(new_exc_type))
                #raise
             else:
                 if count % 1000:
