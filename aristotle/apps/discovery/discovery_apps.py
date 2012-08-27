@@ -35,14 +35,18 @@ class call_number_app(object):
         :param request: Django request
         """
         call_number = request.REQUEST.get('q')
-        params = {"call_number":urllib.unquote(call_number),
-                  "slice-size":int(settings.ITEMS_PER_PAGE) - 3}
+        if request.REQUEST.has_key("number_type"):
+            number_type = request.REQUEST.get('number_type')
+        else:
+            number_type = 'lccn'
         context = {'docs':None}
         json_search_url = os.path.join(self.call_number_url,
                                        'term_search')
-        json_search_url = "{0}?call_number={1}&slice-size={2}".format(json_search_url,
-                                                                      call_number.strip(),
-                                                                      int(settings.ITEMS_PER_PAGE) - 3)
+        json_search_url = "{0}?call_number={1}&slice-size={2}&type={3}".format(json_search_url,
+                                                                               call_number.strip(),
+                                                                               int(settings.ITEMS_PER_PAGE) - 3,
+                                                                               number_type)
+                                  
         json_results = urllib2.urlopen(json_search_url).read()
         results = json.load(urllib2.urlopen(json_search_url))
         if len(results.get("bib_numbers")) > 0:

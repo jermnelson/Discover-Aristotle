@@ -1,92 +1,258 @@
 [
-    {
-        "fields": {
-           "code":"-",
-           "value": "In Library"
-        },
-        "model": "iii.IIIStatusCode",
-        "pk":1
-     },
-    {
-        "fields": {
-           "code":"j",
-           "value": "Online"
-        },
-        "model": "iii.IIIStatusCode",
-        "pk":2
-     },
-    {
-        "fields": {
-           "code":"h",
-           "value": "Library use only"
-        },
-        "model": "iii.IIIStatusCode",
-        "pk":3
-     },
-     {
-        "fields": {
-           "code":"m",
-           "value":"Missing"
-        },
-        "model": "iii.IIIStatusCode",
-        "pk":4
-     },
-     {
-        "fields": {
-           "code":"$",
-           "value":"Lost and Paid"
-        },
-        "model": "iii.IIIStatusCode",
-        "pk":5
-     },
-     {
-        "fields": {
-           "code":"!",
-           "value":"On hold shelf"
-        },
-        "model": "iii.IIIStatusCode",
-        "pk":6
-     },
-     {
-        "fields": {
-           "code":"d",
-           "value":"Mending"
-        },
-        "model": "iii.IIIStatusCode",
-        "pk":7
-     },
-     {
-       "fields": {
-          "code":"r",
-          "value":"Being replaced"
-       },
-       "model": "iii.IIIStatusCode",
-       "pk":8
-    },
-    {
-       "fields": {
-          "code":"g",
-          "value":"CC Use Only"
-       },
-       "model": "iii.IIIStatusCode",
-       "pk":9
-    },
-    {
-       "fields": {
-          "code":"a",
-          "value":"Being digitized"
-       },
-       "model": "iii.IIIStatusCode",
-       "pk":10
-    },
-    {
-      "fields": {
-          "code":"n",
-          "value":"Billed"
-      },
-       "model": "iii.IIIStatusCode",
-       "pk":11
-    }
-
-   
+  {
+    "fields": {
+      "code": "-", 
+      "value": "In"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 1
+  }, 
+  {
+    "fields": {
+      "code": "i", 
+      "value": "Review Shelf"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 2
+  }, 
+  {
+    "fields": {
+      "code": "a", 
+      "value": "Being Digitized"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 3
+  }, 
+  {
+    "fields": {
+      "code": "b", 
+      "value": "At Bindery"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 4
+  }, 
+  {
+    "fields": {
+      "code": "q", 
+      "value": "Education Dept"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 5
+  }, 
+  {
+    "fields": {
+      "code": "c", 
+      "value": "Art Education"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 6
+  }, 
+  {
+    "fields": {
+      "code": "d", 
+      "value": "Mending"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 7
+  }, 
+  {
+    "fields": {
+      "code": "e", 
+      "value": "On Order"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 8
+  }, 
+  {
+    "fields": {
+      "code": "g", 
+      "value": "Cc Only"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 9
+  }, 
+  {
+    "fields": {
+      "code": "f", 
+      "value": "Envir Science"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 10
+  }, 
+  {
+    "fields": {
+      "code": "h", 
+      "value": "Lib Use Only"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 11
+  }, 
+  {
+    "fields": {
+      "code": "j", 
+      "value": "On-Line"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 12
+  }, 
+  {
+    "fields": {
+      "code": "k", 
+      "value": "Fine Arts Ctr"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 13
+  }, 
+  {
+    "fields": {
+      "code": "l", 
+      "value": "Lost"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 14
+  }, 
+  {
+    "fields": {
+      "code": "m", 
+      "value": "Missing"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 15
+  }, 
+  {
+    "fields": {
+      "code": "n", 
+      "value": "Billed"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 16
+  }, 
+  {
+    "fields": {
+      "code": "p", 
+      "value": "In Processing"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 17
+  }, 
+  {
+    "fields": {
+      "code": "r", 
+      "value": "Being Replaced"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 18
+  }, 
+  {
+    "fields": {
+      "code": "s", 
+      "value": "On Search"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 19
+  }, 
+  {
+    "fields": {
+      "code": "t", 
+      "value": "In Transit"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 20
+  }, 
+  {
+    "fields": {
+      "code": "&", 
+      "value": "Requested"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 21
+  }, 
+  {
+    "fields": {
+      "code": "y", 
+      "value": "Not Yet Receiv"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 22
+  }, 
+  {
+    "fields": {
+      "code": "z", 
+      "value": "Clms Retd"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 23
+  }, 
+  {
+    "fields": {
+      "code": "%", 
+      "value": "Returned"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 24
+  }, 
+  {
+    "fields": {
+      "code": "!", 
+      "value": "On Holdshelf"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 25
+  }, 
+  {
+    "fields": {
+      "code": "#", 
+      "value": "Prospector Received"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 26
+  }, 
+  {
+    "fields": {
+      "code": "$", 
+      "value": "Lost And Paid"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 27
+  }, 
+  {
+    "fields": {
+      "code": "*", 
+      "value": "Missing"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 28
+  }, 
+  {
+    "fields": {
+      "code": "@", 
+      "value": "Off Campus"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 29
+  }, 
+  {
+    "fields": {
+      "code": "(", 
+      "value": "Prospector Paged"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 30
+  }, 
+  {
+    "fields": {
+      "code": "X", 
+      "value": "Open Reserve"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 31
+  }, 
+  {
+    "fields": {
+      "code": ")", 
+      "value": "Prspctr Cncld"
+    }, 
+    "model": "iii.IIIStatusCode", 
+    "pk": 32
+  }
 ]

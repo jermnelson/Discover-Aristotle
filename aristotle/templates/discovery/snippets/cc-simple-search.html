@@ -6,12 +6,14 @@
       <img src="{{ STATIC_URL }}img/bg/library/mag-glass.png" />
      </td>
      <td>
-      <select name="search_type" style="width:100px">
+      <select name="search_type" id="search_type" {% comment %}onchange="toggle_num_search()"{% endcomment %} style="width:100px">
         <option value="search" {% if request.REQUEST.search_type == 'select' %}selected="SELECTED"{% endif %}>Keyword</option>
         <option value="author_search"  {% if request.REQUEST.search_type == 'author_search' %}selected="SELECTED"{% endif %}>Author</option>
         <option value="title_search" {% if request.REQUEST.search_type == 'title_search' %}selected="SELECTED"{% endif %}>Title</option>
         <option value="subject_search" {% if request.REQUEST.search_type == 'subject_search' %}selected="SELECTED"{% endif %}>Subject</option>
+{% comment %}
         <option value="number_search" {% if request.REQUEST.search_type == 'number_search' %}selected="SELECTED"{% endif %}>Number</option>
+{% endcomment %}
         <option value="jrnl_title_search"  {% if request.REQUEST.search_type == 'jrnl_title_search' %}selected="SELECTED"{% endif %}>Journal Title</option>
       </select>
      </td>
@@ -35,6 +37,7 @@
       <input type="submit" class="btn" value="Go"></input>
      </td>
     </tr>
+{% comment %}
     <tr>
      <td>
       <label class="checkbox">
@@ -47,5 +50,6 @@
      </td>
      {% endif %}
     </tr>
+{% endcomment %}
     </table>
 </form>

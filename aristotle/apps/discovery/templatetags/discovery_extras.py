@@ -257,6 +257,7 @@ def get_google_book(num_isbn,size='small'):
     params = urllib.urlencode({'q':'isbn:{0}'.format(num_isbn),
                                'key':GBS_API_KEY})
     google_book_url = 'https://www.googleapis.com/books/v1/volumes?{0}'.format(params) 
+    print(google_book_url)
     try:
         book_json = simplejson.load(urllib2.urlopen(google_book_url))
     except:

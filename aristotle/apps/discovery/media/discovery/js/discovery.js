@@ -248,3 +248,11 @@ function ShowCart(session_id) {
    });
 
 }
+
+function toggle_num_search() {
+  if($("#search_type").val() == "number_search") {
+    window.location = "/catalog/search?search_type=number_search";
+  } else {
+    window.location = "/catalog/";
+  }
+}

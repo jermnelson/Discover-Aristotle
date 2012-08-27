@@ -36,7 +36,7 @@ except ImportError:
 import django.conf as conf
 import django.core.management.base as mb
 
-CSV_FILE = 'tmp.csv'
+CSV_FILE = 'tmp{0}.csv'.format(time.time())
 
 class Command(mb.BaseCommand):
     option_list = mb.BaseCommand.option_list + (

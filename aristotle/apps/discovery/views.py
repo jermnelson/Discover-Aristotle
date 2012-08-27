@@ -1,4 +1,4 @@
-# Copyright 2007 Casey Durfee
+
 # Copyright 2008 Gabriel Sean Farrell
 #
 # This file is part of Kochief.

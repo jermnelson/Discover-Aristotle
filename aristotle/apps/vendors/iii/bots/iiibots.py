@@ -8,7 +8,7 @@ import urllib2,logging,datetime
 import csv,re
 from eulxml import xmlmap
 from vendors.iii.models import ItemRecord,IIIStatusCode,Fund,FundProcessLog
-from discovery.parsers.tutt_maps import LOCATION_CODE_MAP
+from discovery.parsers.tutt_maps import FULL_CODE_MAP
 from settings import ILS_PATRON_URL
 from BeautifulSoup import BeautifulSoup
 
@@ -157,15 +157,15 @@ class ItemBot(object):
     def location(self):
         """
         Retrieves location code from XML and then does a look-up
-        using the discovery.parsers.tutt_map LOCATION_CODE_MAP
-        for the human-friendly facet label
+        using the discovery.parsers.tutt_map FULL_CODE_MAP for the
+        actual full denormalized location.
 
         :rtype: string
         """
         location = None
         if self.item_xml is not None:
             try:
-                location = LOCATION_CODE_MAP[self.item_xml.location_code.strip()]
+                location = FULL_CODE_MAP[self.item_xml.location_code.strip()]
             except KeyError:
                 location = 'Unknown location code %s' % self.item_xml.location_code
         return location
