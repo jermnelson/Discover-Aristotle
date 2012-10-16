@@ -67,3 +67,54 @@ class call_number_app(object):
         context['end_number'] = min(results,
                                     settings.ITEMS_PER_PAGE)
         return context
+
+class title_search_app(object):
+
+    def __init__(self,**kwargs):
+        """
+        The `title_search_app` takes a number of optional parameters
+        including an URL where the Aristotle Library Apps instance
+        is currently running.
+
+        :param url: URL of Aristotle Library Apps path to the call 
+                    number app, defaults to 
+                    http://0.0.0.0/apps/call_number/json/.
+        """
+        if kwargs.has_key("url"):
+            self.url = kwargs.get("url")
+        else:
+            self.url = "http://0.0.0.0/apps/title_search/search"
+        self.solr = Solr(base_url=settings.SOLR_URL)
+
+    def json_search(self,request):
+        """
+        Performs a call number search using JSON interface to the call 
+        number app. Results are returned as JSON.
+
+        :param request: Django request
+        """
+        title_query = request.REQUEST.get('q')
+        context = {'docs':None}
+        json_search_url = "{0}?q={1}".format(self.url,
+                                             title_query.strip())
+        json_results = urllib2.urlopen(json_search_url).read()
+        results = json.load(urllib2.urlopen(json_search_url))
+        context['docs'] = []
+        for result in results['results'][0:20]:
+            for bib_num in result.get("ils-bib-numbers"):
+                query = {"q":bib_num,
+                         "qt":"dismax",
+                         "fl":"*"}
+                response = self.solr.search(**query)
+                for doc in response.documents:
+                    context["docs"].append(doc)
+            # Iterate through and create record_urls
+            for doc in context['docs']:
+                doc['record_url'] = settings.CATALOG_RECORD_URL.format(doc['id'])
+        context['current_sort'] = None
+        context['sorts'] = [x[0] for x in settings.SORTS]
+        context['start_number'] = 1
+        context['end_number'] = min(results,
+                                    settings.ITEMS_PER_PAGE)
+        return context
+

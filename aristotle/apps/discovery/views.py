@@ -32,7 +32,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.platypus import *
 from aristotle.help import help_loader
-from discovery_apps import call_number_app
+from discovery_apps import call_number_app,title_search_app
 
 from django.conf import settings
 from django.core import serializers
@@ -115,6 +115,10 @@ def search(request):
         if search_type == 'author_search':
             context.update(get_specialized_results(request,'author'))
         elif search_type == 'title_search':
+            if request.REQUEST.has_key('is_exact_search'):
+                results = title_search_app().json_search(request)
+                context.update({'response':results})
+                return HttpResponse(template.render(context))
             context.update(get_specialized_results(request,'title'))
         elif search_type == 'subject_search':
             context.update(get_specialized_results(request,'subject'))
@@ -490,7 +494,7 @@ def get_specialized_results(request,request_handler='dimax'):
     zero_index = (settings.ITEMS_PER_PAGE * (page - 1))
     limits_param = request.GET.get('limits', '')
     limits, fq_params = pull_limits(limits_param)
-    if len(query) < 1:
+    if query is None or len(query) < 1:
         params = {'q':'*:*',
                   'facet':True,
                   'facet.limit':settings.MAX_FACET_TERMS_EXPANDED,

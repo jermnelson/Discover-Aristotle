@@ -58,6 +58,7 @@
 <script src="{{ STATIC_URL }}js/bootstrap.js"></script>
 <script src="{{ STATIC_URL }}js/bootstrap-tab.js"></script>
 <script src="{{ STATIC_URL }}js/bootstrap-tooltip.js"></script>
+<script src="{{ STATIC_URL }}js/knockout.js"></script>
 <script src="{{ STATIC_URL }}discovery/js/discovery.js"></script>
 <script src="{{ STATIC_URL }}js/google-analytics.js"></script>
 <script>
@@ -66,6 +67,8 @@
      ShowCart("{{ session_id }}")
    });
  });
+ view_model = new viewSimpleSearchModel();
+ ko.applyBindings(view_model);
 </script>
 {% endblock more-scripts %}
 

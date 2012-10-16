@@ -6,50 +6,35 @@
       <img src="{{ STATIC_URL }}img/bg/library/mag-glass.png" />
      </td>
      <td>
-      <select name="search_type" id="search_type" {% comment %}onchange="toggle_num_search()"{% endcomment %} style="width:100px">
-        <option value="search" {% if request.REQUEST.search_type == 'select' %}selected="SELECTED"{% endif %}>Keyword</option>
-        <option value="author_search"  {% if request.REQUEST.search_type == 'author_search' %}selected="SELECTED"{% endif %}>Author</option>
-        <option value="title_search" {% if request.REQUEST.search_type == 'title_search' %}selected="SELECTED"{% endif %}>Title</option>
-        <option value="subject_search" {% if request.REQUEST.search_type == 'subject_search' %}selected="SELECTED"{% endif %}>Subject</option>
-{% comment %}
-        <option value="number_search" {% if request.REQUEST.search_type == 'number_search' %}selected="SELECTED"{% endif %}>Number</option>
-{% endcomment %}
-        <option value="jrnl_title_search"  {% if request.REQUEST.search_type == 'jrnl_title_search' %}selected="SELECTED"{% endif %}>Journal Title</option>
+      <select data-bind="click: searchRouting,
+                         options: searchingOptions,
+                         optionsText: 'name',
+                         value: chosenSearch"  style="width:100px">
       </select>
      </td>
-     {% if request.REQUEST.search_type == 'number_search' %}
      <td>
-      <select name="number_type">
-        <option value="lccn" {% if request.REQUEST.number_type == 'lccn' %}selected="SELECTED"{% endif %}>LCCN Call Number</option>
-        <option value="sudoc" {% if request.REQUEST.number_type == 'sudoc' %}selected="SELECTED"{% endif %}>SuDoc Call Number</option>
-        <option value="local" {% if request.REQUEST.number_type == 'local' %}selected="SELECTED"{% endif %}>Local Call Number</option>
-        <option value="isbn" {% if request.REQUEST.number_type == 'isbn' %}selected="SELECTED"{% endif %}>ISBN</option>
-        <option value="issn" {% if request.REQUEST.number_type == 'issn' %}selected="SELECTED"{% endif %}>ISSN</option>
-        <option value="oclc" {% if request.REQUEST.number_type == 'oclc' %}selected="SELECTED"{% endif %}>OCLC</option>
+      <select data-bind="options: numberOptions,
+                         optionsText: 'name',
+                         value: numberSearch,
+                         visible: false">
       </select>
      </td>
-     {% else %}
+    <tr>
+     <td>
+      <label class="checkbox">
+        <input type="checkbox" data-bind="value: exactSearch"> Exact Search</input>
+
+                                                </label>
+      
+     </td>
      <td>
       <input name="q" type="text" style="width:270px" class="input-medium" placeholder="Search TIGER" value="{{ request.REQUEST.q }}"></input>
      </td>
-     {% endif %}
+    </tr>
+    <tr>
      <td>
       <input type="submit" class="btn" value="Go"></input>
      </td>
     </tr>
-{% comment %}
-    <tr>
-     <td>
-      <label class="checkbox">
-        <input type="checkbox" name="is_exact_search"> Exact search</input>
-      </label>
-     </td>
-     {% if request.REQUEST.search_type == 'number_search' %}
-     <td>
-      <input name="q" type="text" style="width:270px" class="input-medium" placeholder="Search TIGER" value="{{ request.REQUEST.q }}"></input>
-     </td>
-     {% endif %}
-    </tr>
-{% endcomment %}
     </table>
 </form>

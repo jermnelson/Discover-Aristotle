@@ -250,9 +250,41 @@ function ShowCart(session_id) {
 }
 
 function toggle_num_search() {
-  if($("#search_type").val() == "number_search") {
-    window.location = "/catalog/search?search_type=number_search";
-  } else {
-    window.location = "/catalog/";
-  }
+  window.location = "/catalog/search?search_type=" + $("#search_type").val();
 }
+
+function viewSimpleSearchModel() {
+   this.searchingOptions = [
+      { name: "Author", search_type: "author_search" },
+      { name: "Keyword", search_type: "search" },
+      { name: "Title", search_type: "title_search" },
+      { name: "Subject", search_type: "subject_search" },
+      { name: "Number", search_type: "number_search" }
+   ];
+   this.numberOptions = [
+      { name: "LCCN Call Number", number_type: "lccn" },
+      { name: "SuDoc Call Number", number_type: "sudoc" },
+      { name: "Local Call Number", number_type: "local" },
+      { name: "ISBN", number_type: "isbn" },
+      { name: "ISSN", number_type: "issn" },
+      { name: "OCLC", number_type: "oclc" }
+   ];
+
+   this.chosenSearch = ko.observable();
+   this.exactSearch = ko.observable();
+   this.numberSearch = ko.observable(false);
+   this.searchRouting = function() {
+      if (this.chosenSearch.value != "search") {
+        this.exactSearch.enable = true;
+      } else {
+        this.exactSearch.enable = false;
+      }
+      if (this.chosenSearch.search_type == "number_search") {
+        this.numberSearch = ko.observable(true);
+      } else {
+        this.numberSearch = ko.observable(false);
+      }
+   }
+
+}
+
