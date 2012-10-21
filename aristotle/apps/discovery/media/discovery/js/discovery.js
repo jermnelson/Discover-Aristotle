@@ -272,19 +272,67 @@ function viewSimpleSearchModel() {
 
    this.chosenSearch = ko.observable();
    this.exactSearch = ko.observable();
-   this.numberSearch = ko.observable(false);
+   this.numberSearch = ko.observable(true);
    this.searchRouting = function() {
-      if (this.chosenSearch.value != "search") {
+      var text = '';
+      var search_type = this.chosenSearch()["search_type"];
+      if (search_type != "search") {
         this.exactSearch.enable = true;
       } else {
         this.exactSearch.enable = false;
       }
-      if (this.chosenSearch.search_type == "number_search") {
+      if (search_type == "number_search") {
         this.numberSearch = ko.observable(true);
+        //for(aKey in numSearch) {
+        //  text += aKey + " = " + numSearch[aKey] + "\n";
+        //}
+//        alert("In number search" + numSearch['visible']);
       } else {
         this.numberSearch = ko.observable(false);
+        //alert("Not number search" + search_type);
       }
    }
-
 }
+
+var simpleViewModel = function() {
+  var self = this;
+  self.searchingOptions =  [
+      { name: "Author", search_type: "author_search" },
+      { name: "Keyword", search_type: "search" },
+      { name: "Title", search_type: "title_search" },
+      { name: "Subject", search_type: "subject_search" },
+      { name: "Number", search_type: "number_search" }
+   ];
+  self.numberOptions = [
+      { name: "LCCN Call Number", number_type: "lccn" },
+      { name: "SuDoc Call Number", number_type: "sudoc" },
+      { name: "Local Call Number", number_type: "local" },
+      { name: "ISBN", number_type: "isbn" },
+      { name: "ISSN", number_type: "issn" }
+//      { name: "OCLC", number_type: "oclc" }
+   ];
+  self.chosenSearch = ko.observable();
+  self.shouldShowNumber = ko.observable(false);
+  self.exactSearch = ko.observable();
+
+  self.searchRouting = function() {
+    var search_type = self.chosenSearch()["search_type"];
+    switch(search_type) {
+       case "number_search":
+         self.shouldShowNumber(true);
+         self.exactSearch(true);
+         break;
+
+      case "search":
+         self.exactSearch(false);
+         self.shouldShowNumber(false);
+         break;
+
+      default:
+         self.shouldShowNumber(false);
+
+    }
+  }
+}
+
 

@@ -67,8 +67,8 @@
      ShowCart("{{ session_id }}")
    });
  });
- view_model = new viewSimpleSearchModel();
- ko.applyBindings(view_model);
+ var viewModel = new simpleViewModel();
+ ko.applyBindings(viewModel);
 </script>
 {% endblock more-scripts %}
 
