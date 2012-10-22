@@ -8,6 +8,8 @@
  {% comment %}END Facets DIV{% endcomment %}
  </div>
  <div class="span9 results-block">
+ {% include 'cc-bootstrap-results-list.html' %}
+
  {% if response.docs %}
    {% include 'cc-bootstrap-results-list.html' %}
  {% else %}

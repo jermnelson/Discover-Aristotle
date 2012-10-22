@@ -297,8 +297,8 @@ function viewSimpleSearchModel() {
 var simpleViewModel = function() {
   var self = this;
   self.searchingOptions =  [
-      { name: "Author", search_type: "author_search" },
       { name: "Keyword", search_type: "search" },
+      { name: "Author", search_type: "author_search" },
       { name: "Title", search_type: "title_search" },
       { name: "Subject", search_type: "subject_search" },
       { name: "Number", search_type: "number_search" }
@@ -312,9 +312,77 @@ var simpleViewModel = function() {
 //      { name: "OCLC", number_type: "oclc" }
    ];
   self.chosenSearch = ko.observable();
-  self.shouldShowNumber = ko.observable(false);
   self.exactSearch = ko.observable();
+  self.searchQuery = ko.observable();
+  self.shouldShowNumber = ko.observable(false);
+  self.displayResults = ko.observable();
+  self.searchResults = ko.observableArray([{"search_prefix":"First","title":"First Title","creator":"First creator"}]);
 
+
+  self.creatorSearch = function() {
+
+
+  };
+
+  self.recordView = function() {
+
+  };
+
+  self.searchCatalog = function(formElement) {
+    var search_type = self.chosenSearch()["search_type"];
+    var search_query = self.searchQuery();
+    var exact_search = self.exactSearch();
+    switch(search_type) {
+
+      case "author_search":
+          if(exact_search) {
+            var data = "q=" + ko.toJS(search_query);
+            alert("Should search Redis Authority Person datastore" + data);
+          } else {
+            window.location.replace("/catalog/search?search_type=author_search&q=" + search_query);
+          }
+          break;
+    
+      case "search":
+          window.location.replace("/catalog/search?search_type&q=" + search_query );
+          break;
+
+      case "subject_search":
+          window.location.replace("/catalog/search?search_type=subject_search&q=" + search_query);
+          break;
+
+      case "title_search":
+          if(exact_search) {
+            var data = "q=" + ko.toJS(search_query);
+            $.ajax({
+               url: '/apps/title_search/search',
+               data: data,
+               dataType: 'json',
+               type: 'GET',
+               success: function(data) {
+                 var search_results = [];
+                 var all_titles = "";
+                 for(row_num in data["results"]) {
+                   var row = data["results"][row_num];
+                   all_titles += row["title"] + "\n";
+                   var search_result = {"search_prefix": row["search_prefix"],
+                                        "title": row["title"],
+                                        "creator": "None"};
+                   self.searchResults.push(search_result)
+                 }
+                 alert(all_titles);
+               //  self.displayResults(true);
+               }
+             });
+
+          } else {
+            window.location.replace("/catalog/search?search_type=title_search&q=" + search_query);
+          }
+          break;
+
+
+    }
+  }
   self.searchRouting = function() {
     var search_type = self.chosenSearch()["search_type"];
     switch(search_type) {
