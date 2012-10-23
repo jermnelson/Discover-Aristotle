@@ -89,6 +89,10 @@
   {% for topic in doc|reduce_subjects %}
   <dd><a href="{% new_limit "topic" topic %}">{{ topic }}</a></dd>
   {% endfor %}
+  {% if doc.callnum %}
+  <dt>{% trans "Call-Number" %}</dt>
+  <dd>{{ doc.callnum }}</dd>
+  {% endif %}
   {% endif %}
   {% if doc.full_lc_subject %}
   <dt>{% trans "LC Subject Headings" %}:</dt>

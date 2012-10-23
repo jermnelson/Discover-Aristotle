@@ -6,19 +6,6 @@
 </div>
 <div class="row">
 <div class="span9">
-<ol data-bind="foreach: searchResults,
-               visible: displayResults">
-  <li>
-    <span data-bind="text: search_prefix"></span>
-    <a href="#" data-bind="click: $parent.recordView">
-     <h2 data-bind="text: title"></h2>
-    </a>
-    <label>{% trans "Author" %}/{% trans "Creator"%}</label>
-    <a href="#" data-bind="click: $parent.creatorSearch">
-     <span data-bind="text: creator"></span>
-    </a>
-  </li>
-</ol>
 <ol start="{{ response.start|add:'1' }}">
 {% for doc in response.docs %}
   <li>

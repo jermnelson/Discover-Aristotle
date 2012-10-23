@@ -311,12 +311,14 @@ var simpleViewModel = function() {
       { name: "ISSN", number_type: "issn" }
 //      { name: "OCLC", number_type: "oclc" }
    ];
+  self.chosenNumberOption = ko.observable();
   self.chosenSearch = ko.observable();
+  self.chosenNumberOption = ko.observable();
   self.exactSearch = ko.observable();
   self.searchQuery = ko.observable();
   self.shouldShowNumber = ko.observable(false);
   self.displayResults = ko.observable();
-  self.searchResults = ko.observableArray([{"search_prefix":"First","title":"First Title","creator":"First creator"}]);
+  self.searchResults = ko.observableArray();
 
 
   self.creatorSearch = function() {
@@ -324,15 +326,12 @@ var simpleViewModel = function() {
 
   };
 
-  self.recordView = function() {
-
-  };
 
   self.searchCatalog = function(formElement) {
     var search_type = self.chosenSearch()["search_type"];
     var search_query = self.searchQuery();
     var exact_search = self.exactSearch();
-    switch(search_type) {
+   switch(search_type) {
 
       case "author_search":
           if(exact_search) {
@@ -342,6 +341,29 @@ var simpleViewModel = function() {
             window.location.replace("/catalog/search?search_type=author_search&q=" + search_query);
           }
           break;
+
+      case "number_search":
+          var number_type = self.chosenNumberOption()["number_type"];
+          var data = "type="+number_type+"&q=" + ko.toJS(search_query)
+          $.ajax({
+             url: '/apps/call_number/discovery',
+             data: data,
+             dataType: 'json',
+             type: 'GET',
+             success: function(data) {
+                 self.searchResults.removeAll();
+                 for(row_num in data["results"]) {
+                     var row = data["results"][row_num];
+                     var search_result = {"search_prefix": row["search_prefix"],
+                                          "bib_link": "/catalog/record/" + row["ils-bib-numbers"][0],
+                                          "title":row["title"],
+                                          "creator": row["creator"]};
+                     self.searchResults.push(search_result)
+                 }
+             }
+          });
+          break;
+
     
       case "search":
           window.location.replace("/catalog/search?search_type&q=" + search_query );
@@ -362,15 +384,16 @@ var simpleViewModel = function() {
                success: function(data) {
                  var search_results = [];
                  var all_titles = "";
+                 self.searchResults.removeAll();
                  for(row_num in data["results"]) {
                    var row = data["results"][row_num];
-                   all_titles += row["title"] + "\n";
                    var search_result = {"search_prefix": row["search_prefix"],
                                         "title": row["title"],
-                                        "creator": "None"};
-                   self.searchResults.push(search_result)
+                                        "bib_link": "/catalog/record/" + row["ils-bib-numbers"][0],
+                                        "creator": row["creator"]};
+                   self.searchResults.push(search_result);
+
                  }
-                 alert(all_titles);
                //  self.displayResults(true);
                }
              });

@@ -52,7 +52,8 @@ def apa_name(author):
         output += ', %s.' % author['given'][0].upper()
     if author.has_key('middle'):
         for name in author['middle']:
-            output += ' %s.' % name[0].upper()
+            if len(name) > 0:
+                output += ' %s.' % name[0].upper()
     return mark_safe(output)
 
 def chicago_first_author(author):
