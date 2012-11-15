@@ -1,0 +1,37 @@
+{% load i18n %}
+{% load discovery_extras %}
+
+{% comment %}
+<div class="row">
+ <div class="span3">
+  <p>Your search for <em>{{ request.REQUEST.q }}</em> matched on these records:
+ </div>
+ {% include 'cc-bootstrap-sortby.html' %}
+ {% include 'cc-bootstrap-cart.html' %}
+
+</div>
+{% endcomment %}
+<div class="row">
+<div class="span9">
+<ol data-bind="foreach: searchResults">
+  <li>
+  <h2><a data-bind="attr: { href: bib_link },text: title"></a>
+   <a class="label label-success" 
+      rel="tooltip" title="Save Record to cart"
+      onclick="AddCartItem(this,'{{ doc.id }}')">
+     <i class="icon-plus-sign icon-white"></i></a></h2>
+
+{% comment %}    <span data-bind="text: search_prefix"></span>{% endcomment %}
+  <table class="list-record">
+    <tbody> 
+    <tr class="list-record"  data-bind="foreach: creator">
+     <th class="list-record">{% trans "Author" %}/{% trans "Creator"%}</th>
+     <td class="list-record"><a href="#"><span data-bind="text: $data"></span></a></td>
+    </tr>
+   </tbody>
+  </table>
+ 
+  </li>
+</ol>
+</div>
+</div>

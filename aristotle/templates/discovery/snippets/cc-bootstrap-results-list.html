@@ -6,7 +6,7 @@
 </div>
 <div class="row">
 <div class="span9">
-<ol start="{{ response.start|add:'1' }}">
+<ol start="{{ response.start|add:'1' }}" id="ol-result-listing">
 {% for doc in response.docs %}
   <li>
    {% if doc.isbn %}

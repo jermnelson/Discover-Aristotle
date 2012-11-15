@@ -331,7 +331,8 @@ var simpleViewModel = function() {
     var search_type = self.chosenSearch()["search_type"];
     var search_query = self.searchQuery();
     var exact_search = self.exactSearch();
-   switch(search_type) {
+    $('#ol-result-listing').empty();
+    switch(search_type) {
 
       case "author_search":
           if(exact_search) {
