@@ -304,8 +304,8 @@ var simpleViewModel = function() {
       { name: "Number", search_type: "number_search" }
    ];
   self.numberOptions = [
-      { name: "LCCN Call Number", number_type: "lccn" },
-      { name: "SuDoc Call Number", number_type: "sudoc" },
+      { name: "LC Call Number", number_type: "lccn" },
+      { name: "Government Document Call Number", number_type: "sudoc" },
       { name: "Local Call Number", number_type: "local" },
       { name: "ISBN", number_type: "isbn" },
       { name: "ISSN", number_type: "issn" }

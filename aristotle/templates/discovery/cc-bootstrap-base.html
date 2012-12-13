@@ -35,6 +35,7 @@
 {% comment %}START background color div{% endcomment %}
 <div style="background: #F1ECE5 url('{{ STATIC_URL }}img/design/bg/blue.gif') repeat-x;">
  {% comment %}START Bootstrap Container{% endcomment %}
+ {% block container %}
  <div class="container">
  {% comment %}START search-panel row{% endcomment %}
   {% include "cc-bootstrap-search-panel-row.html" %}
@@ -48,6 +49,7 @@
  
  {% comment %}END Bootstrap Content{% endcomment %}
  </div>
+ {% endblock %}
 {% comment %}END background color div{% endcomment %}
 </div>
 {% block footers %}

@@ -16,7 +16,8 @@ class ThesisDatasetForm(forms.Form):
 
     abstract = forms.CharField(required=False,
                                label='Abstract of dataset',
-                               widget=forms.Textarea(attrs={'cols':60,
+                               widget=forms.Textarea(attrs={'class':'span5',
+                                                            'cols':60,
                                                             'rows':5}))
     is_publically_available = forms.BooleanField(required=False,
                                                  label='I agree')
@@ -24,7 +25,8 @@ class ThesisDatasetForm(forms.Form):
                                                   label='I agree')
     info_note = forms.CharField(required=False,
                                 label='Software/version',
-                                widget=forms.Textarea(attrs={'cols':60,
+                                widget=forms.Textarea(attrs={'class':'span5',
+                                                             'cols':60,
                                                              'rows':5}))
     dataset_file = forms.FileField(required=False,
                                    label='Dataset')
