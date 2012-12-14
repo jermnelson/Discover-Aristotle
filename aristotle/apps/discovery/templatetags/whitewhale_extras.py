@@ -41,6 +41,20 @@ def get_header(cache_key='cc-header'):
         harvest_latest()
         return mark_safe(cache.get(cache_key))
 
+def get_scripts(cache_key='cc-scripts'):
+    """
+    Function returns cached version of library scripts element
+
+    :param cache_key: Key to retrieve scripts from chache, 
+                      defaults to cc-scripts
+    """
+    scripts = cache.get(cache_key)
+    if scripts:
+        return mark_safe(scripts)
+    else:
+        harvest_latest()
+        return mark_safe(cache.get(cache_key))
+
 def get_tabs(cache_key='cc-tabs'):
     """Function returns cached version of library-tabs div element from 
     live CC site
@@ -64,15 +78,20 @@ def harvest_latest():
         logging.error("Unable to open CC_URL of %s" % CC_URL)
     cc_tree = lxml.html.document_fromstring(cc_home)
     cc_tree.make_links_absolute(CC_URL)
-    header = cc_tree.xpath('//div/header[@id="header"]')[0]
-    cache.set('cc-header',lxml.etree.tostring(header))
+    script_elements = cc_tree.xpath('//script')
+    js_html = ''
+    for script in script_elements:
+        if script.text is None: 
+            js_html += lxml.html.tostring(script)
+    cache.set('cc-scripts',js_html)
+    header = cc_tree.xpath('//div[@id="header-wrapper"]')[0]
+    cache.set('cc-header',lxml.html.tostring(header))
     footer = cc_tree.xpath('//footer[@id="footer"]')[0]
-    cache.set('cc-footer',lxml.etree.tostring(footer))
+    cache.set('cc-footer',lxml.html.tostring(footer))
     tabs = cc_tree.xpath('//div[@id="library-tabs"]')[0]
-    cache.set('cc-tabs',lxml.etree.tostring(tabs,encoding='ISO-8859-15'))
+    cache.set('cc-tabs',lxml.html.tostring(tabs,encoding='ISO-8859-15'))
     
 register.filter('get_footer',get_footer)    
 register.filter('get_header',get_header)
+register.filter('get_scripts',get_scripts)
 register.filter('get_tabs',get_tabs)
-    
-    
