@@ -87,6 +87,11 @@ def harvest_latest():
     header = cc_tree.xpath('//div[@id="header-wrapper"]')[0]
     cache.set('cc-header',lxml.html.tostring(header))
     footer = cc_tree.xpath('//footer[@id="footer"]')[0]
+    # Bug with harvested footer from library website, removing
+    # for IE
+    footer_scripts = footer.xpath('script')
+    for script in footer_scripts:
+        footer.remove(script)
     cache.set('cc-footer',lxml.html.tostring(footer))
     tabs = cc_tree.xpath('//div[@id="library-tabs"]')[0]
     cache.set('cc-tabs',lxml.html.tostring(tabs,encoding='ISO-8859-15'))

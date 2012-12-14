@@ -1,8 +1,9 @@
 {% load whitewhale_extras %}
-{{ 'cc-scripts'|get_scripts }}
 {% comment %}
+{{ 'cc-scripts'|get_scripts }}a
+{% endcomment %}
 <script src="http://www.coloradocollege.edu/global/js/flowplayer.js"></script>
-<script src="http://www.coloradocollege.edu/global/js/jquery.js"></script>
+{% comment %}<script src="http://www.coloradocollege.edu/global/js/jquery.js"></script>{% endcomment %}
 <script src="http://www.coloradocollege.edu/global/js/plugins/jquery.easing.js"></script>
 <script src="http://www.coloradocollege.edu/global/js/plugins/jquery.fitvids.js"></script>
 <script src="http://www.coloradocollege.edu/global/js/plugins/jquery.css-transform.js"></script>
@@ -11,4 +12,3 @@
 <script src="http://www.coloradocollege.edu/global/js/plugins/jquery.fancybox.js"></script>
 <script src="http://www.coloradocollege.edu/global/js/quickaccess.js"></script>
 <script src="http://www.coloradocollege.edu/global/js/cc.js"></script>
-{% endcomment %}
